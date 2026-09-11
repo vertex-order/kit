@@ -1,0 +1,79 @@
+<!-- FloatingNav.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<sc-if value="{{ scrolled }}" hint-placeholder-val="{{ false }}">
+  <div style="position: fixed; top: 0; left: 0; right: 0; z-index: 20; height: 44px; background: var(--color-surface); border-bottom: 1px solid var(--color-divider); display: flex; justify-content: center;">
+  <div style="width: 100%; max-width: 1100px; box-sizing: border-box; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-3); flex-wrap: nowrap;">
+    <div style="display: flex; flex-direction: column; justify-content: center; gap: 1px; margin-top: 6px; flex-shrink: 0;">
+      <span style="font-family: var(--font-heading); font-weight: 500; font-size: 13px; line-height: 1; white-space: nowrap; color: var(--color-text);">{{ seriesName }} <span title="Vertex Industries, that's us!">Vertex</span> Order</span>
+      <span style="font-size: 9px; line-height: 1; white-space: nowrap; color: var(--color-neutral-600); margin-top: 2px;">Updated: {{ lastUpdatedShort }}</span>
+    </div>
+    <select value="{{ mode }}" onChange="{{ onOrderChange }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px;">
+      <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
+        <option value="{{ po.key }}">{{ po.shortLabel }}</option>
+      </sc-for>
+    </select>
+    <select value="{{ activeAnchor }}" onChange="{{ onJumpChange }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px; max-width: 160px;">
+      <option value="" disabled="">Jump to series…</option>
+      <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+        <option value="{{ s.anchor }}">{{ s.num }} — {{ s.title }}</option>
+      </sc-for>
+      <option value="#faq">FAQ</option>
+      <option value="#help-wanted">Help Wanted</option>
+    </select>
+    <div style="position: relative;">
+      <button onClick="{{ toggleLangMenu }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 8px; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+        Languages<i class="bi bi-chevron-down" style="font-size: 9px;"></i>
+      </button>
+      <sc-if value="{{ langMenuOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeLangMenu }}" style="position: fixed; inset: 0; z-index: 29;"></div>
+        <div style="position: absolute; top: 30px; left: 0; z-index: 30; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 6px; max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 1px; min-width: 190px;">
+          <sc-for list="{{ languageOptions }}" as="lo" hint-placeholder-count="6">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 5px; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text);" style-hover="background: var(--color-neutral-800);">
+              <input type="checkbox" checked="{{ lo.checked }}" onChange="{{ lo.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer; flex-shrink: 0;">
+              <span style="font-weight: 500; width: 26px; flex-shrink: 0;">{{ lo.value }}</span>
+              <span style="color: var(--color-neutral-500);">{{ lo.tip }}</span>
+            </label>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+    <div style="position: relative;">
+      <button onClick="{{ toggleDisplayMenu }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 8px; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+        Display<i class="bi bi-chevron-down" style="font-size: 9px;"></i>
+      </button>
+      <sc-if value="{{ displayMenuOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeDisplayMenu }}" style="position: fixed; inset: 0; z-index: 29;"></div>
+        <div style="position: absolute; top: 30px; left: 0; z-index: 30; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 6px; display: flex; flex-direction: column; gap: 1px; min-width: 150px;">
+          <sc-for list="{{ displayToggles }}" as="dt" hint-placeholder-count="4">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 5px; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text);" style-hover="background: var(--color-neutral-800);">
+              <input type="checkbox" checked="{{ dt.checked }}" onChange="{{ dt.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer; flex-shrink: 0;">
+              {{ dt.label }}
+            </label>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ navProgress }}" hint-placeholder-val="{{ false }}">
+      <span style="font-size: 12px; color: var(--color-neutral-400); white-space: nowrap; width: 130px; flex-shrink: 0;">{{ navProgress }}</span>
+    </sc-if>
+    <a href="https://vertex-order.github.io" target="_blank" rel="noopener" title="More lists from Vertex Industries" style="margin-left: auto; margin-right: 8px; display: flex; align-items: center; height: 26px; font-size: 11px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
+    <button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="width: 26px; height: 26px; flex-shrink: 0; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px;">
+      <i class="{{ themeIcon }}"></i>
+    </button>
+  </div>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 900, &quot;height&quot;: 44}, &quot;scrolled&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;seriesName&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;lastUpdatedShort&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;mode&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;A&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;onOrderChange&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;pathOptions&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;activeAnchor&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;onJumpChange&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;series&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;langMenuOpen&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;toggleLangMenu&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;closeLangMenu&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;languageOptions&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;displayMenuOpen&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;toggleDisplayMenu&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;closeDisplayMenu&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;displayToggles&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;navProgress&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;toggleTheme&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;themeIcon&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}}"></script>
+</body>
+</html>

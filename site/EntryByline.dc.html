@@ -1,0 +1,18 @@
+<!-- EntryByline.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<span onMouseEnter="{{ onMouseEnter }}" onMouseLeave="{{ onMouseLeave }}" style="color: var(--color-neutral-600); font-size: 12px; font-style: italic;">
+  <sc-if value="{{ byline }}" hint-placeholder-val="{{ false }}">{{ byline }}</sc-if><sc-if value="{{ bylineParts }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ bylineParts }}" as="bp" hint-placeholder-count="0"><sc-if value="{{ bp.abbrTerm }}" hint-placeholder-val="{{ false }}"><abbr title="{{ bp.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ bp.abbrTerm }}</abbr></sc-if><sc-if value="{{ bp.text }}" hint-placeholder-val="{{ false }}">{{ bp.text }}</sc-if></sc-for></sc-if><sc-if value="{{ showPilcrow }}" hint-placeholder-val="{{ false }}"><a href="{{ pilcrowHref }}" onClick="{{ onPilcrowClick }}" title="Link to this entry" style="color: var(--color-neutral-500); text-decoration: none; opacity: {{ pilcrowOpacity }}; transition: opacity .15s; white-space: nowrap; margin-left: 5.6px;">¶</a></sc-if>
+</span>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 220, &quot;height&quot;: 18}, &quot;byline&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;bylineParts&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;array | null&quot;}, &quot;onMouseEnter&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function | null&quot;}, &quot;onMouseLeave&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function | null&quot;}, &quot;showPilcrow&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;pilcrowHref&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;onPilcrowClick&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function | null&quot;}, &quot;pilcrowOpacity&quot;: {&quot;editor&quot;: null, &quot;default&quot;: 0, &quot;tsType&quot;: &quot;number&quot;}}"></script>
+</body>
+</html>

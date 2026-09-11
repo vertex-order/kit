@@ -7,20 +7,61 @@
 #                  at `ref` and writes them into the tree. Vendored copies —
 #                  never hand-edit; edit them in the owning repo.
 #                  check-vendored.yml fails the PR if any has drifted.
+#
+# Not vendored, even though every repo needs one: .github/ISSUE_TEMPLATE/*
+# and .github/PULL_REQUEST_TEMPLATE.md. Each necessarily carries a
+# repo-specific Discussions URL (and, for the PR template, repo-specific
+# checklist lines) — sync.py's guarantee is byte-identical-or-flagged, which
+# a file that must differ per repo can never satisfy. kit's copies exist as
+# a copy-from template for a new repo, not as something anyone subscribes to.
 
 [publish]
 owner = "vertex-order/kit"
 # The build substrate: DC runtime, Nocturne design system, the generic
-# components, the bundler, and this sync tool itself.
+# components, every script (including the platform-icon SVG tooling — kit
+# owns it outright so one pull gets a consuming repo the whole toolkit,
+# including cleanup for whatever a Claude Design re-export tracked in), the
+# sync tool itself, the shared justfile recipes, and CI/tooling with no
+# legitimate reason to differ per repo.
 paths = [
   "site/_ds/",
   "site/images/ui/",
   "site/support.js",
   "site/BackToTop.dc.html",
   "site/HelpWanted.dc.html",
+  "site/DescRun.dc.html",
+  "site/EntryByline.dc.html",
+  "site/EntryTitleLinks.dc.html",
+  "site/ExtrasToggle.dc.html",
+  "site/FAQ.dc.html",
+  "site/FloatingCorner.dc.html",
+  "site/FloatingNav.dc.html",
+  "site/InPageControls.dc.html",
+  "site/LanguageTag.dc.html",
+  "site/LengthDisplay.dc.html",
+  "site/MediaEntry.dc.html",
+  "site/RatingDisplay.dc.html",
+  "site/SeriesSection.dc.html",
+  "site/StatusBadge.dc.html",
   "scripts/bundle-components.py",
   "scripts/sync.py",
+  "scripts/normalize-svg.py",
+  "scripts/strip-c2pa.py",
+  "scripts/trim-svg.py",
+  "svgo.config.mjs",
+  "justfile",
+  ".editorconfig",
+  ".gitattributes",
+  ".claude/settings.json",
+  "CODE_OF_CONDUCT.md",
+  ".githooks/pre-commit",
+  ".github/workflows/check-generated.yml",
+  ".github/workflows/check-vendored.yml",
+  ".github/workflows/static.yml",
+  ".github/dependabot.yml",
 ]
+# platforms-only, not published: site/page.dc.html (the tuning bench),
+# site/ZoomedPlatformIcon.dc.html (2x wrapper — kit doesn't need it).
 
 [publish.consumers]  # for humans; sync.py ignores this
 "vertex-order/platforms" = "pulls the paths above for its tuning bench"
@@ -33,8 +74,4 @@ paths = [
   "site/PlatformIcon.dc.html",
   "site/data/platform-icons.js",
   "site/images/platforms/",
-  "scripts/normalize-svg.py",
-  "scripts/strip-c2pa.py",
-  "scripts/trim-svg.py",
-  "svgo.config.mjs",
 ]

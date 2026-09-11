@@ -1,10 +1,21 @@
-# Assemble the checkable build into build/ (gitignored, matches CI).
-# kit is a component library — no entry page yet, so build/ is just the
-# normalized site/ tree. Add an index rename here if a page.dc.html lands.
+# Owned by vertex-order/kit — edit here. Vendored elsewhere via sync.toml;
+# don't edit the copy there.
+#
+# One justfile for every Vertex Order repo — kit included. The only thing
+# that could differ per repo is the entry-page rename in `build`, and the
+# `mv ... || true` makes that a no-op rather than a fork: kit has no entry
+# page, platforms and every list have `page.dc.html`.
+
+# Assemble the deployable site into build/ (gitignored, matches CI).
 build: strip-metadata normalize-svg bundle-components
     rm -rf build
     mkdir build
     cp -r site/. build/
+    mv build/page.dc.html build/index.html 2>/dev/null || true
+
+# Build then serve build/ locally, like the real deploy.
+serve: build
+    cd build && python -m http.server 8000
 
 # Regenerate site/components.js — inlines every *.dc.html so <dc-import>
 # resolves without a fetch() (needed for opening a page over file://).
@@ -22,10 +33,6 @@ sync-check:
 # Repin a subscription's ref to its current HEAD sha, then pull it.
 sync-update name:
     python3 scripts/sync.py --update {{name}}
-
-# Build then serve build/ locally over http.
-serve: build
-    cd build && python -m http.server 8000
 
 clean:
     rm -rf build
@@ -51,7 +58,7 @@ normalize-svg:
 #      (crops that still carry offscreen artwork). Pixel-safe by
 #      construction, bails on anything it can't prove.
 # Then normalize-svg.py restores the canonical self-closing form.
-# Every changed icon still needs a visual re-check before committing.
+# Every changed icon still needs a visual re-check wherever it renders.
 # Needs Node — the only task that does: `winget install OpenJS.NodeJS.LTS`
 # / `scoop install nodejs-lts` (Windows), `brew install node` (macOS).
 # svgo is npm-only — no winget/scoop package — so npx fetches and caches it.

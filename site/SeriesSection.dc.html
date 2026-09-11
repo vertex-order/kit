@@ -1,0 +1,36 @@
+<!-- SeriesSection.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section id="{{ s.id }}" ref="{{ s.sectionRef }}" style="margin-bottom: var(--space-8);">
+  <div style="height: 1px; background: linear-gradient(to right, transparent, var(--color-neutral-700), transparent); margin-bottom: var(--space-8);"></div>
+  <div style="display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-4);">
+    <span style="font-family: var(--font-heading); color: var(--color-accent-300); font-size: 14px; letter-spacing: 0.06em;">SERIES {{ s.num }}</span>
+  </div>
+  <h2 style="font-family: var(--font-heading); font-weight: 500; font-size: 26px; margin: 0 0 var(--space-4);"><sc-if value="{{ s.url }}" hint-placeholder-val="{{ false }}"><a href="{{ s.url }}" target="_blank" rel="noopener" style="color: inherit;">{{ s.title }}</a></sc-if><sc-if value="{{ s.noUrl }}" hint-placeholder-val="{{ true }}">{{ s.title }}</sc-if></h2>
+
+  <sc-if value="{{ s.note }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width: 720px; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);">
+      <sc-for list="{{ s.noteLines }}" as="nl" hint-placeholder-count="1">
+        <p style="color: var(--color-neutral-400); font-size: 14px; line-height: 1.6; margin: 0;"><sc-if value="{{ nl.parts }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ nl.parts }}" as="np" hint-placeholder-count="0"><sc-if value="{{ np.emText }}" hint-placeholder-val="{{ false }}"><em>{{ np.emText }}</em></sc-if><sc-if value="{{ np.tipText }}" hint-placeholder-val="{{ false }}"><abbr title="{{ np.tip }}" style="text-decoration: underline dotted; text-decoration-color: var(--color-neutral-600); cursor: help;">{{ np.tipText }}</abbr></sc-if><sc-if value="{{ np.text }}" hint-placeholder-val="{{ false }}"><span>{{ np.text }}</span></sc-if></sc-for></sc-if><sc-if value="{{ nl.plain }}" hint-placeholder-val="{{ false }}">{{ nl.plain }}</sc-if></p>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+    <sc-for list="{{ s.games }}" as="g" hint-placeholder-count="0">
+      <dc-import name="MediaEntry" g="{{ g }}" show-rating="{{ showRating }}" show-length="{{ showLength }}" show-platforms="{{ showPlatforms }}" show-languages="{{ showLanguages }}" side-by-side="{{ sideBySide }}" stacked="{{ stacked }}" show-col2="{{ showCol2 }}" show-stacked-rl="{{ showStackedRl }}" hint-size="auto,80px" style="display: block;"></dc-import>
+    </sc-for>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 760, &quot;height&quot;: 200}, &quot;s&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;object&quot;}, &quot;showRating&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showLength&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showPlatforms&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showLanguages&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;sideBySide&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;stacked&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showCol2&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showStackedRl&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}"></script>
+</body>
+</html>

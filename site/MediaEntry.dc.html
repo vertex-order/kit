@@ -1,0 +1,483 @@
+<!-- MediaEntry.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div id="{{ g.anchorId }}" data-entry-key="{{ g.entryKey }}" style="display: flex; flex-direction: column; position: relative; {{ g.wrapCompletedStyle }}">
+  <sc-if value="{{ g.mediaType }}" hint-placeholder-val="{{ false }}">
+    <span style="position: absolute; left: -16px; top: 0; bottom: 0; width: 16px; border-radius: 0; background: {{ g.typeBg }}; display: flex; align-items: center; justify-content: center; padding-left: 2px; overflow: hidden; pointer-events: none;">
+      <span style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{ g.typeColor }}; white-space: nowrap;">{{ g.mediaType }}</span>
+    </span>
+  </sc-if>
+  <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) calc(16px + var(--space-3)); border-radius: 0 var(--radius-md) var(--radius-md) 0; {{ g.rowCompletedStyle }}" style-hover="background: linear-gradient(to right, transparent 2px, var(--color-neutral-800) 2px);">
+    <sc-if value="{{ g.showCheckbox }}" hint-placeholder-val="{{ false }}">
+      <input type="checkbox" checked="{{ g.checked }}" onChange="{{ g.toggleChecked }}" style="width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; margin-left: -6px; accent-color: var(--color-accent); cursor: pointer;">
+    </sc-if>
+    <sc-if value="{{ g.noCheckbox }}" hint-placeholder-val="{{ false }}">
+      <span style="width: 18px; flex-shrink: 0;"></span>
+    </sc-if>
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
+      <span onMouseEnter="{{ g.onAnchorHoverEnter }}" onMouseLeave="{{ g.onAnchorHoverLeave }}" style="font-size: 15px; text-wrap: pretty;">
+        <dc-import name="EntryTitleLinks" parts="{{ g.parts }}" pilcrow-href="{{ g.anchorHref }}" on-pilcrow-click="{{ g.onAnchorClick }}" pilcrow-opacity="{{ g.pilcrowOpacity }}" show-pilcrow="{{ true }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+      </span>
+      <sc-if value="{{ g.byline }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="EntryByline" byline="{{ g.byline }}" on-mouse-enter="{{ g.onAnchorHoverEnter }}" on-mouse-leave="{{ g.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+      </sc-if>
+      <sc-if value="{{ g.bylineParts }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="EntryByline" byline-parts="{{ g.bylineParts }}" on-mouse-enter="{{ g.onAnchorHoverEnter }}" on-mouse-leave="{{ g.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+      </sc-if>
+      <sc-if value="{{ g.helpWanted }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
+      </sc-if>
+      <sc-if value="{{ g.upcoming }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="StatusBadge" label="Upcoming" color="var(--color-accent-300)" bg="var(--color-accent-800)" hint-size="auto,20px" style="display: block;"></dc-import>
+      </sc-if>
+      <sc-if value="{{ g.emTermFirst }}" hint-placeholder-val="{{ false }}">
+        <div style="color: var(--color-neutral-500); font-size: 12px;">{{ g.emPre }}<em>{{ g.emTerm }}</em>{{ g.emPost }}<sc-if value="{{ g.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ g.emTerm2 }}</em>{{ g.emPost2 }}</sc-if></div>
+      </sc-if>
+      <sc-if value="{{ g.desc2First }}" hint-placeholder-val="{{ false }}">
+        <div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ g.desc2Parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
+      </sc-if>
+      <sc-if value="{{ g.description }}" hint-placeholder-val="{{ false }}">
+        <sc-for list="{{ g.descLines }}" as="dl" hint-placeholder-count="1">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: {{ dl.mt2 }};">{{ dl.text }}</div>
+        </sc-for>
+      </sc-if>
+      <sc-if value="{{ g.descParts }}" hint-placeholder-val="{{ false }}">
+        <div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ g.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
+      </sc-if>
+      <sc-if value="{{ g.emTermNotFirst }}" hint-placeholder-val="{{ false }}">
+        <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;">{{ g.emPre }}<em>{{ g.emTerm }}</em>{{ g.emPost }}<sc-if value="{{ g.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ g.emTerm2 }}</em>{{ g.emPost2 }}</sc-if></div>
+      </sc-if>
+      <sc-if value="{{ g.descMidParts }}" hint-placeholder-val="{{ false }}">
+        <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;"><sc-for list="{{ g.descMidParts }}" as="mp" hint-placeholder-count="0"><sc-if value="{{ mp.emLinkText }}" hint-placeholder-val="{{ false }}"><a href="{{ mp.emLinkUrl }}" target="_blank" rel="noopener" style="color: var(--color-accent-300);"><em>{{ mp.emLinkText }}</em></a></sc-if><sc-if value="{{ mp.emText }}" hint-placeholder-val="{{ false }}"><em>{{ mp.emText }}</em></sc-if><sc-if value="{{ mp.abbrTerm }}" hint-placeholder-val="{{ false }}"><abbr title="{{ mp.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ mp.abbrTerm }}</abbr></sc-if><sc-if value="{{ mp.text }}" hint-placeholder-val="{{ false }}"><span>{{ mp.text }}</span></sc-if></sc-for></div>
+      </sc-if>
+      <sc-if value="{{ g.abbrTerm }}" hint-placeholder-val="{{ false }}">
+        <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;">{{ g.descPre }}<abbr title="{{ g.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ g.abbrTerm }}</abbr>{{ g.descPost }}</div>
+      </sc-if>
+      <sc-if value="{{ g.desc2Last }}" hint-placeholder-val="{{ false }}">
+        <div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ g.desc2Parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div><div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;"><sc-for list="{{ g.desc3Parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
+      </sc-if>
+      <sc-if value="{{ g.listTitle }}" hint-placeholder-val="{{ false }}">
+        <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;"><a href="{{ g.listTitleUrl }}" target="_blank" rel="noopener" style="color: var(--color-accent-300);">{{ g.listTitle }}</a></div>
+        <ul style="color: var(--color-neutral-500); font-size: 12px; line-height: 1.6; margin: 2px 0 0; padding-left: 1.2em;">
+          <sc-for list="{{ g.listItems }}" as="li" hint-placeholder-count="0">
+            <li>{{ li }}</li>
+          </sc-for>
+        </ul>
+      </sc-if>
+    </div>
+    <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">
+    <div style="width: 140px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 8px;">
+      <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+      <dc-import name="RatingDisplay" rating="{{ g.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+      </sc-if>
+      <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+      <dc-import name="LengthDisplay" value="{{ g.length }}" parts="{{ g.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+      </sc-if>
+    </div>
+    </sc-if>
+    <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
+      <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ g.platformGroups }}" hint-placeholder-val="{{ false }}">
+        <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ g.storeUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ g.storeUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
+          <sc-for list="{{ g.platformGroups }}" as="pl" hint-placeholder-count="0">
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" content-opacity="{{ pl.contentOpacity }}" terminated="{{ pl.terminated }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+</sc-for>
+        </span>
+      </sc-if>
+      <sc-if value="{{ g.extraPlatforms }}" hint-placeholder-val="{{ false }}">
+        <span style="display: flex; flex-direction: column; gap: 2px; margin-top: 7px;">
+          <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
+          <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; opacity: 0.55;">
+            <sc-for list="{{ g.extraPlatforms }}" as="pl" hint-placeholder-count="0">
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" content-opacity="{{ pl.contentOpacity }}" terminated="{{ pl.terminated }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+</sc-for>
+          </span>
+        </span>
+      </sc-if>
+      </sc-if>
+      <sc-if value="{{ showLanguages }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ g.languages }}" hint-placeholder-val="{{ false }}">
+        <span style="display: flex; flex-direction: column; gap: 1px; margin-top: 7px; {{ g.langsTopStyle }}">
+          <span style="color: var(--color-neutral-500);">Languages</span>
+          <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
+            <sc-for list="{{ g.languages }}" as="lg" hint-placeholder-count="0">
+              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+            </sc-for>
+          </span>
+        </span>
+      </sc-if>
+      <sc-if value="{{ g.otherLanguages }}" hint-placeholder-val="{{ false }}">
+        <span style="display: flex; flex-direction: column; gap: 2px; margin-top: 7px;">
+          <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
+          <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; opacity: 0.55;">
+            <sc-for list="{{ g.otherLanguages }}" as="lg" hint-placeholder-count="0">
+              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" muted="{{ true }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+            </sc-for>
+          </span>
+        </span>
+      </sc-if>
+      </sc-if>
+      <sc-if value="{{ showStackedRl }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 7px;">
+        <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+        <dc-import name="RatingDisplay" rating="{{ g.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+        </sc-if>
+        <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+        <dc-import name="LengthDisplay" value="{{ g.length }}" parts="{{ g.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+        </sc-if>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  <sc-if value="{{ g.extras }}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ExtrasToggle" on-toggle="{{ g.toggleExtra }}" chevron-transform="{{ g.extraChevron }}" hint-size="auto,24px" style="display: block;"></dc-import>
+    <sc-if value="{{ g.extraExpanded }}" hint-placeholder-val="{{ false }}">
+      <sc-for list="{{ g.extras }}" as="ex" hint-placeholder-count="1">
+      <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: 0 var(--space-3) var(--space-3) calc(25px + var(--space-3) * 2); margin-top: 4px; border-radius: var(--radius-md); position: relative;" style-hover="background: var(--color-neutral-800);">
+        <span style="position: absolute; left: 25px; top: -1px; color: var(--color-neutral-500); font-size: 22px; line-height: 1;">·</span>
+        <div style="flex: 1;" id="{{ ex.anchorId }}">
+          <div style="display: flex; align-items: center; gap: var(--space-2);">
+            <sc-if value="{{ ex.url }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ ex.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ ex.onAnchorHoverEnter }}" onMouseLeave="{{ ex.onAnchorHoverLeave }}">{{ ex.label }}</a>
+            </sc-if>
+            <dc-import name="EntryTitleLinks" parts="{{ ex.parts }}" on-mouse-enter="{{ ex.onAnchorHoverEnter }}" on-mouse-leave="{{ ex.onAnchorHoverLeave }}" pilcrow-href="{{ ex.anchorHref }}" on-pilcrow-click="{{ ex.onAnchorClick }}" pilcrow-opacity="{{ ex.pilcrowOpacity }}" show-pilcrow="{{ ex.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+          </div>
+          <sc-if value="{{ ex.byline }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
+              <dc-import name="EntryByline" byline="{{ ex.byline }}" on-mouse-enter="{{ ex.onAnchorHoverEnter }}" on-mouse-leave="{{ ex.onAnchorHoverLeave }}" show-pilcrow="{{ true }}" pilcrow-href="{{ ex.anchorHref }}" on-pilcrow-click="{{ ex.onAnchorClick }}" pilcrow-opacity="{{ ex.pilcrowOpacity }}" hint-size="auto,16px" style="display: block;"></dc-import>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ex.helpWanted }}" hint-placeholder-val="{{ false }}">
+            <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
+          </sc-if>
+          <sc-if value="{{ ex.abbrTerm }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: flex-start; gap: var(--space-2); margin-top: 2px;">
+              <span style="color: var(--color-neutral-500); font-size: 12px;">{{ ex.descPre }}<abbr title="{{ ex.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ ex.abbrTerm }}</abbr>{{ ex.descPost }}<sc-for list="{{ ex.descTail }}" as="sg" hint-placeholder-count="0"><sc-if value="{{ sg.emText }}" hint-placeholder-val="{{ false }}"><em>{{ sg.emText }}</em></sc-if><sc-if value="{{ sg.text }}" hint-placeholder-val="{{ false }}"><span>{{ sg.text }}</span></sc-if></sc-for></span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ex.emFirst }}" hint-placeholder-val="{{ false }}">
+            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ ex.emPre }}<em>{{ ex.emTerm }}</em>{{ ex.emPost }}</div>
+          </sc-if>
+          <sc-if value="{{ ex.description }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
+              <span style="color: var(--color-neutral-500); font-size: 12px;">{{ ex.description }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ex.descParts }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;"><span style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ ex.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></span></div>
+          </sc-if>
+          <sc-if value="{{ ex.description2 }}" hint-placeholder-val="{{ false }}">
+            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;">{{ ex.description2 }}</div>
+          </sc-if>
+          <sc-if value="{{ ex.emTermNotFirst }}" hint-placeholder-val="{{ false }}">
+            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ ex.emPre }}<em>{{ ex.emTerm }}</em><sc-if value="{{ ex.emRegion1 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion1Label }}" style="cursor: help;"> ({{ ex.emRegion1 }})</span></sc-if>{{ ex.emPost }}<sc-if value="{{ ex.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ ex.emTerm2 }}</em><sc-if value="{{ ex.emRegion2 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion2Label }}" style="cursor: help;"> ({{ ex.emRegion2 }})</span></sc-if>{{ ex.emPost2 }}</sc-if><sc-if value="{{ ex.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ ex.emTerm3 }}</em><sc-if value="{{ ex.emRegion3 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion3Label }}" style="cursor: help;"> ({{ ex.emRegion3 }})</span></sc-if>{{ ex.emPost3 }}</sc-if><sc-if value="{{ ex.emSuffix }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emSuffixLabel }}" style="cursor: help;"> ({{ ex.emSuffix }})</span></sc-if>{{ ex.emPostFinal }}</div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">
+        <div style="width: 140px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 8px;">
+          <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="RatingDisplay" rating="{{ ex.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+          </sc-if>
+          <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="LengthDisplay" value="{{ ex.length }}" parts="{{ ex.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+          </sc-if>
+        </div>
+        </sc-if>
+        <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
+          <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
+          <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ ex.storeUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ ex.storeUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+          <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
+            <sc-for list="{{ ex.platformGroups }}" as="pl" hint-placeholder-count="0">
+<dc-import name="PlatformIcon" href="{{ pl.url }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" content-opacity="{{ pl.contentOpacity }}" terminated="{{ pl.terminated }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+</sc-for>
+          </span>
+          </sc-if>
+          <sc-if value="{{ showLanguages }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ ex.languages }}" hint-placeholder-val="{{ false }}">
+            <span style="display: flex; flex-direction: column; gap: 1px; margin-top: 7px;">
+              <span style="color: var(--color-neutral-500);">Languages</span>
+              <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
+                <sc-for list="{{ ex.languages }}" as="lg" hint-placeholder-count="0">
+                  <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+                </sc-for>
+              </span>
+            </span>
+          </sc-if>
+          <sc-if value="{{ showStackedRl }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 7px;">
+            <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+            <dc-import name="RatingDisplay" rating="{{ ex.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+            </sc-if>
+            <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+            <dc-import name="LengthDisplay" value="{{ ex.length }}" parts="{{ ex.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+            </sc-if>
+          </div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-for>
+    </sc-if>
+  </sc-if>
+  <sc-if value="{{ g.alt.parts }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: 4px var(--space-3) var(--space-3) calc(20px + var(--space-3) * 2); margin-top: -2px; border-radius: var(--radius-md);" style-hover="background: var(--color-neutral-800);">
+      <div style="flex: 1;" id="{{ g.alt.anchorId }}">
+        <span style="color: var(--color-accent-300); font-size: 13px; font-weight: 500;"><i><span style="font-style: normal;"><b><span style="font-weight: normal;">or </span></b></span></i></span>
+        <sc-if value="{{ g.alt.url }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ g.alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ g.alt.onAnchorHoverEnter }}" onMouseLeave="{{ g.alt.onAnchorHoverLeave }}">{{ g.alt.label }}</a>
+        </sc-if>
+        <dc-import name="EntryTitleLinks" parts="{{ g.alt.parts }}" on-mouse-enter="{{ g.alt.onAnchorHoverEnter }}" on-mouse-leave="{{ g.alt.onAnchorHoverLeave }}" pilcrow-href="{{ g.alt.anchorHref }}" on-pilcrow-click="{{ g.alt.onAnchorClick }}" pilcrow-opacity="{{ g.alt.pilcrowOpacity }}" show-pilcrow="{{ g.alt.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+        <sc-if value="{{ g.alt.byline }}" hint-placeholder-val="{{ false }}">
+          <dc-import name="EntryByline" byline="{{ g.alt.byline }}" on-mouse-enter="{{ g.alt.onAnchorHoverEnter }}" on-mouse-leave="{{ g.alt.onAnchorHoverLeave }}" show-pilcrow="{{ true }}" pilcrow-href="{{ g.alt.anchorHref }}" on-pilcrow-click="{{ g.alt.onAnchorClick }}" pilcrow-opacity="{{ g.alt.pilcrowOpacity }}" hint-size="auto,16px" style="display: block;"></dc-import>
+        </sc-if>
+        <sc-if value="{{ g.alt.helpWanted }}" hint-placeholder-val="{{ false }}">
+          <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
+        </sc-if>
+        <sc-if value="{{ g.alt.description }}" hint-placeholder-val="{{ false }}">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ g.alt.description }}</div>
+        </sc-if>
+        <sc-if value="{{ g.alt.descParts }}" hint-placeholder-val="{{ false }}">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;"><sc-for list="{{ g.alt.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
+        </sc-if>
+        <sc-if value="{{ g.alt.desc2Parts }}" hint-placeholder-val="{{ false }}">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;"><sc-for list="{{ g.alt.desc2Parts }}" as="sg2" hint-placeholder-count="0"><dc-import name="DescRun" em-text="{{ sg2.emText }}" text="{{ sg2.text }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
+        </sc-if>
+        <sc-if value="{{ g.alt.abbrTerm }}" hint-placeholder-val="{{ false }}">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ g.alt.descPre }}<abbr title="{{ g.alt.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ g.alt.abbrTerm }}</abbr>{{ g.alt.descPost }}</div>
+        </sc-if>
+        <sc-if value="{{ g.alt.emTerm }}" hint-placeholder-val="{{ false }}">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ g.alt.emPre }}<em>{{ g.alt.emTerm }}</em>{{ g.alt.emPost }}<sc-if value="{{ g.alt.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ g.alt.emTerm2 }}</em>{{ g.alt.emPost2 }}</sc-if><sc-if value="{{ g.alt.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ g.alt.emTerm3 }}</em>{{ g.alt.emPost3 }}</sc-if></div>
+        </sc-if>
+      </div>
+      <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">
+      <div style="width: 140px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 8px;">
+        <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+        <dc-import name="RatingDisplay" rating="{{ g.alt.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+        </sc-if>
+        <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+        <dc-import name="LengthDisplay" value="{{ g.alt.length }}" parts="{{ g.alt.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+        </sc-if>
+      </div>
+      </sc-if>
+      <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
+        <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ g.alt.platformGroups }}" hint-placeholder-val="{{ false }}">
+          <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ g.alt.storeUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ g.alt.storeUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+          <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
+            <sc-for list="{{ g.alt.platformGroups }}" as="pl" hint-placeholder-count="0">
+<dc-import name="PlatformIcon" href="{{ pl.url }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" content-opacity="{{ pl.contentOpacity }}" terminated="{{ pl.terminated }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+</sc-for>
+          </span>
+        </sc-if>
+        <sc-if value="{{ g.alt.extraPlatforms }}" hint-placeholder-val="{{ false }}">
+          <span style="display: flex; flex-direction: column; gap: 2px; margin-top: 7px;">
+            <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
+            <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; opacity: 0.55;">
+              <sc-for list="{{ g.alt.extraPlatforms }}" as="pl" hint-placeholder-count="0">
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" content-opacity="{{ pl.contentOpacity }}" terminated="{{ pl.terminated }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+</sc-for>
+            </span>
+          </span>
+        </sc-if>
+        </sc-if>
+        <sc-if value="{{ showLanguages }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ g.alt.languages }}" hint-placeholder-val="{{ false }}">
+          <span style="display: flex; flex-direction: column; gap: 1px; margin-top: 7px; {{ g.alt.langsTopStyle }}">
+            <span style="color: var(--color-neutral-500);">Languages</span>
+            <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
+              <sc-for list="{{ g.alt.languages }}" as="lg" hint-placeholder-count="0">
+                <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+              </sc-for>
+            </span>
+          </span>
+        </sc-if>
+        <sc-if value="{{ g.alt.otherLanguages }}" hint-placeholder-val="{{ false }}">
+          <span style="display: flex; flex-direction: column; gap: 2px; margin-top: 7px;">
+            <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
+            <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; opacity: 0.55;">
+              <sc-for list="{{ g.alt.otherLanguages }}" as="lg" hint-placeholder-count="0">
+                <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" muted="{{ true }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+              </sc-for>
+            </span>
+          </span>
+        </sc-if>
+        </sc-if>
+        <sc-if value="{{ showStackedRl }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 7px;">
+          <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="RatingDisplay" rating="{{ g.alt.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+          </sc-if>
+          <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="LengthDisplay" value="{{ g.alt.length }}" parts="{{ g.alt.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+          </sc-if>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+  <sc-for list="{{ g.alts }}" as="alt" hint-placeholder-count="0">
+    <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: 4px var(--space-3) var(--space-3) calc(20px + var(--space-3) * 2); margin-top: -2px; border-radius: var(--radius-md);" style-hover="background: var(--color-neutral-800);">
+      <div style="flex: 1;">
+        <span style="color: var(--color-accent-300); font-size: 13px; font-weight: 500;"><i><span style="font-style: normal;"><b><span style="font-weight: normal;">or </span></b></span></i></span>
+        <sc-if value="{{ alt.url }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ alt.label }}</a>
+        </sc-if>
+        <dc-import name="EntryTitleLinks" parts="{{ alt.parts }}" show-pilcrow="{{ false }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+        <sc-if value="{{ alt.emTerm }}" hint-placeholder-val="{{ false }}">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ alt.emPre }}<em>{{ alt.emTerm }}</em>{{ alt.emPost }}<sc-if value="{{ alt.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ alt.emTerm2 }}</em>{{ alt.emPost2 }}</sc-if><sc-if value="{{ alt.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ alt.emTerm3 }}</em>{{ alt.emPost3 }}</sc-if></div>
+        </sc-if>
+        <sc-if value="{{ alt.description }}" hint-placeholder-val="{{ false }}">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ alt.description }}</div>
+        </sc-if>
+        <sc-if value="{{ alt.descParts }}" hint-placeholder-val="{{ false }}">
+          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;"><sc-for list="{{ alt.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
+        </sc-if>
+      </div>
+      <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">
+      <div style="width: 140px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 8px;">
+        <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+        <dc-import name="RatingDisplay" rating="{{ alt.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+        </sc-if>
+        <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+        <dc-import name="LengthDisplay" value="{{ alt.length }}" parts="{{ alt.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+        </sc-if>
+      </div>
+      </sc-if>
+      <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
+        <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ alt.platformGroups }}" hint-placeholder-val="{{ false }}">
+          <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ alt.storeUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ alt.storeUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+          <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
+            <sc-for list="{{ alt.platformGroups }}" as="pl" hint-placeholder-count="0">
+<dc-import name="PlatformIcon" href="{{ pl.url }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" content-opacity="{{ pl.contentOpacity }}" terminated="{{ pl.terminated }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+</sc-for>
+          </span>
+        </sc-if>
+        </sc-if>
+        <sc-if value="{{ showLanguages }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ alt.languages }}" hint-placeholder-val="{{ false }}">
+          <span style="display: flex; flex-direction: column; gap: 1px; margin-top: 7px;">
+            <span style="color: var(--color-neutral-500);">Languages</span>
+            <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
+              <sc-for list="{{ alt.languages }}" as="lg" hint-placeholder-count="0">
+                <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+              </sc-for>
+            </span>
+          </span>
+        </sc-if>
+        </sc-if>
+        <sc-if value="{{ showStackedRl }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 7px;">
+          <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="RatingDisplay" rating="{{ alt.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+          </sc-if>
+          <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="LengthDisplay" value="{{ alt.length }}" parts="{{ alt.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+          </sc-if>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-for>
+  <sc-if value="{{ g.alt.extras }}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ExtrasToggle" on-toggle="{{ g.alt.toggleExtra }}" chevron-transform="{{ g.alt.extraChevron }}" hint-size="auto,24px" style="display: block;"></dc-import>
+    <sc-if value="{{ g.alt.extraExpanded }}" hint-placeholder-val="{{ false }}">
+      <sc-for list="{{ g.alt.extras }}" as="ex" hint-placeholder-count="1">
+      <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: 0 var(--space-3) var(--space-3) calc(25px + var(--space-3) * 2); margin-top: 4px; border-radius: var(--radius-md); position: relative;" style-hover="background: var(--color-neutral-800);">
+        <span style="position: absolute; left: 25px; top: -1px; color: var(--color-neutral-500); font-size: 22px; line-height: 1;">·</span>
+        <div style="flex: 1;" id="{{ ex.anchorId }}">
+          <div style="display: flex; align-items: center; gap: var(--space-2);">
+            <sc-if value="{{ ex.url }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ ex.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ ex.onAnchorHoverEnter }}" onMouseLeave="{{ ex.onAnchorHoverLeave }}">{{ ex.label }}</a>
+            </sc-if>
+            <dc-import name="EntryTitleLinks" parts="{{ ex.parts }}" on-mouse-enter="{{ ex.onAnchorHoverEnter }}" on-mouse-leave="{{ ex.onAnchorHoverLeave }}" pilcrow-href="{{ ex.anchorHref }}" on-pilcrow-click="{{ ex.onAnchorClick }}" pilcrow-opacity="{{ ex.pilcrowOpacity }}" show-pilcrow="{{ ex.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+          </div>
+          <sc-if value="{{ ex.byline }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
+              <dc-import name="EntryByline" byline="{{ ex.byline }}" on-mouse-enter="{{ ex.onAnchorHoverEnter }}" on-mouse-leave="{{ ex.onAnchorHoverLeave }}" show-pilcrow="{{ true }}" pilcrow-href="{{ ex.anchorHref }}" on-pilcrow-click="{{ ex.onAnchorClick }}" pilcrow-opacity="{{ ex.pilcrowOpacity }}" hint-size="auto,16px" style="display: block;"></dc-import>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ex.helpWanted }}" hint-placeholder-val="{{ false }}">
+            <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
+          </sc-if>
+          <sc-if value="{{ ex.abbrTerm }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: flex-start; gap: var(--space-2); margin-top: 2px;">
+              <span style="color: var(--color-neutral-500); font-size: 12px;">{{ ex.descPre }}<abbr title="{{ ex.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ ex.abbrTerm }}</abbr>{{ ex.descPost }}<sc-for list="{{ ex.descTail }}" as="sg" hint-placeholder-count="0"><sc-if value="{{ sg.emText }}" hint-placeholder-val="{{ false }}"><em>{{ sg.emText }}</em></sc-if><sc-if value="{{ sg.text }}" hint-placeholder-val="{{ false }}"><span>{{ sg.text }}</span></sc-if></sc-for></span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ex.emFirst }}" hint-placeholder-val="{{ false }}">
+            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ ex.emPre }}<em>{{ ex.emTerm }}</em>{{ ex.emPost }}</div>
+          </sc-if>
+          <sc-if value="{{ ex.description }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
+              <span style="color: var(--color-neutral-500); font-size: 12px;">{{ ex.description }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ex.descParts }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;"><span style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ ex.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></span></div>
+          </sc-if>
+          <sc-if value="{{ ex.description2 }}" hint-placeholder-val="{{ false }}">
+            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;">{{ ex.description2 }}</div>
+          </sc-if>
+          <sc-if value="{{ ex.emTermNotFirst }}" hint-placeholder-val="{{ false }}">
+            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ ex.emPre }}<em>{{ ex.emTerm }}</em><sc-if value="{{ ex.emRegion1 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion1Label }}" style="cursor: help;"> ({{ ex.emRegion1 }})</span></sc-if>{{ ex.emPost }}<sc-if value="{{ ex.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ ex.emTerm2 }}</em><sc-if value="{{ ex.emRegion2 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion2Label }}" style="cursor: help;"> ({{ ex.emRegion2 }})</span></sc-if>{{ ex.emPost2 }}</sc-if><sc-if value="{{ ex.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ ex.emTerm3 }}</em><sc-if value="{{ ex.emRegion3 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion3Label }}" style="cursor: help;"> ({{ ex.emRegion3 }})</span></sc-if>{{ ex.emPost3 }}</sc-if><sc-if value="{{ ex.emSuffix }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emSuffixLabel }}" style="cursor: help;"> ({{ ex.emSuffix }})</span></sc-if>{{ ex.emPostFinal }}</div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">
+        <div style="width: 140px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 8px;">
+          <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="RatingDisplay" rating="{{ ex.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+          </sc-if>
+          <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+          <dc-import name="LengthDisplay" value="{{ ex.length }}" parts="{{ ex.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+          </sc-if>
+        </div>
+        </sc-if>
+        <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
+          <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
+          <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ ex.storeUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ ex.storeUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+          <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
+            <sc-for list="{{ ex.platformGroups }}" as="pl" hint-placeholder-count="0">
+<dc-import name="PlatformIcon" href="{{ pl.url }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" content-opacity="{{ pl.contentOpacity }}" terminated="{{ pl.terminated }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+</sc-for>
+          </span>
+          </sc-if>
+          <sc-if value="{{ showLanguages }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ ex.languages }}" hint-placeholder-val="{{ false }}">
+            <span style="display: flex; flex-direction: column; gap: 1px; margin-top: 7px;">
+              <span style="color: var(--color-neutral-500);">Languages</span>
+              <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
+                <sc-for list="{{ ex.languages }}" as="lg" hint-placeholder-count="0">
+                  <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+                </sc-for>
+              </span>
+            </span>
+          </sc-if>
+          <sc-if value="{{ showStackedRl }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 7px;">
+            <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+            <dc-import name="RatingDisplay" rating="{{ ex.rating }}" hint-size="auto,40px" style="display: block;"></dc-import>
+            </sc-if>
+            <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+            <dc-import name="LengthDisplay" value="{{ ex.length }}" parts="{{ ex.lengthParts }}" hint-size="auto,32px" style="display: block;"></dc-import>
+            </sc-if>
+          </div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-for>
+    </sc-if>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 700, &quot;height&quot;: 80}, &quot;g&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;object&quot;}, &quot;showRating&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showLength&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showPlatforms&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showLanguages&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showCol2&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showStackedRl&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}"></script>
+</body>
+</html>

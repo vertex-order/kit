@@ -1,0 +1,68 @@
+<!-- InPageControls.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="max-width: 620px; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
+  <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><span onMouseEnter="{{ headerAnchors.ourOrder.onAnchorHoverEnter }}" onMouseLeave="{{ headerAnchors.ourOrder.onAnchorHoverLeave }}" style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;"><strong id="our-order" style="color: var(--color-text); font-weight: 500; font-size: 24px;">Our order</strong><a href="{{ headerAnchors.ourOrder.anchorHref }}" onClick="{{ headerAnchors.ourOrder.onAnchorClick }}" title="Link to this section" style="color: var(--color-neutral-500); text-decoration: none; font-size: 14px; opacity: {{ headerAnchors.ourOrder.pilcrowOpacity }}; transition: opacity .15s;">¶</a></span> We offer four different ways to organize the titles within each series.</p>
+  <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Narrative order;</strong> our recommendation. Protects the story's big reveals from prequels that would spoil them, while avoiding the jumps in time that release order can cause. The mainline entry usually comes first, then sequels, then prequels, then spinoffs, for the most cohesive read of the story's key moments.</p>
+  <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Chronological order;</strong> not always perfectly possible to pin down. Best if you've already played the mainline entry, since prequels and side stories can spoil later reveals. Lets you experience the whole timeline start to finish, though some side stories are hard to place exactly.</p>
+  <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Release order;</strong> within a series, the order things actually came out, which tends to jump around in the story's own timeline. Some argue this reflects how the authors intended the story to unfold, but marketing and sales decisions at the time usually mattered more.</p>
+  <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Overall Release order;</strong> no series groupings, just everything in the order it came out. How us old timers experienced things. The mainline entries stay in order, but the extra material has you jumping between series constantly rather than staying within one, and remakes that add new story need some allowances made for where they fall.</p>
+</div>
+
+<div style="max-width: 620px; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-2);">
+  <p style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Order to display:</p>
+  <div style="display: flex; flex-wrap: wrap; gap: var(--space-4);">
+    <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
+      <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
+        <input type="radio" name="pathMode" checked="{{ po.checked }}" onChange="{{ po.select }}" style="width: 16px; height: 16px; accent-color: var(--color-accent); cursor: pointer;">
+        {{ po.label }}
+      </label>
+    </sc-for>
+  </div>
+</div>
+
+<p style="color: var(--color-neutral-500); font-size: 13px; margin: var(--space-6) 0 0;">Jump to series:</p>
+<div ref="{{ jumpRef }}" style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0 var(--space-4);">
+  <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+    <a href="{{ s.anchor }}" class="tag tag-outline" title="{{ s.title }}">{{ s.num }}</a>
+  </sc-for>
+  <a href="#faq" class="tag tag-outline" title="FAQ">FAQ</a>
+  <a href="#help-wanted" class="tag tag-outline" title="Help Wanted">Help</a>
+</div>
+
+<div style="max-width: 620px; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);">
+  <p style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Also display:</p>
+  <div style="display: flex; flex-wrap: wrap; gap: var(--space-4);">
+    <sc-for list="{{ displayToggles }}" as="dt" hint-placeholder-count="4">
+      <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
+        <input type="checkbox" checked="{{ dt.checked }}" onChange="{{ dt.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer;">
+        {{ dt.label }}
+      </label>
+    </sc-for>
+  </div>
+</div>
+
+<div style="max-width: 620px; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-2);">
+  <p style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Highlight languages:</p>
+  <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
+    <sc-for list="{{ languageOptions }}" as="lo" hint-placeholder-count="6">
+      <label title="{{ lo.tip }}" style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
+        <input type="checkbox" checked="{{ lo.checked }}" onChange="{{ lo.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer;">
+        {{ lo.value }}
+      </label>
+    </sc-for>
+  </div>
+  <p style="color: var(--color-neutral-600); font-size: 12px; margin: 0;">Preferences are saved locally to your browser and are not sent. No data collection occurs.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 620, &quot;height&quot;: 500}, &quot;headerAnchors&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;object&quot;}, &quot;pathOptions&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;series&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;jumpRef&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;displayToggles&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;languageOptions&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}}"></script>
+</body>
+</html>
