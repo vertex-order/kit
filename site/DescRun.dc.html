@@ -1,0 +1,23 @@
+<!-- DescRun.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<span title="{{ tip }}" style="{{ helpStyle }}">
+  <sc-if value="{{ emLinkText }}" hint-placeholder-val="{{ false }}"><a href="{{ emLinkUrl }}" target="_blank" rel="noopener" style="color: var(--color-accent-300);"><em>{{ emLinkText }}</em></a></sc-if>
+  <sc-if value="{{ emText }}" hint-placeholder-val="{{ false }}"><em>{{ emText }}</em></sc-if>
+  <sc-if value="{{ abbrTerm }}" hint-placeholder-val="{{ false }}"><abbr title="{{ abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ abbrTerm }}</abbr></sc-if>
+  <sc-if value="{{ text }}" hint-placeholder-val="{{ false }}"><span>{{ text }}</span></sc-if>
+  <sc-if value="{{ tipText }}" hint-placeholder-val="{{ false }}"><abbr title="{{ tip }}" style="text-decoration: underline dotted; cursor: help;">{{ tipText }}</abbr></sc-if>
+  <sc-if value="{{ jpTag }}" hint-placeholder-val="{{ false }}"><span title="Japan only" style="cursor: help;"> (JP)</span></sc-if>
+</span>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 160, &quot;height&quot;: 18}, &quot;tip&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;helpStyle&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;emLinkText&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;emLinkUrl&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;emText&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;abbrTerm&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;abbrDef&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;text&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;tipText&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;jpTag&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!-- FloatingCorner.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<sc-if value="{{ notScrolled }}" hint-placeholder-val="{{ true }}">
+<a href="https://vertex-order.github.io" target="_blank" rel="noopener" title="More lists from Vertex Industries" style="position: fixed; top: var(--space-3); right: max(60px, calc((100vw - 1100px) / 2 + 60px)); z-index: 10; height: 36px; display: flex; align-items: center; font-size: 12.5px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
+<button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="position: fixed; top: var(--space-3); right: max(var(--space-3), calc((100vw - 1100px) / 2 + var(--space-3))); z-index: 10; width: 36px; height: 36px; border-radius: var(--radius-md); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer;">
+  <i class="{{ themeIcon }}"></i>
+</button>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 200, &quot;height&quot;: 44}, &quot;notScrolled&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;toggleTheme&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function&quot;}, &quot;themeIcon&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}}"></script>
+</body>
+</html>

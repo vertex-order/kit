@@ -1,0 +1,19 @@
+<!-- ExtrasToggle.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-3) var(--space-2) calc(25px + var(--space-3) * 2); cursor: pointer; border-radius: var(--radius-md);" style-hover="background: var(--color-neutral-800);" onClick="{{ onToggle }}">
+  <span style="color: var(--color-accent-300); font-size: 12px; font-style: italic;">or other versions and platforms</span>
+  <span style="color: var(--color-accent-300); font-size: 10px; transform: {{ chevronTransform }};">▾</span>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 220, &quot;height&quot;: 24}, &quot;onToggle&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function | null&quot;}, &quot;chevronTransform&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;rotate(0deg)&quot;, &quot;tsType&quot;: &quot;string&quot;}}"></script>
+</body>
+</html>
