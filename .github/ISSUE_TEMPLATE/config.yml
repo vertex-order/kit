@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & ideas
+    url: https://github.com/vertex-order/kit/discussions
+    about: Propose or discuss a change here. Issues are collaborator-only tracking for changes already agreed.

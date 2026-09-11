@@ -1,0 +1,40 @@
+# sync.toml — cross-repo file sync. Read by scripts/sync.py (`just sync`).
+# See AGENTS.md → "Cross-repo sync" and CONTRIBUTING.md.
+#
+# [publish]      — what THIS repo owns and other repos pull. Documentation;
+#                  sync.py only uses it to refuse clobbering an owned path.
+# [subscribe.*]  — what THIS repo vendors FROM elsewhere. sync.py fetches these
+#                  at `ref` and writes them into the tree. Vendored copies —
+#                  never hand-edit; edit them in the owning repo.
+#                  check-vendored.yml fails the PR if any has drifted.
+
+[publish]
+owner = "vertex-order/kit"
+# The build substrate: DC runtime, Nocturne design system, the generic
+# components, the bundler, and this sync tool itself.
+paths = [
+  "site/_ds/",
+  "site/images/ui/",
+  "site/support.js",
+  "site/BackToTop.dc.html",
+  "site/HelpWanted.dc.html",
+  "scripts/bundle-components.py",
+  "scripts/sync.py",
+]
+
+[publish.consumers]  # for humans; sync.py ignores this
+"vertex-order/platforms" = "pulls the paths above for its tuning bench"
+"vertex-order/<list>" = "pulls kit as its one dependency — gets the above plus the platform micro-kit re-bundled here"
+
+[subscribe.platforms]
+repo = "vertex-order/platforms"
+ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync-update platforms`
+paths = [
+  "site/PlatformIcon.dc.html",
+  "site/data/platform-icons.js",
+  "site/images/platforms/",
+  "scripts/normalize-svg.py",
+  "scripts/strip-c2pa.py",
+  "scripts/trim-svg.py",
+  "svgo.config.mjs",
+]
