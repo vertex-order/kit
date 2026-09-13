@@ -66,21 +66,22 @@ below). One section per icon, **alphabetical by icon name**.
 ### sun / moon (ThemeToggle.dc.html)
 
 `ThemeToggle.dc.html` doesn't use the `images/ui/` files above — it inlines
-its own icon as `SUN_PATH` / `MOON_PATH` constants in its script, carried
-over as-is from an earlier Claude Design export.
+its own icon as `SUN_PATH` / `MOON_PATH` constants in its script. Same
+family as `arrow-up` / `moon-stars` / `sun` above — Bootstrap Icons — just
+re-exported through Claude Design as a single 256-viewBox path per icon
+instead of kept as a 16×16 file, which is why the path data isn't a
+byte-for-byte match to the current icons below.
 
 - **Shown as:** the floating theme-toggle button's icon
 - **Asset:** inline `<path>` data in `site/ThemeToggle.dc.html`, not a
   separate file
-- **Exact URL:** https://phosphoricons.com/ (best match found — the
-  "Sun"/"Moon" glyphs, structurally consistent with Phosphor's regular
-  weight, but not a byte-identical match to the current
-  [phosphor-icons/core](https://github.com/phosphor-icons/core) source;
-  likely a different library version or export step)
-- **License:** [MIT](https://github.com/phosphor-icons/core/blob/main/LICENSE) (Phosphor Icons), if the match above is correct
-- **Attribution:** [Phosphor Icons](https://phosphoricons.com/), unconfirmed
-- **Modification:** path data possibly adjusted from the upstream source (see above)
+- **Exact URL:** moon — https://icons.getbootstrap.com/icons/moon/ (plain
+  crescent, not `moon-stars`); sun — https://icons.getbootstrap.com/icons/sun/
+  (re-exported without the ray marks)
+- **License:** [MIT](https://github.com/twbs/bootstrap/blob/main/LICENSE)
+- **Attribution:** [Bootstrap Icons](https://icons.getbootstrap.com/)
+- **Modification:** re-exported/re-simplified by Claude Design (16×16 →
+  256 viewBox, single path); the moon drops the `moon-stars` star marks in
+  favor of the plain crescent, and the sun drops its ray marks
 
-If someone can confirm or correct this against the exact exported version,
-update this section directly — downstream repos link here rather than
-recording their own copy.
+Downstream repos link here rather than recording their own copy.
