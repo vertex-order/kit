@@ -43,6 +43,7 @@ paths = [
   "site/RatingDisplay.dc.html",
   "site/SeriesSection.dc.html",
   "site/StatusBadge.dc.html",
+  "site/ThemeToggle.dc.html",
   "scripts/bundle-components.py",
   "scripts/sync.py",
   "scripts/normalize-svg.py",
