@@ -21,7 +21,8 @@
           <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}">
             <sc-for list="{{ para.parts }}" as="part" hint-placeholder-count="0">
               <sc-if value="{{ part.em }}" hint-placeholder-val="{{ false }}"><em>{{ part.em }}</em></sc-if>
-              <sc-if value="{{ part.text }}" hint-placeholder-val="{{ false }}">{{ part.text }}</sc-if>
+              <sc-if value="{{ part.url }}" hint-placeholder-val="{{ false }}"><a href="{{ part.url }}" target="_blank" rel="noopener">{{ part.text }}</a></sc-if>
+              <sc-if value="{{ part.plainText }}" hint-placeholder-val="{{ false }}">{{ part.plainText }}</sc-if>
             </sc-for>
           </sc-if>
         </p>
@@ -38,7 +39,10 @@ class Component extends DCLogic {
       q: item.q,
       paragraphs: item.a.map((para, i, arr) => {
         const mb = i === arr.length - 1 ? '0' : '8px';
-        return typeof para === 'string' ? { plain: para, mb } : { parts: para.parts, mb };
+        return typeof para === 'string' ? { plain: para, mb } : {
+          parts: para.parts.map(p => ({ em: p.em, url: p.url, text: p.url ? p.text : undefined, plainText: (!p.em && !p.url) ? p.text : undefined })),
+          mb,
+        };
       }),
     }));
     return { items };
