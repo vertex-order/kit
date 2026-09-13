@@ -35,8 +35,9 @@ sources and terms are recorded in that repo's
 
 ## Interface icons
 
-UI chrome glyphs under `site/images/ui/`, inlined into the components. One
-section per icon, **alphabetical by icon name**.
+UI chrome glyphs under `site/images/ui/`, inlined into the components, plus
+one icon inlined directly as path data in a component's own script (noted
+below). One section per icon, **alphabetical by icon name**.
 
 ### arrow-up
 
@@ -61,3 +62,25 @@ section per icon, **alphabetical by icon name**.
 - **Exact URL:** https://icons.getbootstrap.com/icons/sun/
 - **License:** [MIT](https://github.com/twbs/bootstrap/blob/main/LICENSE)
 - **Attribution:** [Bootstrap Icons](https://icons.getbootstrap.com/)
+
+### sun / moon (ThemeToggle.dc.html)
+
+`ThemeToggle.dc.html` doesn't use the `images/ui/` files above — it inlines
+its own icon as `SUN_PATH` / `MOON_PATH` constants in its script, carried
+over as-is from an earlier Claude Design export.
+
+- **Shown as:** the floating theme-toggle button's icon
+- **Asset:** inline `<path>` data in `site/ThemeToggle.dc.html`, not a
+  separate file
+- **Exact URL:** https://phosphoricons.com/ (best match found — the
+  "Sun"/"Moon" glyphs, structurally consistent with Phosphor's regular
+  weight, but not a byte-identical match to the current
+  [phosphor-icons/core](https://github.com/phosphor-icons/core) source;
+  likely a different library version or export step)
+- **License:** [MIT](https://github.com/phosphor-icons/core/blob/main/LICENSE) (Phosphor Icons), if the match above is correct
+- **Attribution:** [Phosphor Icons](https://phosphoricons.com/), unconfirmed
+- **Modification:** path data possibly adjusted from the upstream source (see above)
+
+If someone can confirm or correct this against the exact exported version,
+update this section directly — downstream repos link here rather than
+recording their own copy.
