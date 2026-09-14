@@ -1,0 +1,62 @@
+# sync.toml — cross-repo file sync. Read by scripts/sync.py (`just sync`).
+# See AGENTS.md → "Cross-repo sync" and CONTRIBUTING.md.
+#
+# [subscribe.*] — what THIS repo vendors FROM elsewhere. sync.py fetches these
+#                 at `ref` and writes them into the tree. Vendored copies —
+#                 never hand-edit them here; edit them in the owning repo (kit).
+#                 check-vendored.yml fails the PR if any has drifted.
+#
+# This repo publishes nothing — it owns no file another repo vendors.
+#
+# Not vendored, even though this repo needs its own: .github/ISSUE_TEMPLATE/*
+# and .github/PULL_REQUEST_TEMPLATE.md. Each necessarily carries this repo's
+# own Discussions URL (and PR-checklist lines), so a byte-identical vendor is
+# impossible by construction. Seeded from kit's copies once, then maintained
+# locally.
+
+[subscribe.kit]
+repo = "vertex-order/kit"
+ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync-update kit`
+paths = [
+  "site/_ds/",
+  "site/images/ui/",
+  "site/images/platforms/",
+  "site/support.js",
+  "site/PlatformIcon.dc.html",
+  "site/data/platform-icons.js",
+  "site/BackToTop.dc.html",
+  "site/HelpWanted.dc.html",
+  "site/DescRun.dc.html",
+  "site/EntryByline.dc.html",
+  "site/EntryTitleLinks.dc.html",
+  "site/ExtrasToggle.dc.html",
+  "site/FAQ.dc.html",
+  "site/FloatingCorner.dc.html",
+  "site/FloatingNav.dc.html",
+  "site/InPageControls.dc.html",
+  "site/LanguageTag.dc.html",
+  "site/LengthDisplay.dc.html",
+  "site/MediaEntry.dc.html",
+  "site/RatingDisplay.dc.html",
+  "site/SeriesSection.dc.html",
+  "site/StatusBadge.dc.html",
+  "site/ThemeToggle.dc.html",
+  "scripts/bundle-components.py",
+  "scripts/sync.py",
+  "scripts/normalize-svg.py",
+  "scripts/restore-headers.py",
+  "scripts/ensure-helmets.py",
+  "scripts/strip-c2pa.py",
+  "scripts/trim-svg.py",
+  "svgo.config.mjs",
+  "justfile",
+  ".editorconfig",
+  ".gitattributes",
+  ".claude/settings.json",
+  "CODE_OF_CONDUCT.md",
+  ".githooks/pre-commit",
+  ".github/workflows/check-generated.yml",
+  ".github/workflows/check-vendored.yml",
+  ".github/workflows/static.yml",
+  ".github/dependabot.yml",
+]
