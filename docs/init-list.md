@@ -74,15 +74,41 @@ are the two existing list repos to copy the *shape* of — not kit.
 
 ### Your actual content
 
-- `site/data/*.js` — series/entries, `faq.js`, `help-wanted.js`, `index.js`.
-  (`platform-icons.js` stays the vendored copy — don't touch it.) There's no
-  kit-provided example to override yet, so write these from scratch, using
-  final-fantasy's or kingdom-hearts' `site/data/` as the schema reference.
-- `site/page.dc.html` — same story: no generic version lives in kit yet, so
-  start from an existing list's `page.dc.html` and adapt it. (If kit ever
-  grows a shared, data-driven `page.dc.html`, this step should collapse to
-  "just write `site/data/*.js`" — that isn't the case today, so this doc
-  will need a rewrite when it lands.)
+`site/page.dc.html` is now a generic, data-driven entry page vendored from
+kit like everything else — don't hand-edit it. What it needs is
+`site/data/*.js`: `faq.js`, `help-wanted.js`, `index.js` (series/entries),
+plus three that feed `page.dc.html` directly (`platform-icons.js` stays the
+vendored copy — don't touch it):
+
+- `site/data/site.js` → `window.SITE_CONFIG` — `name` (franchise display
+  name), `tagline` (a parts array — `{ text }` / `{ strong }` / `{ em }` /
+  `{ text, url }` / `{ em, url }`), `lastUpdated` (ISO date, or omit for no
+  "Last Updated" line), `foundingYear` (default 2026), `entities` (who
+  you're disclaiming affiliation with, e.g. `['Square Enix']`), `license`
+  (parts array; omit for the default CC BY-NC-SA 4.0 line), and
+  `storagePrefix`. **`storagePrefix` is optional but has teeth**: if you set
+  it, that literal string becomes the `localStorage` key prefix for every
+  visitor's saved checklist/theme/display preferences — get this right once
+  and never change it, since changing it later silently orphans everyone's
+  saved data. If you omit it, `page.dc.html` derives a stable one from
+  `name` (e.g. "Chrono Trigger" → `chronoTriggerPlayOrder`) — deterministic
+  across rebuilds, so it's a safe default for a brand-new repo with no
+  visitors yet. A repo migrating from a hand-authored `page.dc.html` that
+  already had visitors (as final-fantasy and kingdom-hearts did) must set
+  `storagePrefix` explicitly to its existing literal value instead.
+- `site/data/intro.js` → `window.INTRO_SECTIONS` — the "Where to start?"
+  content, an array of `{ heading, headingSize: 'lg'|'sm', id?, paragraphs }`
+  (each paragraph a plain string or `{ parts }`) rendered by `Intro.dc.html`.
+  Include one entry with `{ stats: true }` wherever you want the
+  auto-computed "N mainline entries; N series, ..." sentence to appear (or
+  omit it for no stats sentence) — its position in this array is exactly
+  where it renders.
+- `site/data/credits.js` → `window.CREDITS`, the same parts schema, for the
+  CREDITS paragraph `Footer.dc.html` renders.
+
+There's no kit-provided example of these three yet, so write them from
+scratch using final-fantasy's or kingdom-hearts' `site/data/` as the schema
+reference.
 
 ## 3. Everything else
 
