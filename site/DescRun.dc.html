@@ -9,6 +9,10 @@
 </head>
 <body>
 <x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-dd511f00-0314-498c-83ef-49f001a371b0/styles.css">
+<script src="_ds/nocturne-dd511f00-0314-498c-83ef-49f001a371b0/_ds_bundle.js"></script>
+</helmet>
 <span title="{{ tip }}" style="{{ helpStyle }}">
   <sc-if value="{{ emLinkText }}" hint-placeholder-val="{{ false }}"><a href="{{ emLinkUrl }}" target="_blank" rel="noopener" style="color: var(--color-accent-300);"><em>{{ emLinkText }}</em></a></sc-if>
   <sc-if value="{{ emText }}" hint-placeholder-val="{{ false }}"><em>{{ emText }}</em></sc-if>
