@@ -1,0 +1,999 @@
+<!-- page.dc.html — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!-- site/page.dc.html (html) -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./data/index.js"></script>
+<script src="./data/site.js"></script>
+<script src="./data/intro.js"></script>
+<script src="./data/credits.js"></script>
+<script src="./data/faq.js"></script>
+<script src="./data/help-wanted.js"></script>
+<script>
+  /* components.js is a generated bundle that inlines every sibling *.dc.html so
+     <dc-import> resolves without fetch(), which browsers block on file:// only.
+     Over http(s) (GitHub Pages, `just serve`, Claude Design) the runtime fetches
+     each *.dc.html live — always fresh, no stale-bundle risk — so load the
+     bundle solely off disk. See CONTRIBUTING.md "Edit a .dc.html component". */
+  if (location.protocol === 'file:') {
+    document.write('<script src="./components.js"><\/script>');
+  }
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-dd511f00-0314-498c-83ef-49f001a371b0/styles.css">
+<script src="_ds/nocturne-dd511f00-0314-498c-83ef-49f001a371b0/_ds_bundle.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+body { margin: 0; background: var(--color-bg); }
+a { color: var(--color-accent-300); text-decoration: none; }
+a:hover { color: var(--color-accent); text-decoration: underline; }
+[data-theme="light"] {
+  --color-bg: #f4f4f8;
+  --color-surface: #ffffff;
+  --color-text: #1c1e2a;
+  --color-accent: #6f63b5;
+  --color-accent-100: #2b2741;
+  --color-accent-200: #423a6a;
+  --color-accent-300: #5d5294;
+  --color-accent-400: #796cbf;
+  --color-accent-500: #968ae0;
+  --color-accent-600: #b5abfc;
+  --color-accent-700: #d2cefd;
+  --color-accent-800: #e7e5fe;
+  --color-accent-900: #f5f4ff;
+  --color-neutral-100: #292b31;
+  --color-neutral-200: #3f424d;
+  --color-neutral-300: #595d6c;
+  --color-neutral-400: #75798c;
+  --color-neutral-500: #9397ab;
+  --color-neutral-600: #b2b6ca;
+  --color-neutral-700: #cfd3e5;
+  --color-neutral-800: #e4e7f5;
+  --color-neutral-900: #f3f5fe;
+  --color-divider: color-mix(in srgb, #1c1e2a 14%, transparent);
+}
+[data-theme="light"] a { color: var(--color-accent-300); }
+[data-theme="light"] a:hover { color: var(--color-accent); }
+.sc-host[data-sc-name="DescRun"] { display: inline; }
+.sc-host[data-sc-name="EntryTitleLinks"] { display: inline; }
+[data-theme="light"] img[style*="invert(80%) sepia(15%)"] { filter: brightness(0) saturate(100%) invert(35%) sepia(10%) saturate(400%) hue-rotate(195deg) !important; }
+[data-theme="light"] img[style*="invert(100%)"] { filter: brightness(0) saturate(100%) !important; }
+[data-theme="light"] img[src*="icon-movie-allcaps"],
+[data-theme="light"] img[src*="icon-recap-allcaps"],
+[data-theme="light"] img[src*="icon-play-allcaps"],
+[data-theme="light"] img[src*="icon-audio-allcaps"],
+[data-theme="light"] img[src*="icon-translation-allcaps"],
+[data-theme="light"] img[src*="Epic Games.svg"],
+[data-theme="light"] img[src*="GOG.svg"] { filter: brightness(0) saturate(100%) invert(35%) sepia(10%) saturate(400%) hue-rotate(195deg) !important; }
+</style>
+</helmet>
+<div data-theme="{{ effectiveTheme }}" style="background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); min-height: 100vh;">
+  <span id="top" style="position: absolute; top: 0; left: 0;"></span>
+  <sc-if value="{{ scrolled }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; top: 0; left: 0; right: 0; z-index: 20; height: 44px; background: var(--color-surface); border-bottom: 1px solid var(--color-divider);">
+    <div style="max-width: 760px; margin: 0 auto; height: 44px; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-4); padding-right: calc(var(--space-4) + {{ navReservedRightPx }});">
+      <sc-if value="{{ navShowTitle }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; justify-content: center; gap: 1px; margin-top: 6px; margin-left: {{ navTitleMarginLeft }};">
+        <span style="font-family: var(--font-heading); font-weight: 500; font-size: 13px; line-height: 1; white-space: nowrap; color: var(--color-text);">{{ siteName }} <span title="Vertex Industries, that's us!">Vertex</span> Order</span>
+        <span style="font-size: 9px; line-height: 1; white-space: nowrap; color: var(--color-neutral-600); margin-top: 2px;">Updated: {{ lastUpdatedShort }}</span>
+      </div>
+      </sc-if>
+      <sc-if value="{{ navShowOrder }}" hint-placeholder-val="{{ true }}">
+      <select value="{{ mode }}" onChange="{{ onOrderChange }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px;">
+        <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
+          <option value="{{ po.key }}">{{ po.shortLabel }}</option>
+        </sc-for>
+      </select>
+      </sc-if>
+      <sc-if value="{{ navShowJump }}" hint-placeholder-val="{{ true }}">
+      <select value="{{ activeAnchor }}" onChange="{{ onJumpChange }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px; max-width: 160px;">
+        <option value="#top">Top</option>
+        <option value="#order-to-display">Settings</option>
+        <option value="" disabled="">Jump to series…</option>
+        <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+          <option value="{{ s.anchor }}">{{ s.num }} — {{ s.title }}</option>
+        </sc-for>
+        <option value="#faq">FAQ</option>
+        <option value="#help-wanted">Help Wanted</option>
+      </select>
+      </sc-if>
+      <sc-if value="{{ navShowLanguages }}" hint-placeholder-val="{{ true }}">
+      <div style="position: relative;">
+        <button onClick="{{ toggleLangMenu }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 8px; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+          Languages<i class="bi bi-chevron-down" style="font-size: 9px;"></i>
+        </button>
+        <sc-if value="{{ langMenuOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeLangMenu }}" style="position: fixed; inset: 0; z-index: 29;"></div>
+          <div style="position: absolute; top: 30px; left: 0; z-index: 30; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 6px; max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 1px; min-width: 190px;">
+            <sc-for list="{{ languageOptions }}" as="lo" hint-placeholder-count="6">
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 5px; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text);" style-hover="background: var(--color-neutral-800);">
+                <input type="checkbox" checked="{{ lo.checked }}" onChange="{{ lo.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer; flex-shrink: 0;">
+                <span style="font-weight: 500; width: 26px; flex-shrink: 0;">{{ lo.value }}</span>
+                <span style="color: var(--color-neutral-500);">{{ lo.tip }}</span>
+              </label>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+      <sc-if value="{{ navShowDisplay }}" hint-placeholder-val="{{ true }}">
+      <div style="position: relative;">
+        <button onClick="{{ toggleDisplayMenu }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 8px; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+          Display<i class="bi bi-chevron-down" style="font-size: 9px;"></i>
+        </button>
+        <sc-if value="{{ displayMenuOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeDisplayMenu }}" style="position: fixed; inset: 0; z-index: 29;"></div>
+          <div style="position: absolute; top: 30px; left: 0; z-index: 30; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 6px; display: flex; flex-direction: column; gap: 1px; min-width: 150px;">
+            <sc-for list="{{ displayToggles }}" as="dt" hint-placeholder-count="4">
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 5px; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text);" style-hover="background: var(--color-neutral-800);">
+                <input type="checkbox" checked="{{ dt.checked }}" onChange="{{ dt.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer; flex-shrink: 0;">
+                {{ dt.label }}
+              </label>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+      <sc-if value="{{ navProgress }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size: 12px; color: var(--color-neutral-400); white-space: nowrap; width: 130px; flex-shrink: 0;">{{ navProgress }}</span>
+      </sc-if>
+      <sc-if value="{{ navShowCheckList }}" hint-placeholder-val="{{ true }}">
+      <a href="https://vertex-order.github.io" target="_blank" rel="noopener" title="More lists from Vertex Industries" style="margin-left: auto; margin-right: 8px; display: flex; align-items: center; height: 26px; font-size: 11px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
+      </sc-if>
+      <sc-if value="{{ navShowTheme }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="width: 26px; height: 26px; flex-shrink: 0; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; margin-right: {{ navToggleMarginRight }}; margin-left: {{ themeMarginLeft }};">
+        <i class="{{ themeIcon }}"></i>
+      </button>
+      </sc-if>
+    </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ notScrolled }}" hint-placeholder-val="{{ true }}">
+  <div style="position: fixed; top: calc(var(--space-3) - var(--space-2)); left: 0; right: 0; z-index: 10; max-width: 760px; margin: 0 auto; padding: 0 var(--space-4); padding-right: calc(var(--space-4) + {{ navReservedRightPx }}); display: flex; justify-content: flex-end; align-items: center; pointer-events: none;">
+    <div style="pointer-events: auto; display: flex; align-items: center; gap: var(--space-3); background: color-mix(in srgb, var(--color-bg) 55%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); margin-right: {{ navFloatingWidgetMarginRight }};">
+      <sc-if value="{{ navShowCheckList }}" hint-placeholder-val="{{ true }}">
+      <a href="https://vertex-order.github.io" target="_blank" rel="noopener" title="More lists from Vertex Industries" style="height: 36px; display: flex; align-items: center; font-size: 12.5px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
+      </sc-if>
+      <sc-if value="{{ navShowTheme }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: var(--radius-md); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <i class="{{ themeIcon }}"></i>
+      </button>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <dc-import name="BackToTop" hint-size="0,0"></dc-import>
+
+  <sc-if value="{{ navAnyHidden }}" hint-placeholder-val="{{ false }}">
+  <div style="position: fixed; top: {{ navHamburgerTopPx }}; right: var(--space-4); z-index: 25;">
+    <button onClick="{{ toggleHamburgerMenu }}" title="Menu" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: var(--radius-md); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; box-shadow: var(--shadow-sm);">
+      <i class="bi bi-list"></i>
+    </button>
+    <sc-if value="{{ hamburgerOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeHamburgerMenu }}" style="position: fixed; inset: 0; z-index: 29;"></div>
+      <div style="position: absolute; top: 40px; right: 0; z-index: 30; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-3); min-width: 220px; max-height: 70vh; overflow-y: auto;">
+        <sc-if value="{{ hideTitleInMenu }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+          <span style="font-family: var(--font-heading); font-weight: 500; font-size: 13px; line-height: 1.3; color: var(--color-text);">{{ siteName }} Vertex Order</span>
+          <span style="font-size: 10px; color: var(--color-neutral-600);">Updated: {{ lastUpdatedShort }}</span>
+        </div>
+        </sc-if>
+        <sc-if value="{{ hideOrderInMenu }}" hint-placeholder-val="{{ false }}">
+        <select value="{{ mode }}" onChange="{{ onOrderChange }}" style="font-size: 12px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px; width: 100%;">
+          <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
+            <option value="{{ po.key }}">{{ po.shortLabel }}</option>
+          </sc-for>
+        </select>
+        </sc-if>
+        <sc-if value="{{ hideJumpInMenu }}" hint-placeholder-val="{{ false }}">
+        <select value="{{ activeAnchor }}" onChange="{{ onJumpChange }}" style="font-size: 12px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px; width: 100%;">
+          <option value="#top">Top</option>
+          <option value="#order-to-display">Settings</option>
+          <option value="" disabled="">Jump to series…</option>
+          <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+            <option value="{{ s.anchor }}">{{ s.num }} — {{ s.title }}</option>
+          </sc-for>
+          <option value="#faq">FAQ</option>
+          <option value="#help-wanted">Help Wanted</option>
+        </select>
+        </sc-if>
+        <sc-if value="{{ hideLanguagesInMenu }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <span style="font-size: 10px; letter-spacing: 0.06em; color: var(--color-neutral-500); margin-bottom: 2px;">LANGUAGES</span>
+          <sc-for list="{{ languageOptions }}" as="lo" hint-placeholder-count="6">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 5px; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text);" style-hover="background: var(--color-neutral-800);">
+              <input type="checkbox" checked="{{ lo.checked }}" onChange="{{ lo.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer; flex-shrink: 0;">
+              <span style="font-weight: 500; width: 26px; flex-shrink: 0;">{{ lo.value }}</span>
+              <span style="color: var(--color-neutral-500);">{{ lo.tip }}</span>
+            </label>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ hideDisplayInMenu }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <span style="font-size: 10px; letter-spacing: 0.06em; color: var(--color-neutral-500); margin-bottom: 2px;">DISPLAY</span>
+          <sc-for list="{{ displayToggles }}" as="dt" hint-placeholder-count="4">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 5px; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text);" style-hover="background: var(--color-neutral-800);">
+              <input type="checkbox" checked="{{ dt.checked }}" onChange="{{ dt.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer; flex-shrink: 0;">
+              {{ dt.label }}
+            </label>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ hideCheckListInMenu }}" hint-placeholder-val="{{ false }}">
+        <a href="https://vertex-order.github.io" target="_blank" rel="noopener" style="font-size: 12px; color: var(--color-neutral-400); text-decoration: none;">Check out our other lists ↗</a>
+        </sc-if>
+        <sc-if value="{{ hideThemeInMenu }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleTheme }}" style="font-size: 12px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+          <i class="{{ themeIcon }}"></i> Toggle theme
+        </button>
+        </sc-if>
+      </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <nav class="nav" style="padding: var(--space-3) 0;">
+    <div style="max-width: 760px; margin: 0 auto; padding: 0 var(--space-4); width: 100%;">
+      <div class="nav-brand" style="margin-left: {{ navTitleMarginLeft }};">{{ siteName }} — <span title="Vertex Industries, that's us!">Vertex</span> Order</div>
+    </div>
+  </nav>
+
+  <div style="max-width: 760px; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-8);">
+
+    <dc-import name="Intro" title="{{ introTitle }}" last-updated="{{ introLastUpdated }}" tagline="{{ introTagline }}" stats-text="{{ introStatsText }}" sections="{{ introSections }}" hint-size="auto,600px" style="display: block;"></dc-import>
+
+    <div style="max-width: 620px; margin: var(--space-3) 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
+      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: var(--space-2) 0 0;"><span onMouseEnter="{{ ourOrderAnchor.onAnchorHoverEnter }}" onMouseLeave="{{ ourOrderAnchor.onAnchorHoverLeave }}" style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;"><strong id="our-order" style="color: var(--color-text); font-weight: 500; font-size: 24px;">Our order</strong><a href="{{ ourOrderAnchor.anchorHref }}" onClick="{{ ourOrderAnchor.onAnchorClick }}" title="Link to this section" style="color: var(--color-neutral-500); text-decoration: none; font-size: 14px; opacity: {{ ourOrderAnchor.pilcrowOpacity }}; transition: opacity .15s;">¶</a></span> We offer four different ways to organize the titles within each series.</p>
+      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Narrative order;</strong> our recommendation. Protects the story's big reveals from prequels that would spoil them, while avoiding the jumps in time that release order can cause. The mainline entry usually comes first, then sequels, then prequels, then spinoffs, for the most cohesive read of the story's key moments.</p>
+      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Chronological order;</strong> not always perfectly possible to pin down. Best if you've already played the mainline entry, since prequels and side stories can spoil later reveals. Lets you experience the whole timeline start to finish, though some side stories are hard to place exactly.</p>
+      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Release order;</strong> within a series, the order things actually came out, which tends to jump around in the story's own timeline. Some argue this reflects how the authors intended the story to unfold, but marketing and sales decisions at the time usually mattered more.</p>
+      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Overall Release order;</strong> no series groupings, just everything in the order it came out. How us old timers experienced things. The mainline entries stay in order, but the extra material has you jumping between series constantly rather than staying within one, and remakes that add new story need some allowances made for where they fall.</p>
+    </div>
+
+    <div style="max-width: 620px; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-2);">
+      <p id="order-to-display" style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Order to display:</p>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-4);">
+        <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
+            <input type="radio" name="pathMode" checked="{{ po.checked }}" onChange="{{ po.select }}" style="width: 16px; height: 16px; accent-color: var(--color-accent); cursor: pointer;">
+            {{ po.label }}
+          </label>
+        </sc-for>
+      </div>
+    </div>
+
+    <p style="color: var(--color-neutral-500); font-size: 13px; margin: var(--space-6) 0 0;">Jump to series:</p>
+    <div ref="{{ jumpRef }}" style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0 var(--space-4);">
+      <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+        <a href="{{ s.anchor }}" class="tag tag-outline" title="{{ s.title }}">{{ s.num }}</a>
+      </sc-for>
+      <a href="#faq" class="tag tag-outline" title="FAQ">FAQ</a>
+      <a href="#help-wanted" class="tag tag-outline" title="Help Wanted">Help</a>
+    </div>
+
+    <div style="max-width: 620px; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);">
+      <p style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Also display:</p>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-4);">
+        <sc-for list="{{ displayToggles }}" as="dt" hint-placeholder-count="4">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
+            <input type="checkbox" checked="{{ dt.checked }}" onChange="{{ dt.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer;">
+            {{ dt.label }}
+          </label>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="max-width: 620px; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-2);">
+      <p style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Highlight languages:</p>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
+        <sc-for list="{{ languageOptions }}" as="lo" hint-placeholder-count="6">
+          <label title="{{ lo.tip }}" style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
+            <input type="checkbox" checked="{{ lo.checked }}" onChange="{{ lo.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer;">
+            {{ lo.value }}
+          </label>
+        </sc-for>
+      </div>
+      <p style="color: var(--color-neutral-600); font-size: 12px; margin: 0;">Preferences are saved locally to your browser and are not sent. No data collection occurs.</p>
+    </div>
+
+    <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+      <dc-import name="SeriesSection" s="{{ s }}" show-rating="{{ showRating }}" show-length="{{ showLength }}" show-platforms="{{ showPlatforms }}" show-languages="{{ showLanguages }}" side-by-side="{{ sideBySide }}" stacked="{{ stacked }}" show-col2="{{ showCol2 }}" show-stacked-rl="{{ showStackedRL }}" hint-size="auto,400px" style="display: block;"></dc-import>
+    </sc-for>
+
+    <div style="height: 1px; background: linear-gradient(to right, transparent, var(--color-neutral-700), transparent); margin-bottom: var(--space-4);"></div>
+
+    <dc-import name="FAQ" items="{{ faqItems }}" hint-size="auto,400px" style="display: block;"></dc-import>
+
+    <dc-import name="HelpWanted" items="{{ helpWantedItems }}" hint-size="auto,220px" style="display: block;"></dc-import>
+
+    <h3 style="font-family: var(--font-heading); font-weight: 500; font-size: 14px; letter-spacing: 0.06em; color: var(--color-neutral-400); margin: 0 0 var(--space-2);">PLATFORMS</h3>
+    <div style="position: relative; margin: 0 0 var(--space-6);">
+      <div style="position: absolute; inset: 0; pointer-events: none; background-color: var(--color-accent); -webkit-mask-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='84'%3E%3Crect x='0' y='14' width='28' height='2' fill='white'/%3E%3Crect x='0' y='50' width='28' height='2' fill='white'/%3E%3C/svg%3E&quot;); mask-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='84'%3E%3Crect x='0' y='14' width='28' height='2' fill='white'/%3E%3Crect x='0' y='50' width='28' height='2' fill='white'/%3E%3C/svg%3E&quot;); -webkit-mask-size: 28px 84px; mask-size: 28px 84px; -webkit-mask-repeat: repeat; mask-repeat: repeat;"></div>
+      <div style="position: relative; display: flex; flex-wrap: wrap; align-content: flex-start; row-gap: 16px; column-gap: 16px;">
+        <sc-for list="{{ platformLegend }}" as="pl" hint-placeholder-count="0">
+          <span title="{{ pl.name }}" data-legend-item="{{ pl.name }}" style="display: flex; align-items: center; justify-content: center; height: 68px; flex: 0 0 auto; color: var(--color-neutral-300); opacity: 0.85;">
+            <sc-if value="{{ pl.prefix }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size: 21.5px; margin-right: 4px;">{{ pl.prefix }}</span>
+            </sc-if>
+            <sc-if value="{{ pl.iconImg }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ pl.iconImg }}" alt="{{ pl.name }}" height="{{ pl.iconSize }}" style="width: auto; max-width: none; flex-shrink: 0; {{ pl.imgStyle }}">
+            </sc-if>
+            <sc-if value="{{ pl.icon }}" hint-placeholder-val="{{ false }}">
+              <i class="{{ pl.icon }}" style="font-size: 32px;"></i>
+            </sc-if>
+            <sc-if value="{{ pl.text }}" hint-placeholder-val="{{ false }}">
+              <span style="padding: 2px 8px; line-height: 1.4; white-space: nowrap; font-size: {{ pl.fontSize }};">{{ pl.text }}</span>
+            </sc-if>
+            <sc-if value="{{ pl.suffix }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size: 21.5px; margin-left: 6px; white-space: nowrap;">{{ pl.suffix }}</span>
+            </sc-if>
+            <sc-if value="{{ pl.jpTag }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size: 21.5px; font-style: italic; font-variant: small-caps; padding-left: 2px;">(jp)</span>
+            </sc-if>
+            <sc-if value="{{ pl.nonJpTag }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size: 21.5px; font-style: italic; font-variant: small-caps; padding-left: 2px;">(non-jp)</span>
+            </sc-if>
+          </span>
+        </sc-for>
+      </div>
+    </div>
+
+    <dc-import name="Footer" credits="{{ footerCredits }}" last-updated="{{ introLastUpdated }}" founding-year="{{ footerFoundingYear }}" license="{{ footerLicense }}" entities="{{ footerEntities }}" disclosures="{{ footerDisclosures }}" hint-size="auto,300px" style="display: block;"></dc-import>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+// SITE_CONFIG/INTRO_SECTIONS/CREDITS come from site/data/{site,intro,credits}.js
+// (per-repo, not vendored) -- see docs/init-list.md.
+const SITE = window.SITE_CONFIG || {};
+const LAST_UPDATED = SITE.lastUpdated || ''; // ISO date; empty is valid (no "Last Updated" shown)
+const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function lastUpdatedShortText() {
+  if (!LAST_UPDATED) return '';
+  const [y, m] = LAST_UPDATED.split('-').map(Number);
+  return MONTHS_SHORT[m - 1] + ' ' + y;
+}
+// Deterministic fallback so a repo that omits SITE_CONFIG.storagePrefix still
+// gets a stable (never regenerated differently across builds), legible
+// localStorage key prefix derived from its own name -- e.g. "Chrono Trigger"
+// -> "chronoTriggerPlayOrder". A repo with real visitor data (final-fantasy,
+// kingdom-hearts) must set storagePrefix explicitly to its existing literal
+// value instead: this fallback would compute a different string and silently
+// orphan everyone's saved checklist/theme/display preferences.
+function slugifyName(name) {
+  return (name || 'vertexOrder').replace(/[^A-Za-z0-9]+/g, ' ').trim().split(' ')
+    .filter(Boolean)
+    .map((w, i) => i === 0 ? w.charAt(0).toLowerCase() + w.slice(1) : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join('');
+}
+const STORAGE_PREFIX = SITE.storagePrefix || (slugifyName(SITE.name) + 'PlayOrder');
+class Component extends DCLogic {
+  state = { expandedAlts: {}, expandedMainExtras: {}, checked: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
+  seriesEls = {};
+  langOrderDefault = ['JA', 'EN'];
+  componentDidMount() {
+    Promise.resolve(window.loadAllSeries ? window.loadAllSeries() : import('./data/index.js').then(m => m.loadAllSeries()))
+      .then(rawSeries => this.setState({ rawSeries }));
+    if (typeof matchMedia !== 'undefined') {
+      this._mq = matchMedia('(prefers-color-scheme: light)');
+      this._mqListener = e => this.setState({ systemLight: e.matches });
+      this._mq.addEventListener('change', this._mqListener);
+    }
+    this._onResize = () => this.setState({ navWidth: window.innerWidth });
+    window.addEventListener('resize', this._onResize, { passive: true });
+    this._onScroll = () => {
+      const scrolled = this._jumpEl ? this._jumpEl.getBoundingClientRect().bottom <= 0 : window.scrollY > 260;
+      let activeAnchor = '';
+      Object.entries(this.seriesEls).forEach(([num, el]) => {
+        if (el && el.getBoundingClientRect().top <= 60) activeAnchor = '#series-' + num;
+      });
+      const faqEl = document.getElementById('faq');
+      const helpEl = document.getElementById('help-wanted');
+      if (faqEl && faqEl.getBoundingClientRect().top <= 60) activeAnchor = '#faq';
+      if (helpEl && helpEl.getBoundingClientRect().top <= 60) activeAnchor = '#help-wanted';
+      if (scrolled !== this.state.scrolled || activeAnchor !== this.state.activeAnchor) this.setState({ scrolled, activeAnchor });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+    this._onHashChange = () => this.handleHashNav();
+    window.addEventListener('hashchange', this._onHashChange);
+    if (location.hash) requestAnimationFrame(() => requestAnimationFrame(() => this.handleHashNav()));
+  }
+  componentWillUnmount() {
+    if (this._mq) this._mq.removeEventListener('change', this._mqListener);
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('hashchange', this._onHashChange);
+  }
+  toggleLanguage(code, allLangCodes) {
+    this.setState(s => {
+      const sel = s.selectedLanguages !== null ? s.selectedLanguages : (allLangCodes || []).filter(v => v === 'EN' || v.startsWith('EN-'));
+      const next = sel.includes(code) ? sel.filter(c => c !== code) : [...sel, code];
+      localStorage.setItem(STORAGE_PREFIX + 'SelectedLangs', JSON.stringify(next));
+      return { selectedLanguages: next };
+    });
+  }
+  toggleLangMenu() {
+    this.setState(s => ({ langMenuOpen: !s.langMenuOpen }));
+  }
+  toggleHamburgerMenu() {
+    this.setState(s => ({ hamburgerOpen: !s.hamburgerOpen }));
+  }
+  closeHamburgerMenu() {
+    this.setState({ hamburgerOpen: false });
+  }
+  toggleColumn(key) {
+    this.setState(s => {
+      const current = s[key] !== null && s[key] !== undefined ? s[key] : ((key === 'showRating' || key === 'showLength') ? (window.innerWidth >= (760 + 16 + 8 + 22)) : true);
+      const val = !current;
+      localStorage.setItem(STORAGE_PREFIX + key.replace(/^show/, 'Show'), JSON.stringify(val));
+      return { [key]: val };
+    });
+  }
+  closeLangMenu() {
+    this.setState({ langMenuOpen: false });
+  }
+  toggleDisplayMenu() {
+    this.setState(s => ({ displayMenuOpen: !s.displayMenuOpen }));
+  }
+  closeDisplayMenu() {
+    this.setState({ displayMenuOpen: false });
+  }
+  toggleTheme() {
+    const current = this.state.theme || (this.state.systemLight ? 'light' : 'dark');
+    const next = current === 'light' ? 'dark' : 'light';
+    const systemDefault = this.state.systemLight ? 'light' : 'dark';
+    if (next === systemDefault) {
+      this.setState({ theme: null });
+      localStorage.removeItem(STORAGE_PREFIX + 'Theme');
+    } else {
+      this.setState({ theme: next });
+      localStorage.setItem(STORAGE_PREFIX + 'Theme', next);
+    }
+  }
+  typeColors = {
+    Game: { fg: 'oklch(75% 0.13 290)', bg: 'oklch(75% 0.13 290 / 0.05)' },
+    Book: { fg: 'oklch(75% 0.11 150)', bg: 'oklch(75% 0.11 150 / 0.05)' },
+    Comic: { fg: 'oklch(78% 0.13 60)', bg: 'oklch(78% 0.13 60 / 0.05)' },
+    Movie: { fg: 'oklch(72% 0.14 25)', bg: 'oklch(72% 0.14 25 / 0.05)' },
+    Video: { fg: 'oklch(74% 0.13 340)', bg: 'oklch(74% 0.13 340 / 0.05)' },
+    TV: { fg: 'oklch(74% 0.1 210)', bg: 'oklch(74% 0.1 210 / 0.05)' },
+    Audio: { fg: 'oklch(76% 0.1 110)', bg: 'oklch(76% 0.1 110 / 0.05)' },
+    App: { fg: 'oklch(70% 0.1 250)', bg: 'oklch(70% 0.1 250 / 0.05)' },
+  };
+  // Legend icon heights are set by hand; row icons are half these values.
+  platformLegend = [
+    { icon: 'bi bi-windows', name: 'Windows (PC; Handheld; Digital)' },
+    { iconImg: 'images/platforms/macos.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'macOS' },
+    { iconImg: 'images/platforms/linux.svg', iconSize: 40, imgStyle: 'width: auto; height: 40px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Linux' },
+    { iconImg: 'images/platforms/gog.svg', iconSize: 33.5, imgStyle: 'width: auto; height: 33.5px;', name: 'GOG (PC)' },
+    { icon: 'bi bi-steam', name: 'Steam (PC; Handheld)' },
+    { iconImg: 'images/platforms/epic-games.svg', iconSize: 32, imgStyle: 'width: auto; height: 32px;', name: 'Epic Games Store (PC)' },
+    { icon: 'bi bi-xbox', suffix: 'X/S', name: 'Xbox Series X/S (Physical; Digital; Optimized; FPS Boost; 360 Compatibility; One Compatibility)' },
+    { icon: 'bi bi-xbox', suffix: 'One', name: 'Xbox One (Physical; Digital; Enhanced; Xbox One X Enhanced; 360 Compatibility)' },
+    { icon: 'bi bi-xbox', suffix: '360', name: 'Xbox 360 (Physical; Xbox Live Arcade)' },
+    { icon: 'bi bi-xbox', suffix: 'Cloud', name: 'Xbox Cloud' },
+    { iconImg: 'images/platforms/ps5.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation 5 (Physical; Digital; PS4 Compatibility; Pro Enhanced)' },
+    { iconImg: 'images/platforms/ps4.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', suffix: 'VR', name: 'PlayStation VR' },
+    { iconImg: 'images/platforms/ps4.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation 4 (Physical; Digital)' },
+    { iconImg: 'images/platforms/ps3.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation 3 (Physical; Digital; PSone Compatibility; PS2 Compatibility)' },
+    { iconImg: 'images/platforms/ps2.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation 2 (Physical; PSone Compatibility)' },
+    { text: 'PSc', fontSize: '21.5px', name: 'PlayStation Classic' },
+    { iconImg: 'images/platforms/ps1.svg', iconSize: 27, imgStyle: 'width: auto; height: 27px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation (PSone) (Physical)' },
+    { iconImg: 'images/platforms/ps-vita.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation Vita (Physical; Digital)' },
+    { iconImg: 'images/platforms/psp.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation Portable (PSP) (Physical; Digital; Universal Media Disk)' },
+    { iconImg: 'images/platforms/ps-plus.svg', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: grayscale(1) brightness(1.4) sepia(1) hue-rotate(180deg) saturate(150%);', name: 'PlayStation Plus (PS Plus)' },
+    { iconImg: 'images/platforms/switch-2.png', iconSize: 60.5, imgStyle: 'width: auto; height: 60.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo Switch 2 (Physical; Digital)' },
+    { icon: 'bi bi-nintendo-switch', name: 'Nintendo Switch (Physical; Digital)' },
+    { text: 'Wii U', fontSize: '21.5px', name: 'Nintendo Wii U (Physical; Virtual Console; WiiWare)' },
+    { text: 'Wii', fontSize: '21.5px', name: 'Nintendo Wii (Physical; Virtual Console; WiiWare)' },
+    { iconImg: 'images/platforms/gamecube.svg', iconSize: 37, imgStyle: 'width: auto; height: 37px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo GameCube (Physical)' },
+    { iconImg: 'images/platforms/snes.png', iconSize: 28.5, imgStyle: 'width: auto; height: 28.5px;', suffix: 'c', name: 'Super Nintendo Entertainment System (SNES) Classic Edition' },
+    { iconImg: 'images/platforms/snes.png', iconSize: 28.5, imgStyle: 'width: auto; height: 28.5px;', name: 'Super Nintendo Entertainment System (SNES) (Physical)' },
+    { text: 'NESc', fontSize: '21.5px', name: 'Nintendo NES Classic Edition' },
+    { text: 'NES / FC', fontSize: '18.5px', name: 'Nintendo Entertainment System (NES / FC) (Physical)' },
+    { text: 'NES', fontSize: '21.5px', name: 'Nintendo Entertainment System (Physical)' },
+    { text: 'FC', fontSize: '21.5px', name: 'Nintendo Famicom (Physical; Japan Only)', jpTag: true },
+    { iconImg: 'images/platforms/3ds.png', iconSize: 20.8, imgStyle: 'width: auto; height: 20.8px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo 3DS (Physical; Digital)' },
+    { iconImg: 'images/platforms/nintendo-ds.png', iconSize: 23.5, imgStyle: 'width: auto; height: 23.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo DS (Physical; DSi Digital)' },
+    { iconImg: 'images/platforms/gba.png', iconSize: 54.5, imgStyle: 'width: auto; height: 54.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Game Boy Advance (Physical)' },
+    { iconImg: 'images/platforms/game-boy.png', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo Game Boy (Physical)' },
+    { iconImg: 'images/platforms/ouya.png', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Ouya' },
+    { iconImg: 'images/platforms/arcade.png', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg) brightness(1.8);', name: 'Arcade' },
+    { iconImg: 'images/platforms/wonderswan.svg', iconSize: 38, imgStyle: 'width: auto; height: 38px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'WonderSwan Color (Physical; Japan Only)', jpTag: true },
+    { iconImg: 'images/platforms/msx2.png', iconSize: 48.5, imgStyle: 'width: auto; height: 48.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'MSX2 (Physical; Japan Only)', jpTag: true },
+    { iconImg: 'images/platforms/msx.svg', iconSize: 34, imgStyle: 'width: auto; height: 34px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'MSX (Physical; Japan Only)', jpTag: true },
+    { iconImg: 'images/platforms/sharp-x1.svg', iconSize: 50, imgStyle: 'width: auto; height: 50px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Sharp X1 (Physical; Japan Only)', jpTag: true },
+    { text: 'PC-8801mkII SR', fontSize: '15px', name: 'NEC PC-8801mkII SR (Physical; Japan Only)', jpTag: true },
+    { icon: 'bi bi-browser-chrome', name: 'Browser' },
+    { icon: 'bi bi-android2', name: 'Android' },
+    { icon: 'bi bi-apple', name: 'iOS' },
+    { iconImg: 'images/platforms/apple-arcade.png', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Apple Arcade' },
+    { icon: 'bi bi-amazon', name: 'Amazon App Store' },
+    { icon: 'bi bi-facebook', name: 'Facebook (Messenger)' },
+    { iconImg: 'images/platforms/windows-phone.png', iconSize: 34.5, imgStyle: 'width: auto; height: 34.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Windows Phone' },
+    { iconImg: 'images/platforms/mobile-phone.svg', iconSize: 33.5, imgStyle: 'width: auto; height: 33.5px; filter: brightness(0) saturate(100%) invert(100%);', name: 'Mobile Phones' },
+    { iconImg: 'images/platforms/blu-ray.png', iconSize: 47, imgStyle: 'width: auto; height: 47px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'UltraHD Blu-ray', prefix: 'U' },
+    { iconImg: 'images/platforms/blu-ray.png', iconSize: 47, imgStyle: 'width: auto; height: 47px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Blu-ray' },
+    { icon: 'bi bi-cast', name: 'Digital Streaming' },
+    { text: 'DVD', fontSize: '21.5px', name: 'DVD' },
+    { text: 'LD', fontSize: '21.5px', name: 'Laserdisk' },
+    { text: 'CD', fontSize: '21.5px', name: 'Compact Disc' },
+    { text: 'VHS', fontSize: '21.5px', name: 'VHS Tapes' },
+    { icon: 'bi bi-book', name: 'Book' },
+    { icon: 'bi bi-youtube', name: 'Youtube' },
+    { iconImg: 'images/platforms/fan-translation.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan Translation' },
+    { iconImg: 'images/platforms/fan-movie.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan game movie video' },
+    { iconImg: 'images/platforms/fan-audiobook.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan Audiobook' },
+    { iconImg: 'images/platforms/fan-recap.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan story recap video' },
+    { iconImg: 'images/platforms/fan-playthrough.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan playthrough video' },
+  ];
+  plKey(pl) {
+    const base = pl.iconImg ? pl.iconImg.replace(/^images\/platforms\//, '').replace(/_/g, '-')
+      : (pl.icon || (pl.text ? 'text:' + pl.text : (pl.name || '')));
+    return (base + '|' + (pl.suffix || '')).toLowerCase();
+  }
+  // Sorts a single platform list into legend order. Items with no legend match keep
+  // their original slot, so lists are never reordered across releases or sections.
+  sortPls(list) {
+    if (!list || list.length < 2) return list;
+    const ranks = this._plRanks || (this._plRanks = new Map(this.platformLegend.map((p, i) => [this.plKey(p), i])));
+    const slots = [], items = [];
+    list.forEach((pl, i) => {
+      const r = ranks.get(this.plKey(pl));
+      if (r === undefined) return;
+      slots.push(i);
+      items.push([r, i, pl]);
+    });
+    items.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const out = list.slice();
+    slots.forEach((pos, n) => { out[pos] = items[n][2]; });
+    return out;
+  }
+  toggleAlt(key) {
+    this.setState(s => ({ expandedAlts: { ...s.expandedAlts, [key]: !s.expandedAlts[key] } }));
+  }
+  toggleMainExtra(key) {
+    this.setState(s => ({ expandedMainExtras: { ...s.expandedMainExtras, [key]: !s.expandedMainExtras[key] } }));
+  }
+  buildPilcrow(anchorId, hasSubtitle) {
+    return {
+      anchorId,
+      anchorHref: '#' + anchorId,
+      pilcrowAfterTitle: !hasSubtitle,
+      pilcrowAfterSubtitle: !!hasSubtitle,
+      pilcrowOpacity: this.state.hoverAnchor === anchorId ? 1 : 0,
+      onAnchorHoverEnter: () => this.setState({ hoverAnchor: anchorId }),
+      onAnchorHoverLeave: () => this.setState(s => s.hoverAnchor === anchorId ? { hoverAnchor: null } : null),
+      onAnchorClick: e => { e.preventDefault(); history.pushState(null, '', '#' + anchorId); this.handleHashNav(anchorId); },
+    };
+  }
+  scrollToId(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 70;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+  handleHashNav(hash) {
+    hash = (hash || location.hash || '').replace('#', '');
+    if (!hash) return;
+    if (this.anchorAliases && this.anchorAliases[hash]) hash = this.anchorAliases[hash];
+    const reg = this.anchorRegistry && this.anchorRegistry[hash];
+    const doScroll = () => requestAnimationFrame(() => requestAnimationFrame(() => this.scrollToId(hash)));
+    if (reg) {
+      this.setState(s => ({ [reg.expandStateKey]: { ...s[reg.expandStateKey], [reg.parentKey]: true } }));
+      doScroll();
+    } else {
+      doScroll();
+    }
+  }
+  setPathMode(mode) {
+    const keepKey = this.findTopVisibleEntryKey();
+    this.setState({ pathMode: mode });
+    localStorage.setItem(STORAGE_PREFIX + 'Path', mode);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!keepKey) return;
+      const el = document.querySelector('[data-entry-key="' + keepKey + '"]');
+      if (el) window.scrollTo(0, window.scrollY + el.getBoundingClientRect().top - 60);
+    }));
+  }
+  findTopVisibleEntryKey() {
+    let bestKey = null, bestTop = -Infinity;
+    document.querySelectorAll('[data-entry-key]').forEach(el => {
+      const top = el.getBoundingClientRect().top;
+      if (top <= 60 && top > bestTop) { bestTop = top; bestKey = el.getAttribute('data-entry-key'); }
+    });
+    return bestKey;
+  }
+  toggleChecked(key) {
+    const willUncheck = !!this.state.checked[key];
+    if (willUncheck && !window.confirm('Mark this as not completed?')) return;
+    this.setState(s => {
+      const newVal = !s.checked[key];
+      const group = (this.dupGroups && this.dupGroups[key]) || [key];
+      const checked = { ...s.checked };
+      group.forEach(k => { checked[k] = newVal; });
+      localStorage.setItem(STORAGE_PREFIX + 'Checked', JSON.stringify(checked));
+      return { checked };
+    });
+  }
+  renderVals() {
+    const effectiveTheme = this.state.theme || (this.state.systemLight ? 'light' : 'dark');
+    const themeIcon = effectiveTheme === 'light' ? 'bi bi-sun' : 'bi bi-moon-stars';
+    const toggleTheme = () => this.toggleTheme();
+    const navWidth = this.state.navWidth;
+    const NAV_CONTENT_WIDTH = 760;
+    const NAV_STICKOUT = 96;
+    const navStuckOut = navWidth > (NAV_CONTENT_WIDTH + NAV_STICKOUT * 2);
+    const navTitleMarginLeft = navStuckOut ? (-NAV_STICKOUT + 'px') : '0px';
+    const navToggleMarginRight = navStuckOut ? (-NAV_STICKOUT + 'px') : '0px';
+    const navShowLanguages = navWidth >= 820;
+    const navShowTheme = navWidth >= 720;
+    const navShowDisplay = navWidth >= 690;
+    const navShowTitle = navWidth >= 610;
+    const navShowCheckList = navWidth >= 440;
+    const navShowOrder = navWidth >= 360;
+    const navShowJump = navWidth >= 280;
+    const navAnyHidden = !(navShowTitle && navShowOrder && navShowJump && navShowLanguages && navShowDisplay && navShowCheckList && navShowTheme);
+    const navReservedRightPx = navAnyHidden ? '44px' : '0px';
+    const navFloatingWidgetMarginRight = navAnyHidden ? '0px' : '-109.4px';
+    const ROW_STACK_BREAKPOINT = NAV_CONTENT_WIDTH + 16 + 8 + 22; // content col + media-type strip + gap + side padding
+    const stacked = navWidth < ROW_STACK_BREAKPOINT;
+    const sideBySide = !stacked;
+    const navHamburgerTopPx = this.state.scrolled ? '4px' : 'var(--space-3)';
+    const hideTitleInMenu = !navShowTitle;
+    const hideOrderInMenu = !navShowOrder;
+    const hideJumpInMenu = !navShowJump;
+    const hideLanguagesInMenu = !navShowLanguages;
+    const hideDisplayInMenu = !navShowDisplay;
+    const hideCheckListInMenu = !navShowCheckList;
+    const hideThemeInMenu = !navShowTheme;
+    const hamburgerOpen = !!this.state.hamburgerOpen;
+    const toggleHamburgerMenu = () => this.toggleHamburgerMenu();
+    const closeHamburgerMenu = () => this.closeHamburgerMenu();
+    const themeMarginLeft = navShowCheckList ? '0px' : 'auto';
+    const lastUpdatedShort = lastUpdatedShortText();
+    const mode = this.state.pathMode || 'A';
+    const pathOptions = [
+      { key: 'A', label: 'Narrative order', shortLabel: 'Narrative order' },
+      { key: 'B', label: 'Chronological order', shortLabel: 'Chronological' },
+      { key: 'C', label: 'Release order', shortLabel: 'Release order' },
+      { key: 'D', label: 'Overall release order', shortLabel: 'Overall release order' },
+    ].map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
+    const onOrderChange = e => this.setPathMode(e.target.value);
+    const onJumpChange = e => { if (e.target.value) location.hash = e.target.value; };
+    const notScrolled = !this.state.scrolled;
+    const jumpRef = el => { this._jumpEl = el; };
+    // Game length from HowLongToBeat, only for entries mapping 1:1 to a single HLTB page representing the row's headline version (skip omnibus releases like X/X-2, and skip if the row's headline differs from the only HLTB data available, e.g. a remaster-only page for a row headlined by the original). lengthParts: array of { value, tip, sep } rendered as tooltipped abbreviations joined by ' / ' — sep:true on all but the last. Default categories: Main Story, Main + Extra, Completionist. Differently-categorized games (e.g. MMOs) use their own tips, e.g. Solo, Co-op, Vs.
+    const chronoSeriesOverrides = { AN: 1515 };
+    const selectedLanguages = this.state.selectedLanguages;
+    const isLangSelected = v => selectedLanguages === null ? (v === 'EN' || v.startsWith('EN-')) : selectedLanguages.includes(v);
+    const langSet = new Map();
+    const langGroupKey = lg => (lg.value === 'EN' || (lg.value || '').startsWith('EN-')) ? 'EN' : lg.value;
+    const langRank = (lg, order) => {
+      if (lg.value === '…?') return 99;
+      order = order || this.langOrderDefault;
+      const idx = order.indexOf(langGroupKey(lg));
+      return idx !== -1 ? idx : order.length + 1;
+    };
+    const langBase = v => (v || '').split('-')[0];
+    const computeOtherLangs = (mainRaw, extrasArr) => {
+      if (!extrasArr || !extrasArr.length) return null;
+      const mainBases = new Set((mainRaw || []).map(l => langBase(l.value)));
+      const seen = new Set();
+      const out = [];
+      extrasArr.forEach(ex => (ex.languages || []).forEach(lg => {
+        if (lg.value === '…?') return;
+        const base = langBase(lg.value);
+        if (mainBases.has(base) || seen.has(lg.value)) return;
+        seen.add(lg.value);
+        out.push(lg);
+      }));
+      return out.length ? out : null;
+    };
+    const mapLangs = (langs, order) => langs && langs.slice().sort((a, b) => {
+      const va = a.voice ? 0 : 1, vb = b.voice ? 0 : 1;
+      if (va !== vb) return va - vb;
+      const ra = langRank(a, order), rb = langRank(b, order);
+      if (ra !== rb) return ra - rb;
+      return (a.value || '').localeCompare(b.value || '');
+    }).map((lg, i, arr) => {
+      if (!langSet.has(lg.value)) {
+        const override = { 'ZH-CN': 'Chinese (Simplified)', 'ZH-TW': 'Chinese (Traditional)' };
+        langSet.set(lg.value, override[lg.value] || (lg.value.includes('-') ? (lg.tip || lg.value).replace(/\s*[—-]\s*(full audio|text only|subtitles).*$/i, '') : (lg.tip || lg.value).replace(/\s*[—-].*$/, '').replace(/\s*\(.*$/, '')));
+      }
+      const active = isLangSelected(lg.value);
+      const voiceSep = i > 0 && !!arr[i - 1].voice && !lg.voice;
+      return { ...lg, voiceSep, active, style: 'font-size: 10.8px; letter-spacing: 0.03em; text-transform: uppercase; cursor: default; text-decoration: none; ' + (active ? 'font-weight: 700; color: var(--color-text);' : 'color: var(--color-neutral-300);') };
+    });
+    const raw = this.state.rawSeries || [];
+    const numWord = n => ({1:'one',2:'two',3:'three',4:'four',5:'five',6:'six',7:'seven',8:'eight'})[n] || String(n);
+    const mapParts = (parts, forceStrike) => parts.map(p => ({
+      ...p,
+      smallStyle: ((/Pixel Remaster/.test(p.label) || p.small) ? 'font-size:12px;color:var(--color-neutral-400);' : '') + ((p.strike || forceStrike) ? 'text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: var(--color-neutral-500);' : '') + (p.italic ? 'font-style: italic;' : ''),
+    }));
+    const mediaLabels = { Game: ['game', 'games'], Expansion: ['expansion & DLC', 'expansions & DLC'], Book: ['book', 'books'], Comic: ['comic', 'comics'], Movie: ['movie & video', 'movies & videos'], Audio: ['audio drama', 'audio dramas'] };
+    const buildSummary = (games, seriesNum, checkedFn) => {
+      const isChecked = checkedFn || ((g, i) => this.state.checked[seriesNum + '-' + i]);
+      const counts = {};
+      const checkedCounts = {};
+      games.forEach((g, i) => {
+        if (!g.mediaType) return;
+        let key = g.mediaType;
+        if (key === 'Game' && ((g.tags || []).includes('Expansion') || (g.tags || []).includes('DLC'))) key = 'Expansion';
+        if (key === 'TV' || key === 'Video') key = 'Movie';
+        counts[key] = (counts[key] || 0) + 1;
+        if (isChecked(g, i)) checkedCounts[key] = (checkedCounts[key] || 0) + 1;
+      });
+      const order = ['Game', 'Expansion', 'Movie', 'Book', 'Comic', 'Audio'];
+      const parts = order.filter(k => counts[k]).map(k => {
+        const n = counts[k];
+        const checkedN = checkedCounts[k] || 0;
+        const [singular, plural] = mediaLabels[k] || [k.toLowerCase(), k.toLowerCase() + 's'];
+        const label = n === 1 ? singular : plural;
+        return checkedN > 0 ? `${checkedN}/${n} ${label}` : `${numWord(n)} ${label}`;
+      });
+      if (!parts.length) return null;
+      const joined = parts.length > 1 ? `${parts.slice(0, -1).join(', ')}, and ${parts[parts.length - 1]}` : parts[0];
+      const sentence = joined + '.';
+      return sentence.charAt(0).toUpperCase() + sentence.slice(1);
+    };
+    this.anchorRegistry = {};
+    this.anchorAliases = {};
+    this.dupGroups = {};
+    {
+      const byKey = new Map();
+      raw.forEach(s => (s.games || []).forEach((g, i) => {
+        const subtitleKey = g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : (g.tags && g.tags.length ? g.tags.join(' · ') : '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const entryKey = s.num + '-' + i;
+        if (!byKey.has(dedupeKey)) byKey.set(dedupeKey, []);
+        byKey.get(dedupeKey).push(entryKey);
+      }));
+      byKey.forEach(keys => { if (keys.length > 1) keys.forEach(k => { this.dupGroups[k] = keys; }); });
+    }
+    const series = raw.map(s => {
+      const summary = buildSummary(s.games, s.num);
+      const note = summary ? (s.note ? `${s.note}\n\n${summary}` : summary) : s.note;
+      return {
+      ...s,
+      note,
+      id: 'series-' + s.num,
+      anchor: '#series-' + s.num,
+      sectionRef: el => { if (el) this.seriesEls[s.num] = el; else delete this.seriesEls[s.num]; },
+      noUrl: !s.url,
+      noteLines: note ? note.split('\n\n').map(t => s.notePartsMap && s.notePartsMap[t] ? { parts: s.notePartsMap[t] } : { plain: t }) : null,
+      games: s.games.map((g, i) => ({
+        ...g,
+        languages: mapLangs(g.languages, g.langOrder),
+        otherLanguages: mapLangs(computeOtherLangs(g.languages, g.extras || (g.alt && g.alt.extras)), g.langOrder),
+        byline: g.bylineParts ? undefined : (g.tags && g.tags.length ? g.tags.join(' · ') : undefined),
+        typeColor: g.mediaType ? this.typeColors[g.mediaType].fg : null,
+        typeBg: g.mediaType ? this.typeColors[g.mediaType].bg : null,
+        origIndex: i,
+        entryKey: s.num + '-' + i,
+        emTermFirst: g.emTerm && !g.emTermNotFirst,
+        ...this.buildPilcrow('entry-' + s.num + '-' + i, false),
+        checked: !!this.state.checked[s.num + '-' + i],
+        rowCompletedStyle: this.state.checked[s.num + '-' + i] ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);' : '',
+        wrapCompletedStyle: this.state.checked[s.num + '-' + i] ? 'opacity: 0.5;' : '',
+        showCheckbox: !g.noCheckbox,
+        toggleChecked: () => this.toggleChecked(s.num + '-' + i),
+        parts: mapParts(g.parts || [{ label: g.title, url: null }], !!this.state.checked[s.num + '-' + i]),
+        platformGroups: (g.platformGroups || g.platforms)
+          && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => ({ ...pl, href: pl.url || g.platformsUrl }))),
+        langsTopStyle: (g.extras || (g.alt && g.alt.extras)) ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
+        extraPlatforms: (g.extras || (g.alt && g.alt.extras))
+          ? (() => {
+              const out = [];
+              const seen = new Set();
+              (g.extras || g.alt.extras).forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
+                if (/icon-(movie|recap|play)-allcaps/.test(pl.iconImg || '')) return;
+                const k = pl.name || pl.text || pl.iconImg;
+                if (seen.has(k)) return;
+                seen.add(k);
+                out.push(pl);
+              }));
+              return out.length ? this.sortPls(out) : null;
+            })()
+          : null,
+        descLines: (g.description || '').split('\n\n').map((text, i) => ({ text, mt: i === 0 ? '0' : '8px', mt2: (i === 0 && (g.emTerm || g.desc2First)) ? '8px' : (i === 0 ? '0' : '8px') })),
+        extraExpanded: !!this.state.expandedMainExtras[s.num + '-' + i],
+        extraChevron: this.state.expandedMainExtras[s.num + '-' + i] ? 'rotate(180deg)' : 'rotate(0deg)',
+        toggleExtra: () => this.toggleMainExtra(s.num + '-' + i),
+        extras: g.extras && g.extras.map((ex, j) => {
+          const exAnchor = 'entry-' + s.num + '-' + i + '-x' + j;
+          this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedMainExtras', parentKey: s.num + '-' + i };
+          return {
+          ...ex,
+          parts: ex.parts && mapParts(ex.parts),
+          languages: mapLangs(ex.languages, ex.langOrder),
+          byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
+          platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...pl, noPlUrl: !pl.url }))),
+          ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
+        };}),
+        alts: g.alts && g.alts.map(alt => ({
+          ...alt,
+          parts: alt.parts && mapParts(alt.parts),
+          languages: mapLangs(alt.languages, alt.langOrder),
+          byline: alt.tags && alt.tags.length ? alt.tags.join(' · ') : undefined,
+          platformGroups: alt.platformGroups && this.sortPls(alt.platformGroups.flat()),
+        })),
+        alt: g.alt && g.alt.extras ? {
+          ...g.alt,
+          parts: g.alt.parts && mapParts(g.alt.parts),
+          languages: mapLangs(g.alt.languages, g.alt.langOrder),
+          otherLanguages: mapLangs(computeOtherLangs(g.alt.languages, g.alt.extras), g.alt.langOrder),
+          byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined,
+          platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat()),
+          ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)),
+          langsTopStyle: g.alt.extras.length ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
+          extraPlatforms: (() => {
+            const out = [];
+            const seen = new Set();
+            g.alt.extras.forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
+              if (/icon-(movie|recap|play)-allcaps/.test(pl.iconImg || '')) return;
+              const k = pl.name || pl.text || pl.iconImg;
+              if (seen.has(k)) return;
+              seen.add(k);
+              out.push(pl);
+            }));
+            return out.length ? this.sortPls(out) : null;
+          })(),
+          extraExpanded: !!this.state.expandedAlts[s.num + '-' + i],
+          extraChevron: this.state.expandedAlts[s.num + '-' + i] ? 'rotate(180deg)' : 'rotate(0deg)',
+          toggleExtra: () => this.toggleAlt(s.num + '-' + i),
+          extras: g.alt.extras.map((ex, j) => {
+            const exAnchor = 'entry-' + s.num + '-' + i + '-alt-x' + j;
+            this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedAlts', parentKey: s.num + '-' + i };
+            return {
+            ...ex,
+            parts: ex.parts && mapParts(ex.parts),
+            languages: mapLangs(ex.languages, ex.langOrder),
+            byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
+            platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...pl, noPlUrl: !pl.url }))),
+            ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
+          };}),
+        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat()), ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
+      })),
+    };});
+    const kindOf = g => {
+      if (g.mediaType !== 'Game') return g.mediaType;
+      if ((g.tags || []).includes('Expansion') || (g.tags || []).includes('DLC')) return 'Expansion';
+      return 'Game';
+    };
+    const gameSortKey = g => {
+      if (mode === 'B') return g.chronoOrder ?? 0;
+      if (mode === 'C') return g.releaseDate || '9999';
+      return g.recommendedOrder ?? 0;
+    };
+    const seriesSortKey = s => {
+      if (mode === 'B') return chronoSeriesOverrides[s.num] ?? s.chronoOrder ?? 0;
+      if (mode === 'C') {
+        if (s.num === 'Other' || s.num === 'PB') return '9999';
+        const core = s.games.filter(g => !(g.tags || []).includes('Optional'));
+        const pool = core.length ? core : s.games;
+        const dates = pool.map(g => g.releaseDate).filter(Boolean);
+        return dates.length ? dates.reduce((m, d) => (d < m ? d : m)) : '9999';
+      }
+      return s.recommendedOrder ?? 0;
+    };
+    const orderedSeries = series
+      .map(s => {
+        const games = s.games.slice().sort((a, b) => {
+          const ka = gameSortKey(a), kb = gameSortKey(b);
+          return ka < kb ? -1 : ka > kb ? 1 : 0;
+        }).map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
+        return { ...s, games };
+      })
+      .sort((a, b) => {
+        const ka = seriesSortKey(a), kb = seriesSortKey(b);
+        return ka < kb ? -1 : ka > kb ? 1 : 0;
+      });
+    let displaySeries = orderedSeries;
+    if (mode === 'D') {
+      const keptAnchorByKey = new Map();
+      const flat = [];
+      orderedSeries.forEach(s => s.games.forEach(g => {
+        const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        if (keptAnchorByKey.has(dedupeKey)) {
+          this.anchorAliases[g.anchorId] = keptAnchorByKey.get(dedupeKey);
+          return;
+        }
+        keptAnchorByKey.set(dedupeKey, g.anchorId);
+        flat.push(g);
+      }));
+      flat.sort((a, b) => {
+        const ka = a.releaseDate || '9999', kb = b.releaseDate || '9999';
+        return ka < kb ? -1 : ka > kb ? 1 : 0;
+      });
+      const games = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
+      const allSummary = buildSummary(games, null, g => g.checked);
+      displaySeries = [{
+        num: 'ALL', title: SITE.name, id: 'series-ALL', anchor: '#series-ALL', noUrl: true, url: null,
+        note: allSummary, noteLines: allSummary ? [{ plain: allSummary }] : null, games,
+        sectionRef: el => { if (el) this.seriesEls['ALL'] = el; else delete this.seriesEls['ALL']; },
+      }];
+    }
+    const languageOptions = Array.from(langSet.entries()).map(([value, tip]) => ({
+      value, tip, checked: isLangSelected(value), toggle: () => this.toggleLanguage(value, Array.from(langSet.keys())),
+    })).sort((a, b) => {
+      const rank = v => v === 'EN' ? 0 : v.startsWith('EN-') ? 0.5 : v === 'JA' ? 1 : v === '…?' ? 3 : 2;
+      const ra = rank(a.value), rb = rank(b.value);
+      if (ra !== rb) return ra - rb;
+      if (a.tip.startsWith('Chinese') && b.tip.startsWith('Chinese')) return a.tip.includes('Traditional') ? -1 : b.tip.includes('Traditional') ? 1 : 0;
+      return a.value.localeCompare(b.value);
+    });
+    const langMenuOpen = !!this.state.langMenuOpen;
+    const toggleLangMenu = () => this.toggleLangMenu();
+    const closeLangMenu = () => this.closeLangMenu();
+    const displayMenuOpen = !!this.state.displayMenuOpen;
+    const toggleDisplayMenu = () => this.toggleDisplayMenu();
+    const closeDisplayMenu = () => this.closeDisplayMenu();
+    const showRating = this.state.showRating !== null && this.state.showRating !== undefined ? this.state.showRating : !stacked;
+    const showLength = this.state.showLength !== null && this.state.showLength !== undefined ? this.state.showLength : !stacked;
+    const showPlatforms = this.state.showPlatforms !== false;
+    const showLanguages = this.state.showLanguages !== false;
+    const showRatingOrLength = showRating || showLength;
+    const showCol2 = sideBySide && showRatingOrLength;
+    const showStackedRL = stacked && showRatingOrLength;
+    const displayToggles = [
+      { key: 'showRating', label: 'Rating', checked: showRating },
+      { key: 'showLength', label: 'Length', checked: showLength },
+      { key: 'showPlatforms', label: 'Platforms', checked: showPlatforms },
+      { key: 'showLanguages', label: 'Languages', checked: showLanguages },
+    ].map(o => ({ ...o, toggle: () => this.toggleColumn(o.key) }));
+    const mainlineCount = raw.filter(s => (s.games || []).some(g => g.mainline)).length;
+    const mediaCounts = {};
+    const mediaChecked = {};
+    raw.forEach(s => (s.games || []).forEach((g, i) => {
+      if (!g.mediaType) return;
+      const k = kindOf(g);
+      mediaCounts[k] = (mediaCounts[k] || 0) + 1;
+      if (this.state.checked[s.num + '-' + i]) mediaChecked[k] = (mediaChecked[k] || 0) + 1;
+    }));
+    const statVal = (...keys) => {
+      const total = keys.reduce((sum, k) => sum + (mediaCounts[k] || 0), 0);
+      const checkedN = keys.reduce((sum, k) => sum + (mediaChecked[k] || 0), 0);
+      return checkedN > 0 ? `${checkedN}/${total}` : String(total);
+    };
+    const activeNum = (this.state.activeAnchor || '').startsWith('#series-') ? this.state.activeAnchor.slice(8) : null;
+    const activeSeries = activeNum ? displaySeries.find(s => s.num === activeNum) : null;
+    let navProgress = null;
+    if (activeSeries) {
+      let total = 0, checkedN = 0;
+      (activeSeries.games || []).forEach(g => {
+        if (!g.showCheckbox) return;
+        total++;
+        if (g.checked) checkedN++;
+      });
+      if (total && checkedN) navProgress = `${checkedN}/${total} checked, ${Math.round(checkedN / total * 100)}%`;
+    }
+    const ourOrderAnchor = this.buildPilcrow('our-order', false);
+    const introStatsText = `${mainlineCount} mainline entries; ${raw.length} series, ${statVal('Game')} games, ${statVal('Expansion')} expansions & DLC, ${statVal('Movie', 'TV', 'Video')} movies & videos, ${statVal('Book')} books, ${statVal('Comic')} comics, and ${statVal('Audio')} radio dramas. Oh my! Where to start?`;
+    const introTitle = (SITE.name || '') + ' Vertex Order';
+    const introTagline = SITE.tagline || [];
+    const introSections = window.INTRO_SECTIONS || [];
+    const footerCredits = window.CREDITS || [];
+    const footerFoundingYear = SITE.foundingYear || 2026;
+    const footerLicense = SITE.license || [{ text: 'Content licensed ' }, { text: 'CC BY-NC-SA 4.0', url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/' }, { text: '.' }];
+    const footerEntities = SITE.entities || [];
+    const footerDisclosures = SITE.disclosures || [];
+    return { lastUpdatedShort, series: displaySeries, platformLegend: this.platformLegend, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, introSections, footerCredits, footerFoundingYear, footerLicense, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
+  }
+}
+</script>
+</body>
+</html>
