@@ -55,6 +55,7 @@ paths = [
   "justfile",
   ".editorconfig",
   ".gitattributes",
+  ".vscode/extensions.json",
   ".claude/settings.json",
   "CODE_OF_CONDUCT.md",
   ".githooks/pre-commit",
