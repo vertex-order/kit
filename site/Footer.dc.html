@@ -61,14 +61,19 @@
   </p>
 </sc-for>
 
-<!-- Fixed, not data-driven: every Vertex Order page that can show a PlatformIcon
-     (i.e. all of them, via kit) carries the same fair-use basis for doing so. -->
-<p style="color: var(--color-neutral-600); font-size: 11px; margin: var(--space-2) 0 0;">Icons considered fair use and only used for communicating historical platform availability at a glance.</p>
+<!-- Fixed text, not data-driven -- but gated by showFairUse (default true): a page
+     that actually renders PlatformIcon needs this unconditionally, not as an
+     opt-in a repo could forget to ask for. A page with no platform icons at all
+     (org) sets showFairUse=false rather than stretching this platform-specific
+     wording to cover unrelated content -- that gets its own line in `disclosures`. -->
+<sc-if value="{{ showFairUse }}" hint-placeholder-val="{{ true }}">
+  <p style="color: var(--color-neutral-600); font-size: 11px; margin: var(--space-2) 0 0;">Icons considered fair use and only used for communicating historical platform availability at a glance.</p>
+</sc-if>
 
 <p style="color: var(--color-neutral-600); font-size: 11px; margin: var(--space-2) 0 0;">Not affiliated with {{ disclaimedJoined }}.</p>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 620, &quot;height&quot;: 360}, &quot;credits&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;lastUpdated&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;foundingYear&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 2026, &quot;tsType&quot;: &quot;number&quot;}, &quot;license&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;entities&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;disclosures&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 620, &quot;height&quot;: 360}, &quot;credits&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;lastUpdated&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;foundingYear&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 2026, &quot;tsType&quot;: &quot;number&quot;}, &quot;license&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;entities&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;disclosures&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;showFairUse&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}}">
 const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 function mapParts(parts) {
   return (parts || []).map(p => ({
@@ -111,6 +116,7 @@ class Component extends DCLogic {
       license: mapParts(this.props.license),
       disclosures: mapParagraphs(this.props.disclosures),
       disclaimedJoined,
+      showFairUse: this.props.showFairUse !== false,
     };
   }
 }
