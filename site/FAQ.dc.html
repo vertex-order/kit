@@ -14,11 +14,17 @@
 <script src="_ds/nocturne-dd511f00-0314-498c-83ef-49f001a371b0/_ds_bundle.js"></script>
 </helmet>
 
-<h3 id="faq" style="font-family: var(--font-heading); font-weight: 500; font-size: 14px; letter-spacing: 0.06em; color: var(--color-neutral-400); margin: 0 0 var(--space-2); scroll-margin-top: 60px;">FAQ</h3>
+<span style="display: flex; align-items: baseline; gap: 6px; margin: 0 0 var(--space-2);" onMouseEnter="{{ faqPilcrow.onAnchorHoverEnter }}" onMouseLeave="{{ faqPilcrow.onAnchorHoverLeave }}">
+  <h3 id="faq" style="font-family: var(--font-heading); font-weight: 500; font-size: 14px; letter-spacing: 0.06em; color: var(--color-neutral-400); margin: 0; scroll-margin-top: 60px;">FAQ</h3>
+  <a href="{{ faqPilcrow.anchorHref }}" onClick="{{ faqPilcrow.onAnchorClick }}" title="Link to this section" style="color: var(--color-neutral-500); text-decoration: none; font-size: 14px; opacity: {{ faqPilcrow.pilcrowOpacity }}; transition: opacity .15s;">&para;</a>
+</span>
 <div style="margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
   <sc-for list="{{ items }}" as="item" hint-placeholder-count="9">
     <div>
-      <p style="color: var(--color-text); font-size: 13px; font-weight: 500; margin: 0 0 4px;">{{ item.q }}</p>
+      <span style="display: flex; align-items: baseline; gap: 6px; margin: 0 0 4px;" onMouseEnter="{{ item.pilcrow.onAnchorHoverEnter }}" onMouseLeave="{{ item.pilcrow.onAnchorHoverLeave }}">
+        <p id="{{ item.anchorId }}" style="color: var(--color-text); font-size: 13px; font-weight: 500; margin: 0; scroll-margin-top: 60px;">{{ item.q }}</p>
+        <a href="{{ item.pilcrow.anchorHref }}" onClick="{{ item.pilcrow.onAnchorClick }}" title="Link to this question" style="color: var(--color-neutral-500); text-decoration: none; font-size: 12px; opacity: {{ item.pilcrow.pilcrowOpacity }}; transition: opacity .15s; flex-shrink: 0;">&para;</a>
+      </span>
       <sc-for list="{{ item.paragraphs }}" as="para" hint-placeholder-count="1">
         <p style="color: var(--color-neutral-500); font-size: 12px; line-height: 1.7; margin: 0 0 {{ para.mb }};">
           <sc-if value="{{ para.plain }}" hint-placeholder-val="{{ false }}">{{ para.plain }}</sc-if>
@@ -34,18 +40,37 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 620, &quot;height&quot;: 400}, &quot;items&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}}">
 class Component extends DCLogic {
+  state = { hoverAnchor: null };
+  buildPilcrow(anchorId) {
+    return {
+      anchorHref: '#' + anchorId,
+      pilcrowOpacity: this.state.hoverAnchor === anchorId ? 1 : 0,
+      onAnchorHoverEnter: () => this.setState({ hoverAnchor: anchorId }),
+      onAnchorHoverLeave: () => this.setState(s => s.hoverAnchor === anchorId ? { hoverAnchor: null } : null),
+      onAnchorClick: e => {
+        e.preventDefault();
+        history.pushState(null, '', '#' + anchorId);
+        document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      },
+    };
+  }
   renderVals() {
-    const items = (this.props.items || []).map(item => ({
-      q: item.q,
-      paragraphs: item.a.map((para, i, arr) => {
-        const mb = i === arr.length - 1 ? '0' : '8px';
-        return typeof para === 'string' ? { plain: para, mb } : {
-          parts: para.parts.map(p => ({ em: p.em, url: p.url, text: p.url ? p.text : undefined, plainText: (!p.em && !p.url) ? p.text : undefined })),
-          mb,
-        };
-      }),
-    }));
-    return { items };
+    const items = (this.props.items || []).map(item => {
+      const anchorId = 'faq-' + item.id;
+      return {
+        anchorId,
+        q: item.q,
+        pilcrow: this.buildPilcrow(anchorId),
+        paragraphs: item.a.map((para, i, arr) => {
+          const mb = i === arr.length - 1 ? '0' : '8px';
+          return typeof para === 'string' ? { plain: para, mb } : {
+            parts: para.parts.map(p => ({ em: p.em, url: p.url, text: p.url ? p.text : undefined, plainText: (!p.em && !p.url) ? p.text : undefined })),
+            mb,
+          };
+        }),
+      };
+    });
+    return { items, faqPilcrow: this.buildPilcrow('faq') };
   }
 }
 </script>
