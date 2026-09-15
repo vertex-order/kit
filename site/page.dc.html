@@ -7,6 +7,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Static fallback for non-JS agents; Metadata.dc.html overwrites both from
+     SITE_CONFIG once the page mounts, since this <head> isn't templated. -->
+<title>Vertex Order</title>
+<meta name="description" content="A recommended order for experiencing a game franchise, from Vertex Order.">
 <script src="./support.js"></script>
 <script src="./data/index.js"></script>
 <script src="./data/site.js"></script>
@@ -172,6 +176,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
   </div>
   </sc-if>
 
+  <dc-import name="Metadata" title="{{ metaTitle }}" description="{{ metaDescription }}" hint-size="0,0"></dc-import>
   <dc-import name="BackToTop" hint-size="0,0"></dc-import>
 
   <sc-if value="{{ navAnyHidden }}" hint-placeholder-val="{{ false }}">
@@ -347,6 +352,12 @@ function slugifyName(name) {
     .join('');
 }
 const STORAGE_PREFIX = SITE.storagePrefix || (slugifyName(SITE.name) + 'PlayOrder');
+// Flattens a tagline/parts array (site.js schema: { text } / { strong } / { em } /
+// { text, url } / { em, url }) to plain text, for SITE_CONFIG.description's
+// fallback -- <meta name="description"> needs a plain string, not markup parts.
+function taglinePlainText(parts) {
+  return (parts || []).map(p => (p.text || p.strong || p.em || '')).join('').trim();
+}
 class Component extends DCLogic {
   state = { expandedAlts: {}, expandedMainExtras: {}, checked: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
   seriesEls = {};
@@ -961,7 +972,8 @@ class Component extends DCLogic {
     const footerNoticeUrl = SITE.noticeUrl || '';
     const footerEntities = SITE.entities || [];
     const footerDisclosures = SITE.disclosures || [];
-    return { lastUpdatedShort, series: displaySeries, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, introSections, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
+    const metaDescription = SITE.description || taglinePlainText(SITE.tagline);
+    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, series: displaySeries, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, introSections, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
   }
 }
 </script>
