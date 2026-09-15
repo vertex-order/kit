@@ -17,8 +17,17 @@ published path.
 Usage:
   python3 scripts/sync.py               # pull every subscription into the tree
   python3 scripts/sync.py --check       # CI: exit 1 if anything drifted, no writes
-  python3 scripts/sync.py --update NAME  # repin [subscribe.NAME].ref to that
-                                         # ref's current HEAD sha, then pull NAME
+  python3 scripts/sync.py --update NAME  # resolve [subscribe.NAME].ref (as it
+                                         # is right now) to its current HEAD
+                                         # sha, repin to that sha, then pull NAME
+
+--update resolves whatever `ref` already says, it does not know about
+branches you aren't pinned to. Once `ref` holds a commit SHA (which is what
+every --update leaves behind, and it drops any trailing comment on that line
+too), that SHA already *is* its own HEAD, so a later --update is a no-op —
+"nothing to update" even though the source repo has new commits. To pull
+past that point, first put `ref` back to a branch/tag name (e.g. "main"),
+then run --update again.
 
 Source resolution per subscription, in order:
   1. sibling checkout ../<repo-with-slash-as-dash> if it is a git repo  (git archive)
