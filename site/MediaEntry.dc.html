@@ -237,13 +237,11 @@
   <sc-if value="{{ g.alt.parts }}" hint-placeholder-val="{{ false }}">
     <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) calc(20px + var(--space-3) * 2); margin-top: var(--space-2); border-radius: 0 var(--radius-md) var(--radius-md) 0;" style-hover="background: var(--color-neutral-800);">
       <div style="flex: 1;" id="{{ g.alt.anchorId }}">
-        <div style="display: flex; align-items: center; gap: var(--space-2);">
-          <span style="display: inline-flex; align-items: center; align-self: center; flex: none; font-size: 12px; font-weight: 400; letter-spacing: 0.02em; color: var(--color-accent-300); opacity: 0.8; line-height: 1; position: relative; top: 1px;">or</span>
-          <sc-if value="{{ g.alt.url }}" hint-placeholder-val="{{ false }}">
-            <a href="{{ g.alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ g.alt.onAnchorHoverEnter }}" onMouseLeave="{{ g.alt.onAnchorHoverLeave }}">{{ g.alt.label }}</a>
-          </sc-if>
-          <dc-import name="EntryTitleLinks" parts="{{ g.alt.parts }}" on-mouse-enter="{{ g.alt.onAnchorHoverEnter }}" on-mouse-leave="{{ g.alt.onAnchorHoverLeave }}" pilcrow-href="{{ g.alt.anchorHref }}" on-pilcrow-click="{{ g.alt.onAnchorClick }}" pilcrow-opacity="{{ g.alt.pilcrowOpacity }}" show-pilcrow="{{ g.alt.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
-        </div>
+        <span style="font-size: 13px;">or </span>
+        <sc-if value="{{ g.alt.url }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ g.alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ g.alt.onAnchorHoverEnter }}" onMouseLeave="{{ g.alt.onAnchorHoverLeave }}">{{ g.alt.label }}</a>
+        </sc-if>
+        <dc-import name="EntryTitleLinks" parts="{{ g.alt.parts }}" on-mouse-enter="{{ g.alt.onAnchorHoverEnter }}" on-mouse-leave="{{ g.alt.onAnchorHoverLeave }}" pilcrow-href="{{ g.alt.anchorHref }}" on-pilcrow-click="{{ g.alt.onAnchorClick }}" pilcrow-opacity="{{ g.alt.pilcrowOpacity }}" show-pilcrow="{{ g.alt.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
         <sc-if value="{{ g.alt.byline }}" hint-placeholder-val="{{ false }}">
           <dc-import name="EntryByline" byline="{{ g.alt.byline }}" on-mouse-enter="{{ g.alt.onAnchorHoverEnter }}" on-mouse-leave="{{ g.alt.onAnchorHoverLeave }}" show-pilcrow="{{ true }}" pilcrow-href="{{ g.alt.anchorHref }}" on-pilcrow-click="{{ g.alt.onAnchorClick }}" pilcrow-opacity="{{ g.alt.pilcrowOpacity }}" hint-size="auto,16px" style="display: block;"></dc-import>
         </sc-if>
@@ -335,13 +333,11 @@
   <sc-for list="{{ g.alts }}" as="alt" hint-placeholder-count="0">
     <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) calc(20px + var(--space-3) * 2); margin-top: var(--space-2); border-radius: 0 var(--radius-md) var(--radius-md) 0;" style-hover="background: var(--color-neutral-800);">
       <div style="flex: 1;">
-        <div style="display: flex; align-items: center; gap: var(--space-2);">
-          <span style="display: inline-flex; align-items: center; align-self: center; flex: none; font-size: 12px; font-weight: 400; letter-spacing: 0.02em; color: var(--color-accent-300); opacity: 0.8; line-height: 1; position: relative; top: 1px;">or</span>
-          <sc-if value="{{ alt.url }}" hint-placeholder-val="{{ false }}">
-            <a href="{{ alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ alt.label }}</a>
-          </sc-if>
-          <dc-import name="EntryTitleLinks" parts="{{ alt.parts }}" show-pilcrow="{{ false }}" hint-size="auto,20px" style="display: contents;"></dc-import>
-        </div>
+        <span style="font-size: 13px;">or </span>
+        <sc-if value="{{ alt.url }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ alt.label }}</a>
+        </sc-if>
+        <dc-import name="EntryTitleLinks" parts="{{ alt.parts }}" show-pilcrow="{{ false }}" hint-size="auto,20px" style="display: contents;"></dc-import>
         <sc-if value="{{ alt.emTerm }}" hint-placeholder-val="{{ false }}">
           <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ alt.emPre }}<em>{{ alt.emTerm }}</em>{{ alt.emPost }}<sc-if value="{{ alt.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ alt.emTerm2 }}</em>{{ alt.emPost2 }}</sc-if><sc-if value="{{ alt.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ alt.emTerm3 }}</em>{{ alt.emPost3 }}</sc-if></div>
         </sc-if>
