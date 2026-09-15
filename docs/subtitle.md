@@ -27,6 +27,9 @@ Least to most changed, from the player's seat:
 | **Remake** | Significant gameplay/story changes — a different experience, not just prettier. (Often bundles a fidelity bump too, but that's not what earns it.) |
 
 - Same-platform patch that changes gameplay (usually difficulty) → **Edit**.
+- The original release's own subtitle, if it has one, never carries a
+  year — a year marks a *later* release, and the original isn't later
+  than itself.
 
 ### Port
 
