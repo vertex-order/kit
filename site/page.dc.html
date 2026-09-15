@@ -14,7 +14,6 @@
 <script src="./support.js"></script>
 <script src="./data/index.js"></script>
 <script src="./data/site.js"></script>
-<script src="./data/intro.js"></script>
 <script src="./data/credits.js"></script>
 <script src="./data/common-faq.js"></script>
 <script src="./data/faq.js"></script>
@@ -256,7 +255,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 
   <div style="max-width: 760px; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-8);">
 
-    <dc-import name="Intro" title="{{ introTitle }}" last-updated="{{ introLastUpdated }}" tagline="{{ introTagline }}" stats-text="{{ introStatsText }}" sections="{{ introSections }}" hint-size="auto,600px" style="display: block;"></dc-import>
+    <dc-import name="Intro" title="{{ introTitle }}" last-updated="{{ introLastUpdated }}" tagline="{{ introTagline }}" stats-text="{{ introStatsText }}" hint-size="auto,600px" style="display: block;"></dc-import>
 
     <div style="max-width: 620px; margin: var(--space-3) 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
       <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: var(--space-2) 0 0;"><span onMouseEnter="{{ ourOrderAnchor.onAnchorHoverEnter }}" onMouseLeave="{{ ourOrderAnchor.onAnchorHoverLeave }}" style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;"><strong id="our-order" style="color: var(--color-text); font-weight: 500; font-size: 24px;">Our order</strong><a href="{{ ourOrderAnchor.anchorHref }}" onClick="{{ ourOrderAnchor.onAnchorClick }}" title="Link to this section" style="color: var(--color-neutral-500); text-decoration: none; font-size: 14px; opacity: {{ ourOrderAnchor.pilcrowOpacity }}; transition: opacity .15s;">¶</a></span> We offer four different ways to organize the titles within each series.</p>
@@ -328,8 +327,9 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-// SITE_CONFIG/INTRO_SECTIONS/CREDITS come from site/data/{site,intro,credits}.js
-// (per-repo, not vendored) -- see docs/init-list.md.
+// SITE_CONFIG/CREDITS come from site/data/{site,credits}.js (per-repo, not
+// vendored) -- see docs/init-list.md. Intro.dc.html's own prose is likewise
+// per-repo, but lives in the component itself, not in data/.
 const SITE = window.SITE_CONFIG || {};
 const LAST_UPDATED = SITE.lastUpdated || ''; // ISO date; empty is valid (no "Last Updated" shown)
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -978,7 +978,6 @@ class Component extends DCLogic {
     const introStatsText = `${mainlineCount} mainline entries; ${statsJoined}. Oh my! Where to start?`;
     const introTitle = (SITE.name || '') + ' Vertex Order';
     const introTagline = SITE.tagline || [];
-    const introSections = window.INTRO_SECTIONS || [];
     const footerCredits = window.CREDITS || [];
     const footerFoundingYear = SITE.foundingYear || 2026;
     const footerLicense = SITE.license || [{ text: 'This page is ' }, { text: 'CC BY-NC-SA 4.0', url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/' }, { text: ' licensed.' }];
@@ -986,7 +985,7 @@ class Component extends DCLogic {
     const footerEntities = SITE.entities || [];
     const footerDisclosures = SITE.disclosures || [];
     const metaDescription = SITE.description || taglinePlainText(SITE.tagline);
-    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, series: displaySeries, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, introSections, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
+    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, series: displaySeries, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
   }
 }
 </script>

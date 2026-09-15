@@ -1,5 +1,7 @@
-<!-- Intro.dc.html — owned by vertex-order/kit. Edit here.
-     Vendored elsewhere via sync.toml; don't edit the copy there. -->
+<!-- Intro.dc.html — kit's own reference copy (component-gallery fixture prose).
+     Not vendored: a new list repo gets this file once, as a byte-for-byte
+     copy when created from the kit template, then edits it directly with
+     its own "Where to start?" prose. See docs/init-list.md. -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,32 +24,26 @@
   <sc-for list="{{ tagline }}" as="part" hint-placeholder-count="0"><sc-if value="{{ part.strong }}" hint-placeholder-val="{{ false }}"><strong style="color: var(--color-text); font-weight: 500;">{{ part.strong }}</strong></sc-if><sc-if value="{{ part.emLink }}" hint-placeholder-val="{{ false }}"><em><a href="{{ part.emLinkUrl }}" style="color: inherit;">{{ part.emLink }}</a></em></sc-if><sc-if value="{{ part.em }}" hint-placeholder-val="{{ false }}"><em>{{ part.em }}</em></sc-if><sc-if value="{{ part.url }}" hint-placeholder-val="{{ false }}"><a href="{{ part.url }}" style="color: inherit;">{{ part.text }}</a></sc-if><sc-if value="{{ part.plainText }}" hint-placeholder-val="{{ false }}">{{ part.plainText }}</sc-if></sc-for>
 </p>
 
-<sc-for list="{{ sections }}" as="s" hint-placeholder-count="1">
-  <sc-if value="{{ s.isStats }}" hint-placeholder-val="{{ false }}">
-    <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; max-width: 620px; margin: 0 0 var(--space-6);">{{ statsText }}</p>
-  </sc-if>
-  <sc-if value="{{ s.hasHeading }}" hint-placeholder-val="{{ true }}">
-    <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: var(--space-2) 0 0;">
-      <span onMouseEnter="{{ s.onAnchorHoverEnter }}" onMouseLeave="{{ s.onAnchorHoverLeave }}" style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;">
-        <strong id="{{ s.anchorId }}" style="color: var(--color-text); font-weight: 500; font-size: {{ s.headingFontSize }}; scroll-margin-top: 70px;">{{ s.heading }}</strong>
-        <sc-if value="{{ s.hasId }}" hint-placeholder-val="{{ true }}">
-          <a href="{{ s.anchorHref }}" onClick="{{ s.onAnchorClick }}" title="Link to this section" style="color: var(--color-neutral-500); text-decoration: none; font-size: {{ s.pilcrowFontSize }}; opacity: {{ s.pilcrowOpacity }}; transition: opacity .15s;">&para;</a>
-        </sc-if>
-      </span>
-    </p>
-  </sc-if>
-  <sc-for list="{{ s.paragraphs }}" as="para" hint-placeholder-count="1">
-    <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: {{ para.mt }} 0 0;">
-      <sc-if value="{{ para.plain }}" hint-placeholder-val="{{ false }}">{{ para.plain }}</sc-if>
-      <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}">
-        <sc-for list="{{ para.parts }}" as="part" hint-placeholder-count="0"><sc-if value="{{ part.strong }}" hint-placeholder-val="{{ false }}"><strong style="color: var(--color-text); font-weight: 500;">{{ part.strong }}</strong></sc-if><sc-if value="{{ part.emLink }}" hint-placeholder-val="{{ false }}"><em><a href="{{ part.emLinkUrl }}" style="color: inherit;">{{ part.emLink }}</a></em></sc-if><sc-if value="{{ part.em }}" hint-placeholder-val="{{ false }}"><em>{{ part.em }}</em></sc-if><sc-if value="{{ part.url }}" hint-placeholder-val="{{ false }}"><a href="{{ part.url }}" style="color: inherit;">{{ part.text }}</a></sc-if><sc-if value="{{ part.plainText }}" hint-placeholder-val="{{ false }}">{{ part.plainText }}</sc-if></sc-for>
-      </sc-if>
-    </p>
-  </sc-for>
-</sc-for>
+<p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; max-width: 620px; margin: 0 0 var(--space-6);">{{ statsText }}</p>
+
+<p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: var(--space-2) 0 0;">
+  <span onMouseEnter="{{ pWhereToStart.onAnchorHoverEnter }}" onMouseLeave="{{ pWhereToStart.onAnchorHoverLeave }}" style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;">
+    <strong id="where-to-start" style="color: var(--color-text); font-weight: 500; font-size: 24px; scroll-margin-top: 70px;">Where to start?</strong>
+    <a href="#where-to-start" onClick="{{ pWhereToStart.onAnchorClick }}" title="Link to this section" style="color: var(--color-neutral-500); text-decoration: none; font-size: 14px; opacity: {{ pWhereToStart.pilcrowOpacity }}; transition: opacity .15s;">&para;</a>
+  </span>
+</p>
+<p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;">This is a made-up franchise used only to preview kit's components — try the four order toggles above and the display-column toggles to see how the same rows render differently.</p>
+
+<p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: var(--space-2) 0 0;">
+  <span onMouseEnter="{{ pNewToSeries.onAnchorHoverEnter }}" onMouseLeave="{{ pNewToSeries.onAnchorHoverLeave }}" style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;">
+    <strong id="new-to-the-series" style="color: var(--color-text); font-weight: 500; font-size: 18px; scroll-margin-top: 70px;">New to the series</strong>
+    <a href="#new-to-the-series" onClick="{{ pNewToSeries.onAnchorClick }}" title="Link to this section" style="color: var(--color-neutral-500); text-decoration: none; font-size: 13px; opacity: {{ pNewToSeries.pilcrowOpacity }}; transition: opacity .15s;">&para;</a>
+  </span>
+</p>
+<p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;">Start with <em><a href="#entry-WW-0" style="color: inherit;">Wyrmwatch (2014)</a></em> — the flagship game the rest of the franchise builds on.</p>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 620, &quot;height&quot;: 500}, &quot;title&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;lastUpdated&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;tagline&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;statsText&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;sections&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 620, &quot;height&quot;: 500}, &quot;title&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;lastUpdated&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;tagline&quot;: {&quot;editor&quot;: null, &quot;default&quot;: [], &quot;tsType&quot;: &quot;array&quot;}, &quot;statsText&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
 const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 function mapParts(parts) {
   return (parts || []).map(p => ({
@@ -60,17 +56,12 @@ function mapParts(parts) {
     plainText: (!p.strong && !p.em && !p.url) ? p.text : undefined,
   }));
 }
-function mapParagraphs(paragraphs) {
-  return (paragraphs || []).map((para, i, arr) => {
-    const mt = i === 0 ? '0' : 'var(--space-2)';
-    return typeof para === 'string' ? { plain: para, mt } : { parts: mapParts(para.parts), mt };
-  });
-}
+const SECTION_IDS = ['where-to-start', 'new-to-the-series'];
 class Component extends DCLogic {
   state = { hoverAnchor: null };
   componentDidMount() {
     const hash = (location.hash || '').replace('#', '');
-    if (hash && (this.props.sections || []).some(s => s.id === hash)) {
+    if (hash && SECTION_IDS.includes(hash)) {
       requestAnimationFrame(() => requestAnimationFrame(() => this.scrollToId(hash)));
     }
   }
@@ -82,9 +73,7 @@ class Component extends DCLogic {
   }
   buildPilcrow(anchorId) {
     return {
-      hasId: true,
       anchorId,
-      anchorHref: '#' + anchorId,
       pilcrowOpacity: this.state.hoverAnchor === anchorId ? 1 : 0,
       onAnchorHoverEnter: () => this.setState({ hoverAnchor: anchorId }),
       onAnchorHoverLeave: () => this.setState(s => s.hoverAnchor === anchorId ? { hoverAnchor: null } : null),
@@ -92,18 +81,6 @@ class Component extends DCLogic {
     };
   }
   renderVals() {
-    const noPilcrow = { hasId: false, anchorId: '', anchorHref: '', pilcrowOpacity: 0, onAnchorHoverEnter: () => {}, onAnchorHoverLeave: () => {}, onAnchorClick: () => {} };
-    const sections = (this.props.sections || []).map(s => {
-      if (s.stats) return { isStats: true, hasHeading: false, paragraphs: [] };
-      return {
-        hasHeading: !!s.heading,
-        heading: s.heading,
-        headingFontSize: s.headingSize === 'lg' ? '24px' : '18px',
-        pilcrowFontSize: s.headingSize === 'lg' ? '14px' : '13px',
-        ...(s.id ? this.buildPilcrow(s.id) : noPilcrow),
-        paragraphs: mapParagraphs(s.paragraphs),
-      };
-    });
     let lastUpdatedText = '';
     if (this.props.lastUpdated) {
       const [y, m] = this.props.lastUpdated.split('-').map(Number);
@@ -114,7 +91,8 @@ class Component extends DCLogic {
       lastUpdatedText,
       tagline: mapParts(this.props.tagline),
       statsText: this.props.statsText || '',
-      sections,
+      pWhereToStart: this.buildPilcrow('where-to-start'),
+      pNewToSeries: this.buildPilcrow('new-to-the-series'),
     };
   }
 }

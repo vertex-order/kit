@@ -46,7 +46,6 @@ paths = [
   "site/FloatingNav.dc.html",
   "site/Footer.dc.html",
   "site/InPageControls.dc.html",
-  "site/Intro.dc.html",
   "site/LanguageTag.dc.html",
   "site/LengthDisplay.dc.html",
   "site/MediaEntry.dc.html",
@@ -81,7 +80,7 @@ paths = [
 
 [publish.consumers]  # for humans; sync.py ignores this
 "vertex-order/platforms" = "pulls the paths above for its tuning bench"
-"vertex-order/<list>" = "pulls kit as its one dependency — gets the above plus the platform micro-kit re-bundled here"
+"vertex-order/<list>" = "pulls kit as its one dependency — gets the above plus the platform micro-kit re-bundled here; Intro.dc.html is not among them — each list owns its own copy, seeded once at template time (see docs/init-list.md)"
 
 [subscribe.platforms]
 repo = "vertex-order/platforms"
