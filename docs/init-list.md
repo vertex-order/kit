@@ -14,13 +14,22 @@ that copy into a real list repo.
 python3 scripts/init-list.py
 ```
 
-This does exactly one thing: it swaps kit's own `sync.toml` (shaped as
-`[publish]` + `[subscribe.platforms]`, for kit's two-way sync with
+This does two things: it swaps kit's own `sync.toml` (shaped as `[publish]` +
+`[subscribe.platforms]`, for kit's two-way sync with
 `vertex-order/platforms`) for `sync.list.toml` (a plain `[subscribe.kit]`
 manifest — the shape every list repo actually needs, same as
 [`vertex-order/final-fantasy`](https://github.com/vertex-order/final-fantasy)'s
 real `sync.toml`). `sync.list.toml` is consumed in the process; `sync.toml`
 now holds its content.
+
+It also deletes `site/data/*.js` — kit's own fixture data (a made-up
+"Wyrmwatch" franchise: 3 series, a handful of entries across games, a book,
+and a video, exercising every row type, platform, language, and rating shape)
+that exists only so kit's own `page.dc.html` has something to render in
+preview. A real list has its own franchise, so this gets removed rather than
+adapted — see "Your actual content" below for the schema reference to write
+it from scratch. `platform-icons.js` and `common-faq.js` are untouched:
+those stay, vendored from `platforms`/kit respectively.
 
 Then run `just sync` once, as a sanity check — it should report "nothing to
 update," since the tree already matches what it just got copied from.
@@ -108,9 +117,13 @@ vendored copy — don't touch it):
 - `site/data/credits.js` → `window.CREDITS`, the same parts schema, for the
   CREDITS paragraph `Footer.dc.html` renders.
 
-There's no kit-provided example of these three yet, so write them from
-scratch using final-fantasy's or kingdom-hearts' `site/data/` as the schema
-reference.
+Write these three from scratch using final-fantasy's or kingdom-hearts'
+`site/data/` as the schema reference. The same goes for `index.js` and
+`series-*.js` (the actual entries) — final-fantasy's is the in-depth
+reference; kit's own fixture (just deleted by step 1) was a much smaller
+worked example of the same schema covering every row type, platform,
+language, and rating shape, if step 1 hasn't run yet in your checkout it's
+worth skimming before it goes.
 
 ## 3. Everything else
 
