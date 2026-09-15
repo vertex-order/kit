@@ -10,13 +10,12 @@
 //   window.FAQ_ITEMS = [
 //     { q: "Do I need to play the franchise in order?", a: [...] },  // franchise-specific
 //     ...window.FAQ_ITEMS_COMMON,
-//     { q: "Why is a <Franchise> title missing?", a: [...] },        // franchise-specific
 //   ];
 //
 // Load this script after data/site.js and before data/faq.js in page.dc.html:
-// after, because the "contribute" entry below reads window.SITE_CONFIG.discussionsUrl;
-// before, so the global exists when faq.js runs. Same schema as FAQ_ITEMS — see
-// FAQ.dc.html.
+// after, because the "missing title" question below reads window.SITE_CONFIG.name
+// and the "contribute" entry reads window.SITE_CONFIG.discussionsUrl; before, so
+// the global exists when faq.js runs. Same schema as FAQ_ITEMS — see FAQ.dc.html.
 window.FAQ_ITEMS_COMMON = [
   {
     q: "Which version should I play?",
@@ -45,6 +44,10 @@ window.FAQ_ITEMS_COMMON = [
   {
     q: "Why are some physical releases marked for multiple platforms?",
     a: ["If a platform has a compatibility layer to play media from an older platform, we will mark that platform with a note in the tooltip. The idea is to know what games you can play on what platforms, not which release it is (that's what the version title is for!)"],
+  },
+  {
+    q: `Why is a ${window.SITE_CONFIG && window.SITE_CONFIG.name} title missing?`,
+    a: ["It may have come out after the last update of this list, check last updated at the bottom of the page and if so, please submit it!"],
   },
   {
     q: "Why is a specific release missing?",
