@@ -16,8 +16,14 @@
 // after, because the "contribute" entry below reads window.SITE_CONFIG.discussionsUrl;
 // before, so the global exists when faq.js runs. Same schema as FAQ_ITEMS — see
 // FAQ.dc.html.
+//
+// Every entry needs a stable, hand-picked `id` (kebab-case) -- it becomes the
+// question's #faq-<id> pilcrow anchor. Never derived from the question text or
+// array index, so existing links don't break when questions are reworded,
+// reordered, or entries are added/removed around them.
 window.FAQ_ITEMS_COMMON = [
   {
+    id: "which-version",
     q: "Which version should I play?",
     a: [
       "We've tried to only list releases that have significant differences, to better help you choose. We tend to recommend one or two releases prominently as working for the most people and put the others behind a other versions toggle.",
@@ -26,34 +32,42 @@ window.FAQ_ITEMS_COMMON = [
     ],
   },
   {
+    id: "language-mismatch",
     q: "Why doesn't the language list always match?",
     a: ["Some platforms drop a language or two for the same release depending on the market they target. Verify languages for your chosen platform — our list is a guideline, not a guarantee."],
   },
   {
+    id: "which-language",
     q: "What language should I experience something in?",
     a: ["Either the language in which you can best enjoy it (usually your native tongue), the language it was originally produced in (if you're sufficiently proficient), or a mixture of both when subtitles are appropriate. One trick: if you find the voices grating, switch the audio to a language you don't understand — reading subtitles often lets you fill in your own characterization. Any of these can be the right answer."],
   },
   {
+    id: "unfamiliar-language",
     q: "How do I read something if it's not available in any languages I am familiar with?",
     a: ["If you're able to obtain a digital copy of the text, you may be able to generate a rudimentary machine translation using offline local-only AI (like in Firefox) or online services (like DeepL or Google Translate). Be aware it won't be very accurate, especially in translating culture or expressions, but sometimes it is better than nothing, and it has the advantage of being able to translate into dozens if not hundreds of languages. When able, translate from a source language similar in grammar to your target language."],
   },
   {
+    id: "terminated-digital",
     q: "Why are only digital downloads marked as terminated?",
     a: ["When official means of obtaining digital downloads are terminated, there is no other legal recourse. For physical media (e.g. cartridge, CD, or DVD) you can still legally obtain them on the reseller market as a used copy."],
   },
   {
+    id: "multi-platform-physical",
     q: "Why are some physical releases marked for multiple platforms?",
     a: ["If a platform has a compatibility layer to play media from an older platform, we will mark that platform with a note in the tooltip. The idea is to know what games you can play on what platforms, not which release it is (that's what the version title is for!)"],
   },
   {
+    id: "title-missing",
     q: "Why is a title missing?",
     a: ["It may have come out after the last update of this list, check last updated at the bottom of the page and if so, please submit it!"],
   },
   {
+    id: "release-missing",
     q: "Why is a specific release missing?",
     a: ["When release content is mostly identical (minor differences aside) we generally roll them into a single entry in our list (combining platforms), using the original release date only. Our list is meant to be a play order, not a detailed accounting of every release made, so only information that is important when choosing which release to play is generally included."],
   },
   {
+    id: "help-improve",
     q: "Interested in helping improve this list?",
     a: [
       { parts: [
@@ -64,6 +78,7 @@ window.FAQ_ITEMS_COMMON = [
     ],
   },
   {
+    id: "fan-art",
     q: "Have fan art you want to share alongside entries in this list?",
     a: [
       { parts: [
