@@ -1,4 +1,5 @@
-<!-- docs/subtitle.md (markdown) -->
+<!-- docs/subtitle.md — owned by vertex-order/kit. Edit here.
+     Vendored elsewhere via sync.toml; don't edit the copy there. -->
 
 # Subtitle guidelines
 
