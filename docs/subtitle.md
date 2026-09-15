@@ -58,6 +58,11 @@ Least to most changed, from the player's seat:
   Bonus content bundled *with* a fidelity bump still counts as
   `Remaster`; it's the fidelity bump that earns the label, not the
   bundle.
+- **Gotcha:** an inserted FMV/cutscene doesn't count as that fidelity
+  bump on its own, even when it looks noticeably better than what it
+  replaces — it's a short, localized asset drop-in, not a pass over the
+  game's actual graphics/audio. Stays `Edit` unless the bump is systemic
+  (resolution, framerate, sprite/model quality throughout).
 - **Naming:** if the release has its own name (`International`,
   `Easy Type`, `Anniversary Edition`), use that name, not the word
   `Edit` — see [marketing override](#marketing-override).
