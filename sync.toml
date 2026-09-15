@@ -71,6 +71,7 @@ paths = [
   ".githooks/pre-commit",
   ".github/workflows/check-generated.yml",
   ".github/workflows/check-vendored.yml",
+  ".github/workflows/sync-repin.yml",
   ".github/workflows/static.yml",
   ".github/dependabot.yml",
 ]
