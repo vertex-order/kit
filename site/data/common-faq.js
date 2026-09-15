@@ -54,7 +54,7 @@ window.FAQ_ITEMS_COMMON = [
     q: "Interested in helping improve this list?",
     a: [
       { parts: [
-        { text: "See the Help Wanted section above for specific tasks, or head to " },
+        { text: "See the Help Wanted section below for specific tasks, or head to " },
         { text: "this list's discussion page", url: window.SITE_CONFIG && window.SITE_CONFIG.discussionsUrl },
         { text: " to propose something else — missing entries, corrections, or anything the list is getting wrong." },
       ] },
