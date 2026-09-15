@@ -51,8 +51,13 @@ Least to most changed, from the player's seat:
   - `International`/`Easy Type`-style changes (selectable difficulty,
     added voice acting, a language added for an underserved market) →
     yes, these were marketed and people cared. Give it its own entry.
+  - Same for optional bonus content bolted on with no story/fidelity
+    change — a bonus dungeon, a bestiary, a music player.
 - `Edit` never touches graphics/audio fidelity (that's `Remaster`) — small
   text/music changes are fine as long as gameplay/story don't shift.
+  Bonus content bundled *with* a fidelity bump still counts as
+  `Remaster`; it's the fidelity bump that earns the label, not the
+  bundle.
 - **Naming:** if the release has its own name (`International`,
   `Easy Type`, `Anniversary Edition`), use that name, not the word
   `Edit` — see [marketing override](#marketing-override).
