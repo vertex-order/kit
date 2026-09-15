@@ -316,38 +316,6 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 
     <dc-import name="HelpWanted" items="{{ helpWantedItems }}" hint-size="auto,220px" style="display: block;"></dc-import>
 
-    <h3 style="font-family: var(--font-heading); font-weight: 500; font-size: 14px; letter-spacing: 0.06em; color: var(--color-neutral-400); margin: 0 0 var(--space-2);">PLATFORMS</h3>
-    <div style="position: relative; margin: 0 0 var(--space-6);">
-      <div style="position: absolute; inset: 0; pointer-events: none; background-color: var(--color-accent); -webkit-mask-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='84'%3E%3Crect x='0' y='14' width='28' height='2' fill='white'/%3E%3Crect x='0' y='50' width='28' height='2' fill='white'/%3E%3C/svg%3E&quot;); mask-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='84'%3E%3Crect x='0' y='14' width='28' height='2' fill='white'/%3E%3Crect x='0' y='50' width='28' height='2' fill='white'/%3E%3C/svg%3E&quot;); -webkit-mask-size: 28px 84px; mask-size: 28px 84px; -webkit-mask-repeat: repeat; mask-repeat: repeat;"></div>
-      <div style="position: relative; display: flex; flex-wrap: wrap; align-content: flex-start; row-gap: 16px; column-gap: 16px;">
-        <sc-for list="{{ platformLegend }}" as="pl" hint-placeholder-count="0">
-          <span title="{{ pl.name }}" data-legend-item="{{ pl.name }}" style="display: flex; align-items: center; justify-content: center; height: 68px; flex: 0 0 auto; color: var(--color-neutral-300); opacity: 0.85;">
-            <sc-if value="{{ pl.prefix }}" hint-placeholder-val="{{ false }}">
-              <span style="font-size: 21.5px; margin-right: 4px;">{{ pl.prefix }}</span>
-            </sc-if>
-            <sc-if value="{{ pl.iconImg }}" hint-placeholder-val="{{ false }}">
-              <img src="{{ pl.iconImg }}" alt="{{ pl.name }}" height="{{ pl.iconSize }}" style="width: auto; max-width: none; flex-shrink: 0; {{ pl.imgStyle }}">
-            </sc-if>
-            <sc-if value="{{ pl.icon }}" hint-placeholder-val="{{ false }}">
-              <i class="{{ pl.icon }}" style="font-size: 32px;"></i>
-            </sc-if>
-            <sc-if value="{{ pl.text }}" hint-placeholder-val="{{ false }}">
-              <span style="padding: 2px 8px; line-height: 1.4; white-space: nowrap; font-size: {{ pl.fontSize }};">{{ pl.text }}</span>
-            </sc-if>
-            <sc-if value="{{ pl.suffix }}" hint-placeholder-val="{{ false }}">
-              <span style="font-size: 21.5px; margin-left: 6px; white-space: nowrap;">{{ pl.suffix }}</span>
-            </sc-if>
-            <sc-if value="{{ pl.jpTag }}" hint-placeholder-val="{{ false }}">
-              <span style="font-size: 21.5px; font-style: italic; font-variant: small-caps; padding-left: 2px;">(jp)</span>
-            </sc-if>
-            <sc-if value="{{ pl.nonJpTag }}" hint-placeholder-val="{{ false }}">
-              <span style="font-size: 21.5px; font-style: italic; font-variant: small-caps; padding-left: 2px;">(non-jp)</span>
-            </sc-if>
-          </span>
-        </sc-for>
-      </div>
-    </div>
-
     <dc-import name="Footer" credits="{{ footerCredits }}" last-updated="{{ introLastUpdated }}" founding-year="{{ footerFoundingYear }}" license="{{ footerLicense }}" entities="{{ footerEntities }}" disclosures="{{ footerDisclosures }}" hint-size="auto,300px" style="display: block;"></dc-import>
   </div>
 </div>
@@ -991,7 +959,7 @@ class Component extends DCLogic {
     const footerLicense = SITE.license || [{ text: 'This page is ' }, { text: 'CC BY-NC-SA 4.0', url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/' }, { text: ' licensed.' }];
     const footerEntities = SITE.entities || [];
     const footerDisclosures = SITE.disclosures || [];
-    return { lastUpdatedShort, series: displaySeries, platformLegend: this.platformLegend, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, introSections, footerCredits, footerFoundingYear, footerLicense, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
+    return { lastUpdatedShort, series: displaySeries, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, introSections, footerCredits, footerFoundingYear, footerLicense, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
   }
 }
 </script>
