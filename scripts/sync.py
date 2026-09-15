@@ -24,6 +24,12 @@ Source resolution per subscription, in order:
   1. sibling checkout ../<repo-with-slash-as-dash> if it is a git repo  (git archive)
   2. git clone the repo over https, checkout <ref>
 
+Both paths read from the source repo's `origin` remote, not its working
+tree — path 1 runs `git fetch origin <ref>` against the sibling checkout
+before archiving. Local commits in that sibling that haven't been pushed
+(and uncommitted changes) are invisible to sync.py; push the source repo
+first, then sync/sync-update.
+
 Needs git and Python 3.11+ (tomllib). Not runnable in a design tool (no shell)
 — there the vendored files are simply the last-synced committed copies.
 """
