@@ -42,31 +42,13 @@
       <sc-if value="{{ g.upcoming }}" hint-placeholder-val="{{ false }}">
         <dc-import name="StatusBadge" label="Upcoming" color="var(--color-accent-300)" bg="var(--color-accent-800)" hint-size="auto,20px" style="display: block;"></dc-import>
       </sc-if>
-      <sc-if value="{{ g.emTermFirst }}" hint-placeholder-val="{{ false }}">
-        <div style="color: var(--color-neutral-500); font-size: 12px;">{{ g.emPre }}<em>{{ g.emTerm }}</em>{{ g.emPost }}<sc-if value="{{ g.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ g.emTerm2 }}</em>{{ g.emPost2 }}</sc-if></div>
-      </sc-if>
-      <sc-if value="{{ g.desc2First }}" hint-placeholder-val="{{ false }}">
-        <div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ g.desc2Parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
-      </sc-if>
-      <sc-if value="{{ g.description }}" hint-placeholder-val="{{ false }}">
-        <sc-for list="{{ g.descLines }}" as="dl" hint-placeholder-count="1">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: {{ dl.mt2 }};">{{ dl.text }}</div>
-        </sc-for>
-      </sc-if>
-      <sc-if value="{{ g.descParts }}" hint-placeholder-val="{{ false }}">
-        <div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ g.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
-      </sc-if>
-      <sc-if value="{{ g.emTermNotFirst }}" hint-placeholder-val="{{ false }}">
-        <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;">{{ g.emPre }}<em>{{ g.emTerm }}</em>{{ g.emPost }}<sc-if value="{{ g.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ g.emTerm2 }}</em>{{ g.emPost2 }}</sc-if></div>
-      </sc-if>
-      <sc-if value="{{ g.descMidParts }}" hint-placeholder-val="{{ false }}">
-        <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;"><sc-for list="{{ g.descMidParts }}" as="mp" hint-placeholder-count="0"><sc-if value="{{ mp.emLinkText }}" hint-placeholder-val="{{ false }}"><a href="{{ mp.emLinkUrl }}" target="_blank" rel="noopener" style="color: var(--color-accent-300);"><em>{{ mp.emLinkText }}</em></a></sc-if><sc-if value="{{ mp.emText }}" hint-placeholder-val="{{ false }}"><em>{{ mp.emText }}</em></sc-if><sc-if value="{{ mp.abbrTerm }}" hint-placeholder-val="{{ false }}"><abbr title="{{ mp.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ mp.abbrTerm }}</abbr></sc-if><sc-if value="{{ mp.text }}" hint-placeholder-val="{{ false }}"><span>{{ mp.text }}</span></sc-if></sc-for></div>
-      </sc-if>
-      <sc-if value="{{ g.abbrTerm }}" hint-placeholder-val="{{ false }}">
-        <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;">{{ g.descPre }}<abbr title="{{ g.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ g.abbrTerm }}</abbr>{{ g.descPost }}</div>
-      </sc-if>
-      <sc-if value="{{ g.desc2Last }}" hint-placeholder-val="{{ false }}">
-        <div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ g.desc2Parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div><div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;"><sc-for list="{{ g.desc3Parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
+      <sc-if value="{{ g.descParas }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <sc-for list="{{ g.descParas }}" as="para" hint-placeholder-count="1">
+            <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
+            <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+          </sc-for>
+        </div>
       </sc-if>
       <sc-if value="{{ g.listTitle }}" hint-placeholder-val="{{ false }}">
         <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;"><a href="{{ g.listTitleUrl }}" target="_blank" rel="noopener" style="color: var(--color-accent-300);">{{ g.listTitle }}</a></div>
@@ -165,27 +147,13 @@
           <sc-if value="{{ ex.helpWanted }}" hint-placeholder-val="{{ false }}">
             <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
           </sc-if>
-          <sc-if value="{{ ex.abbrTerm }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: flex-start; gap: var(--space-2); margin-top: 2px;">
-              <span style="color: var(--color-neutral-500); font-size: 12px;">{{ ex.descPre }}<abbr title="{{ ex.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ ex.abbrTerm }}</abbr>{{ ex.descPost }}<sc-for list="{{ ex.descTail }}" as="sg" hint-placeholder-count="0"><sc-if value="{{ sg.emText }}" hint-placeholder-val="{{ false }}"><em>{{ sg.emText }}</em></sc-if><sc-if value="{{ sg.text }}" hint-placeholder-val="{{ false }}"><span>{{ sg.text }}</span></sc-if></sc-for></span>
+          <sc-if value="{{ ex.descParas }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: 2px;">
+              <sc-for list="{{ ex.descParas }}" as="para" hint-placeholder-count="1">
+                <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
+                <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+              </sc-for>
             </div>
-          </sc-if>
-          <sc-if value="{{ ex.emFirst }}" hint-placeholder-val="{{ false }}">
-            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ ex.emPre }}<em>{{ ex.emTerm }}</em>{{ ex.emPost }}</div>
-          </sc-if>
-          <sc-if value="{{ ex.description }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
-              <span style="color: var(--color-neutral-500); font-size: 12px;">{{ ex.description }}</span>
-            </div>
-          </sc-if>
-          <sc-if value="{{ ex.descParts }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;"><span style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ ex.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></span></div>
-          </sc-if>
-          <sc-if value="{{ ex.description2 }}" hint-placeholder-val="{{ false }}">
-            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;">{{ ex.description2 }}</div>
-          </sc-if>
-          <sc-if value="{{ ex.emTermNotFirst }}" hint-placeholder-val="{{ false }}">
-            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ ex.emPre }}<em>{{ ex.emTerm }}</em><sc-if value="{{ ex.emRegion1 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion1Label }}" style="cursor: help;"> ({{ ex.emRegion1 }})</span></sc-if>{{ ex.emPost }}<sc-if value="{{ ex.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ ex.emTerm2 }}</em><sc-if value="{{ ex.emRegion2 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion2Label }}" style="cursor: help;"> ({{ ex.emRegion2 }})</span></sc-if>{{ ex.emPost2 }}</sc-if><sc-if value="{{ ex.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ ex.emTerm3 }}</em><sc-if value="{{ ex.emRegion3 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion3Label }}" style="cursor: help;"> ({{ ex.emRegion3 }})</span></sc-if>{{ ex.emPost3 }}</sc-if><sc-if value="{{ ex.emSuffix }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emSuffixLabel }}" style="cursor: help;"> ({{ ex.emSuffix }})</span></sc-if>{{ ex.emPostFinal }}</div>
           </sc-if>
         </div>
         <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">
@@ -248,20 +216,13 @@
         <sc-if value="{{ g.alt.helpWanted }}" hint-placeholder-val="{{ false }}">
           <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
         </sc-if>
-        <sc-if value="{{ g.alt.description }}" hint-placeholder-val="{{ false }}">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ g.alt.description }}</div>
-        </sc-if>
-        <sc-if value="{{ g.alt.descParts }}" hint-placeholder-val="{{ false }}">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;"><sc-for list="{{ g.alt.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
-        </sc-if>
-        <sc-if value="{{ g.alt.desc2Parts }}" hint-placeholder-val="{{ false }}">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;"><sc-for list="{{ g.alt.desc2Parts }}" as="sg2" hint-placeholder-count="0"><dc-import name="DescRun" em-text="{{ sg2.emText }}" text="{{ sg2.text }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
-        </sc-if>
-        <sc-if value="{{ g.alt.abbrTerm }}" hint-placeholder-val="{{ false }}">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ g.alt.descPre }}<abbr title="{{ g.alt.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ g.alt.abbrTerm }}</abbr>{{ g.alt.descPost }}</div>
-        </sc-if>
-        <sc-if value="{{ g.alt.emTerm }}" hint-placeholder-val="{{ false }}">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ g.alt.emPre }}<em>{{ g.alt.emTerm }}</em>{{ g.alt.emPost }}<sc-if value="{{ g.alt.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ g.alt.emTerm2 }}</em>{{ g.alt.emPost2 }}</sc-if><sc-if value="{{ g.alt.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ g.alt.emTerm3 }}</em>{{ g.alt.emPost3 }}</sc-if></div>
+        <sc-if value="{{ g.alt.descParas }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: 2px;">
+            <sc-for list="{{ g.alt.descParas }}" as="para" hint-placeholder-count="1">
+              <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
+              <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+            </sc-for>
+          </div>
         </sc-if>
       </div>
       <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">
@@ -338,14 +299,13 @@
           <a href="{{ alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ alt.label }}</a>
         </sc-if>
         <dc-import name="EntryTitleLinks" parts="{{ alt.parts }}" show-pilcrow="{{ false }}" hint-size="auto,20px" style="display: contents;"></dc-import>
-        <sc-if value="{{ alt.emTerm }}" hint-placeholder-val="{{ false }}">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ alt.emPre }}<em>{{ alt.emTerm }}</em>{{ alt.emPost }}<sc-if value="{{ alt.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ alt.emTerm2 }}</em>{{ alt.emPost2 }}</sc-if><sc-if value="{{ alt.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ alt.emTerm3 }}</em>{{ alt.emPost3 }}</sc-if></div>
-        </sc-if>
-        <sc-if value="{{ alt.description }}" hint-placeholder-val="{{ false }}">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ alt.description }}</div>
-        </sc-if>
-        <sc-if value="{{ alt.descParts }}" hint-placeholder-val="{{ false }}">
-          <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;"><sc-for list="{{ alt.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div>
+        <sc-if value="{{ alt.descParas }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: 2px;">
+            <sc-for list="{{ alt.descParas }}" as="para" hint-placeholder-count="1">
+              <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
+              <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+            </sc-for>
+          </div>
         </sc-if>
       </div>
       <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">
@@ -417,27 +377,13 @@
           <sc-if value="{{ ex.helpWanted }}" hint-placeholder-val="{{ false }}">
             <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
           </sc-if>
-          <sc-if value="{{ ex.abbrTerm }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: flex-start; gap: var(--space-2); margin-top: 2px;">
-              <span style="color: var(--color-neutral-500); font-size: 12px;">{{ ex.descPre }}<abbr title="{{ ex.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ ex.abbrTerm }}</abbr>{{ ex.descPost }}<sc-for list="{{ ex.descTail }}" as="sg" hint-placeholder-count="0"><sc-if value="{{ sg.emText }}" hint-placeholder-val="{{ false }}"><em>{{ sg.emText }}</em></sc-if><sc-if value="{{ sg.text }}" hint-placeholder-val="{{ false }}"><span>{{ sg.text }}</span></sc-if></sc-for></span>
+          <sc-if value="{{ ex.descParas }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: 2px;">
+              <sc-for list="{{ ex.descParas }}" as="para" hint-placeholder-count="1">
+                <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
+                <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+              </sc-for>
             </div>
-          </sc-if>
-          <sc-if value="{{ ex.emFirst }}" hint-placeholder-val="{{ false }}">
-            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ ex.emPre }}<em>{{ ex.emTerm }}</em>{{ ex.emPost }}</div>
-          </sc-if>
-          <sc-if value="{{ ex.description }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
-              <span style="color: var(--color-neutral-500); font-size: 12px;">{{ ex.description }}</span>
-            </div>
-          </sc-if>
-          <sc-if value="{{ ex.descParts }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;"><span style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ ex.descParts }}" as="sg" hint-placeholder-count="0"><dc-import name="DescRun" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></span></div>
-          </sc-if>
-          <sc-if value="{{ ex.description2 }}" hint-placeholder-val="{{ false }}">
-            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 8px;">{{ ex.description2 }}</div>
-          </sc-if>
-          <sc-if value="{{ ex.emTermNotFirst }}" hint-placeholder-val="{{ false }}">
-            <div style="color: var(--color-neutral-500); font-size: 12px; margin-top: 2px;">{{ ex.emPre }}<em>{{ ex.emTerm }}</em><sc-if value="{{ ex.emRegion1 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion1Label }}" style="cursor: help;"> ({{ ex.emRegion1 }})</span></sc-if>{{ ex.emPost }}<sc-if value="{{ ex.emTerm2 }}" hint-placeholder-val="{{ false }}"><em>{{ ex.emTerm2 }}</em><sc-if value="{{ ex.emRegion2 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion2Label }}" style="cursor: help;"> ({{ ex.emRegion2 }})</span></sc-if>{{ ex.emPost2 }}</sc-if><sc-if value="{{ ex.emTerm3 }}" hint-placeholder-val="{{ false }}"><em>{{ ex.emTerm3 }}</em><sc-if value="{{ ex.emRegion3 }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emRegion3Label }}" style="cursor: help;"> ({{ ex.emRegion3 }})</span></sc-if>{{ ex.emPost3 }}</sc-if><sc-if value="{{ ex.emSuffix }}" hint-placeholder-val="{{ false }}"><span title="{{ ex.emSuffixLabel }}" style="cursor: help;"> ({{ ex.emSuffix }})</span></sc-if>{{ ex.emPostFinal }}</div>
           </sc-if>
         </div>
         <sc-if value="{{ showCol2 }}" hint-placeholder-val="{{ true }}">

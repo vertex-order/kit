@@ -12,12 +12,8 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
       { label: 'Wyrmwatch Chronicles: The Ashfall Codex (2017)', url: 'https://example.com/wiki/The_Ashfall_Codex' },
       { label: 'Book', url: null, small: true },
     ],
-    descParts: [
-      { text: 'Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ' },
-      { emText: 'Wyrmwatch II (2019)' },
-      { text: '. Also known as ' },
-      { emText: 'The Codex of Ashfall' },
-      { text: ' in some markets.' },
+    description: [
+      ['Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ', { emText: 'Wyrmwatch II (2019)' }, '. Also known as ', { emText: 'The Codex of Ashfall' }, ' in some markets.'],
     ],
     rating: { scoreLabelText: 'Bookbinder', score: '4.12', url: 'https://example.com/books/ashfall-codex', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [
@@ -35,10 +31,8 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
     parts: [
       { label: 'Wyrmwatch: Rise of the Wyrm (2020)', url: 'https://example.com/wiki/Rise_of_the_Wyrm' },
     ],
-    descParts: [
-      { text: 'A 52-minute animated short following the founding of the first watchtower, made as a tie-in for ' },
-      { emText: 'Wyrmwatch II (2019)' },
-      { text: '.' },
+    description: [
+      ['A 52-minute animated short following the founding of the first watchtower, made as a tie-in for ', { emText: 'Wyrmwatch II (2019)' }, '.'],
     ],
     rating: { scoreLabelText: 'Reelwatch', score: '7.4', url: 'https://example.com/reviews/rise-of-the-wyrm', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [

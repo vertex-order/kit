@@ -17,11 +17,11 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { label: 'Remaster (2022)', url: 'https://example.com/wiki/Wyrmwatch_Remaster', small: true },
     ],
     storeUrl: 'https://example.com/store/wyrmwatch',
-    description: 'Recruit-and-bond tactics RPG. Warden Rook Ashvane arrives at the Ashfall frontier and must bond with wild wyrms to hold the watchtowers against the Blightswarm.\n\nIncludes a free rebalance patch and an optional hard difficulty added post-launch.\n\nThis remaster reworks lighting, remixes the soundtrack, redraws the UI, and adds a photo mode. Released as Wyrmwatch: Anniversary Remaster.',
-    descMidParts: [
-      { text: 'Also sold as ' },
-      { emText: 'Wyrmwatch: Warden’s Edition' },
-      { text: ' in some regions.' },
+    description: [
+      'Recruit-and-bond tactics RPG. Warden Rook Ashvane arrives at the Ashfall frontier and must bond with wild wyrms to hold the watchtowers against the Blightswarm.',
+      'Includes a free rebalance patch and an optional hard difficulty added post-launch.',
+      'This remaster reworks lighting, remixes the soundtrack, redraws the UI, and adds a photo mode. Released as Wyrmwatch: Anniversary Remaster.',
+      ['Also sold as ', { emText: 'Wyrmwatch: Warden’s Edition' }, ' in some regions.'],
     ],
     rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '91', midScore: '8.6', midUrl: 'https://example.com/reviews/wyrmwatch', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch', sourceUrl: 'https://example.com/store/wyrmwatch', sourceLabel: 'Fixture storefront' },
     lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '50h', tip: 'Completionist' }],
@@ -43,10 +43,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
           { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
           { label: 'Mobile (2015)', url: 'https://example.com/wiki/Wyrmwatch_Mobile', small: true },
         ],
-        descParts: [
-          { text: 'A feature-phone port with simplified bonding menus and two bonding chapters cut for hardware limits. Released as ' },
-          { emText: 'Wyrmwatch Go' },
-          { text: '.' },
+        description: [
+          ['A feature-phone port with simplified bonding menus and two bonding chapters cut for hardware limits. Released as ', { emText: 'Wyrmwatch Go' }, '.'],
         ],
         languages: [{ value: 'EN', tip: 'English — text only' }],
         platformGroups: [
@@ -55,7 +53,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       },
       {
         label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch',
-        description: 'The original release, before the free rebalance patch and the 2022 remaster.',
+        description: ['The original release, before the free rebalance patch and the 2022 remaster.'],
         languages: [{ value: 'EN', tip: 'English — full audio', native: true, voice: true }],
         platformGroups: [
           [{ icon: null, iconImg: 'images/platforms/nintendo-wii-u.svg', iconSize: 10.99, imgStyle: 'width: auto; height: 10.99px;', name: 'Nintendo Wii U (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
@@ -73,11 +71,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { label: 'Wyrmwatch: Ashfall Uprising (2015)', url: 'https://example.com/wiki/Ashfall_Uprising' },
       { label: 'Expansion', url: null, small: true },
     ],
-    desc2First: true,
-    desc2Parts: [
-      { text: 'Standalone expansion set ' },
-      { emText: 'immediately after' },
-      { text: ' the base game — the Blightswarm regroups beyond the watchtowers.' },
+    description: [
+      ['Standalone expansion set ', { emText: 'immediately after' }, ' the base game — the Blightswarm regroups beyond the watchtowers.'],
     ],
     rating: { scoreLabelText: 'Wyrmreview', score: '7.6', url: 'https://example.com/reviews/ashfall-uprising', single: true, sourceLabel: 'Fixture rating source' },
     storeUrl: 'https://example.com/store/ashfall-uprising',
@@ -105,7 +100,11 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { label: 'Edit (2021)', url: 'https://example.com/wiki/Wyrmwatch_II#Edit', small: true },
     ],
     storeUrl: 'https://example.com/store/wyrmwatch-ii',
-    description: 'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.\n\nAdds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.\n\nThis edit added a selectable Hard difficulty and New Game+, with no changes to visuals or story.',
+    description: [
+      'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.',
+      'Adds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.',
+      'This edit added a selectable Hard difficulty and New Game+, with no changes to visuals or story.',
+    ],
     rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '88', midScore: '8.4', midUrl: 'https://example.com/reviews/wyrmwatch-ii', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch-ii', sourceUrl: 'https://example.com/store/wyrmwatch-ii', sourceLabel: 'Fixture storefront' },
     platformGroups: [
       [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-ii/steam' }],
@@ -117,7 +116,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     extras: [
       {
         label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II',
-        description: 'The original release, before the Hard difficulty and New Game+ edit.',
+        description: ['The original release, before the Hard difficulty and New Game+ edit.'],
       },
     ],
     alt: {
@@ -126,10 +125,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
         { label: 'Remake (2024)', url: 'https://example.com/wiki/Wyrmwatch_II_Reborn', small: true },
       ],
-      descParts: [
-        { text: 'Replaces the original’s turn-based tactics with real-time combat, and adds a new prologue chapter and an alternate ending. Released as ' },
-        { emText: 'Wyrmwatch II: Reborn' },
-        { text: '.' },
+      description: [
+        ['Replaces the original’s turn-based tactics with real-time combat, and adds a new prologue chapter and an alternate ending. Released as ', { emText: 'Wyrmwatch II: Reborn' }, '.'],
       ],
       languages: [
         { value: 'EN', tip: 'English — full audio', native: true, voice: true },

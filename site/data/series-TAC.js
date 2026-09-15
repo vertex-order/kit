@@ -11,7 +11,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     parts: [
       { label: 'Wyrmwatch Tactics (2021)', url: 'https://example.com/wiki/Wyrmwatch_Tactics' },
     ],
-    description: 'A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.',
+    description: ['A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.'],
     rating: { scoreLabelText: 'Wyrmreview', score: '73', url: 'https://example.com/reviews/wyrmwatch-tactics', single: true, sourceLabel: 'Fixture rating source' },
     storeUrl: 'https://example.com/store/wyrmwatch-tactics',
     platformGroups: [
@@ -26,11 +26,8 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
       { label: 'Wyrmwatch Tactics: Skirmish Pack (2022)', url: 'https://example.com/wiki/Skirmish_Pack' },
       { label: 'DLC', url: null, small: true },
     ],
-    desc2First: true,
-    desc2Parts: [
-      { text: 'Adds a versus-only skirmish mode on top of ' },
-      { emText: 'Wyrmwatch Tactics (2021)' },
-      { text: '.' },
+    description: [
+      ['Adds a versus-only skirmish mode on top of ', { emText: 'Wyrmwatch Tactics (2021)' }, '.'],
     ],
     rating: { scoreLabelText: 'Wyrmreview', score: '6.9', url: 'https://example.com/reviews/skirmish-pack', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [

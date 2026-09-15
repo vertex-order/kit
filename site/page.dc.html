@@ -703,6 +703,13 @@ class Component extends DCLogic {
       ...p,
       smallStyle: (p.small ? 'font-size:12px;color:var(--color-neutral-400);' : '') + ((p.strike || forceStrike) ? 'text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: var(--color-neutral-500);' : '') + (p.italic ? 'font-style: italic;' : ''),
     }));
+    const toDescParas = (desc) => {
+      if (!desc) return null;
+      const arr = Array.isArray(desc) ? desc : [desc];
+      return arr.map(p => Array.isArray(p)
+        ? { parts: p.map(seg => typeof seg === 'string' ? { text: seg } : seg) }
+        : { text: p });
+    };
     const mediaLabels = { Game: ['game', 'games'], Expansion: ['expansion & DLC', 'expansions & DLC'], Book: ['book', 'books'], Comic: ['comic', 'comics'], Movie: ['movie & video', 'movies & videos'], Audio: ['audio drama', 'audio dramas'] };
     const buildSummary = (games, seriesNum, checkedFn) => {
       const isChecked = checkedFn || ((g, i) => this.state.checked[seriesNum + '-' + i]);
@@ -763,7 +770,6 @@ class Component extends DCLogic {
         typeBg: g.mediaType ? this.typeColors[g.mediaType].bg : null,
         origIndex: i,
         entryKey: s.num + '-' + i,
-        emTermFirst: g.emTerm && !g.emTermNotFirst,
         ...this.buildPilcrow('entry-' + s.num + '-' + i, false),
         checked: !!this.state.checked[s.num + '-' + i],
         rowCompletedStyle: this.state.checked[s.num + '-' + i] ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);' : '',
@@ -788,7 +794,7 @@ class Component extends DCLogic {
               return out.length ? this.sortPls(out) : null;
             })()
           : null,
-        descLines: (g.description || '').split('\n\n').map((text, i) => ({ text, mt: i === 0 ? '0' : '8px', mt2: (i === 0 && (g.emTerm || g.desc2First)) ? '8px' : (i === 0 ? '0' : '8px') })),
+        descParas: toDescParas(g.description),
         extraExpanded: !!this.state.expandedMainExtras[s.num + '-' + i],
         extraChevron: this.state.expandedMainExtras[s.num + '-' + i] ? 'rotate(180deg)' : 'rotate(0deg)',
         toggleExtra: () => this.toggleMainExtra(s.num + '-' + i),
@@ -801,6 +807,7 @@ class Component extends DCLogic {
           languages: mapLangs(ex.languages, ex.langOrder),
           byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
           platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...pl, noPlUrl: !pl.url }))),
+          descParas: toDescParas(ex.description),
           ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
         };}),
         alts: g.alts && g.alts.map(alt => ({
@@ -809,11 +816,13 @@ class Component extends DCLogic {
           languages: mapLangs(alt.languages, alt.langOrder),
           byline: alt.tags && alt.tags.length ? alt.tags.join(' · ') : undefined,
           platformGroups: alt.platformGroups && this.sortPls(alt.platformGroups.flat()),
+          descParas: toDescParas(alt.description),
         })),
         alt: g.alt && g.alt.extras ? {
           ...g.alt,
           parts: g.alt.parts && mapParts(g.alt.parts),
           languages: mapLangs(g.alt.languages, g.alt.langOrder),
+          descParas: toDescParas(g.alt.description),
           otherLanguages: mapLangs(computeOtherLangs(g.alt.languages, g.alt.extras), g.alt.langOrder),
           byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined,
           platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat()),
