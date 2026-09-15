@@ -44,9 +44,12 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         ],
       },
       {
-        label: 'Wyrmwatch: Mobile (2015)', url: 'https://example.com/wiki/Wyrmwatch_Mobile',
+        parts: [
+          { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
+          { label: 'Mobile (2015)', url: 'https://example.com/wiki/Wyrmwatch_Mobile', small: true },
+        ],
         descParts: [
-          { text: 'A streamlined touch-controls port with simplified bonding menus. Released as ' },
+          { text: 'A feature-phone port with simplified bonding menus and two bonding chapters cut for hardware limits. Released as ' },
           { emText: 'Wyrmwatch Go' },
           { text: '.' },
         ],
@@ -120,9 +123,10 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     parts: [
       { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
+      { label: 'Edit (2021)', url: 'https://example.com/wiki/Wyrmwatch_II#Edit', small: true },
     ],
     storeUrl: 'https://example.com/store/wyrmwatch-ii',
-    description: 'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.\n\nAdds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.',
+    description: 'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.\n\nAdds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.\n\nA 2021 edit added a selectable Hard difficulty and New Game+, with no changes to visuals or story.',
     rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '88', midScore: '8.4', midUrl: 'https://example.com/reviews/wyrmwatch-ii', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch-ii', sourceUrl: 'https://example.com/store/wyrmwatch-ii', sourceLabel: 'Fixture storefront' },
     platformGroups: [
       [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-ii/steam' }],
