@@ -10,6 +10,9 @@ sync.toml). This script promotes it:
 
   1. Deletes sync.toml (kit's own — no longer applicable here).
   2. Renames sync.list.toml to sync.toml.
+  3. Deletes kit's site/data/*.js fixture files (its own component-gallery
+     demo data — a made-up "Wyrmwatch" franchise). A real list repo writes
+     its own from scratch; see docs/init-list.md.
 
 That's all it does. Everything else a new list repo needs to change by hand
 is in docs/init-list.md — read that next.
@@ -28,6 +31,23 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LIST_TOML = ROOT / "sync.list.toml"
 TOML = ROOT / "sync.toml"
+DATA_DIR = ROOT / "site" / "data"
+
+# kit's own fixture data (docs/init-list.md "Your actual content") — not
+# vendored, not something a real list repo keeps. platform-icons.js and
+# common-faq.js are deliberately absent here: those stay, vendored from
+# platforms/kit respectively.
+FIXTURE_DATA_FILES = [
+    "index.js",
+    "site.js",
+    "intro.js",
+    "credits.js",
+    "faq.js",
+    "help-wanted.js",
+    "series-WW.js",
+    "series-CH.js",
+    "series-TAC.js",
+]
 
 
 def main():
@@ -38,6 +58,18 @@ def main():
     TOML.unlink(missing_ok=True)
     LIST_TOML.rename(TOML)
     print(f"{TOML.name} now holds the list-shaped [subscribe.kit] manifest.")
+
+    removed = []
+    for name in FIXTURE_DATA_FILES:
+        f = DATA_DIR / name
+        if f.exists():
+            f.unlink()
+            removed.append(name)
+    if removed:
+        print(f"Removed kit's fixture data: {', '.join(removed)}.")
+    else:
+        print(f"{DATA_DIR}: no fixture data files found — already removed.")
+
     print("Next: read docs/init-list.md for everything else this repo needs.")
     return 0
 
