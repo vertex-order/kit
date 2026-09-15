@@ -31,6 +31,7 @@ owner = "vertex-order/kit"
 # sync tool itself, the shared justfile recipes, and CI/tooling with no
 # legitimate reason to differ per repo.
 paths = [
+  "docs/subtitle.md",
   "site/_ds/",
   "site/images/ui/",
   "site/support.js",
