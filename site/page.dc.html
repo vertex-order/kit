@@ -316,7 +316,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 
     <dc-import name="HelpWanted" items="{{ helpWantedItems }}" hint-size="auto,220px" style="display: block;"></dc-import>
 
-    <dc-import name="Footer" credits="{{ footerCredits }}" last-updated="{{ introLastUpdated }}" founding-year="{{ footerFoundingYear }}" license="{{ footerLicense }}" entities="{{ footerEntities }}" disclosures="{{ footerDisclosures }}" hint-size="auto,300px" style="display: block;"></dc-import>
+    <dc-import name="Footer" credits="{{ footerCredits }}" last-updated="{{ introLastUpdated }}" founding-year="{{ footerFoundingYear }}" license="{{ footerLicense }}" notice-url="{{ footerNoticeUrl }}" entities="{{ footerEntities }}" disclosures="{{ footerDisclosures }}" hint-size="auto,300px" style="display: block;"></dc-import>
   </div>
 </div>
 
@@ -957,9 +957,10 @@ class Component extends DCLogic {
     const footerCredits = window.CREDITS || [];
     const footerFoundingYear = SITE.foundingYear || 2026;
     const footerLicense = SITE.license || [{ text: 'This page is ' }, { text: 'CC BY-NC-SA 4.0', url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/' }, { text: ' licensed.' }];
+    const footerNoticeUrl = SITE.noticeUrl || '';
     const footerEntities = SITE.entities || [];
     const footerDisclosures = SITE.disclosures || [];
-    return { lastUpdatedShort, series: displaySeries, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, introSections, footerCredits, footerFoundingYear, footerLicense, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
+    return { lastUpdatedShort, series: displaySeries, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, introSections, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
   }
 }
 </script>
