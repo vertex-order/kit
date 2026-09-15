@@ -9,20 +9,22 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     languages: [
       { value: 'EN', tip: 'English — full audio', native: true, voice: true },
       { value: 'FR', tip: 'French — full audio', voice: true },
-      { value: 'DE', tip: 'German — text only' },
-      { value: 'JA', tip: 'Japanese — text only (fan patch)' },
+      { value: 'DE', tip: 'German — full audio', voice: true },
+      { value: 'JA', tip: 'Japanese — full audio', voice: true },
     ],
     parts: [
       { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
+      { label: 'Remaster (2022)', url: 'https://example.com/wiki/Wyrmwatch_Remaster', small: true },
     ],
     storeUrl: 'https://example.com/store/wyrmwatch',
-    description: 'Recruit-and-bond tactics RPG. Warden Rook Ashvane arrives at the Ashfall frontier and must bond with wild wyrms to hold the watchtowers against the Blightswarm.\n\nIncludes a free rebalance patch, redrawn UI, and an optional hard difficulty added post-launch.',
+    description: 'Recruit-and-bond tactics RPG. Warden Rook Ashvane arrives at the Ashfall frontier and must bond with wild wyrms to hold the watchtowers against the Blightswarm.\n\nIncludes a free rebalance patch and an optional hard difficulty added post-launch.\n\nThis remaster reworks lighting, remixes the soundtrack, redraws the UI, and adds a photo mode. Released as Wyrmwatch: Anniversary Remaster.',
     descMidParts: [
       { text: 'Also sold as ' },
       { emText: 'Wyrmwatch: Warden’s Edition' },
       { text: ' in some regions.' },
     ],
-    rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '84', midScore: '7.8', midUrl: 'https://example.com/reviews/wyrmwatch', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch', sourceUrl: 'https://example.com/store/wyrmwatch', sourceLabel: 'Fixture storefront' },
+    rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '91', midScore: '8.6', midUrl: 'https://example.com/reviews/wyrmwatch', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch', sourceUrl: 'https://example.com/store/wyrmwatch', sourceLabel: 'Fixture storefront' },
+    lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '50h', tip: 'Completionist' }],
     platformGroups: [
       [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch/steam' }],
       [{ icon: null, iconImg: 'images/platforms/windows.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Windows (Digital)', url: 'https://example.com/store/wyrmwatch/windows' }],
@@ -32,12 +34,13 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       ],
       [{ icon: null, iconImg: 'images/platforms/xbox-one.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Xbox One (Physical; Digital)', url: 'https://example.com/store/wyrmwatch/xbox' }],
       [{ icon: null, iconImg: 'images/platforms/nintendo-switch.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/wyrmwatch/switch' }],
+      [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch/switch2' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch',
     extras: [
       {
         label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch',
-        description: 'The original 2014 release, before the free rebalance patch.',
+        description: 'The original release, before the free rebalance patch and the 2022 remaster.',
         languages: [{ value: 'EN', tip: 'English — full audio', native: true, voice: true }],
         platformGroups: [
           [{ icon: null, iconImg: 'images/platforms/nintendo-wii-u.svg', iconSize: 10.99, imgStyle: 'width: auto; height: 10.99px;', name: 'Nintendo Wii U (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
@@ -59,30 +62,6 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         ],
       },
     ],
-    alt: {
-      parts: [
-        { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
-        { label: 'Anniversary Remaster (2022)', url: 'https://example.com/wiki/Wyrmwatch_Remaster', small: true },
-      ],
-      descParts: [
-        { text: 'Reworked lighting, remixed soundtrack, and a photo mode. Released as ' },
-        { emText: 'Wyrmwatch: Anniversary Remaster' },
-        { text: '.' },
-      ],
-      languages: [
-        { value: 'EN', tip: 'English — full audio', native: true, voice: true },
-        { value: 'FR', tip: 'French — full audio', voice: true },
-        { value: 'DE', tip: 'German — full audio', voice: true },
-        { value: 'JA', tip: 'Japanese — full audio', voice: true },
-      ],
-      storeUrl: 'https://example.com/store/wyrmwatch-remaster',
-      rating: { scoreLabelText: 'Wyrmreview', score: '91', url: 'https://example.com/reviews/wyrmwatch-remaster', single: true, sourceLabel: 'Fixture rating source' },
-      lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '50h', tip: 'Completionist' }],
-      platformGroups: [
-        [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-remaster/steam' }],
-        [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch-remaster/switch2' }],
-      ],
-    },
   },
   { title: 'Wyrmwatch: Ashfall Uprising', releaseDate: '2015-06-02', chronoOrder: 250, recommendedOrder: 300, tags: ['Expansion', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '8h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '11h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '14h', tip: 'Completionist' }],
@@ -126,7 +105,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { label: 'Edit (2021)', url: 'https://example.com/wiki/Wyrmwatch_II#Edit', small: true },
     ],
     storeUrl: 'https://example.com/store/wyrmwatch-ii',
-    description: 'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.\n\nAdds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.\n\nA 2021 edit added a selectable Hard difficulty and New Game+, with no changes to visuals or story.',
+    description: 'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.\n\nAdds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.\n\nThis edit added a selectable Hard difficulty and New Game+, with no changes to visuals or story.',
     rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '88', midScore: '8.4', midUrl: 'https://example.com/reviews/wyrmwatch-ii', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch-ii', sourceUrl: 'https://example.com/store/wyrmwatch-ii', sourceLabel: 'Fixture storefront' },
     platformGroups: [
       [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-ii/steam' }],
@@ -135,6 +114,12 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       [{ icon: null, iconImg: 'images/platforms/nintendo-switch.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch (Digital); cloud-streamed', url: 'https://example.com/store/wyrmwatch-ii/switch' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-ii',
+    extras: [
+      {
+        label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II',
+        description: 'The original release, before the Hard difficulty and New Game+ edit.',
+      },
+    ],
     alt: {
       label: 'Wyrmwatch II: Reborn',
       parts: [
