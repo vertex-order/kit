@@ -50,6 +50,22 @@ are the two existing list repos to copy the *shape* of — not kit.
   `<name>-vertex-order`). Update the `// <filename> (jsonc)` comment on
   line 1 to match; nothing else in the file needs to change.
 
+### Rewrite (not vendored, no shortcut)
+
+- `site/Intro.dc.html` — the "Where to start?" prose lives directly in this
+  component's markup, not in `site/data/`. Kit's own copy renders the
+  made-up "Wyrmwatch" fixture text; a new list repo starts with that same
+  copy (templating copies the whole tree byte-for-byte) and hand-edits it in
+  place — replace the hardcoded headings/paragraphs with the real
+  franchise's own "Where to start?" guidance, following the same shape:
+  a heading + paragraph per pilcrow-anchored section, with `{{ pXxx }}`
+  bound to a `this.buildPilcrow('xxx')` call in the script block for each
+  section id you add or rename. `title`, `last-updated`, `tagline`, and
+  `stats-text` stay dynamic props computed by `page.dc.html` from
+  `site/data/site.js` — leave those alone. Once written, this file is
+  yours: it's never subscribed from kit again, so future edits are
+  hand-edits, not a vendor pull.
+
 ### Replace (kit's version doesn't apply to a list)
 
 - `LICENSE` — kit's is plain MIT, because kit is 100% code. A list repo has
@@ -107,13 +123,6 @@ vendored copy — don't touch it):
   visitors yet. A repo migrating from a hand-authored `page.dc.html` that
   already had visitors (as final-fantasy and kingdom-hearts did) must set
   `storagePrefix` explicitly to its existing literal value instead.
-- `site/data/intro.js` → `window.INTRO_SECTIONS` — the "Where to start?"
-  content, an array of `{ heading, headingSize: 'lg'|'sm', id?, paragraphs }`
-  (each paragraph a plain string or `{ parts }`) rendered by `Intro.dc.html`.
-  Include one entry with `{ stats: true }` wherever you want the
-  auto-computed "N mainline entries; N series, ..." sentence to appear (or
-  omit it for no stats sentence) — its position in this array is exactly
-  where it renders.
 - `site/data/credits.js` → `window.CREDITS`, the same parts schema, for the
   CREDITS paragraph `Footer.dc.html` renders.
 

@@ -40,7 +40,6 @@ DATA_DIR = ROOT / "site" / "data"
 FIXTURE_DATA_FILES = [
     "index.js",
     "site.js",
-    "intro.js",
     "credits.js",
     "faq.js",
     "help-wanted.js",

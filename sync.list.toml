@@ -35,7 +35,6 @@ paths = [
   "site/FloatingNav.dc.html",
   "site/Footer.dc.html",
   "site/InPageControls.dc.html",
-  "site/Intro.dc.html",
   "site/LanguageTag.dc.html",
   "site/LengthDisplay.dc.html",
   "site/MediaEntry.dc.html",
