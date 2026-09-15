@@ -39,14 +39,6 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     platformsUrl: 'https://example.com/store/wyrmwatch',
     extras: [
       {
-        label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch',
-        description: 'The original release, before the free rebalance patch and the 2022 remaster.',
-        languages: [{ value: 'EN', tip: 'English — full audio', native: true, voice: true }],
-        platformGroups: [
-          [{ icon: null, iconImg: 'images/platforms/nintendo-wii-u.svg', iconSize: 10.99, imgStyle: 'width: auto; height: 10.99px;', name: 'Nintendo Wii U (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
-        ],
-      },
-      {
         parts: [
           { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
           { label: 'Mobile (2015)', url: 'https://example.com/wiki/Wyrmwatch_Mobile', small: true },
@@ -59,6 +51,14 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         languages: [{ value: 'EN', tip: 'English — text only' }],
         platformGroups: [
           [{ icon: null, iconImg: 'images/platforms/mobile-phone.svg', iconSize: 16.75, imgStyle: 'width: auto; height: 16.75px;', name: 'iOS; Android (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
+        ],
+      },
+      {
+        label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch',
+        description: 'The original release, before the free rebalance patch and the 2022 remaster.',
+        languages: [{ value: 'EN', tip: 'English — full audio', native: true, voice: true }],
+        platformGroups: [
+          [{ icon: null, iconImg: 'images/platforms/nintendo-wii-u.svg', iconSize: 10.99, imgStyle: 'width: auto; height: 10.99px;', name: 'Nintendo Wii U (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
         ],
       },
     ],
