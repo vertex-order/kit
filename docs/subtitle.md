@@ -85,6 +85,11 @@ Three cases — only two touch the byline:
 3. **Feature-phone (pre-smartphone) port**, content/gameplay/story cut to
    fit weak hardware → `Mobile` **subtitle**, same role as `Remake`:
    signals a genuinely different experience on this version.
+   - Drop the year if this feature-phone release *is* the original (no
+     earlier version it's porting down from) — a year implies a
+     re-release, and there wasn't one. Same precedent as the `Book`
+     media-type label: just `Mobile`. Keep the year when it's a later,
+     reduced port of an already-released game.
 
 ## Movies
 
