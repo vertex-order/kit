@@ -237,7 +237,7 @@
   <sc-if value="{{ g.alt.parts }}" hint-placeholder-val="{{ false }}">
     <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) calc(20px + var(--space-3) * 2); margin-top: var(--space-2); border-radius: 0 var(--radius-md) var(--radius-md) 0;" style-hover="background: var(--color-neutral-800);">
       <div style="flex: 1;" id="{{ g.alt.anchorId }}">
-        <span style="font-size: 13px;">or </span>
+        <span style="font-size: 12px;">or </span>
         <sc-if value="{{ g.alt.url }}" hint-placeholder-val="{{ false }}">
           <a href="{{ g.alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ g.alt.onAnchorHoverEnter }}" onMouseLeave="{{ g.alt.onAnchorHoverLeave }}">{{ g.alt.label }}</a>
         </sc-if>
@@ -333,7 +333,7 @@
   <sc-for list="{{ g.alts }}" as="alt" hint-placeholder-count="0">
     <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) calc(20px + var(--space-3) * 2); margin-top: var(--space-2); border-radius: 0 var(--radius-md) var(--radius-md) 0;" style-hover="background: var(--color-neutral-800);">
       <div style="flex: 1;">
-        <span style="font-size: 13px;">or </span>
+        <span style="font-size: 12px;">or </span>
         <sc-if value="{{ alt.url }}" hint-placeholder-val="{{ false }}">
           <a href="{{ alt.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ alt.label }}</a>
         </sc-if>
