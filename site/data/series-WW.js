@@ -135,5 +135,28 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       [{ icon: null, iconImg: 'images/platforms/nintendo-switch.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch (Digital); cloud-streamed', url: 'https://example.com/store/wyrmwatch-ii/switch' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-ii',
+    alt: {
+      label: 'Wyrmwatch II: Reborn',
+      parts: [
+        { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
+        { label: 'Remake (2024)', url: 'https://example.com/wiki/Wyrmwatch_II_Reborn', small: true },
+      ],
+      descParts: [
+        { text: 'Replaces the original’s turn-based tactics with real-time combat, and adds a new prologue chapter and an alternate ending. Released as ' },
+        { emText: 'Wyrmwatch II: Reborn' },
+        { text: '.' },
+      ],
+      languages: [
+        { value: 'EN', tip: 'English — full audio', native: true, voice: true },
+        { value: 'JA', tip: 'Japanese — full audio', voice: true },
+      ],
+      storeUrl: 'https://example.com/store/wyrmwatch-ii-reborn',
+      rating: { scoreLabelText: 'Wyrmreview', score: '79', url: 'https://example.com/reviews/wyrmwatch-ii-reborn', single: true, sourceLabel: 'Fixture rating source' },
+      lengthParts: [{ value: '24h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '33h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '52h', tip: 'Completionist' }],
+      platformGroups: [
+        [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-ii-reborn/steam' }],
+        [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch-ii-reborn/switch2' }],
+      ],
+    },
   },
 ]};
