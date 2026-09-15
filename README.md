@@ -47,6 +47,10 @@ After any `*.dc.html` change run `just bundle-components` and commit
 `site/components.js` — CI fails the PR otherwise. See
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
+Live preview with fixture data: https://vertex-order.github.io/kit/ — this
+is a demo page, not a how-to-use-this-toolkit site, so it's not set as the
+repo's GitHub URL.
+
 ## Licence
 
 [MIT](LICENSE). Interface icons are Bootstrap Icons (MIT); the DC runtime and
