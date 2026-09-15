@@ -50,6 +50,7 @@ paths = [
   "site/LanguageTag.dc.html",
   "site/LengthDisplay.dc.html",
   "site/MediaEntry.dc.html",
+  "site/Metadata.dc.html",
   "site/page.dc.html",
   "site/RatingDisplay.dc.html",
   "site/SeriesSection.dc.html",

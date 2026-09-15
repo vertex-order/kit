@@ -82,10 +82,12 @@ vendored copy — don't touch it):
 
 - `site/data/site.js` → `window.SITE_CONFIG` — `name` (franchise display
   name), `tagline` (a parts array — `{ text }` / `{ strong }` / `{ em }` /
-  `{ text, url }` / `{ em, url }`), `lastUpdated` (ISO date, or omit for no
-  "Last Updated" line), `foundingYear` (default 2026), `entities` (who
-  you're disclaiming affiliation with, e.g. `['Square Enix']`), `license`
-  (parts array; omit for the default CC BY-NC-SA 4.0 line), and
+  `{ text, url }` / `{ em, url }`), `description` (plain string for
+  `<meta name="description">`, rendered by `Metadata.dc.html`; omit to fall
+  back to `tagline` flattened to plain text), `lastUpdated` (ISO date, or
+  omit for no "Last Updated" line), `foundingYear` (default 2026), `entities`
+  (who you're disclaiming affiliation with, e.g. `['Square Enix']`),
+  `license` (parts array; omit for the default CC BY-NC-SA 4.0 line), and
   `storagePrefix`. **`storagePrefix` is optional but has teeth**: if you set
   it, that literal string becomes the `localStorage` key prefix for every
   visitor's saved checklist/theme/display preferences — get this right once
