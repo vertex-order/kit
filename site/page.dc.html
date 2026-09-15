@@ -962,7 +962,20 @@ class Component extends DCLogic {
       if (total && checkedN) navProgress = `${checkedN}/${total} checked, ${Math.round(checkedN / total * 100)}%`;
     }
     const ourOrderAnchor = this.buildPilcrow('our-order', false);
-    const introStatsText = `${mainlineCount} mainline entries; ${raw.length} series, ${statVal('Game')} games, ${statVal('Expansion')} expansions & DLC, ${statVal('Movie', 'TV', 'Video')} movies & videos, ${statVal('Book')} books, ${statVal('Comic')} comics, and ${statVal('Audio')} radio dramas. Oh my! Where to start?`;
+    const statTotal = (...keys) => keys.reduce((sum, k) => sum + (mediaCounts[k] || 0), 0);
+    const statSegments = [
+      { keys: ['Game'], label: 'games' },
+      { keys: ['Expansion'], label: 'expansions & DLC' },
+      { keys: ['Movie', 'TV', 'Video'], label: 'movies & videos' },
+      { keys: ['Book'], label: 'books' },
+      { keys: ['Comic'], label: 'comics' },
+      { keys: ['Audio'], label: 'radio dramas' },
+    ].filter(seg => statTotal(...seg.keys) > 0).map(seg => `${statVal(...seg.keys)} ${seg.label}`);
+    const statParts = [`${raw.length} series`, ...statSegments];
+    const statsJoined = statParts.length > 1
+      ? `${statParts.slice(0, -1).join(', ')}, and ${statParts[statParts.length - 1]}`
+      : statParts[0];
+    const introStatsText = `${mainlineCount} mainline entries; ${statsJoined}. Oh my! Where to start?`;
     const introTitle = (SITE.name || '') + ' Vertex Order';
     const introTagline = SITE.tagline || [];
     const introSections = window.INTRO_SECTIONS || [];
