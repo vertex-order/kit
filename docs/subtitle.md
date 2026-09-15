@@ -7,6 +7,18 @@ A **subtitle** is the small label on an entry's byline — `Remake (2018)`,
 `Remaster (2016)`, `Director's Cut`. At-a-glance only; summary detail goes in
 the description/tags.
 
+- Classify against the **original release**, not the immediate
+  predecessor.
+- A carried-forward change keeps its classification even if what's new
+  in *this* release alone wouldn't earn it.
+- "Original" means the root of *this* continuity, not always the
+  franchise's first-ever release. A `Remake` starts a new continuity —
+  ports/remasters of it classify against the remake, not the pre-remake
+  original, so a remaster-of-a-remake never auto-inherits `Remake`.
+- Subtitle wording (this doc) and structural placement (own entry vs.
+  inline toggle vs. just the subtitle) are separate calls — the second
+  is editorial judgment, not covered here.
+
 ## Games
 
 **General rule:** label by what the *player* feels, not how the dev built
@@ -30,6 +42,12 @@ Least to most changed, from the player's seat:
 - The original release's own subtitle, if it has one, never carries a
   year — a year marks a *later* release, and the original isn't later
   than itself.
+  - Exception: a bonus asset (a video, a short) that has no release of
+    its own and always ships bundled with some edition of the parent
+    game. Its subtitle tracks *which edition* it shipped with, not how
+    the asset itself changed — the year is the useful signal there, not
+    a redundant one, so keep it even on that asset's own original
+    bundling.
 
 ### Port
 
@@ -66,15 +84,23 @@ Least to most changed, from the player's seat:
   replaces — it's a short, localized asset drop-in, not a pass over the
   game's actual graphics/audio. Stays `Edit` unless the bump is systemic
   (resolution, framerate, sprite/model quality throughout).
-- **Naming:** if the release has its own name (`International`,
-  `Easy Type`, `Anniversary Edition`), use that name, not the word
-  `Edit` — see [marketing override](#marketing-override).
+- **Naming:** use the literal word `Edit`. Put the release's actual name
+  in the description's "Released as ___" instead.
+  - Exceptions: `International`, `Easy Type` — established genre
+    terms-of-art that signal the change itself, like a tier word does.
+  - Plain marketing names (`Anniversary Edition`, `FF X Advance`) are
+    not exceptions — literal `Edit`, name in the description.
+  - See [marketing override](#marketing-override).
 
 ### Marketing override
 
-If the publisher's own marketing uses one of these words in the release's
-actual name (*Pixel Remaster*, *HD Remaster*), keep their term even if the
-pedantic definition disagrees. Readers know the product by that name.
+- Publisher's marketing uses one of our own tier words in the release's
+  actual name (*Pixel Remaster*, *HD Remaster*) → keep their term, even
+  if the pedantic definition disagrees. Readers know it by that name.
+- Narrow rule: applies to a name containing a tier word, plus the two
+  named `Edit` exceptions above. Having *some* marketed name isn't
+  enough by itself — most releases get the literal tier word, name left
+  to the description.
 
 ### Mobile
 
