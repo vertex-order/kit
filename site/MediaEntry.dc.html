@@ -434,6 +434,17 @@
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 700, &quot;height&quot;: 80}, &quot;g&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;object&quot;}, &quot;showRating&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showLength&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showPlatforms&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showLanguages&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showCol2&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showStackedRl&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}"></script>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 700, &quot;height&quot;: 80}, &quot;g&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;object&quot;}, &quot;showRating&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showLength&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showPlatforms&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showLanguages&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showCol2&quot;: {&quot;editor&quot;: null, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;showStackedRl&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const g = this.props.g || {};
+    // releaseDate may be year- or month-precision ('2027', '2027-04'); treat it as
+    // still upcoming through the end of whatever period it names.
+    const m = g.releaseDate && /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(g.releaseDate);
+    const releaseEnd = m && (m[3] ? new Date(+m[1], +m[2] - 1, +m[3]) : m[2] ? new Date(+m[1], +m[2], 0) : new Date(+m[1], 11, 31));
+    return { g: { ...g, upcoming: !!releaseEnd && releaseEnd >= new Date() } };
+  }
+}
+</script>
 </body>
 </html>
