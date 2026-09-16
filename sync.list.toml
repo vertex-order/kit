@@ -13,11 +13,18 @@
 # own Discussions URL (and PR-checklist lines), so a byte-identical vendor is
 # impossible by construction. Seeded from kit's copies once, then maintained
 # locally.
+#
+# `sync.list.toml` below is vendored too, but never applied automatically —
+# sync.toml can't self-update (chicken-and-egg, and it'd clobber this
+# repo's own tweaks). It's purely a diff target: after `just sync`, compare
+# it against this file's own [subscribe.kit].paths to see whether kit added
+# a path this repo hasn't picked up yet.
 
 [subscribe.kit]
 repo = "vertex-order/kit"
 ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync`
 paths = [
+  "sync.list.toml",
   "site/_ds/",
   "site/images/ui/",
   "site/images/platforms/",

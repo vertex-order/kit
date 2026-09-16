@@ -15,12 +15,18 @@
 # a file that must differ per repo can never satisfy. kit's copies exist as
 # a copy-from template for a new repo, not as something anyone subscribes to.
 #
-# Also never published: sync.list.toml and scripts/init-list.py. They exist
-# only to bootstrap a brand-new list repo created by using kit as a GitHub
-# template — sync.list.toml is the [subscribe.kit] manifest a list needs
-# (this file, kit's own, is the wrong shape for one); init-list.py promotes
-# it to sync.toml once. See docs/init-list.md. Neither has any reason to
-# reach an already-existing repo via `just sync`.
+# scripts/init-list.py is never published: it only bootstraps a brand-new
+# list repo created by using kit as a GitHub template, promoting
+# sync.list.toml to sync.toml once (see docs/init-list.md). An
+# already-existing repo has no reason to reach for it via `just sync`.
+#
+# sync.list.toml *is* published (list repos only — see their own
+# sync.toml's [subscribe.kit].paths) even though it's never applied
+# automatically: sync.toml itself can't self-update (chicken-and-egg, and
+# it'd clobber per-repo tweaks), so the vendored copy exists purely as a
+# diff target — `diff sync.list.toml sync.toml` after `just sync` shows
+# what a fresh list repo would subscribe to now vs. what this one actually
+# has, surfacing a path kit added that this repo never picked up.
 
 [publish]
 owner = "vertex-order/kit"
@@ -31,6 +37,7 @@ owner = "vertex-order/kit"
 # sync tool itself, the shared justfile recipes, and CI/tooling with no
 # legitimate reason to differ per repo.
 paths = [
+  "sync.list.toml",
   "docs/subtitle.md",
   "docs/upcoming.md",
   "site/_ds/",
