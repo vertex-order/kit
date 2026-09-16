@@ -16,8 +16,11 @@ python3 scripts/init-list.py
 
 This does two things: it swaps kit's own `sync.toml` (shaped as `[publish]` +
 `[subscribe.platforms]`, for kit's two-way sync with
-`vertex-order/platforms`) for `sync.list.toml` (a plain `[subscribe.kit]`
-manifest — the shape every list repo actually needs, same as
+`vertex-order/platforms`) for `sync.list.toml` (a `[subscribe.kit]` +
+`[subscribe.platforms]` manifest — the shape every list repo actually
+needs: most files from kit, but the platform-icon files pulled directly
+from `platforms` rather than transitively through kit, to avoid an extra
+repin/PR hop whenever platforms changes. Same shape as
 [`vertex-order/final-fantasy`](https://github.com/vertex-order/final-fantasy)'s
 real `sync.toml`). `sync.list.toml` is consumed in the process; `sync.toml`
 now holds its content.
@@ -137,6 +140,7 @@ worth skimming before it goes.
 
 ## 3. Everything else
 
-Every other path is now pulled in via this repo's own `[subscribe.kit]` (in
-`sync.toml`, courtesy of step 1) — don't hand-edit any of it. Pull future
-updates the same way every other list does: `just sync`.
+Every other path is now pulled in via this repo's own `[subscribe.kit]` and
+`[subscribe.platforms]` (in `sync.toml`, courtesy of step 1) — don't
+hand-edit any of it. Pull future updates the same way every other list
+does: `just sync`.
