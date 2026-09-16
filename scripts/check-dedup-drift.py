@@ -231,7 +231,42 @@ COMPARED_FIELDS = {
 }
 
 
-def field_snapshot(game, raw_keys):
+def _run_text(part):
+    if isinstance(part, dict):
+        return part.get("text") or part.get("emText") or ""
+    return part if isinstance(part, str) else ""
+
+
+def normalize_description(desc):
+    """A cross-listed entry's description legitimately differs from its
+    sibling in exactly one place: the sentence naming which *other* series
+    it's also found in ("Entry also found in our X series."). Rather than
+    trying to recognize that cross-reference by matching series slugs/titles
+    (fragile -- titles and slugs are both used interchangeably, and neither
+    is available to a plain per-field comparison), drop any top-level
+    paragraph/string mentioning "series" outright before comparing -- it's
+    expected to differ by construction, so it's never real drift."""
+    if not isinstance(desc, list):
+        return desc
+    out = []
+    for item in desc:
+        if isinstance(item, list):
+            text = "".join(_run_text(p) for p in item)
+            if "series" in text.lower():
+                continue
+            out.append(item)
+        elif isinstance(item, str):
+            if "series" in item.lower():
+                continue
+            out.append(item)
+        else:
+            out.append(item)
+    return out
+
+
+def field_snapshot(game, raw_keys, label):
+    if label == "description":
+        return tuple(normalize_description(game.get(k)) for k in raw_keys)
     return tuple(game.get(k) for k in raw_keys)
 
 
@@ -263,7 +298,7 @@ def main():
     findings = []
     for members in dup_groups.values():
         for label, raw_keys in COMPARED_FIELDS.items():
-            snapshots = [field_snapshot(g, raw_keys) for _, _, g in members]
+            snapshots = [field_snapshot(g, raw_keys, label) for _, _, g in members]
             if any(snap != snapshots[0] for snap in snapshots[1:]):
                 where = ", ".join(f"series-{slug}.js games[{idx}]" for slug, idx, _ in members)
                 title = members[0][2].get("title", "?")
