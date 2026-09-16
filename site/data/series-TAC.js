@@ -15,7 +15,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     rating: { scoreLabelText: 'Wyrmreview', score: '73', url: 'https://example.com/reviews/wyrmwatch-tactics', single: true, sourceLabel: 'Fixture rating source' },
     storeUrl: 'https://example.com/store/wyrmwatch-tactics',
     platformGroups: [
-      [{ key: 'nintendo-switch', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/wyrmwatch-tactics/switch' }],
+      [{ key: 'nintendo-switch', paren: 'Digital', url: 'https://example.com/store/wyrmwatch-tactics/switch' }],
       [{ key: 'mobile-phone', name: 'iOS; Android (Digital)', url: 'https://example.com/store/wyrmwatch-tactics/mobile' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
@@ -31,7 +31,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     ],
     rating: { scoreLabelText: 'Wyrmreview', score: '6.9', url: 'https://example.com/reviews/skirmish-pack', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [
-      [{ key: 'nintendo-switch', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/skirmish-pack/switch' }],
+      [{ key: 'nintendo-switch', paren: 'Digital', url: 'https://example.com/store/skirmish-pack/switch' }],
       [{ key: 'mobile-phone', name: 'iOS; Android (Digital)', url: 'https://example.com/store/skirmish-pack/mobile' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
@@ -51,7 +51,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     ],
     storeUrl: 'https://example.com/store/wyrmwatch-tactics-remaster',
     platformGroups: [
-      [{ key: 'nintendo-switch-2', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch-tactics-remaster/switch2' }],
+      [{ key: 'nintendo-switch-2', paren: 'Digital', url: 'https://example.com/store/wyrmwatch-tactics-remaster/switch2' }],
       [{ key: 'mobile-phone', name: 'iOS; Android (Digital)', url: 'https://example.com/store/wyrmwatch-tactics-remaster/mobile' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics-remaster',
