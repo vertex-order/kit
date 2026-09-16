@@ -104,12 +104,15 @@ each own some files and vendor others from the other.
 **Vendored from platforms** (`just sync`, don't hand-edit):
 `site/PlatformIcon.dc.html`, `site/data/platform-icons.js`,
 `site/images/platforms/`, `scripts/{normalize-svg,strip-c2pa,trim-svg}.py`,
-`svgo.config.mjs`. Change those in `platforms`, then `just sync-update platforms`.
+`svgo.config.mjs`. Change those in `platforms`, then `just sync` here.
 
-- `just sync` — pull the vendored files at the pinned `ref`.
-- `just sync-check` — what CI runs
-  ([`check-vendored.yml`](.github/workflows/check-vendored.yml)); fails on drift.
-- `just sync-update platforms` — repin to platforms' current HEAD, then pull.
+- `just sync` — repin every subscription to its source's current `main`
+  and pull it. "Sync" always means this: get the latest.
+- `just sync-check` — read-only: fails if a vendored file has drifted from
+  its currently *pinned* `ref`. What CI runs
+  ([`check-vendored.yml`](.github/workflows/check-vendored.yml)).
+- `just sync-restore` — reapply the currently pinned `ref`'s content
+  without moving the pin. Rare: undoes a hand-edit to a vendored file.
 
 kit re-bundles the vendored `PlatformIcon.dc.html` into `components.js`, so a
 list repo that pulls only `kit` still gets the platform icons.

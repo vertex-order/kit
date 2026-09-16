@@ -18,9 +18,9 @@ That's all it does. Everything else a new list repo needs to change by hand
 is in docs/init-list.md — read that next.
 
 Deliberately not in kit's sync.toml [publish] list, same as sync.list.toml:
-neither has any reason to reach an already-existing repo via `just
-sync-update kit` — they exist only for the moment right after templating.
-Safe to delete this script once it's run; `just sync` never looks for it.
+neither has any reason to reach an already-existing repo via `just sync` —
+they exist only for the moment right after templating. Safe to delete this
+script once it's run; `just sync` never looks for it.
 
 Usage:
   python3 scripts/init-list.py

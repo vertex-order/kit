@@ -48,9 +48,12 @@ kit re-bundles the vendored `PlatformIcon.dc.html` into its own
 too. `platforms` pulls the build substrate back from here for its tuning
 bench; it also owns `ZoomedPlatformIcon.dc.html` (2× wrapper), not needed here.
 
-- `just sync` — pull the subscribed files at the pinned `ref`.
-- `just sync-check` — what CI runs (`check-vendored.yml`); fails on drift.
-- `just sync-update platforms` — repin to platforms' current HEAD, then pull.
+- `just sync` — repin every subscription to its source's current `main` and
+  pull it. "Sync" always means this: get the latest.
+- `just sync-check` — read-only: fails if a vendored file has drifted from
+  its currently *pinned* `ref`. What CI runs (`check-vendored.yml`).
+- `just sync-restore` — reapply the currently pinned `ref`'s content without
+  moving the pin. Rare: undoes a hand-edit to a vendored file.
 
 Never hand-edit a vendored file. Three guards:
 
@@ -62,7 +65,7 @@ Never hand-edit a vendored file. Three guards:
 3. **CI** — `check-vendored.yml`, on every PR and on push to `main`.
 
 **A change spanning both repos:** land the platforms-side piece first →
-`just sync-update platforms` here → land the kit-side change. In a design
+`just sync` here → land the kit-side change. In a design
 tool (no shell) the vendored files are just the last-synced committed
 copies — the header comment is the one guard still visible there.
 
