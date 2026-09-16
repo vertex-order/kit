@@ -952,10 +952,17 @@ class Component extends DCLogic {
         sectionRef: el => { if (el) this.seriesEls['ALL'] = el; else delete this.seriesEls['ALL']; },
       }];
     }
-    const buildPseudoSeries = (num, title, filterFn, note) => {
+    const buildPseudoSeries = (num, title, filterFn, note, sortDesc) => {
       const games = [];
+      const seenKeys = new Set();
       series.forEach(s => s.games.forEach(g => {
         if (!filterFn(g)) return;
+        // Same game can be hand-cross-listed in two real series (e.g. a Picture Book
+        // tie-in) - keep only the first copy here, same dedupeKey the "ALL" flat view uses.
+        const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        if (seenKeys.has(dedupeKey)) return;
+        seenKeys.add(dedupeKey);
         const realAnchorId = g.anchorId;
         games.push({
           ...g,
@@ -972,9 +979,17 @@ class Component extends DCLogic {
           listTitle: null, listItems: null,
           descParas: null,
           extras: null, alt: null,
+          helpWanted: false,
         });
       }));
       if (!games.length) return null;
+      // Chrono/recommended order are per-series concepts that don't mean anything once
+      // entries are pulled out of their series - always sort by real release date instead,
+      // regardless of the page's active sort mode.
+      games.sort((a, b) => {
+        const ka = a.releaseDate || '9999', kb = b.releaseDate || '9999';
+        return sortDesc ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
+      });
       return {
         num, title, navLabel: title, id: 'series-' + num, anchor: '#series-' + num, noUrl: true, url: null,
         ...this.buildPilcrow('series-' + num, false),
@@ -983,8 +998,8 @@ class Component extends DCLogic {
       };
     };
     const pseudoSeries = [
-      buildPseudoSeries('Upcoming', 'Upcoming Releases', g => g.upcoming, 'May already have a demo — check platform storefronts.'),
-      buildPseudoSeries('Recent', 'Recently Released', g => g.recentlyReleased),
+      buildPseudoSeries('Upcoming', 'Upcoming Releases', g => g.upcoming, 'May already have a demo — check platform storefronts.', false),
+      buildPseudoSeries('Recent', 'Recently Released', g => g.recentlyReleased, null, true),
     ].filter(Boolean);
     displaySeries = [...pseudoSeries, ...displaySeries];
     const languageOptions = Array.from(langSet.entries()).map(([value, tip]) => ({
