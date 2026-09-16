@@ -26,15 +26,15 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '91', midScore: '8.6', midUrl: 'https://example.com/reviews/wyrmwatch', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch', sourceUrl: 'https://example.com/store/wyrmwatch', sourceLabel: 'Fixture storefront' },
     lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '50h', tip: 'Completionist' }],
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch/steam' }],
-      [{ icon: null, iconImg: 'images/platforms/windows.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Windows (Digital)', url: 'https://example.com/store/wyrmwatch/windows' }],
+      [{ key: 'steam', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch/steam' }],
+      [{ key: 'windows', name: 'Windows (Digital)', url: 'https://example.com/store/wyrmwatch/windows' }],
       [
-        { icon: null, iconImg: 'images/platforms/playstation4.svg', iconSize: 8.05, imgStyle: 'width: auto; height: 8.05px;', name: 'PlayStation 4 (Physical; Digital)', url: 'https://example.com/store/wyrmwatch/ps4' },
-        { icon: null, iconImg: 'images/platforms/playstation5.svg', iconSize: 8.05, imgStyle: 'width: auto; height: 8.05px;', name: 'PlayStation 5 (PS4 compat)', url: 'https://example.com/store/wyrmwatch/ps4' },
+        { key: 'playstation4', url: 'https://example.com/store/wyrmwatch/ps4' },
+        { key: 'playstation5', name: 'PlayStation 5 (PS4 compat)', url: 'https://example.com/store/wyrmwatch/ps4' },
       ],
-      [{ icon: null, iconImg: 'images/platforms/xbox-one.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Xbox One (Physical; Digital)', url: 'https://example.com/store/wyrmwatch/xbox' }],
-      [{ icon: null, iconImg: 'images/platforms/nintendo-switch.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/wyrmwatch/switch' }],
-      [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch/switch2' }],
+      [{ key: 'xbox-one', name: 'Xbox One (Physical; Digital)', url: 'https://example.com/store/wyrmwatch/xbox' }],
+      [{ key: 'nintendo-switch', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/wyrmwatch/switch' }],
+      [{ key: 'nintendo-switch-2', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch/switch2' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch',
     extras: [
@@ -48,7 +48,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         ],
         languages: [{ value: 'EN', tip: 'English — text only' }],
         platformGroups: [
-          [{ icon: null, iconImg: 'images/platforms/mobile-phone.svg', iconSize: 16.75, imgStyle: 'width: auto; height: 16.75px;', name: 'iOS; Android (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
+          [{ key: 'mobile-phone', name: 'iOS; Android (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
         ],
       },
       {
@@ -56,7 +56,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         description: ['The original release, before the free rebalance patch and the 2022 remaster.'],
         languages: [{ value: 'EN', tip: 'English — full audio', native: true, voice: true }],
         platformGroups: [
-          [{ icon: null, iconImg: 'images/platforms/nintendo-wii-u.svg', iconSize: 10.99, imgStyle: 'width: auto; height: 10.99px;', name: 'Nintendo Wii U (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
+          [{ key: 'nintendo-wii-u', name: 'Nintendo Wii U (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
         ],
       },
     ],
@@ -77,12 +77,12 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     rating: { scoreLabelText: 'Wyrmreview', score: '7.6', url: 'https://example.com/reviews/ashfall-uprising', single: true, sourceLabel: 'Fixture rating source' },
     storeUrl: 'https://example.com/store/ashfall-uprising',
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/ashfall-uprising/steam' }],
+      [{ key: 'steam', name: 'Steam (PC)', url: 'https://example.com/store/ashfall-uprising/steam' }],
       [
-        { icon: null, iconImg: 'images/platforms/playstation4.svg', iconSize: 8.05, imgStyle: 'width: auto; height: 8.05px;', name: 'PlayStation 4 (Digital)', url: 'https://example.com/store/ashfall-uprising/ps4' },
-        { icon: null, iconImg: 'images/platforms/playstation5.svg', iconSize: 8.05, imgStyle: 'width: auto; height: 8.05px;', name: 'PlayStation 5 (PS4 compat)', url: 'https://example.com/store/ashfall-uprising/ps4' },
+        { key: 'playstation4', name: 'PlayStation 4 (Digital)', url: 'https://example.com/store/ashfall-uprising/ps4' },
+        { key: 'playstation5', name: 'PlayStation 5 (PS4 compat)', url: 'https://example.com/store/ashfall-uprising/ps4' },
       ],
-      [{ icon: null, iconImg: 'images/platforms/xbox-one.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Xbox One (Digital)', url: 'https://example.com/store/ashfall-uprising/xbox' }],
+      [{ key: 'xbox-one', name: 'Xbox One (Digital)', url: 'https://example.com/store/ashfall-uprising/xbox' }],
     ],
     platformsUrl: 'https://example.com/store/ashfall-uprising',
   },
@@ -107,10 +107,10 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '88', midScore: '8.4', midUrl: 'https://example.com/reviews/wyrmwatch-ii', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch-ii', sourceUrl: 'https://example.com/store/wyrmwatch-ii', sourceLabel: 'Fixture storefront' },
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-ii/steam' }],
-      [{ icon: null, iconImg: 'images/platforms/playstation5.svg', iconSize: 8.05, imgStyle: 'width: auto; height: 8.05px;', name: 'PlayStation 5 (Physical; Digital)', url: 'https://example.com/store/wyrmwatch-ii/ps5' }],
-      [{ icon: null, iconImg: 'images/platforms/xbox-xs.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Xbox Series X/S (Physical; Digital)', url: 'https://example.com/store/wyrmwatch-ii/xbox' }],
-      [{ icon: null, iconImg: 'images/platforms/nintendo-switch.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch (Digital); cloud-streamed', url: 'https://example.com/store/wyrmwatch-ii/switch' }],
+      [{ key: 'steam', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-ii/steam' }],
+      [{ key: 'playstation5', name: 'PlayStation 5 (Physical; Digital)', url: 'https://example.com/store/wyrmwatch-ii/ps5' }],
+      [{ key: 'xbox-xs', name: 'Xbox Series X/S (Physical; Digital)', url: 'https://example.com/store/wyrmwatch-ii/xbox' }],
+      [{ key: 'nintendo-switch', name: 'Nintendo Switch (Digital); cloud-streamed', url: 'https://example.com/store/wyrmwatch-ii/switch' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-ii',
     extras: [
@@ -136,8 +136,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       rating: { scoreLabelText: 'Wyrmreview', score: '79', url: 'https://example.com/reviews/wyrmwatch-ii-reborn', single: true, sourceLabel: 'Fixture rating source' },
       lengthParts: [{ value: '24h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '33h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '52h', tip: 'Completionist' }],
       platformGroups: [
-        [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-ii-reborn/steam' }],
-        [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch-ii-reborn/switch2' }],
+        [{ key: 'steam', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-ii-reborn/steam' }],
+        [{ key: 'nintendo-switch-2', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch-ii-reborn/switch2' }],
       ],
     },
   },
@@ -157,8 +157,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     rating: { scoreLabelText: 'Wyrmreview', score: '81', url: 'https://example.com/reviews/ember-reckoning', single: true, sourceLabel: 'Fixture rating source' },
     storeUrl: 'https://example.com/store/ember-reckoning',
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/ember-reckoning/steam' }],
-      [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/ember-reckoning/switch2' }],
+      [{ key: 'steam', name: 'Steam (PC)', url: 'https://example.com/store/ember-reckoning/steam' }],
+      [{ key: 'nintendo-switch-2', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/ember-reckoning/switch2' }],
     ],
     platformsUrl: 'https://example.com/store/ember-reckoning',
   },
@@ -175,9 +175,9 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       'Warden Rook Ashvane returns to the Ashfall frontier after a decade of peace, as a new Blightswarm strain breaches the outer watchtowers.',
     ],
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-iii/steam' }],
-      [{ icon: null, iconImg: 'images/platforms/playstation5.svg', iconSize: 8.05, imgStyle: 'width: auto; height: 8.05px;', name: 'PlayStation 5 (Digital)', url: 'https://example.com/store/wyrmwatch-iii/ps5' }],
-      [{ icon: null, iconImg: 'images/platforms/xbox-xs.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Xbox Series X/S (Digital)', url: 'https://example.com/store/wyrmwatch-iii/xbox' }],
+      [{ key: 'steam', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-iii/steam' }],
+      [{ key: 'playstation5', name: 'PlayStation 5 (Digital)', url: 'https://example.com/store/wyrmwatch-iii/ps5' }],
+      [{ key: 'xbox-xs', name: 'Xbox Series X/S (Digital)', url: 'https://example.com/store/wyrmwatch-iii/xbox' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-iii',
   },

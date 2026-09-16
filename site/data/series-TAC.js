@@ -15,8 +15,8 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     rating: { scoreLabelText: 'Wyrmreview', score: '73', url: 'https://example.com/reviews/wyrmwatch-tactics', single: true, sourceLabel: 'Fixture rating source' },
     storeUrl: 'https://example.com/store/wyrmwatch-tactics',
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/nintendo-switch.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/wyrmwatch-tactics/switch' }],
-      [{ icon: null, iconImg: 'images/platforms/mobile-phone.svg', iconSize: 16.75, imgStyle: 'width: auto; height: 16.75px;', name: 'iOS; Android (Digital)', url: 'https://example.com/store/wyrmwatch-tactics/mobile' }],
+      [{ key: 'nintendo-switch', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/wyrmwatch-tactics/switch' }],
+      [{ key: 'mobile-phone', name: 'iOS; Android (Digital)', url: 'https://example.com/store/wyrmwatch-tactics/mobile' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
   },
@@ -31,8 +31,8 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     ],
     rating: { scoreLabelText: 'Wyrmreview', score: '6.9', url: 'https://example.com/reviews/skirmish-pack', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/nintendo-switch.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/skirmish-pack/switch' }],
-      [{ icon: null, iconImg: 'images/platforms/mobile-phone.svg', iconSize: 16.75, imgStyle: 'width: auto; height: 16.75px;', name: 'iOS; Android (Digital)', url: 'https://example.com/store/skirmish-pack/mobile' }],
+      [{ key: 'nintendo-switch', name: 'Nintendo Switch (Digital)', url: 'https://example.com/store/skirmish-pack/switch' }],
+      [{ key: 'mobile-phone', name: 'iOS; Android (Digital)', url: 'https://example.com/store/skirmish-pack/mobile' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
   },
@@ -51,8 +51,8 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     ],
     storeUrl: 'https://example.com/store/wyrmwatch-tactics-remaster',
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch-tactics-remaster/switch2' }],
-      [{ icon: null, iconImg: 'images/platforms/mobile-phone.svg', iconSize: 16.75, imgStyle: 'width: auto; height: 16.75px;', name: 'iOS; Android (Digital)', url: 'https://example.com/store/wyrmwatch-tactics-remaster/mobile' }],
+      [{ key: 'nintendo-switch-2', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch-tactics-remaster/switch2' }],
+      [{ key: 'mobile-phone', name: 'iOS; Android (Digital)', url: 'https://example.com/store/wyrmwatch-tactics-remaster/mobile' }],
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics-remaster',
   },
