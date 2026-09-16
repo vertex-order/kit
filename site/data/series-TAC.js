@@ -36,4 +36,24 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
   },
+  { title: 'Wyrmwatch Tactics', releaseDate: '2027-09-10', chronoOrder: 800, recommendedOrder: 705, tags: ['Turn-Based', 'Optional'], mediaType: 'Game',
+    languages: [
+      { value: 'EN', tip: 'English — text only', native: true },
+      { value: 'DE', tip: 'German — text only' },
+    ],
+    parts: [
+      { label: 'Wyrmwatch Tactics (2021)', url: 'https://example.com/wiki/Wyrmwatch_Tactics' },
+      { label: 'Remaster (2027)', url: 'https://example.com/wiki/Wyrmwatch_Tactics_Remaster', small: true },
+    ],
+    description: [
+      'A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.',
+      'This remaster rebuilds the game in HD with reworked lighting and a remixed soundtrack, with no changes to gameplay or story.',
+    ],
+    storeUrl: 'https://example.com/store/wyrmwatch-tactics-remaster',
+    platformGroups: [
+      [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/wyrmwatch-tactics-remaster/switch2' }],
+      [{ icon: null, iconImg: 'images/platforms/mobile-phone.svg', iconSize: 16.75, imgStyle: 'width: auto; height: 16.75px;', name: 'iOS; Android (Digital)', url: 'https://example.com/store/wyrmwatch-tactics-remaster/mobile' }],
+    ],
+    platformsUrl: 'https://example.com/store/wyrmwatch-tactics-remaster',
+  },
 ]};

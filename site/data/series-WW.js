@@ -141,4 +141,44 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       ],
     },
   },
+  { title: 'Wyrmwatch: Ember Reckoning', releaseDate: '2026-02-14', chronoOrder: 260, recommendedOrder: 350, tags: ['Expansion', 'Optional'], mediaType: 'Game',
+    lengthParts: [{ value: '9h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '13h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '17h', tip: 'Completionist' }],
+    languages: [
+      { value: 'EN', tip: 'English — full audio', native: true, voice: true },
+      { value: 'FR', tip: 'French — text only' },
+    ],
+    parts: [
+      { label: 'Wyrmwatch: Ember Reckoning (2026)', url: 'https://example.com/wiki/Ember_Reckoning' },
+      { label: 'Expansion', url: null, small: true },
+    ],
+    description: [
+      ['A standalone expansion set alongside ', { emText: 'Wyrmwatch II (2019)' }, ', following a splinter watch as they hold a collapsing tower in the frontier’s ember basin.'],
+    ],
+    rating: { scoreLabelText: 'Wyrmreview', score: '81', url: 'https://example.com/reviews/ember-reckoning', single: true, sourceLabel: 'Fixture rating source' },
+    storeUrl: 'https://example.com/store/ember-reckoning',
+    platformGroups: [
+      [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/ember-reckoning/steam' }],
+      [{ icon: null, iconImg: 'images/platforms/nintendo-switch-2.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Nintendo Switch 2 (Digital)', url: 'https://example.com/store/ember-reckoning/switch2' }],
+    ],
+    platformsUrl: 'https://example.com/store/ember-reckoning',
+  },
+  { title: 'Wyrmwatch III', releaseDate: '2027-03-18', chronoOrder: 350, recommendedOrder: 400, mainline: true, tags: ['Sequel'], mediaType: 'Game',
+    languages: [
+      { value: 'EN', tip: 'English — full audio', native: true, voice: true },
+      { value: 'JA', tip: 'Japanese — full audio', voice: true },
+    ],
+    parts: [
+      { label: 'Wyrmwatch III (2027)', url: 'https://example.com/wiki/Wyrmwatch_III' },
+    ],
+    storeUrl: 'https://example.com/store/wyrmwatch-iii',
+    description: [
+      'Warden Rook Ashvane returns to the Ashfall frontier after a decade of peace, as a new Blightswarm strain breaches the outer watchtowers.',
+    ],
+    platformGroups: [
+      [{ icon: null, iconImg: 'images/platforms/steam.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch-iii/steam' }],
+      [{ icon: null, iconImg: 'images/platforms/playstation5.svg', iconSize: 8.05, imgStyle: 'width: auto; height: 8.05px;', name: 'PlayStation 5 (Digital)', url: 'https://example.com/store/wyrmwatch-iii/ps5' }],
+      [{ icon: null, iconImg: 'images/platforms/xbox-xs.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Xbox Series X/S (Digital)', url: 'https://example.com/store/wyrmwatch-iii/xbox' }],
+    ],
+    platformsUrl: 'https://example.com/store/wyrmwatch-iii',
+  },
 ]};
