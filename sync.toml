@@ -32,6 +32,7 @@ owner = "vertex-order/kit"
 # legitimate reason to differ per repo.
 paths = [
   "docs/subtitle.md",
+  "docs/upcoming.md",
   "site/_ds/",
   "site/images/ui/",
   "site/support.js",

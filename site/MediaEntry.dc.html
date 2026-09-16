@@ -28,7 +28,7 @@
     </sc-if>
     <div style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
       <span onMouseEnter="{{ g.onAnchorHoverEnter }}" onMouseLeave="{{ g.onAnchorHoverLeave }}" style="font-size: 15px; text-wrap: pretty;">
-        <dc-import name="EntryTitleLinks" parts="{{ g.parts }}" pilcrow-href="{{ g.anchorHref }}" on-pilcrow-click="{{ g.onAnchorClick }}" pilcrow-opacity="{{ g.pilcrowOpacity }}" show-pilcrow="{{ true }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+        <dc-import name="EntryTitleLinks" parts="{{ g.parts }}" part-click="{{ g.titleJumpClick }}" pilcrow-href="{{ g.anchorHref }}" on-pilcrow-click="{{ g.onAnchorClick }}" pilcrow-opacity="{{ g.pilcrowOpacity }}" show-pilcrow="{{ g.showPilcrow }}" hint-size="auto,20px" style="display: contents;"></dc-import>
       </span>
       <sc-if value="{{ g.byline }}" hint-placeholder-val="{{ false }}">
         <dc-import name="EntryByline" byline="{{ g.byline }}" on-mouse-enter="{{ g.onAnchorHoverEnter }}" on-mouse-leave="{{ g.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
@@ -40,7 +40,12 @@
         <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
       </sc-if>
       <sc-if value="{{ g.upcoming }}" hint-placeholder-val="{{ false }}">
-        <dc-import name="StatusBadge" label="Upcoming" color="var(--color-accent-300)" bg="var(--color-accent-800)" hint-size="auto,20px" style="display: block;"></dc-import>
+        <div style="display: flex; align-items: flex-end; gap: var(--space-2);">
+          <dc-import name="StatusBadge" label="Upcoming" color="var(--color-accent-300)" bg="var(--color-accent-800)" hint-size="auto,20px" style="display: block;"></dc-import>
+          <sc-if value="{{ g.upcomingDateText }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size: 12px; color: var(--color-neutral-500);">{{ g.upcomingDateText }}</span>
+          </sc-if>
+        </div>
       </sc-if>
       <sc-if value="{{ g.descParas }}" hint-placeholder-val="{{ false }}">
         <div style="display: flex; flex-direction: column; gap: var(--space-2);">

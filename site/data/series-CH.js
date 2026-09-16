@@ -40,4 +40,21 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
       [{ icon: null, iconImg: 'images/platforms/youtube.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Streaming (YouTube)', url: 'https://example.com/watch/rise-of-the-wyrm' }],
     ],
   },
+  { title: 'Wyrmwatch Chronicles: Cinderwake', releaseDate: '2025-11-12', chronoOrder: 320, recommendedOrder: 415, tags: ['Novel', 'Optional'], mediaType: 'Book',
+    length: '312p',
+    languages: [
+      { value: 'EN', tip: 'English', native: true, url: 'https://example.com/books/cinderwake/en' },
+    ],
+    parts: [
+      { label: 'Wyrmwatch Chronicles: Cinderwake (2025)', url: 'https://example.com/wiki/Cinderwake' },
+      { label: 'Book', url: null, small: true },
+    ],
+    description: [
+      ['Set shortly after ', { emText: 'Ashfall Uprising (2015)' }, ', a retired warden is called back to the frontier when the ember basin towers go dark.'],
+    ],
+    rating: { scoreLabelText: 'Bookbinder', score: '3.95', url: 'https://example.com/books/cinderwake', single: true, sourceLabel: 'Fixture rating source' },
+    platformGroups: [
+      [{ icon: null, iconImg: 'images/platforms/book.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Novel', noUrl: true }],
+    ],
+  },
 ]};
