@@ -157,6 +157,7 @@ sync.toml                   cross-repo file-sync manifest
 scripts/
 ├── bundle-components.py     regenerates site/components.js          (owned here)
 ├── sync.py                  cross-repo vendored-file sync           (owned here)
+├── check-dedup-drift.py     flags drift between cross-listed duplicate entries (owned here)
 ├── strip-c2pa.py            strips provenance metadata from images   (vendored ← platforms)
 ├── normalize-svg.py         canonicalizes SVG serialization         (vendored ← platforms)
 └── trim-svg.py              one-time: drops subpaths outside viewBox (vendored ← platforms)
@@ -165,7 +166,8 @@ justfile                     build / bundle-components / sync / serve / clean / 
 .githooks/pre-commit         strips image metadata, normalizes SVGs, regenerates components.js
 .github/workflows/
 ├── check-generated.yml      PR check: components.js / SVG serialization stale
-└── check-vendored.yml       PR check: a vendored file drifted from platforms
+├── check-vendored.yml       PR check: a vendored file drifted from platforms
+└── check-dedup-drift.yml    PR check: cross-listed duplicate entries drifted
 .github/
 ├── ISSUE_TEMPLATE/config.yml   points non-collaborators to Discussions
 ├── PULL_REQUEST_TEMPLATE.md    contributor checklist

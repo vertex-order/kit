@@ -35,10 +35,13 @@ list pulling only `kit` gets the platform icons. `platforms` pulls the build
 substrate back from here and owns `ZoomedPlatformIcon.dc.html` (2× wrapper),
 not needed here.
 
-There is no entry page in this repo yet. If one is added it is named
-`page.dc.html` per the vertex-order convention. `bundle-components.py`
-detects the entry page (any `*.dc.html` referencing `components.js`), so it
-needs no per-repo config.
+`site/page.dc.html` is kit's own entry page — a "tuning bench" that renders
+kit's fixture data (`site/data/`) for the component-gallery preview. It's
+also the generic, data-driven entry-page template every list repo pulls
+verbatim (it's in `sync.toml`'s `[publish].paths`); a list repo supplies its
+own `site/data/index.js` + `series-*.js` and gets rendering for free.
+`bundle-components.py` detects the entry page (any `*.dc.html` referencing
+`components.js`), so it needs no per-repo config.
 
 ## Regenerating components.js
 
