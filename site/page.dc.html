@@ -804,6 +804,7 @@ class Component extends DCLogic {
       ...s,
       note,
       navLabel: s.num + ' — ' + s.title,
+      eyebrow: 'SERIES ' + s.num,
       id: 'series-' + s.num,
       anchor: '#series-' + s.num,
       ...this.buildPilcrow('series-' + s.num, false),
@@ -976,7 +977,7 @@ class Component extends DCLogic {
       const games = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
       const allSummary = buildSummary(games, null, g => g.checked, g => g.skipped);
       displaySeries = [{
-        num: 'ALL', title: SITE.name, navLabel: SITE.name, id: 'series-ALL', anchor: '#series-ALL', noUrl: true, url: null,
+        num: 'ALL', title: SITE.name, navLabel: SITE.name, eyebrow: '', id: 'series-ALL', anchor: '#series-ALL', noUrl: true, url: null,
         ...this.buildPilcrow('series-ALL', false),
         note: allSummary, noteLines: allSummary ? [{ plain: allSummary }] : null, games,
         sectionRef: el => { if (el) this.seriesEls['ALL'] = el; else delete this.seriesEls['ALL']; },
@@ -1021,7 +1022,7 @@ class Component extends DCLogic {
         return sortDesc ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
       });
       return {
-        num, title, navLabel: title, id: 'series-' + num, anchor: '#series-' + num, noUrl: true, url: null,
+        num, title, navLabel: title, eyebrow: '', id: 'series-' + num, anchor: '#series-' + num, noUrl: true, url: null,
         ...this.buildPilcrow('series-' + num, false),
         note: note || null, noteLines: note ? [{ plain: note }] : null, games,
         sectionRef: el => { if (el) this.seriesEls[num] = el; else delete this.seriesEls[num]; },

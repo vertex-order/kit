@@ -16,7 +16,7 @@
 <section id="{{ s.id }}" ref="{{ s.sectionRef }}" style="margin-bottom: var(--space-8);">
   <div style="height: 1px; background: linear-gradient(to right, transparent, var(--color-neutral-700), transparent); margin-bottom: var(--space-8);"></div>
   <div style="display: flex; align-items: baseline; gap: var(--space-3); margin-bottom: var(--space-4);">
-    <span style="font-family: var(--font-heading); color: var(--color-accent-300); font-size: 14px; letter-spacing: 0.06em;">SERIES {{ s.num }}</span>
+    <span style="font-family: var(--font-heading); color: var(--color-accent-300); font-size: 14px; letter-spacing: 0.06em;">{{ s.eyebrow }}</span>
   </div>
   <h2 style="font-family: var(--font-heading); font-weight: 500; font-size: 26px; margin: 0 0 var(--space-4); display: flex; align-items: baseline; gap: var(--space-2);" onMouseEnter="{{ s.onAnchorHoverEnter }}" onMouseLeave="{{ s.onAnchorHoverLeave }}"><span><sc-if value="{{ s.url }}" hint-placeholder-val="{{ false }}"><a href="{{ s.url }}" target="_blank" rel="noopener" style="color: inherit;">{{ s.title }}</a></sc-if><sc-if value="{{ s.noUrl }}" hint-placeholder-val="{{ true }}">{{ s.title }}</sc-if></span><a href="{{ s.anchorHref }}" onClick="{{ s.onAnchorClick }}" title="Link to this series" style="color: var(--color-neutral-500); text-decoration: none; font-size: 16px; opacity: {{ s.pilcrowOpacity }}; transition: opacity .15s; white-space: nowrap;">¶</a></h2>
 
