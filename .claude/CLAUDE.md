@@ -21,19 +21,25 @@ Owned and edited here:
 - `scripts/bundle-components.py`, `scripts/sync.py`.
 
 Vendored from `vertex-order/platforms` (`just sync`), **never hand-edit**:
+`site/PlatformIcon.dc.html`, `site/data/platform-icons.js`,
+`site/images/platforms/`.
 
-- `site/PlatformIcon.dc.html`, `site/data/platform-icons.js`,
-  `site/images/platforms/`
-- `scripts/{normalize-svg,strip-c2pa,trim-svg}.py`, `svgo.config.mjs`
+`scripts/{normalize-svg,strip-c2pa,trim-svg}.py` and `svgo.config.mjs` are
+**kit-owned**, not vendored from platforms despite the name — kit's own
+`sync.toml` doesn't subscribe to them from anywhere.
 
 Vendored Claude Design output, **never hand-edit**: `site/support.js`,
 `site/components.js` (generated), everything under `site/_ds/` except
 `styles.css`.
 
-kit re-bundles the vendored `PlatformIcon.dc.html` into `components.js`, so a
-list pulling only `kit` gets the platform icons. `platforms` pulls the build
-substrate back from here and owns `ZoomedPlatformIcon.dc.html` (2× wrapper),
-not needed here.
+kit re-bundles the vendored `PlatformIcon.dc.html` into its own
+`components.js`, for its own tuning-bench preview only — list repos don't
+depend on that bundling. A list repo pulls the platform-icon files directly
+from `platforms` (its own `[subscribe.platforms]`, see `sync.list.toml`),
+not transitively through kit; that's a separate, direct hop specifically to
+avoid an extra repin/PR wait whenever platforms changes. `platforms` pulls
+the build substrate back from here and owns `ZoomedPlatformIcon.dc.html`
+(2× wrapper), not needed here.
 
 `site/page.dc.html` is kit's own entry page — a "tuning bench" that renders
 kit's fixture data (`site/data/`) for the component-gallery preview. It's

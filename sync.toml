@@ -91,7 +91,7 @@ paths = [
 
 [publish.consumers]  # for humans; sync.py ignores this
 "vertex-order/platforms" = "pulls the paths above for its tuning bench"
-"vertex-order/<list>" = "pulls kit as its one dependency — gets the above plus the platform micro-kit re-bundled here; Intro.dc.html is not among them — each list owns its own copy, seeded once at template time (see docs/init-list.md)"
+"vertex-order/<list>" = "pulls kit for the above, plus platforms directly for the platform micro-kit (not transitively through kit — see sync.list.toml's [subscribe.platforms]); Intro.dc.html is not among them — each list owns its own copy, seeded once at template time (see docs/init-list.md)"
 
 [subscribe.platforms]
 repo = "vertex-order/platforms"

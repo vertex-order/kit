@@ -36,7 +36,8 @@ two-way pull. [`sync.toml`](sync.toml) is the manifest.
 | --- | --- |
 | `site/support.js`, `site/_ds/`, `site/images/ui/` | `site/PlatformIcon.dc.html` |
 | `site/BackToTop.dc.html`, `site/HelpWanted.dc.html` | `site/data/platform-icons.js`, `site/images/platforms/` |
-| `scripts/bundle-components.py`, `scripts/sync.py` | `scripts/{normalize-svg,strip-c2pa,trim-svg}.py`, `svgo.config.mjs` |
+| `scripts/bundle-components.py`, `scripts/sync.py` | |
+| `scripts/{normalize-svg,strip-c2pa,trim-svg}.py`, `svgo.config.mjs` (kit-owned despite the name) | |
 | `justfile`, `.githooks/`, `.github/` | |
 
 `support.js` and everything under `_ds/` are **vendored Claude Design
@@ -44,8 +45,11 @@ output** — never hand-edit them either (the one exception is tuning token
 *values* in `_ds/*/styles.css`).
 
 kit re-bundles the vendored `PlatformIcon.dc.html` into its own
-`components.js`, so a list repo pulling only `kit` gets the platform icons
-too. `platforms` pulls the build substrate back from here for its tuning
+`components.js`, for its own tuning-bench preview only. A list repo pulls
+the platform-icon files directly from `platforms` (its own
+`[subscribe.platforms]` — see kit's `sync.list.toml`), not transitively
+through kit, to avoid an extra repin/PR hop whenever platforms changes.
+`platforms` pulls the build substrate back from here for its own tuning
 bench; it also owns `ZoomedPlatformIcon.dc.html` (2× wrapper), not needed here.
 
 - `just sync` — repin every subscription to its source's current `main` and

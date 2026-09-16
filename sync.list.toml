@@ -8,6 +8,11 @@
 #
 # This repo publishes nothing — it owns no file another repo vendors.
 #
+# Two subscriptions, not one: platform-icon files (PlatformIcon.dc.html,
+# platform-icons.js, images/platforms/) come straight from platforms, not
+# transitively through kit — one less hop/repin/PR to wait on when platforms
+# changes. Everything else comes from kit.
+#
 # Not vendored, even though this repo needs its own: .github/ISSUE_TEMPLATE/*
 # and .github/PULL_REQUEST_TEMPLATE.md. Each necessarily carries this repo's
 # own Discussions URL (and PR-checklist lines), so a byte-identical vendor is
@@ -27,10 +32,7 @@ paths = [
   "sync.list.toml",
   "site/_ds/",
   "site/images/ui/",
-  "site/images/platforms/",
   "site/support.js",
-  "site/PlatformIcon.dc.html",
-  "site/data/platform-icons.js",
   "site/BackToTop.dc.html",
   "site/HelpWanted.dc.html",
   "site/DescRun.dc.html",
@@ -70,4 +72,13 @@ paths = [
   ".github/workflows/sync-repin.yml",
   ".github/workflows/static.yml",
   ".github/dependabot.yml",
+]
+
+[subscribe.platforms]
+repo = "vertex-order/platforms"
+ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync`
+paths = [
+  "site/PlatformIcon.dc.html",
+  "site/data/platform-icons.js",
+  "site/images/platforms/",
 ]

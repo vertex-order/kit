@@ -103,8 +103,10 @@ each own some files and vendor others from the other.
 
 **Vendored from platforms** (`just sync`, don't hand-edit):
 `site/PlatformIcon.dc.html`, `site/data/platform-icons.js`,
-`site/images/platforms/`, `scripts/{normalize-svg,strip-c2pa,trim-svg}.py`,
-`svgo.config.mjs`. Change those in `platforms`, then `just sync` here.
+`site/images/platforms/`. Change those in `platforms`, then `just sync`
+here. (`scripts/{normalize-svg,strip-c2pa,trim-svg}.py` and
+`svgo.config.mjs` are kit-owned despite the name — not vendored from
+anywhere.)
 
 - `just sync` — repin every subscription to its source's current `main`
   and pull it. "Sync" always means this: get the latest.
@@ -114,8 +116,11 @@ each own some files and vendor others from the other.
 - `just sync-restore` — reapply the currently pinned `ref`'s content
   without moving the pin. Rare: undoes a hand-edit to a vendored file.
 
-kit re-bundles the vendored `PlatformIcon.dc.html` into `components.js`, so a
-list repo that pulls only `kit` still gets the platform icons.
+kit re-bundles the vendored `PlatformIcon.dc.html` into its own
+`components.js`, for its own tuning-bench preview only. A list repo pulls
+the platform-icon files directly from `platforms` (its own
+`[subscribe.platforms]` — see kit's `sync.list.toml`), not transitively
+through kit, to avoid an extra repin/PR hop whenever platforms changes.
 
 Three things stop a hand edit from landing: an `Owned by vertex-order/platforms
 — edit here` header comment on the file itself (where the format allows one),
