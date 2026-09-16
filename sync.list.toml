@@ -16,7 +16,7 @@
 
 [subscribe.kit]
 repo = "vertex-order/kit"
-ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync-update kit`
+ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync`
 paths = [
   "site/_ds/",
   "site/images/ui/",

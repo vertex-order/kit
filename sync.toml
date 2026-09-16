@@ -20,7 +20,7 @@
 # template — sync.list.toml is the [subscribe.kit] manifest a list needs
 # (this file, kit's own, is the wrong shape for one); init-list.py promotes
 # it to sync.toml once. See docs/init-list.md. Neither has any reason to
-# reach an already-existing repo via `just sync-update kit`.
+# reach an already-existing repo via `just sync`.
 
 [publish]
 owner = "vertex-order/kit"
@@ -88,7 +88,7 @@ paths = [
 
 [subscribe.platforms]
 repo = "vertex-order/platforms"
-ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync-update platforms`
+ref = "88aaebe4c072be5081369a421e641ce270ff42cb"
 paths = [
   "site/PlatformIcon.dc.html",
   "site/data/platform-icons.js",

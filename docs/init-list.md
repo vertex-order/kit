@@ -31,8 +31,9 @@ adapted — see "Your actual content" below for the schema reference to write
 it from scratch. `platform-icons.js` and `common-faq.js` are untouched:
 those stay, vendored from `platforms`/kit respectively.
 
-Then run `just sync` once, as a sanity check — it should report "nothing to
-update," since the tree already matches what it just got copied from.
+Then run `just sync-restore` once, as a sanity check — it should report
+"nothing to update," since the tree already matches what it just got
+copied from.
 
 ## 2. Files to change by hand
 
@@ -138,4 +139,4 @@ worth skimming before it goes.
 
 Every other path is now pulled in via this repo's own `[subscribe.kit]` (in
 `sync.toml`, courtesy of step 1) — don't hand-edit any of it. Pull future
-updates the same way every other list does: `just sync-update kit`.
+updates the same way every other list does: `just sync`.
