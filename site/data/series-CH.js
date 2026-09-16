@@ -17,8 +17,8 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
     ],
     rating: { scoreLabelText: 'Bookbinder', score: '4.12', url: 'https://example.com/books/ashfall-codex', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/book.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Novel', noUrl: true }],
-      [{ icon: null, iconImg: 'images/platforms/fan-audiobook.svg', iconSize: 22, imgStyle: 'width: auto; height: 22px;', name: 'Fan Audiobook (Youtube)', url: 'https://example.com/audiobook/ashfall-codex' }],
+      [{ key: 'book', name: 'Novel', noUrl: true }],
+      [{ key: 'fan-audiobook', name: 'Fan Audiobook (Youtube)', url: 'https://example.com/audiobook/ashfall-codex' }],
     ],
   },
   { title: 'Wyrmwatch: Rise of the Wyrm', releaseDate: '2020-11-20', chronoOrder: 900, recommendedOrder: 420, tags: ['Short Film', 'Optional'], mediaType: 'Video',
@@ -36,8 +36,8 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
     ],
     rating: { scoreLabelText: 'Reelwatch', score: '7.4', url: 'https://example.com/reviews/rise-of-the-wyrm', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/blu-ray.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Blu-ray (Physical)', url: 'https://example.com/store/rise-of-the-wyrm/bluray' }],
-      [{ icon: null, iconImg: 'images/platforms/youtube.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Streaming (YouTube)', url: 'https://example.com/watch/rise-of-the-wyrm' }],
+      [{ key: 'blu-ray', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Blu-ray (Physical)', url: 'https://example.com/store/rise-of-the-wyrm/bluray' }],
+      [{ key: 'youtube', name: 'Streaming (YouTube)', url: 'https://example.com/watch/rise-of-the-wyrm' }],
     ],
   },
   { title: 'Wyrmwatch Chronicles: Cinderwake', releaseDate: '2025-11-12', chronoOrder: 320, recommendedOrder: 415, tags: ['Novel', 'Optional'], mediaType: 'Book',
@@ -54,7 +54,7 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
     ],
     rating: { scoreLabelText: 'Bookbinder', score: '3.95', url: 'https://example.com/books/cinderwake', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [
-      [{ icon: null, iconImg: 'images/platforms/book.svg', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Novel', noUrl: true }],
+      [{ key: 'book', name: 'Novel', noUrl: true }],
     ],
   },
 ]};

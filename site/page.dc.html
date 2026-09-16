@@ -18,6 +18,7 @@
 <script src="./data/common-faq.js"></script>
 <script src="./data/faq.js"></script>
 <script src="./data/help-wanted.js"></script>
+<script src="./data/platform-icons.js"></script>
 <script>
   /* components.js is a generated bundle that inlines every sibling *.dc.html so
      <dc-import> resolves without fetch(), which browsers block on file:// only.
@@ -452,86 +453,25 @@ class Component extends DCLogic {
     Audio: { fg: 'oklch(76% 0.1 110)', bg: 'oklch(76% 0.1 110 / 0.05)' },
     App: { fg: 'oklch(70% 0.1 250)', bg: 'oklch(70% 0.1 250 / 0.05)' },
   };
-  // Legend icon heights are set by hand; row icons are half these values.
-  platformLegend = [
-    { icon: 'bi bi-windows', name: 'Windows (PC; Handheld; Digital)' },
-    { iconImg: 'images/platforms/macos.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'macOS' },
-    { iconImg: 'images/platforms/linux.svg', iconSize: 40, imgStyle: 'width: auto; height: 40px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Linux' },
-    { iconImg: 'images/platforms/gog.svg', iconSize: 33.5, imgStyle: 'width: auto; height: 33.5px;', name: 'GOG (PC)' },
-    { icon: 'bi bi-steam', name: 'Steam (PC; Handheld)' },
-    { iconImg: 'images/platforms/epic-games.svg', iconSize: 32, imgStyle: 'width: auto; height: 32px;', name: 'Epic Games Store (PC)' },
-    { icon: 'bi bi-xbox', suffix: 'X/S', name: 'Xbox Series X/S (Physical; Digital; Optimized; FPS Boost; 360 Compatibility; One Compatibility)' },
-    { icon: 'bi bi-xbox', suffix: 'One', name: 'Xbox One (Physical; Digital; Enhanced; Xbox One X Enhanced; 360 Compatibility)' },
-    { icon: 'bi bi-xbox', suffix: '360', name: 'Xbox 360 (Physical; Xbox Live Arcade)' },
-    { icon: 'bi bi-xbox', suffix: 'Cloud', name: 'Xbox Cloud' },
-    { iconImg: 'images/platforms/ps5.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation 5 (Physical; Digital; PS4 Compatibility; Pro Enhanced)' },
-    { iconImg: 'images/platforms/ps4.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', suffix: 'VR', name: 'PlayStation VR' },
-    { iconImg: 'images/platforms/ps4.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation 4 (Physical; Digital)' },
-    { iconImg: 'images/platforms/ps3.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation 3 (Physical; Digital; PSone Compatibility; PS2 Compatibility)' },
-    { iconImg: 'images/platforms/ps2.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation 2 (Physical; PSone Compatibility)' },
-    { text: 'PSc', fontSize: '21.5px', name: 'PlayStation Classic' },
-    { iconImg: 'images/platforms/ps1.svg', iconSize: 27, imgStyle: 'width: auto; height: 27px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation (PSone) (Physical)' },
-    { iconImg: 'images/platforms/ps-vita.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation Vita (Physical; Digital)' },
-    { iconImg: 'images/platforms/psp.svg', iconSize: 18, imgStyle: 'width: auto; height: 18px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'PlayStation Portable (PSP) (Physical; Digital; Universal Media Disk)' },
-    { iconImg: 'images/platforms/ps-plus.svg', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: grayscale(1) brightness(1.4) sepia(1) hue-rotate(180deg) saturate(150%);', name: 'PlayStation Plus (PS Plus)' },
-    { iconImg: 'images/platforms/switch-2.png', iconSize: 60.5, imgStyle: 'width: auto; height: 60.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo Switch 2 (Physical; Digital)' },
-    { icon: 'bi bi-nintendo-switch', name: 'Nintendo Switch (Physical; Digital)' },
-    { text: 'Wii U', fontSize: '21.5px', name: 'Nintendo Wii U (Physical; Virtual Console; WiiWare)' },
-    { text: 'Wii', fontSize: '21.5px', name: 'Nintendo Wii (Physical; Virtual Console; WiiWare)' },
-    { iconImg: 'images/platforms/gamecube.svg', iconSize: 37, imgStyle: 'width: auto; height: 37px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo GameCube (Physical)' },
-    { iconImg: 'images/platforms/snes.png', iconSize: 28.5, imgStyle: 'width: auto; height: 28.5px;', suffix: 'c', name: 'Super Nintendo Entertainment System (SNES) Classic Edition' },
-    { iconImg: 'images/platforms/snes.png', iconSize: 28.5, imgStyle: 'width: auto; height: 28.5px;', name: 'Super Nintendo Entertainment System (SNES) (Physical)' },
-    { text: 'NESc', fontSize: '21.5px', name: 'Nintendo NES Classic Edition' },
-    { text: 'NES / FC', fontSize: '18.5px', name: 'Nintendo Entertainment System (NES / FC) (Physical)' },
-    { text: 'NES', fontSize: '21.5px', name: 'Nintendo Entertainment System (Physical)' },
-    { text: 'FC', fontSize: '21.5px', name: 'Nintendo Famicom (Physical; Japan Only)', jpTag: true },
-    { iconImg: 'images/platforms/3ds.png', iconSize: 20.8, imgStyle: 'width: auto; height: 20.8px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo 3DS (Physical; Digital)' },
-    { iconImg: 'images/platforms/nintendo-ds.png', iconSize: 23.5, imgStyle: 'width: auto; height: 23.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo DS (Physical; DSi Digital)' },
-    { iconImg: 'images/platforms/gba.png', iconSize: 54.5, imgStyle: 'width: auto; height: 54.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Game Boy Advance (Physical)' },
-    { iconImg: 'images/platforms/game-boy.png', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Nintendo Game Boy (Physical)' },
-    { iconImg: 'images/platforms/ouya.png', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Ouya' },
-    { iconImg: 'images/platforms/arcade.png', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg) brightness(1.8);', name: 'Arcade' },
-    { iconImg: 'images/platforms/wonderswan.svg', iconSize: 38, imgStyle: 'width: auto; height: 38px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'WonderSwan Color (Physical; Japan Only)', jpTag: true },
-    { iconImg: 'images/platforms/msx2.png', iconSize: 48.5, imgStyle: 'width: auto; height: 48.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'MSX2 (Physical; Japan Only)', jpTag: true },
-    { iconImg: 'images/platforms/msx.svg', iconSize: 34, imgStyle: 'width: auto; height: 34px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'MSX (Physical; Japan Only)', jpTag: true },
-    { iconImg: 'images/platforms/sharp-x1.svg', iconSize: 50, imgStyle: 'width: auto; height: 50px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Sharp X1 (Physical; Japan Only)', jpTag: true },
-    { text: 'PC-8801mkII SR', fontSize: '15px', name: 'NEC PC-8801mkII SR (Physical; Japan Only)', jpTag: true },
-    { icon: 'bi bi-browser-chrome', name: 'Browser' },
-    { icon: 'bi bi-android2', name: 'Android' },
-    { icon: 'bi bi-apple', name: 'iOS' },
-    { iconImg: 'images/platforms/apple-arcade.png', iconSize: 32, imgStyle: 'width: auto; height: 32px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Apple Arcade' },
-    { icon: 'bi bi-amazon', name: 'Amazon App Store' },
-    { icon: 'bi bi-facebook', name: 'Facebook (Messenger)' },
-    { iconImg: 'images/platforms/windows-phone.png', iconSize: 34.5, imgStyle: 'width: auto; height: 34.5px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Windows Phone' },
-    { iconImg: 'images/platforms/mobile-phone.svg', iconSize: 33.5, imgStyle: 'width: auto; height: 33.5px; filter: brightness(0) saturate(100%) invert(100%);', name: 'Mobile Phones' },
-    { iconImg: 'images/platforms/blu-ray.png', iconSize: 47, imgStyle: 'width: auto; height: 47px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'UltraHD Blu-ray', prefix: 'U' },
-    { iconImg: 'images/platforms/blu-ray.png', iconSize: 47, imgStyle: 'width: auto; height: 47px; filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(200%) hue-rotate(195deg);', name: 'Blu-ray' },
-    { icon: 'bi bi-cast', name: 'Digital Streaming' },
-    { text: 'DVD', fontSize: '21.5px', name: 'DVD' },
-    { text: 'LD', fontSize: '21.5px', name: 'Laserdisk' },
-    { text: 'CD', fontSize: '21.5px', name: 'Compact Disc' },
-    { text: 'VHS', fontSize: '21.5px', name: 'VHS Tapes' },
-    { icon: 'bi bi-book', name: 'Book' },
-    { icon: 'bi bi-youtube', name: 'Youtube' },
-    { iconImg: 'images/platforms/fan-translation.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan Translation' },
-    { iconImg: 'images/platforms/fan-movie.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan game movie video' },
-    { iconImg: 'images/platforms/fan-audiobook.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan Audiobook' },
-    { iconImg: 'images/platforms/fan-recap.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan story recap video' },
-    { iconImg: 'images/platforms/fan-playthrough.svg', iconSize: 44, imgStyle: 'width: auto; height: 44px;', name: 'Fan playthrough video' },
-  ];
-  plKey(pl) {
-    const base = pl.iconImg ? pl.iconImg.replace(/^images\/platforms\//, '').replace(/_/g, '-')
-      : (pl.icon || (pl.text ? 'text:' + pl.text : (pl.name || '')));
-    return (base + '|' + (pl.suffix || '')).toLowerCase();
+  // Merges an entry's { key, ...overrides } platform reference with its
+  // canonical PLATFORM_ICONS record (icon path/size/style/name/jpTag/...) —
+  // the entry states only what's entry-specific (url, and whatever it
+  // overrides); everything else comes from the platform master exactly once.
+  resolvePl(pl) {
+    if (!pl || !pl.key) return pl;
+    const master = this._plMaster || (this._plMaster = new Map((window.PLATFORM_ICONS || []).map(p => [p.key, p])));
+    const base = master.get(pl.key);
+    return base ? { ...base, ...pl } : pl;
   }
-  // Sorts a single platform list into legend order. Items with no legend match keep
-  // their original slot, so lists are never reordered across releases or sections.
+  // Sorts a single platform list into PLATFORM_ICONS order. Items with no
+  // key (or no match) keep their original slot, so lists are never
+  // reordered across releases or sections.
   sortPls(list) {
     if (!list || list.length < 2) return list;
-    const ranks = this._plRanks || (this._plRanks = new Map(this.platformLegend.map((p, i) => [this.plKey(p), i])));
+    const ranks = this._plRanks || (this._plRanks = new Map((window.PLATFORM_ICONS || []).map((p, i) => [p.key, i])));
     const slots = [], items = [];
     list.forEach((pl, i) => {
-      const r = ranks.get(this.plKey(pl));
+      const r = pl.key === undefined ? undefined : ranks.get(pl.key);
       if (r === undefined) return;
       slots.push(i);
       items.push([r, i, pl]);
@@ -843,18 +783,19 @@ class Component extends DCLogic {
         skipPadding: this.state.status[s.num + '-' + i] === 'skipped' ? '4px 2px 2px' : '2px',
         parts: mapParts(g.parts || [{ label: g.title, url: null }], this.state.status[s.num + '-' + i] === 'checked' ? 'solid' : (this.state.status[s.num + '-' + i] === 'skipped' ? 'dashed' : false)),
         platformGroups: (g.platformGroups || g.platforms)
-          && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => ({ ...pl, href: pl.url || g.platformsUrl }))),
+          && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => ({ ...this.resolvePl(pl), href: pl.url || g.platformsUrl }))),
         langsTopStyle: (g.extras || (g.alt && g.alt.extras)) ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
         extraPlatforms: (g.extras || (g.alt && g.alt.extras))
           ? (() => {
               const out = [];
               const seen = new Set();
               (g.extras || g.alt.extras).forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
-                if (/icon-(movie|recap|play)-allcaps/.test(pl.iconImg || '')) return;
-                const k = pl.name || pl.text || pl.iconImg;
+                const rpl = this.resolvePl(pl);
+                if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
+                const k = pl.key || rpl.name || rpl.text || rpl.iconImg;
                 if (seen.has(k)) return;
                 seen.add(k);
-                out.push(pl);
+                out.push(rpl);
               }));
               return out.length ? this.sortPls(out) : null;
             })()
@@ -871,7 +812,7 @@ class Component extends DCLogic {
           parts: ex.parts && mapParts(ex.parts),
           languages: mapLangs(ex.languages, ex.langOrder),
           byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
-          platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...pl, noPlUrl: !pl.url }))),
+          platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...this.resolvePl(pl), noPlUrl: !pl.url }))),
           descParas: toDescParas(ex.description),
           ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
         };}),
@@ -880,7 +821,7 @@ class Component extends DCLogic {
           parts: alt.parts && mapParts(alt.parts),
           languages: mapLangs(alt.languages, alt.langOrder),
           byline: alt.tags && alt.tags.length ? alt.tags.join(' · ') : undefined,
-          platformGroups: alt.platformGroups && this.sortPls(alt.platformGroups.flat()),
+          platformGroups: alt.platformGroups && this.sortPls(alt.platformGroups.flat().map(pl => this.resolvePl(pl))),
           descParas: toDescParas(alt.description),
         })),
         alt: g.alt && g.alt.extras ? {
@@ -890,18 +831,19 @@ class Component extends DCLogic {
           descParas: toDescParas(g.alt.description),
           otherLanguages: mapLangs(computeOtherLangs(g.alt.languages, g.alt.extras), g.alt.langOrder),
           byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined,
-          platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat()),
+          platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl))),
           ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)),
           langsTopStyle: g.alt.extras.length ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
           extraPlatforms: (() => {
             const out = [];
             const seen = new Set();
             g.alt.extras.forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
-              if (/icon-(movie|recap|play)-allcaps/.test(pl.iconImg || '')) return;
-              const k = pl.name || pl.text || pl.iconImg;
+              const rpl = this.resolvePl(pl);
+              if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
+              const k = pl.key || rpl.name || rpl.text || rpl.iconImg;
               if (seen.has(k)) return;
               seen.add(k);
-              out.push(pl);
+              out.push(rpl);
             }));
             return out.length ? this.sortPls(out) : null;
           })(),
@@ -916,11 +858,11 @@ class Component extends DCLogic {
             parts: ex.parts && mapParts(ex.parts),
             languages: mapLangs(ex.languages, ex.langOrder),
             byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
-            platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...pl, noPlUrl: !pl.url }))),
+            platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...this.resolvePl(pl), noPlUrl: !pl.url }))),
             descParas: toDescParas(ex.description),
             ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
           };}),
-        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat()), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
+        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
       })),
     };});
     const kindOf = g => {
