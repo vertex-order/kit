@@ -852,9 +852,10 @@ class Component extends DCLogic {
             languages: mapLangs(ex.languages, ex.langOrder),
             byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
             platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...pl, noPlUrl: !pl.url }))),
+            descParas: toDescParas(ex.description),
             ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
           };}),
-        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat()), ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
+        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat()), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
       })),
     };});
     const kindOf = g => {
