@@ -736,6 +736,25 @@ class Component extends DCLogic {
       const sentence = joined + '.';
       return sentence.charAt(0).toUpperCase() + sentence.slice(1);
     };
+    const RECENT_MONTHS = 12;
+    const now = new Date();
+    const recentCutoff = new Date(now.getFullYear(), now.getMonth() - RECENT_MONTHS, now.getDate());
+    const parseReleaseEnd = (str) => {
+      const m = str && /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(str);
+      if (!m) return null;
+      const year = +m[1];
+      if (m[3]) return new Date(year, +m[2] - 1, +m[3]);
+      if (m[2]) return new Date(year, +m[2], 0);
+      return new Date(year, 11, 31);
+    };
+    const isUpcoming = (releaseDate) => {
+      const d = parseReleaseEnd(releaseDate);
+      return !!d && d >= now;
+    };
+    const isRecentlyReleased = (releaseDate) => {
+      const d = parseReleaseEnd(releaseDate);
+      return !!d && d < now && d >= recentCutoff;
+    };
     this.anchorRegistry = {};
     this.anchorAliases = {};
     this.dupGroups = {};
@@ -763,6 +782,8 @@ class Component extends DCLogic {
       noteLines: note ? note.split('\n\n').map(t => s.notePartsMap && s.notePartsMap[t] ? { parts: s.notePartsMap[t] } : { plain: t }) : null,
       games: s.games.map((g, i) => ({
         ...g,
+        upcoming: isUpcoming(g.releaseDate),
+        recentlyReleased: isRecentlyReleased(g.releaseDate),
         languages: mapLangs(g.languages, g.langOrder),
         otherLanguages: mapLangs(computeOtherLangs(g.languages, g.extras || (g.alt && g.alt.extras)), g.langOrder),
         byline: g.bylineParts ? undefined : (g.tags && g.tags.length ? g.tags.join(' · ') : undefined),
@@ -917,6 +938,23 @@ class Component extends DCLogic {
         sectionRef: el => { if (el) this.seriesEls['ALL'] = el; else delete this.seriesEls['ALL']; },
       }];
     }
+    const buildPseudoSeries = (num, title, filterFn) => {
+      const games = [];
+      series.forEach(s => s.games.forEach(g => {
+        if (filterFn(g)) games.push({ ...g, ...this.buildPilcrow(num + '-' + g.entryKey, !!(g.byline || g.bylineParts)) });
+      }));
+      if (!games.length) return null;
+      return {
+        num, title, id: 'series-' + num, anchor: '#series-' + num, noUrl: true, url: null,
+        note: null, noteLines: null, games,
+        sectionRef: el => { if (el) this.seriesEls[num] = el; else delete this.seriesEls[num]; },
+      };
+    };
+    const pseudoSeries = [
+      buildPseudoSeries('Upcoming', 'Upcoming Titles', g => g.upcoming),
+      buildPseudoSeries('Recent', 'Recently Released', g => g.recentlyReleased),
+    ].filter(Boolean);
+    displaySeries = [...pseudoSeries, ...displaySeries];
     const languageOptions = Array.from(langSet.entries()).map(([value, tip]) => ({
       value, tip, checked: isLangSelected(value), toggle: () => this.toggleLanguage(value, Array.from(langSet.keys())),
     })).sort((a, b) => {
