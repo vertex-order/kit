@@ -59,6 +59,7 @@ paths = [
   "site/ThemeToggle.dc.html",
   "scripts/bundle-components.py",
   "scripts/sync.py",
+  "scripts/check-dedup-drift.py",
   "scripts/normalize-svg.py",
   "scripts/restore-headers.py",
   "scripts/ensure-helmets.py",
@@ -73,12 +74,13 @@ paths = [
   ".githooks/pre-commit",
   ".github/workflows/check-generated.yml",
   ".github/workflows/check-vendored.yml",
+  ".github/workflows/check-dedup-drift.yml",
   ".github/workflows/sync-repin.yml",
   ".github/workflows/static.yml",
   ".github/dependabot.yml",
 ]
-# platforms-only, not published: site/page.dc.html (the tuning bench),
-# site/ZoomedPlatformIcon.dc.html (2x wrapper — kit doesn't need it).
+# platforms-only, not published: site/ZoomedPlatformIcon.dc.html
+# (2x wrapper — kit doesn't need it).
 
 [publish.consumers]  # for humans; sync.py ignores this
 "vertex-order/platforms" = "pulls the paths above for its tuning bench"
