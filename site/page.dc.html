@@ -258,59 +258,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 
     <dc-import name="Intro" title="{{ introTitle }}" last-updated="{{ introLastUpdated }}" tagline="{{ introTagline }}" stats-text="{{ introStatsText }}" hint-size="auto,600px" style="display: block;"></dc-import>
 
-    <div style="max-width: 620px; margin: var(--space-3) 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
-      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: var(--space-2) 0 0;"><span onMouseEnter="{{ ourOrderAnchor.onAnchorHoverEnter }}" onMouseLeave="{{ ourOrderAnchor.onAnchorHoverLeave }}" style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px;"><strong id="our-order" style="color: var(--color-text); font-weight: 500; font-size: 24px;">Our order</strong><a href="{{ ourOrderAnchor.anchorHref }}" onClick="{{ ourOrderAnchor.onAnchorClick }}" title="Link to this section" style="color: var(--color-neutral-500); text-decoration: none; font-size: 14px; opacity: {{ ourOrderAnchor.pilcrowOpacity }}; transition: opacity .15s;">¶</a></span> We offer four different ways to organize the titles within each series.</p>
-      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Narrative order;</strong> our recommendation. Protects the story's big reveals from prequels that would spoil them, while avoiding the jumps in time that release order can cause. The mainline entry usually comes first, then sequels, then prequels, then spinoffs, for the most cohesive read of the story's key moments.</p>
-      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Chronological order;</strong> not always perfectly possible to pin down. Best if you've already played the mainline entry, since prequels and side stories can spoil later reveals. Lets you experience the whole timeline start to finish, though some side stories are hard to place exactly.</p>
-      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Release order;</strong> within a series, the order things actually came out, which tends to jump around in the story's own timeline. Some argue this reflects how the authors intended the story to unfold, but marketing and sales decisions at the time usually mattered more.</p>
-      <p style="color: var(--color-neutral-300); font-size: 16px; line-height: 1.6; margin: 0;"><strong style="color: var(--color-text); font-weight: 500;">Overall Release order;</strong> no series groupings, just everything in the order it came out. How us old timers experienced things. The mainline entries stay in order, but the extra material has you jumping between series constantly rather than staying within one, and remakes that add new story need some allowances made for where they fall.</p>
-    </div>
-
-    <div style="max-width: 620px; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-2);">
-      <p id="order-to-display" style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Order to display:</p>
-      <div style="display: flex; flex-wrap: wrap; gap: var(--space-4);">
-        <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
-          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
-            <input type="radio" name="pathMode" checked="{{ po.checked }}" onChange="{{ po.select }}" style="width: 16px; height: 16px; accent-color: var(--color-accent); cursor: pointer;">
-            {{ po.label }}
-          </label>
-        </sc-for>
-      </div>
-    </div>
-
-    <p style="color: var(--color-neutral-500); font-size: 13px; margin: var(--space-6) 0 0;">Jump to series:</p>
-    <div ref="{{ jumpRef }}" style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0 var(--space-4);">
-      <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
-        <a href="{{ s.anchor }}" class="tag tag-outline" title="{{ s.title }}">{{ s.num }}</a>
-      </sc-for>
-      <a href="#faq" class="tag tag-outline" title="FAQ">FAQ</a>
-      <a href="#help-wanted" class="tag tag-outline" title="Help Wanted">Help</a>
-    </div>
-
-    <div style="max-width: 620px; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);">
-      <p style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Also display:</p>
-      <div style="display: flex; flex-wrap: wrap; gap: var(--space-4);">
-        <sc-for list="{{ displayToggles }}" as="dt" hint-placeholder-count="4">
-          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
-            <input type="checkbox" checked="{{ dt.checked }}" onChange="{{ dt.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer;">
-            {{ dt.label }}
-          </label>
-        </sc-for>
-      </div>
-    </div>
-
-    <div style="max-width: 620px; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-2);">
-      <p style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Highlight languages:</p>
-      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
-        <sc-for list="{{ languageOptions }}" as="lo" hint-placeholder-count="6">
-          <label title="{{ lo.tip }}" style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
-            <input type="checkbox" checked="{{ lo.checked }}" onChange="{{ lo.toggle }}" style="width: 14px; height: 14px; accent-color: var(--color-accent); cursor: pointer;">
-            {{ lo.value }}
-          </label>
-        </sc-for>
-      </div>
-      <p style="color: var(--color-neutral-600); font-size: 12px; margin: 0;">Preferences are saved locally to your browser and are not sent. No data collection occurs.</p>
-    </div>
+    <dc-import name="InPageControls" our-order-anchor="{{ ourOrderAnchor }}" path-options="{{ pathOptions }}" show-release-order="{{ showReleaseOrder }}" series="{{ series }}" jump-ref="{{ jumpRef }}" display-toggles="{{ displayToggles }}" language-options="{{ languageOptions }}" backup-progress="{{ backupProgress }}" trigger-restore="{{ triggerRestore }}" restore-progress="{{ restoreProgress }}" restore-input-ref="{{ restoreInputRef }}" hint-size="auto,900px" style="display: block;"></dc-import>
 
     <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
       <dc-import name="SeriesSection" s="{{ s }}" show-rating="{{ showRating }}" show-length="{{ showLength }}" show-platforms="{{ showPlatforms }}" show-languages="{{ showLanguages }}" side-by-side="{{ sideBySide }}" stacked="{{ stacked }}" show-col2="{{ showCol2 }}" show-stacked-rl="{{ showStackedRL }}" hint-size="auto,400px" style="display: block;"></dc-import>
@@ -360,6 +308,48 @@ function taglinePlainText(parts) {
   return (parts || []).map(p => (p.text || p.strong || p.em || '')).join('').trim();
 }
 class Component extends DCLogic {
+  restoreInputRef = React.createRef();
+  backupProgress = (e) => {
+    e.preventDefault();
+    const data = { version: 1, status: this.state.status || {} };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = STORAGE_PREFIX.replace(/([a-z])([A-Z])/g, '$1 $2') + ' Backup.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  triggerRestore = (e) => {
+    e.preventDefault();
+    if (!window.confirm('Restoring will replace your current saved progress with the contents of the file you choose. Continue?')) return;
+    if (this.restoreInputRef.current) this.restoreInputRef.current.click();
+  }
+  restoreProgress = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        if (!parsed || typeof parsed !== 'object' || !parsed.status || typeof parsed.version !== 'number') {
+          window.alert('That file doesn\'t look like a valid backup.');
+          return;
+        }
+        if (parsed.version !== 1) {
+          window.alert('This backup was made with a newer version and can\'t be restored here.');
+          return;
+        }
+        localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(parsed.status));
+        this.setState({ status: parsed.status });
+        window.alert('Progress restored.');
+      } catch (err) {
+        window.alert('That file doesn\'t look like a valid backup.');
+      }
+      e.target.value = '';
+    };
+    reader.readAsText(file);
+  }
   state = { expandedAlts: {}, expandedMainExtras: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
   seriesEls = {};
   langOrderDefault = ['JA', 'EN'];
@@ -616,7 +606,7 @@ class Component extends DCLogic {
       { key: 'B', label: 'Chronological order', shortLabel: 'Chronological' },
       { key: 'C', label: 'Release order', shortLabel: 'Release order' },
       { key: 'D', label: 'Overall release order', shortLabel: 'Overall release order' },
-    ].map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
+    ].filter(o => o.key !== 'C' || (this.state.rawSeries || []).length > 1).map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
     const onOrderChange = e => this.setPathMode(e.target.value);
     const onJumpChange = e => { if (e.target.value) location.hash = e.target.value; };
     const notScrolled = !this.state.scrolled;
@@ -1069,7 +1059,7 @@ class Component extends DCLogic {
     const footerEntities = SITE.entities || [];
     const footerDisclosures = SITE.disclosures || [];
     const metaDescription = SITE.description || taglinePlainText(SITE.tagline);
-    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, series: displaySeries, pathOptions, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [] };
+    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, series: displaySeries, pathOptions, showReleaseOrder: (this.state.rawSeries || []).length > 1, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [], backupProgress: this.backupProgress, triggerRestore: this.triggerRestore, restoreProgress: this.restoreProgress, restoreInputRef: this.restoreInputRef };
   }
 }
 </script>
