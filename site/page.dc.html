@@ -736,6 +736,18 @@ class Component extends DCLogic {
       const sentence = joined + '.';
       return sentence.charAt(0).toUpperCase() + sentence.slice(1);
     };
+    const parseReleaseDate = (str) => {
+      const m = str && /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(str);
+      if (!m) return null;
+      const year = +m[1];
+      if (m[3]) return new Date(year, +m[2] - 1, +m[3]);
+      if (m[2]) return new Date(year, +m[2], 0);
+      return new Date(year, 11, 31);
+    };
+    const isUpcoming = (releaseDate) => {
+      const d = parseReleaseDate(releaseDate);
+      return !!d && d >= new Date();
+    };
     this.anchorRegistry = {};
     this.anchorAliases = {};
     this.dupGroups = {};
@@ -763,6 +775,7 @@ class Component extends DCLogic {
       noteLines: note ? note.split('\n\n').map(t => s.notePartsMap && s.notePartsMap[t] ? { parts: s.notePartsMap[t] } : { plain: t }) : null,
       games: s.games.map((g, i) => ({
         ...g,
+        upcoming: isUpcoming(g.releaseDate),
         languages: mapLangs(g.languages, g.langOrder),
         otherLanguages: mapLangs(computeOtherLangs(g.languages, g.extras || (g.alt && g.alt.extras)), g.langOrder),
         byline: g.bylineParts ? undefined : (g.tags && g.tags.length ? g.tags.join(' · ') : undefined),
