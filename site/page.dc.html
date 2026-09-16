@@ -359,7 +359,7 @@ function taglinePlainText(parts) {
   return (parts || []).map(p => (p.text || p.strong || p.em || '')).join('').trim();
 }
 class Component extends DCLogic {
-  state = { expandedAlts: {}, expandedMainExtras: {}, checked: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
+  state = { expandedAlts: {}, expandedMainExtras: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
   seriesEls = {};
   langOrderDefault = ['JA', 'EN'];
   componentDidMount() {
@@ -597,15 +597,27 @@ class Component extends DCLogic {
     return bestKey;
   }
   toggleChecked(key) {
-    const willUncheck = !!this.state.checked[key];
+    const willUncheck = this.state.status[key] === 'checked';
     if (willUncheck && !window.confirm('Mark this as not completed?')) return;
     this.setState(s => {
-      const newVal = !s.checked[key];
+      const newStatus = willUncheck ? null : 'checked';
       const group = (this.dupGroups && this.dupGroups[key]) || [key];
-      const checked = { ...s.checked };
-      group.forEach(k => { checked[k] = newVal; });
-      localStorage.setItem(STORAGE_PREFIX + 'Checked', JSON.stringify(checked));
-      return { checked };
+      const status = { ...s.status };
+      group.forEach(k => { if (newStatus) status[k] = newStatus; else delete status[k]; });
+      localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(status));
+      return { status };
+    });
+  }
+  toggleSkipped(key) {
+    const willUnskip = this.state.status[key] === 'skipped';
+    if (willUnskip && !window.confirm('Mark this as not skipped?')) return;
+    this.setState(s => {
+      const newStatus = willUnskip ? null : 'skipped';
+      const group = (this.dupGroups && this.dupGroups[key]) || [key];
+      const status = { ...s.status };
+      group.forEach(k => { if (newStatus) status[k] = newStatus; else delete status[k]; });
+      localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(status));
+      return { status };
     });
   }
   renderVals() {
@@ -699,9 +711,9 @@ class Component extends DCLogic {
     });
     const raw = this.state.rawSeries || [];
     const numWord = n => ({1:'one',2:'two',3:'three',4:'four',5:'five',6:'six',7:'seven',8:'eight'})[n] || String(n);
-    const mapParts = (parts, forceStrike) => parts.map(p => ({
+    const mapParts = (parts, strikeMode) => parts.map(p => ({
       ...p,
-      smallStyle: (p.small ? 'font-size:12px;color:var(--color-neutral-400);' : '') + ((p.strike || forceStrike) ? 'text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: var(--color-neutral-500);' : '') + (p.italic ? 'font-style: italic;' : ''),
+      smallStyle: (p.small ? 'font-size:12px;color:var(--color-neutral-400);' : '') + ((p.strike || strikeMode) ? ('text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-style: ' + (!p.strike && strikeMode === 'dashed' ? 'dashed' : 'solid') + '; text-decoration-color: var(--color-neutral-500);') : '') + (p.italic ? 'font-style: italic;' : ''),
     }));
     const toDescParas = (desc) => {
       if (!desc) return null;
@@ -711,12 +723,15 @@ class Component extends DCLogic {
         : { text: p });
     };
     const mediaLabels = { Game: ['game', 'games'], Expansion: ['expansion & DLC', 'expansions & DLC'], Book: ['book', 'books'], Comic: ['comic', 'comics'], Movie: ['movie & video', 'movies & videos'], Audio: ['audio drama', 'audio dramas'] };
-    const buildSummary = (games, seriesNum, checkedFn) => {
-      const isChecked = checkedFn || ((g, i) => this.state.checked[seriesNum + '-' + i]);
+    const buildSummary = (games, seriesNum, checkedFn, skippedFn) => {
+      const isChecked = checkedFn || ((g, i) => this.state.status[seriesNum + '-' + i] === 'checked');
+      const isSkipped = skippedFn || ((g, i) => this.state.status[seriesNum + '-' + i] === 'skipped');
       const counts = {};
       const checkedCounts = {};
+      let skippedTotal = 0;
       games.forEach((g, i) => {
         if (!g.mediaType) return;
+        if (isSkipped(g, i)) { skippedTotal++; return; }
         let key = g.mediaType;
         if (key === 'Game' && ((g.tags || []).includes('Expansion') || (g.tags || []).includes('DLC'))) key = 'Expansion';
         if (key === 'TV' || key === 'Video') key = 'Movie';
@@ -731,9 +746,14 @@ class Component extends DCLogic {
         const label = n === 1 ? singular : plural;
         return checkedN > 0 ? `${checkedN}/${n} ${label}` : `${numWord(n)} ${label}`;
       });
-      if (!parts.length) return null;
-      const joined = parts.length > 1 ? `${parts.slice(0, -1).join(', ')}, and ${parts[parts.length - 1]}` : parts[0];
-      const sentence = joined + '.';
+      if (!parts.length && !skippedTotal) return null;
+      let sentence;
+      if (parts.length) {
+        const joined = parts.length > 1 ? `${parts.slice(0, -1).join(', ')}, and ${parts[parts.length - 1]}` : parts[0];
+        sentence = joined + (skippedTotal ? `; (${skippedTotal} skipped)` : '') + '.';
+      } else {
+        sentence = `(${skippedTotal} skipped).`;
+      }
       return sentence.charAt(0).toUpperCase() + sentence.slice(1);
     };
     const RECENT_MONTHS = 12;
@@ -803,14 +823,24 @@ class Component extends DCLogic {
         origIndex: i,
         entryKey: s.num + '-' + i,
         ...this.buildPilcrow('entry-' + s.num + '-' + i, false),
-        checked: !!this.state.checked[s.num + '-' + i],
-        rowCompletedStyle: this.state.checked[s.num + '-' + i] ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);' : '',
-        wrapCompletedStyle: this.state.checked[s.num + '-' + i] ? 'opacity: 0.5;' : '',
+        checked: this.state.status[s.num + '-' + i] === 'checked',
+        skipped: this.state.status[s.num + '-' + i] === 'skipped',
+        rowCompletedStyle: this.state.status[s.num + '-' + i] === 'checked' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);'
+          : this.state.status[s.num + '-' + i] === 'skipped' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-neutral-400) 6%, transparent) 2px);' : '',
+        wrapCompletedStyle: this.state.status[s.num + '-' + i] ? 'opacity: 0.5;' : '',
         showCheckbox: !g.noCheckbox && !isUpcoming(g.releaseDate),
+        showSkipIcon: this.state.status[s.num + '-' + i] !== 'checked',
+        showCheckboxInput: this.state.status[s.num + '-' + i] !== 'skipped',
         showPilcrow: true,
         titleJumpClick: null,
         toggleChecked: () => this.toggleChecked(s.num + '-' + i),
-        parts: mapParts(g.parts || [{ label: g.title, url: null }], !!this.state.checked[s.num + '-' + i]),
+        toggleSkipped: () => this.toggleSkipped(s.num + '-' + i),
+        skipTitle: this.state.status[s.num + '-' + i] === 'skipped' ? 'Marked as skipped — click to unskip' : 'Skip (won\'t count toward completion)',
+        skipIconClass: 'bi bi-skip-forward-fill',
+        skipIconColor: this.state.status[s.num + '-' + i] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
+        skipBg: this.state.status[s.num + '-' + i] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
+        skipPadding: this.state.status[s.num + '-' + i] === 'skipped' ? '4px 2px 2px' : '2px',
+        parts: mapParts(g.parts || [{ label: g.title, url: null }], this.state.status[s.num + '-' + i] === 'checked' ? 'solid' : (this.state.status[s.num + '-' + i] === 'skipped' ? 'dashed' : false)),
         platformGroups: (g.platformGroups || g.platforms)
           && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => ({ ...pl, href: pl.url || g.platformsUrl }))),
         langsTopStyle: (g.extras || (g.alt && g.alt.extras)) ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
@@ -944,7 +974,7 @@ class Component extends DCLogic {
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
       const games = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
-      const allSummary = buildSummary(games, null, g => g.checked);
+      const allSummary = buildSummary(games, null, g => g.checked, g => g.skipped);
       displaySeries = [{
         num: 'ALL', title: SITE.name, navLabel: SITE.name, id: 'series-ALL', anchor: '#series-ALL', noUrl: true, url: null,
         ...this.buildPilcrow('series-ALL', false),
@@ -1033,11 +1063,13 @@ class Component extends DCLogic {
     const mainlineCount = raw.filter(s => (s.games || []).some(g => g.mainline)).length;
     const mediaCounts = {};
     const mediaChecked = {};
+    let pageSkippedTotal = 0;
     raw.forEach(s => (s.games || []).forEach((g, i) => {
       if (!g.mediaType) return;
+      if (this.state.status[s.num + '-' + i] === 'skipped') { pageSkippedTotal++; return; }
       const k = kindOf(g);
       mediaCounts[k] = (mediaCounts[k] || 0) + 1;
-      if (this.state.checked[s.num + '-' + i]) mediaChecked[k] = (mediaChecked[k] || 0) + 1;
+      if (this.state.status[s.num + '-' + i] === 'checked') mediaChecked[k] = (mediaChecked[k] || 0) + 1;
     }));
     const statVal = (...keys) => {
       const total = keys.reduce((sum, k) => sum + (mediaCounts[k] || 0), 0);
@@ -1070,7 +1102,7 @@ class Component extends DCLogic {
     const statsJoined = statParts.length > 1
       ? `${statParts.slice(0, -1).join(', ')}, and ${statParts[statParts.length - 1]}`
       : statParts[0];
-    const introStatsText = `${mainlineCount} mainline entries; ${statsJoined}. Oh my! Where to start?`;
+    const introStatsText = `${mainlineCount} mainline entries; ${statsJoined}${pageSkippedTotal ? `; (${pageSkippedTotal} skipped)` : ''}. Oh my! Where to start?`;
     const introTitle = (SITE.name || '') + ' Vertex Order';
     const introTagline = SITE.tagline || [];
     const footerCredits = window.CREDITS || [];

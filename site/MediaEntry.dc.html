@@ -21,7 +21,16 @@
   </sc-if>
   <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) calc(16px + var(--space-3)); border-radius: 0 var(--radius-md) var(--radius-md) 0; {{ g.rowCompletedStyle }}" style-hover="background: linear-gradient(to right, transparent 2px, var(--color-neutral-800) 2px);">
     <sc-if value="{{ g.showCheckbox }}" hint-placeholder-val="{{ false }}">
-      <input type="checkbox" checked="{{ g.checked }}" onChange="{{ g.toggleChecked }}" style="width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; margin-left: -6px; accent-color: var(--color-accent); cursor: pointer;">
+      <span style="display: flex; flex-direction: column; align-items: center; gap: 4.25px; flex-shrink: 0; margin-top: 1px; margin-left: -6px;">
+        <sc-if value="{{ g.showCheckboxInput }}" hint-placeholder-val="{{ true }}">
+          <input type="checkbox" checked="{{ g.checked }}" onChange="{{ g.toggleChecked }}" style="width: 18px; height: 18px; accent-color: var(--color-accent); cursor: pointer;">
+        </sc-if>
+        <sc-if value="{{ g.showSkipIcon }}" hint-placeholder-val="{{ true }}">
+          <button title="{{ g.skipTitle }}" onClick="{{ g.toggleSkipped }}" style="width: 22px; height: 18px; display: flex; align-items: center; justify-content: center; padding: {{ g.skipPadding }}; border: none; border-radius: 2px; background: {{ g.skipBg }}; cursor: pointer; color: {{ g.skipIconColor }};" style-hover="background: var(--color-neutral-800);">
+            <i class="{{ g.skipIconClass }}" style="font-size: 15px;"></i>
+          </button>
+        </sc-if>
+      </span>
     </sc-if>
     <sc-if value="{{ g.noCheckbox }}" hint-placeholder-val="{{ false }}">
       <span style="width: 18px; flex-shrink: 0;"></span>
