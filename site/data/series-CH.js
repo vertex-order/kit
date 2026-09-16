@@ -18,7 +18,7 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
     rating: { scoreLabelText: 'Bookbinder', score: '4.12', url: 'https://example.com/books/ashfall-codex', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [
       [{ key: 'book', name: 'Novel', noUrl: true }],
-      [{ key: 'fan-audiobook', name: 'Fan Audiobook (Youtube)', url: 'https://example.com/audiobook/ashfall-codex' }],
+      [{ key: 'fan-audiobook', paren: 'Youtube', url: 'https://example.com/audiobook/ashfall-codex' }],
     ],
   },
   { title: 'Wyrmwatch: Rise of the Wyrm', releaseDate: '2020-11-20', chronoOrder: 900, recommendedOrder: 420, tags: ['Short Film', 'Optional'], mediaType: 'Video',
@@ -36,7 +36,7 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
     ],
     rating: { scoreLabelText: 'Reelwatch', score: '7.4', url: 'https://example.com/reviews/rise-of-the-wyrm', single: true, sourceLabel: 'Fixture rating source' },
     platformGroups: [
-      [{ key: 'blu-ray', iconSize: 16, imgStyle: 'width: auto; height: 16px;', name: 'Blu-ray (Physical)', url: 'https://example.com/store/rise-of-the-wyrm/bluray' }],
+      [{ key: 'blu-ray', iconSize: 16, imgStyle: 'width: auto; height: 16px;', paren: 'Physical', url: 'https://example.com/store/rise-of-the-wyrm/bluray' }],
       [{ key: 'youtube', name: 'Streaming (YouTube)', url: 'https://example.com/watch/rise-of-the-wyrm' }],
     ],
   },

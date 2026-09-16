@@ -456,14 +456,26 @@ class Component extends DCLogic {
   // Merges an entry's { key, ...overrides } platform reference with its
   // canonical PLATFORM_ICONS record (icon path/size/style/jpTag/...) — the
   // entry states only what's entry-specific: url, whatever it overrides,
-  // and always its own `name` (per-release tooltip text — never inherited;
-  // the master's `name` is a catalog of every variant that platform has
-  // ever meant, not a default for what this specific release supports).
+  // and its own naming of what this specific release actually supports.
+  // The master's `name` is a catalog of every variant that platform has
+  // ever meant (e.g. Xbox One's "Physical; Digital; Enhanced; ..."), never
+  // a default, so an entry never inherits it whole. What IS a safe default
+  // is the base label before that catalog's trailing "(...)" (e.g. "Xbox
+  // One") — an entry states only `paren` (the part in parens that's true
+  // for it specifically) to get "<base> (<paren>)", nothing for just the
+  // bare base label, or a full `name` override for a label that isn't
+  // "<base> (<something>)" shaped at all (e.g. a book's "Novel").
   resolvePl(pl) {
     if (!pl || !pl.key) return pl;
     const master = this._plMaster || (this._plMaster = new Map((window.PLATFORM_ICONS || []).map(p => [p.key, p])));
     const base = master.get(pl.key);
-    return base ? { ...base, ...pl } : pl;
+    if (!base) return pl;
+    const merged = { ...base, ...pl };
+    if (pl.name === undefined) {
+      const baseName = base.name.replace(/\s*\([^()]*\)\s*$/, '');
+      merged.name = pl.paren ? `${baseName} (${pl.paren})` : baseName;
+    }
+    return merged;
   }
   // Sorts a single platform list into PLATFORM_ICONS order. Items with no
   // key (or no match) keep their original slot, so lists are never
