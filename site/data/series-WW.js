@@ -29,7 +29,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       [{ key: 'steam', name: 'Steam (PC)', url: 'https://example.com/store/wyrmwatch/steam' }],
       [{ key: 'windows', name: 'Windows (Digital)', url: 'https://example.com/store/wyrmwatch/windows' }],
       [
-        { key: 'playstation4', url: 'https://example.com/store/wyrmwatch/ps4' },
+        { key: 'playstation4', name: 'PlayStation 4 (Physical; Digital)', url: 'https://example.com/store/wyrmwatch/ps4' },
         { key: 'playstation5', name: 'PlayStation 5 (PS4 compat)', url: 'https://example.com/store/wyrmwatch/ps4' },
       ],
       [{ key: 'xbox-one', name: 'Xbox One (Physical; Digital)', url: 'https://example.com/store/wyrmwatch/xbox' }],
