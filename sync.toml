@@ -43,6 +43,7 @@ paths = [
   "site/_ds/",
   "site/images/ui/",
   "site/support.js",
+  "site/theme-dev.js",
   "site/data/common-faq.js",
   "site/data/catalogs.js",
   "site/BackToTop.dc.html",

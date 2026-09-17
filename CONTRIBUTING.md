@@ -23,6 +23,7 @@ bar is "does this hold up everywhere it's used," not just in one place.
 ```
 site/
 ├── support.js              Design Component runtime — vendored, don't edit
+├── theme-dev.js            dev-only theme.css cache-bust — edit freely, see its header comment
 ├── PlatformIcon.dc.html    one platform icon at listing-row size
 ├── BackToTop.dc.html       floating back-to-top control
 ├── HelpWanted.dc.html      renders a "Help Wanted" list
