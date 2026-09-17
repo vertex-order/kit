@@ -12,6 +12,8 @@
 <helmet>
 <link rel="stylesheet" href="_ds/nocturne-dd511f00-0314-498c-83ef-49f001a371b0/styles.css">
 <script src="_ds/nocturne-dd511f00-0314-498c-83ef-49f001a371b0/_ds_bundle.js"></script>
+<!-- data/theme.css: per-repo color overrides, not vendored -- see docs/init-list.md "Theme colors" -->
+<link rel="stylesheet" href="data/theme.css">
 </helmet>
 <sc-for list="{{ parts }}" as="p" hint-placeholder-count="1"><a href="{{ p.url }}" target="_blank" rel="noopener" title="{{ p.tip }}" onClick="{{ partClick }}" onMouseEnter="{{ onMouseEnter }}" onMouseLeave="{{ onMouseLeave }}" style="margin-right: var(--space-2); {{ p.smallStyle }}">{{ p.label }}</a></sc-for><sc-if value="{{ showPilcrow }}" hint-placeholder-val="{{ true }}"><a href="{{ pilcrowHref }}" onClick="{{ onPilcrowClick }}" title="Link to this entry" style="color: var(--color-neutral-500); text-decoration: none; font-size: 12px; opacity: {{ pilcrowOpacity }}; transition: opacity .15s; white-space: nowrap;">¶</a></sc-if>
 </x-dc>
