@@ -1,0 +1,54 @@
+# kit-owned. NOT in sync.toml [publish] — deliberately not vendored
+# elsewhere, same as tests/ itself. See docs/testing.md for why kit's test
+# suite stays kit-local for now.
+#
+# Two independent regression classes, two jobs:
+#   - token-checks: fast, no build — design-token defaults and their
+#     var() fallback consistency (tests/site/check-token-snapshot.js,
+#     tests/site/check-var-fallbacks.js).
+#   - ssr-verify: a real `just build`, which runs
+#     tests/site/verify-ssr.js against the actual build output — catches
+#     a prerender that looks settled but never boots for a real visitor
+#     (the fbb80c1 bug class).
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  token-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".node-version"
+
+      - name: Design-token snapshot
+        run: node tests/site/check-token-snapshot.js
+
+      - name: var() fallback consistency
+        run: node tests/site/check-var-fallbacks.js
+
+  ssr-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install just
+        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4
+
+      - name: Install Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".node-version"
+
+      - name: Build (includes SSR prerender + verify)
+        run: just build
