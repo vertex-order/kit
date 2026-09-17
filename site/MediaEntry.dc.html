@@ -142,7 +142,7 @@
   </div>
   <sc-if value="{{ g.extras }}" hint-placeholder-val="{{ false }}">
     <div style="position: relative; margin: var(--space-2) 0 var(--space-2) 0;">
-      <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent-900) 61%, transparent);"></span>
+      <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent) 45%, transparent);"></span>
       <dc-import name="ExtrasToggle" on-toggle="{{ g.toggleExtra }}" chevron-transform="{{ g.extraChevron }}" hint-size="auto,24px" style="display: block;"></dc-import>
       <sc-if value="{{ g.extraExpanded }}" hint-placeholder-val="{{ false }}">
         <sc-for list="{{ g.extras }}" as="ex" hint-placeholder-count="1">
@@ -372,7 +372,7 @@
   </sc-for>
   <sc-if value="{{ g.alt.extras }}" hint-placeholder-val="{{ false }}">
     <div style="position: relative; margin: var(--space-2) 0 var(--space-2) 0;">
-      <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent-900) 61%, transparent);"></span>
+      <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent) 45%, transparent);"></span>
       <dc-import name="ExtrasToggle" on-toggle="{{ g.alt.toggleExtra }}" chevron-transform="{{ g.alt.extraChevron }}" hint-size="auto,24px" style="display: block;"></dc-import>
       <sc-if value="{{ g.alt.extraExpanded }}" hint-placeholder-val="{{ false }}">
         <sc-for list="{{ g.alt.extras }}" as="ex" hint-placeholder-count="1">
