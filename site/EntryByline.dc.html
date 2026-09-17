@@ -14,6 +14,7 @@
 <script src="_ds/nocturne-dd511f00-0314-498c-83ef-49f001a371b0/_ds_bundle.js"></script>
 <!-- data/theme.css: per-repo color overrides, not vendored -- see docs/init-list.md "Theme colors" -->
 <link rel="stylesheet" href="data/theme.css">
+<script src="./theme-dev.js"></script>
 </helmet>
 <span onMouseEnter="{{ onMouseEnter }}" onMouseLeave="{{ onMouseLeave }}" style="color: var(--color-neutral-600); font-size: 12px; font-style: italic;">
   <sc-if value="{{ byline }}" hint-placeholder-val="{{ false }}">{{ byline }}</sc-if><sc-if value="{{ bylineParts }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ bylineParts }}" as="bp" hint-placeholder-count="0"><sc-if value="{{ bp.abbrTerm }}" hint-placeholder-val="{{ false }}"><abbr title="{{ bp.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ bp.abbrTerm }}</abbr></sc-if><sc-if value="{{ bp.text }}" hint-placeholder-val="{{ false }}">{{ bp.text }}</sc-if></sc-for></sc-if><sc-if value="{{ showPilcrow }}" hint-placeholder-val="{{ false }}"><a href="{{ pilcrowHref }}" onClick="{{ onPilcrowClick }}" title="Link to this entry" style="color: var(--color-neutral-500); text-decoration: none; opacity: {{ pilcrowOpacity }}; transition: opacity .15s; white-space: nowrap; margin-left: 5.6px;">¶</a></sc-if>
