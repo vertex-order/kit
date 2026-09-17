@@ -70,6 +70,18 @@ are the two existing list repos to copy the *shape* of — not kit.
   yours: it's never subscribed from kit again, so future edits are
   hand-edits, not a vendor pull.
 
+### Theme colors (optional)
+
+- `site/data/theme.css` — the `--color-*` custom properties for light and
+  dark mode, loaded after Nocturne's own stylesheet
+  (`site/_ds/nocturne-*/styles.css`) so these values win. Not vendored, like
+  `Intro.dc.html`: templating copies kit's own values byte-for-byte, so a new
+  list repo starts out looking identical to kit, and stays that way until you
+  hand-edit this file. Delete a line to fall back to the Nocturne default for
+  that token. Every `*.dc.html` component's own helmet links this
+  stylesheet too, so a component previewed standalone in Claude Design
+  picks up your overrides the same as the full page does.
+
 ### Replace (kit's version doesn't apply to a list)
 
 - `LICENSE` — kit's is plain MIT, because kit is 100% code. A list repo has
