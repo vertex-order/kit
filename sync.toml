@@ -40,6 +40,7 @@ paths = [
   "sync.list.toml",
   "docs/subtitle.md",
   "docs/upcoming.md",
+  "docs/cache.md",
   "site/_ds/",
   "site/images/ui/",
   "site/support.js",
