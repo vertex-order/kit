@@ -67,6 +67,7 @@ paths = [
   "package-lock.json",
   ".npmrc",
   ".node-version",
+  ".gitignore",
   ".editorconfig",
   ".gitattributes",
   ".vscode/extensions.json",
