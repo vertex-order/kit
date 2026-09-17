@@ -27,11 +27,12 @@
         <span><abbr title="{{ rating.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ rating.abbrTerm }}</abbr></span>
       </sc-if>
     </sc-if>
-    <sc-if value="{{ rating.single }}" hint-placeholder-val="{{ false }}">
-      <span><a href="{{ rating.url }}" target="_blank" rel="noopener" title="{{ rating.sourceLabel }}">{{ rating.score }}</a><sc-if value="{{ rating.midScore }}" hint-placeholder-val="{{ false }}"> / <a href="{{ rating.midUrl }}" target="_blank" rel="noopener" title="{{ rating.midLabelText }}">{{ rating.midScore }}</a></sc-if></span>
-    </sc-if>
-    <sc-if value="{{ rating.sourceUrl }}" hint-placeholder-val="{{ false }}">
-      <span><a href="{{ rating.url }}" target="_blank" rel="noopener" title="{{ rating.scoreLabelText }}">{{ rating.score }}</a><sc-if value="{{ rating.midScore }}" hint-placeholder-val="{{ false }}"> / <a href="{{ rating.midUrl }}" target="_blank" rel="noopener" title="{{ rating.midLabelText }}">{{ rating.midScore }}</a></sc-if> / <a href="{{ rating.sourceUrl }}" target="_blank" rel="noopener" title="{{ rating.sourceLabel }}">{{ rating.source }}</a></span>
+    <sc-if value="{{ rating.scores }}" hint-placeholder-val="{{ false }}">
+      <span>
+        <sc-for list="{{ rating.scores }}" as="sc" hint-placeholder-count="2">
+          <a href="{{ sc.url }}" target="_blank" rel="noopener" title="{{ sc.label }}">{{ sc.value }}</a><sc-if value="{{ sc.sep }}" hint-placeholder-val="{{ false }}"> / </sc-if>
+        </sc-for>
+      </span>
     </sc-if>
   </span>
 </sc-if>

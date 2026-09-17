@@ -44,6 +44,7 @@ paths = [
   "site/images/ui/",
   "site/support.js",
   "site/data/common-faq.js",
+  "site/data/catalogs.js",
   "site/BackToTop.dc.html",
   "site/HelpWanted.dc.html",
   "site/DescRun.dc.html",

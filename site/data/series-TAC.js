@@ -5,14 +5,14 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
   { title: 'Wyrmwatch Tactics', releaseDate: '2021-08-17', chronoOrder: 800, recommendedOrder: 710, tags: ['Turn-Based', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '12h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '16h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '24h', tip: 'Completionist' }],
     languages: [
-      { value: 'EN', tip: 'English — text only', native: true },
-      { value: 'DE', tip: 'German — text only' },
+      { value: 'EN', native: true, textOnly: true },
+      { value: 'DE', textOnly: true },
     ],
     parts: [
       { label: 'Wyrmwatch Tactics (2021)', url: 'https://example.com/wiki/Wyrmwatch_Tactics' },
     ],
     description: ['A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.'],
-    rating: { scoreLabelText: 'Wyrmreview', score: '73', url: 'https://example.com/reviews/wyrmwatch-tactics', single: true, sourceLabel: 'Fixture rating source' },
+    rating: { scores: [{ label: 'Fixture rating source', score: '73', url: 'https://example.com/reviews/wyrmwatch-tactics' }] },
     storeUrl: 'https://example.com/store/wyrmwatch-tactics',
     platformGroups: [
       [{ key: 'nintendo-switch', paren: 'Digital', url: 'https://example.com/store/wyrmwatch-tactics/switch' }],
@@ -29,7 +29,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     description: [
       ['Adds a versus-only skirmish mode on top of ', { emText: 'Wyrmwatch Tactics (2021)' }, '.'],
     ],
-    rating: { scoreLabelText: 'Wyrmreview', score: '6.9', url: 'https://example.com/reviews/skirmish-pack', single: true, sourceLabel: 'Fixture rating source' },
+    rating: { scores: [{ label: 'Fixture rating source', score: '6.9', url: 'https://example.com/reviews/skirmish-pack' }] },
     platformGroups: [
       [{ key: 'nintendo-switch', paren: 'Digital', url: 'https://example.com/store/skirmish-pack/switch' }],
       [{ key: 'mobile-phone', name: 'iOS; Android (Digital)', url: 'https://example.com/store/skirmish-pack/mobile' }],
@@ -38,8 +38,8 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
   },
   { title: 'Wyrmwatch Tactics', releaseDate: '2027-09-10', chronoOrder: 800, recommendedOrder: 705, tags: ['Turn-Based', 'Optional'], mediaType: 'Game',
     languages: [
-      { value: 'EN', tip: 'English — text only', native: true },
-      { value: 'DE', tip: 'German — text only' },
+      { value: 'EN', native: true, textOnly: true },
+      { value: 'DE', textOnly: true },
     ],
     parts: [
       { label: 'Wyrmwatch Tactics (2021)', url: 'https://example.com/wiki/Wyrmwatch_Tactics' },

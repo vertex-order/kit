@@ -19,6 +19,7 @@
 <script src="./data/faq.js"></script>
 <script src="./data/help-wanted.js"></script>
 <script src="./data/platform-icons.js"></script>
+<script src="./data/catalogs.js"></script>
 <script>
   /* components.js is a generated bundle that inlines every sibling *.dc.html so
      <dc-import> resolves without fetch(), which browsers block on file:// only.
@@ -443,6 +444,12 @@ class Component extends DCLogic {
     Audio: { fg: 'oklch(76% 0.1 110)', bg: 'oklch(76% 0.1 110 / 0.05)' },
     App: { fg: 'oklch(70% 0.1 250)', bg: 'oklch(70% 0.1 250 / 0.05)' },
   };
+  // Default search-suffix per fan-* key for ytSearch (below) — override per
+  // entry with `ytSuffix` (empty string for "just the title, no suffix").
+  ytSuffixByKey = { 'fan-movie': 'game movie', 'fan-recap': 'story recap', 'fan-playthrough': 'playthrough' };
+  ytSearchUrl(title, suffix) {
+    return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(suffix ? title + ' ' + suffix : title);
+  }
   // Merges an entry's { key, ...overrides } platform reference with its
   // canonical PLATFORM_ICONS record (icon path/size/style/jpTag/...) — the
   // entry states only what's entry-specific: url, whatever it overrides,
@@ -455,17 +462,83 @@ class Component extends DCLogic {
   // for it specifically) to get "<base> (<paren>)", nothing for just the
   // bare base label, or a full `name` override for a label that isn't
   // "<base> (<something>)" shaped at all (e.g. a book's "Novel").
-  resolvePl(pl) {
+  //
+  // `ytSearch: true` on a fan-movie/fan-recap/fan-playthrough entry computes
+  // `url` as a YouTube search instead of stating the encoded URL by hand.
+  // Title defaults to `rowTitle` (the enclosing game/extra/alt's own title);
+  // override per-entry with `ytTitle` when the search deliberately deviates
+  // (a different title gets better results) or there's no natural rowTitle
+  // (an extra/alt has no bare title, only `parts`). Suffix defaults from
+  // `ytSuffixByKey`; override with `ytSuffix` (`''` for no suffix at all).
+  // `paren` defaults to 'Youtube' unless the entry gives its own `paren` or
+  // a full `name` override.
+  resolvePl(pl, rowTitle) {
     if (!pl || !pl.key) return pl;
+    let src = pl;
+    if (pl.ytSearch && pl.paren === undefined && pl.name === undefined) src = { ...pl, paren: 'Youtube' };
     const master = this._plMaster || (this._plMaster = new Map((window.PLATFORM_ICONS || []).map(p => [p.key, p])));
-    const base = master.get(pl.key);
-    if (!base) return pl;
-    const merged = { ...base, ...pl };
-    if (pl.name === undefined) {
+    const base = master.get(src.key);
+    if (!base) return src;
+    const merged = { ...base, ...src };
+    if (src.name === undefined) {
       const baseName = base.name.replace(/\s*\([^()]*\)\s*$/, '');
-      merged.name = pl.paren ? `${baseName} (${pl.paren})` : baseName;
+      merged.name = src.paren ? `${baseName} (${src.paren})` : baseName;
+    }
+    if (src.ytSearch) {
+      const suffix = src.ytSuffix !== undefined ? src.ytSuffix : (this.ytSuffixByKey[src.key] || '');
+      const title = src.ytTitle !== undefined ? src.ytTitle : (rowTitle || '');
+      merged.url = this.ytSearchUrl(title, suffix);
     }
     return merged;
+  }
+  // Row-level default search title for ytSearch: a game's own `title`, or
+  // (for an extra/alt with no `title`) the first non-`small` `parts` label.
+  rowSearchTitle(row) {
+    if (!row) return '';
+    if (row.title) return row.title;
+    const p = (row.parts || []).find(p => !p.small);
+    return (p && p.label) || '';
+  }
+  // Resolves a `rating` object's `kind` (and `sourceKind`) against fixed
+  // label catalogs, so entries state which kind of score this is instead of
+  // repeating that kind's tooltip text verbatim. `single` (score+url only),
+  // `textOnly` (abbr badge, e.g. NYR/TBD), and `abbrTermLinked`/`abbrTermPlain`
+  // (linked vs plain badge) all follow from `kind` + whether `url` is set —
+  // an entry only overrides them for a shape its `kind` doesn't imply.
+  // LANGUAGE_NAMES / RATING_KINDS / STEAM_REVIEW_LABELS come from
+  // site/data/catalogs.js (kit-owned, see that file's header) — extend
+  // there, not here, when a new language code or rating source shows up.
+  // Badge mode (`textOnly`, e.g. NYR/TBD) merges `kind`'s catalog entry
+  // whole, same as before. Score mode (`scores`) resolves each score's own
+  // `kind` independently — a rating is just however many scores it has, no
+  // fixed critic/user/source slots, joined by the common ' / ' separator.
+  resolveRating(r) {
+    if (!r) return r;
+    const kinds = window.RATING_KINDS || {};
+    const kindDef = r.kind ? kinds[r.kind] : null;
+    // A badge kind (nyr/tbd) implies textOnly via its own catalog entry —
+    // an entry doesn't repeat `textOnly: true` itself just to name `kind`.
+    if (r.textOnly || (kindDef && kindDef.textOnly)) {
+      const merged = { ...kindDef, ...r };
+      if (merged.abbrTerm) {
+        merged.abbrTermLinked = !!r.url;
+        merged.abbrTermPlain = !r.url;
+      }
+      return merged;
+    }
+    if (r.scores) {
+      const steamLabels = window.STEAM_REVIEW_LABELS || {};
+      const n = r.scores.length;
+      const scores = r.scores.map((s, i) => {
+        let label = s.label;
+        if (label === undefined && s.kind) {
+          label = s.kind === 'steam' ? 'Steam; ' + (steamLabels[s.score] || s.score) : (kinds[s.kind] || {}).label;
+        }
+        return { value: s.score, url: s.url, label, sep: i < n - 1 };
+      });
+      return { ...r, scores };
+    }
+    return r;
   }
   // Sorts a single platform list into PLATFORM_ICONS order. Items with no
   // key (or no match) keep their original slot, so lists are never
@@ -638,6 +711,7 @@ class Component extends DCLogic {
       }));
       return out.length ? out : null;
     };
+    const langName = lg => (window.LANGUAGE_NAMES || {})[lg.value] || lg.tip || lg.value;
     const mapLangs = (langs, order) => langs && langs.slice().sort((a, b) => {
       const va = a.voice ? 0 : 1, vb = b.voice ? 0 : 1;
       if (va !== vb) return va - vb;
@@ -645,13 +719,12 @@ class Component extends DCLogic {
       if (ra !== rb) return ra - rb;
       return (a.value || '').localeCompare(b.value || '');
     }).map((lg, i, arr) => {
-      if (!langSet.has(lg.value)) {
-        const override = { 'ZH-CN': 'Chinese (Simplified)', 'ZH-TW': 'Chinese (Traditional)' };
-        langSet.set(lg.value, override[lg.value] || (lg.value.includes('-') ? (lg.tip || lg.value).replace(/\s*[—-]\s*(full audio|text only|subtitles).*$/i, '') : (lg.tip || lg.value).replace(/\s*[—-].*$/, '').replace(/\s*\(.*$/, '')));
-      }
+      const name = langName(lg);
+      if (!langSet.has(lg.value)) langSet.set(lg.value, name);
+      const tip = lg.tip !== undefined ? lg.tip : name + (lg.voice ? ' — full audio' : lg.textOnly ? ' — text only' : '');
       const active = isLangSelected(lg.value);
       const voiceSep = i > 0 && !!arr[i - 1].voice && !lg.voice;
-      return { ...lg, voiceSep, active, style: 'font-size: 10.8px; letter-spacing: 0.03em; text-transform: uppercase; cursor: default; text-decoration: none; ' + (active ? 'font-weight: 700; color: var(--color-text);' : 'color: var(--color-neutral-300);') };
+      return { ...lg, tip, voiceSep, active, style: 'font-size: 10.8px; letter-spacing: 0.03em; text-transform: uppercase; cursor: default; text-decoration: none; ' + (active ? 'font-weight: 700; color: var(--color-text);' : 'color: var(--color-neutral-300);') };
     });
     const raw = this.state.rawSeries || [];
     const numWord = n => ({1:'one',2:'two',3:'three',4:'four',5:'five',6:'six',7:'seven',8:'eight'})[n] || String(n);
@@ -786,15 +859,19 @@ class Component extends DCLogic {
         skipBg: this.state.status[s.num + '-' + i] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
         skipPadding: this.state.status[s.num + '-' + i] === 'skipped' ? '4px 2px 2px' : '2px',
         parts: mapParts(g.parts || [{ label: g.title, url: null }], this.state.status[s.num + '-' + i] === 'checked' ? 'solid' : (this.state.status[s.num + '-' + i] === 'skipped' ? 'dashed' : false)),
+        rating: this.resolveRating(g.rating),
         platformGroups: (g.platformGroups || g.platforms)
-          && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => ({ ...this.resolvePl(pl), href: pl.url || g.platformsUrl }))),
+          && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => {
+            const r = this.resolvePl(pl, this.rowSearchTitle(g));
+            return { ...r, href: r.url || g.platformsUrl };
+          })),
         langsTopStyle: (g.extras || (g.alt && g.alt.extras)) ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
         extraPlatforms: (g.extras || (g.alt && g.alt.extras))
           ? (() => {
               const out = [];
               const seen = new Set();
               (g.extras || g.alt.extras).forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
-                const rpl = this.resolvePl(pl);
+                const rpl = this.resolvePl(pl, this.rowSearchTitle(ex));
                 if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
                 const k = pl.key || rpl.name || rpl.text || rpl.iconImg;
                 if (seen.has(k)) return;
@@ -816,7 +893,8 @@ class Component extends DCLogic {
           parts: ex.parts && mapParts(ex.parts),
           languages: mapLangs(ex.languages, ex.langOrder),
           byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
-          platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...this.resolvePl(pl), noPlUrl: !pl.url }))),
+          rating: this.resolveRating(ex.rating),
+          platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...this.resolvePl(pl, this.rowSearchTitle(ex)), noPlUrl: !pl.url && !pl.ytSearch }))),
           descParas: toDescParas(ex.description),
           ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
         };}),
@@ -825,7 +903,8 @@ class Component extends DCLogic {
           parts: alt.parts && mapParts(alt.parts),
           languages: mapLangs(alt.languages, alt.langOrder),
           byline: alt.tags && alt.tags.length ? alt.tags.join(' · ') : undefined,
-          platformGroups: alt.platformGroups && this.sortPls(alt.platformGroups.flat().map(pl => this.resolvePl(pl))),
+          rating: this.resolveRating(alt.rating),
+          platformGroups: alt.platformGroups && this.sortPls(alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(alt)))),
           descParas: toDescParas(alt.description),
         })),
         alt: g.alt && g.alt.extras ? {
@@ -835,14 +914,15 @@ class Component extends DCLogic {
           descParas: toDescParas(g.alt.description),
           otherLanguages: mapLangs(computeOtherLangs(g.alt.languages, g.alt.extras), g.alt.langOrder),
           byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined,
-          platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl))),
+          rating: this.resolveRating(g.alt.rating),
+          platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))),
           ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)),
           langsTopStyle: g.alt.extras.length ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
           extraPlatforms: (() => {
             const out = [];
             const seen = new Set();
             g.alt.extras.forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
-              const rpl = this.resolvePl(pl);
+              const rpl = this.resolvePl(pl, this.rowSearchTitle(ex));
               if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
               const k = pl.key || rpl.name || rpl.text || rpl.iconImg;
               if (seen.has(k)) return;
@@ -862,11 +942,12 @@ class Component extends DCLogic {
             parts: ex.parts && mapParts(ex.parts),
             languages: mapLangs(ex.languages, ex.langOrder),
             byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
-            platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...this.resolvePl(pl), noPlUrl: !pl.url }))),
+            rating: this.resolveRating(ex.rating),
+            platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...this.resolvePl(pl, this.rowSearchTitle(ex)), noPlUrl: !pl.url && !pl.ytSearch }))),
             descParas: toDescParas(ex.description),
             ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
           };}),
-        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
+        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, rating: this.resolveRating(g.alt.rating), platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
       })),
     };});
     const kindOf = g => {

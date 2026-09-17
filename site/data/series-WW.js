@@ -7,10 +7,10 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
   { title: 'Wyrmwatch', releaseDate: '2014-03-11', chronoOrder: 200, recommendedOrder: 100, mainline: true, tags: [], mediaType: 'Game',
     lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '48h', tip: 'Completionist' }],
     languages: [
-      { value: 'EN', tip: 'English — full audio', native: true, voice: true },
-      { value: 'FR', tip: 'French — full audio', voice: true },
-      { value: 'DE', tip: 'German — full audio', voice: true },
-      { value: 'JA', tip: 'Japanese — full audio', voice: true },
+      { value: 'EN', native: true, voice: true },
+      { value: 'FR', voice: true },
+      { value: 'DE', voice: true },
+      { value: 'JA', voice: true },
     ],
     parts: [
       { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
@@ -23,7 +23,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       'This remaster reworks lighting, remixes the soundtrack, redraws the UI, and adds a photo mode. Released as Wyrmwatch: Anniversary Remaster.',
       ['Also sold as ', { emText: 'Wyrmwatch: Warden’s Edition' }, ' in some regions.'],
     ],
-    rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '91', midScore: '8.6', midUrl: 'https://example.com/reviews/wyrmwatch', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch', sourceUrl: 'https://example.com/store/wyrmwatch', sourceLabel: 'Fixture storefront' },
+    rating: { scores: [{ label: 'Wyrmreview', score: '91', url: 'https://example.com/reviews/wyrmwatch' }, { label: 'Wyrmreview Players', score: '8.6', url: 'https://example.com/reviews/wyrmwatch' }, { label: 'Fixture storefront', score: 'Fixture', url: 'https://example.com/store/wyrmwatch' }] },
     lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '50h', tip: 'Completionist' }],
     platformGroups: [
       [{ key: 'steam', paren: 'PC', url: 'https://example.com/store/wyrmwatch/steam' }],
@@ -46,17 +46,17 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         description: [
           ['A feature-phone port with simplified bonding menus and two bonding chapters cut for hardware limits. Released as ', { emText: 'Wyrmwatch Go' }, '.'],
         ],
-        languages: [{ value: 'EN', tip: 'English — text only' }],
+        languages: [{ value: 'EN', textOnly: true }],
         platformGroups: [
-          [{ key: 'mobile-phone', name: 'iOS; Android (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
+          [{ key: 'mobile-phone', name: 'iOS; Android (Digital); terminated', terminated: true }],
         ],
       },
       {
         label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch',
         description: ['The original release, before the free rebalance patch and the 2022 remaster.'],
-        languages: [{ value: 'EN', tip: 'English — full audio', native: true, voice: true }],
+        languages: [{ value: 'EN', native: true, voice: true }],
         platformGroups: [
-          [{ key: 'nintendo-wii-u', name: 'Nintendo Wii U (Digital); terminated', terminated: true, strikeColor: 'currentColor', contentOpacity: 0.5 }],
+          [{ key: 'nintendo-wii-u', name: 'Nintendo Wii U (Digital); terminated', terminated: true }],
         ],
       },
     ],
@@ -64,8 +64,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
   { title: 'Wyrmwatch: Ashfall Uprising', releaseDate: '2015-06-02', chronoOrder: 250, recommendedOrder: 300, tags: ['Expansion', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '8h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '11h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '14h', tip: 'Completionist' }],
     languages: [
-      { value: 'EN', tip: 'English — full audio', native: true, voice: true },
-      { value: 'FR', tip: 'French — text only' },
+      { value: 'EN', native: true, voice: true },
+      { value: 'FR', textOnly: true },
     ],
     parts: [
       { label: 'Wyrmwatch: Ashfall Uprising (2015)', url: 'https://example.com/wiki/Ashfall_Uprising' },
@@ -74,7 +74,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     description: [
       ['Standalone expansion set ', { emText: 'immediately after' }, ' the base game — the Blightswarm regroups beyond the watchtowers.'],
     ],
-    rating: { scoreLabelText: 'Wyrmreview', score: '7.6', url: 'https://example.com/reviews/ashfall-uprising', single: true, sourceLabel: 'Fixture rating source' },
+    rating: { scores: [{ label: 'Fixture rating source', score: '7.6', url: 'https://example.com/reviews/ashfall-uprising' }] },
     storeUrl: 'https://example.com/store/ashfall-uprising',
     platformGroups: [
       [{ key: 'steam', paren: 'PC', url: 'https://example.com/store/ashfall-uprising/steam' }],
@@ -89,11 +89,11 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
   { title: 'Wyrmwatch II', releaseDate: '2019-05-14', chronoOrder: 50, recommendedOrder: 200, mainline: true, tags: ['Prequel'], mediaType: 'Game',
     lengthParts: [{ value: '26h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '35h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '55h', tip: 'Completionist' }],
     languages: [
-      { value: 'EN', tip: 'English — full audio', native: true, voice: true },
-      { value: 'JA', tip: 'Japanese — full audio', voice: true },
-      { value: 'FR', tip: 'French — full audio', voice: true },
-      { value: 'DE', tip: 'German — text only' },
-      { value: 'ES', tip: 'Spanish — text only' },
+      { value: 'EN', native: true, voice: true },
+      { value: 'JA', voice: true },
+      { value: 'FR', voice: true },
+      { value: 'DE', textOnly: true },
+      { value: 'ES', textOnly: true },
     ],
     parts: [
       { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
@@ -105,7 +105,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       'Adds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.',
       'This edit added a selectable Hard difficulty and New Game+, with no changes to visuals or story.',
     ],
-    rating: { scoreLabelText: 'Wyrmreview', midLabelText: 'Wyrmreview Players', score: '88', midScore: '8.4', midUrl: 'https://example.com/reviews/wyrmwatch-ii', source: 'Fixture', url: 'https://example.com/reviews/wyrmwatch-ii', sourceUrl: 'https://example.com/store/wyrmwatch-ii', sourceLabel: 'Fixture storefront' },
+    rating: { scores: [{ label: 'Wyrmreview', score: '88', url: 'https://example.com/reviews/wyrmwatch-ii' }, { label: 'Wyrmreview Players', score: '8.4', url: 'https://example.com/reviews/wyrmwatch-ii' }, { label: 'Fixture storefront', score: 'Fixture', url: 'https://example.com/store/wyrmwatch-ii' }] },
     platformGroups: [
       [{ key: 'steam', paren: 'PC', url: 'https://example.com/store/wyrmwatch-ii/steam' }],
       [{ key: 'playstation5', paren: 'Physical; Digital', url: 'https://example.com/store/wyrmwatch-ii/ps5' }],
@@ -129,11 +129,11 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         ['Replaces the original’s turn-based tactics with real-time combat, and adds a new prologue chapter and an alternate ending. Released as ', { emText: 'Wyrmwatch II: Reborn' }, '.'],
       ],
       languages: [
-        { value: 'EN', tip: 'English — full audio', native: true, voice: true },
-        { value: 'JA', tip: 'Japanese — full audio', voice: true },
+        { value: 'EN', native: true, voice: true },
+        { value: 'JA', voice: true },
       ],
       storeUrl: 'https://example.com/store/wyrmwatch-ii-reborn',
-      rating: { scoreLabelText: 'Wyrmreview', score: '79', url: 'https://example.com/reviews/wyrmwatch-ii-reborn', single: true, sourceLabel: 'Fixture rating source' },
+      rating: { scores: [{ label: 'Fixture rating source', score: '79', url: 'https://example.com/reviews/wyrmwatch-ii-reborn' }] },
       lengthParts: [{ value: '24h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '33h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '52h', tip: 'Completionist' }],
       platformGroups: [
         [{ key: 'steam', paren: 'PC', url: 'https://example.com/store/wyrmwatch-ii-reborn/steam' }],
@@ -144,8 +144,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
   { title: 'Wyrmwatch: Ember Reckoning', releaseDate: '2026-02-14', chronoOrder: 260, recommendedOrder: 350, tags: ['Expansion', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '9h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '13h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '17h', tip: 'Completionist' }],
     languages: [
-      { value: 'EN', tip: 'English — full audio', native: true, voice: true },
-      { value: 'FR', tip: 'French — text only' },
+      { value: 'EN', native: true, voice: true },
+      { value: 'FR', textOnly: true },
     ],
     parts: [
       { label: 'Wyrmwatch: Ember Reckoning (2026)', url: 'https://example.com/wiki/Ember_Reckoning' },
@@ -154,7 +154,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     description: [
       ['A standalone expansion set alongside ', { emText: 'Wyrmwatch II (2019)' }, ', following a splinter watch as they hold a collapsing tower in the frontier’s ember basin.'],
     ],
-    rating: { scoreLabelText: 'Wyrmreview', score: '81', url: 'https://example.com/reviews/ember-reckoning', single: true, sourceLabel: 'Fixture rating source' },
+    rating: { scores: [{ label: 'Fixture rating source', score: '81', url: 'https://example.com/reviews/ember-reckoning' }] },
     storeUrl: 'https://example.com/store/ember-reckoning',
     platformGroups: [
       [{ key: 'steam', paren: 'PC', url: 'https://example.com/store/ember-reckoning/steam' }],
@@ -164,8 +164,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
   },
   { title: 'Wyrmwatch III', releaseDate: '2027-03-18', chronoOrder: 350, recommendedOrder: 400, mainline: true, tags: ['Sequel'], mediaType: 'Game',
     languages: [
-      { value: 'EN', tip: 'English — full audio', native: true, voice: true },
-      { value: 'JA', tip: 'Japanese — full audio', voice: true },
+      { value: 'EN', native: true, voice: true },
+      { value: 'JA', voice: true },
     ],
     parts: [
       { label: 'Wyrmwatch III (2027)', url: 'https://example.com/wiki/Wyrmwatch_III' },
