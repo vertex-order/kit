@@ -49,6 +49,13 @@ Optional: [`just`](https://github.com/casey/just) for the `just serve` /
 pre-commit hook (strips image metadata, normalizes SVGs, regenerates
 `site/components.js`).
 
+Also optional, locally: [Node](https://nodejs.org) — `just build` uses it to
+prerender the entry page's initial content (see "SSR prerender" below). No
+Node on PATH just means your local `build/` ships without that prerender
+(blank-then-hydrate, like every build before this feature); `just build`
+still succeeds either way. The real deploy always has Node (GitHub Actions'
+runners ship it), so this never silently ships to production without it.
+
 ## Edit a component
 
 The components are readable HTML with `{{ expression }}` bindings, evaluated
@@ -69,6 +76,24 @@ first.
 
 `PlatformIcon.dc.html` is consumed by `platforms` (the tuning bench) and by
 every list repo. Test a change to it against real data before you PR.
+
+## SSR prerender
+
+`just build`'s last step runs [`scripts/ssr-render.js`](scripts/ssr-render.js)
+over the assembled `build/index.html`: it boots the real support.js DC
+runtime inside jsdom (not a reimplementation) against build-time defaults
+(no localStorage yet, so the same fallbacks a first-time visitor gets), waits
+for it to settle, and serializes the result back over the file. The client
+boot path is unchanged — support.js still does a full `ReactDOM.createRoot`
+remount on load, not a `hydrate()` — so this only removes the blank paint
+before that remount; it never changes runtime behavior. `build/` itself is
+still gitignored and never committed (CI does the real one at deploy time);
+this step never touches `site/`.
+
+Kit-owned, not vendored Claude Design output — safe to edit here, unlike
+`site/support.js` (below). Published via `sync.toml` like every other build
+script, so a change here needs `just sync` in `platforms`/list repos to
+reach them.
 
 ## Restyle (Nocturne tokens)
 

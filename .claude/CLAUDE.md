@@ -18,7 +18,9 @@ Owned and edited here:
 - `site/_ds/nocturne-*/styles.css` — design token *values* (the rest of the
   file is generated Claude Design output).
 - `site/images/ui/` — chrome glyphs (arrow-up, sun, moon-stars).
-- `scripts/bundle-components.py`, `scripts/sync.py`.
+- `scripts/bundle-components.py`, `scripts/sync.py`, `scripts/ssr-render.js`,
+  `package.json`/`package-lock.json` (Node deps for `ssr-render.js` only —
+  never shipped to the browser).
 
 Vendored from `vertex-order/platforms` (`just sync`), **never hand-edit**:
 `site/PlatformIcon.dc.html`, `site/data/platform-icons.js`,
@@ -92,6 +94,26 @@ the header comment at the top of the current `components.js`:
   silently no-ops.
 - The header comment at the top of the current `components.js` is the
   authoritative spec.
+
+## SSR prerender
+
+`just build`'s final step runs `scripts/ssr-render.js`, which boots the real
+support.js DC runtime inside jsdom against build-time defaults (no
+localStorage yet) and serializes the settled result back over
+`build/index.html`, so the deployed page paints real content immediately
+instead of the blank shell support.js fills in after React + data load. Not
+a reimplementation of anything — same support.js, same React, same
+`*.dc.html` components, just run once at build time against default state.
+Client boot is unchanged (support.js still does a full non-hydrating
+`ReactDOM.createRoot` remount on load), so this changes no runtime behavior,
+only what's already in the HTML before that remount happens.
+
+`build/` stays gitignored, generated fresh by CI at deploy time
+(`.github/workflows/static.yml` → `just build`) — nothing from this step is
+ever committed. Needs Node; CI always has it (GitHub Actions' runners ship
+it), so the deployed site always gets the prerender. Locally, `just
+build`/`just serve` degrade gracefully without Node on PATH — same
+blank-then-hydrate behavior as before this feature, not a failure.
 
 ## SVGs
 
