@@ -90,6 +90,9 @@ paths = [
   ".github/workflows/check-dedup-drift.yml",
   ".github/workflows/sync-repin.yml",
   ".github/workflows/static.yml",
+  ".github/workflows/fix-build.yml",
+  ".github/workflows/autofix.yml",
+  ".github/workflows/autofix-apply.yml",
   ".github/dependabot.yml",
 ]
 # platforms-only, not published: site/ZoomedPlatformIcon.dc.html
