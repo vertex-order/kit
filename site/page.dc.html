@@ -45,6 +45,7 @@
 body { margin: 0; background: var(--color-bg); }
 a { color: var(--color-accent-300); text-decoration: none; }
 a:hover { color: var(--color-accent); text-decoration: underline; }
+[data-theme="dark"] a { color: var(--color-accent-400); }
 [data-theme="light"] a { color: var(--color-accent-300); }
 [data-theme="light"] a:hover { color: var(--color-accent); }
 .sc-host[data-sc-name="DescRun"] { display: inline; }
@@ -67,7 +68,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
     <div style="max-width: 760px; margin: 0 auto; height: 44px; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-4); padding-right: calc(var(--space-4) + {{ navReservedRightPx }});">
       <sc-if value="{{ navShowTitle }}" hint-placeholder-val="{{ true }}">
       <div style="display: flex; flex-direction: column; justify-content: center; gap: 1px; margin-top: 6px; margin-left: {{ navTitleMarginLeft }};">
-        <span style="font-family: var(--font-heading); font-weight: 500; font-size: 13px; line-height: 1; white-space: nowrap; color: var(--color-text);">{{ siteName }} <span title="Vertex Industries, that's us!">Vertex</span> Order</span>
+        <span style="font-family: var(--font-display, var(--font-heading)); font-weight: var(--font-display-weight, 500); letter-spacing: var(--font-display-tracking, 0); font-size: 13px; line-height: 1; white-space: nowrap; color: var(--color-text);">{{ siteName }} <span title="Vertex Industries, that's us!">Vertex</span> Order</span>
         <span style="font-size: 9px; line-height: 1; white-space: nowrap; color: var(--color-neutral-600); margin-top: 2px;">Updated: {{ lastUpdatedShort }}</span>
       </div>
       </sc-if>
@@ -169,7 +170,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
       <div style="position: absolute; top: 40px; right: 0; z-index: 30; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-3); min-width: 220px; max-height: 70vh; overflow-y: auto;">
         <sc-if value="{{ hideTitleInMenu }}" hint-placeholder-val="{{ false }}">
         <div style="display: flex; flex-direction: column; gap: 1px;">
-          <span style="font-family: var(--font-heading); font-weight: 500; font-size: 13px; line-height: 1.3; color: var(--color-text);">{{ siteName }} Vertex Order</span>
+          <span style="font-family: var(--font-display, var(--font-heading)); font-weight: var(--font-display-weight, 500); letter-spacing: var(--font-display-tracking, 0); font-size: 13px; line-height: 1.3; color: var(--color-text);">{{ siteName }} Vertex Order</span>
           <span style="font-size: 10px; color: var(--color-neutral-600);">Updated: {{ lastUpdatedShort }}</span>
         </div>
         </sc-if>
@@ -230,7 +231,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 
   <nav class="nav" style="padding: var(--space-3) 0;">
     <div style="max-width: 760px; margin: 0 auto; padding: 0 var(--space-4); width: 100%;">
-      <div class="nav-brand" style="margin-left: {{ navTitleMarginLeft }};">{{ siteName }} — <span title="Vertex Industries, that's us!">Vertex</span> Order</div>
+      <div class="nav-brand" style="margin-left: {{ navTitleMarginLeft }}; font-family: var(--font-display, var(--font-heading)); font-weight: var(--font-display-weight, 500); letter-spacing: var(--font-display-tracking, 0);">{{ siteName }} — <span title="Vertex Industries, that's us!">Vertex</span> Order</div>
     </div>
   </nav>
 
@@ -422,6 +423,18 @@ class Component extends DCLogic {
     TV: { fg: 'oklch(74% 0.1 210)', bg: 'oklch(74% 0.1 210 / 0.05)' },
     Audio: { fg: 'oklch(76% 0.1 110)', bg: 'oklch(76% 0.1 110 / 0.05)' },
     App: { fg: 'oklch(70% 0.1 250)', bg: 'oklch(70% 0.1 250 / 0.05)' },
+  };
+  // Same hues, darkened/saturated so the label text still passes contrast
+  // against the light-mode white surface (light-mode-only).
+  typeColorsLight = {
+    Game: { fg: 'oklch(42% 0.15 290)', bg: 'oklch(42% 0.15 290 / 0.08)' },
+    Book: { fg: 'oklch(42% 0.13 150)', bg: 'oklch(42% 0.13 150 / 0.08)' },
+    Comic: { fg: 'oklch(45% 0.15 60)', bg: 'oklch(45% 0.15 60 / 0.08)' },
+    Movie: { fg: 'oklch(40% 0.16 25)', bg: 'oklch(40% 0.16 25 / 0.08)' },
+    Video: { fg: 'oklch(42% 0.15 340)', bg: 'oklch(42% 0.15 340 / 0.08)' },
+    TV: { fg: 'oklch(40% 0.12 210)', bg: 'oklch(40% 0.12 210 / 0.08)' },
+    Audio: { fg: 'oklch(40% 0.12 110)', bg: 'oklch(40% 0.12 110 / 0.08)' },
+    App: { fg: 'oklch(38% 0.12 250)', bg: 'oklch(38% 0.12 250 / 0.08)' },
   };
   // Default search-suffix per fan-* key for ytSearch (below) — override per
   // entry with `ytSuffix` (empty string for "just the title, no suffix").
@@ -815,8 +828,8 @@ class Component extends DCLogic {
         languages: mapLangs(g.languages, g.langOrder),
         otherLanguages: mapLangs(computeOtherLangs(g.languages, g.extras || (g.alt && g.alt.extras)), g.langOrder),
         byline: g.bylineParts ? undefined : (g.tags && g.tags.length ? g.tags.join(' · ') : undefined),
-        typeColor: g.mediaType ? this.typeColors[g.mediaType].fg : null,
-        typeBg: g.mediaType ? this.typeColors[g.mediaType].bg : null,
+        typeColor: g.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[g.mediaType].fg : null,
+        typeBg: g.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[g.mediaType].bg : null,
         origIndex: i,
         entryKey: s.num + '-' + i,
         ...this.buildPilcrow('entry-' + s.num + '-' + i, false),

@@ -82,6 +82,20 @@ are the two existing list repos to copy the *shape* of — not kit.
   stylesheet too, so a component previewed standalone in Claude Design
   picks up your overrides the same as the full page does.
 
+### Theme display font (optional)
+
+- Same file, three more custom properties: `--font-display`,
+  `--font-display-weight`, `--font-display-tracking`. Vendored components
+  that render the site's wordmark (`page.dc.html`'s nav brand, floating-nav
+  brand, hamburger-menu title, `SeriesSection.dc.html`'s `<h2>`) and
+  `Intro.dc.html`'s `<h1>` all read these with a `var(--font-display,
+  var(--font-heading))`-shaped fallback, so a repo that never sets them
+  keeps kit's `--font-heading` look unchanged everywhere. To brand the
+  wordmark with its own display face (e.g. final-fantasy's Cinzel), set the
+  three properties here and load the face's stylesheet from
+  `Intro.dc.html`'s own `<helmet>` — not `page.dc.html`'s, since that file is
+  vendored and must stay byte-identical to kit's copy.
+
 ### Replace (kit's version doesn't apply to a list)
 
 - `LICENSE` — kit's is plain MIT, because kit is 100% code. A list repo has
