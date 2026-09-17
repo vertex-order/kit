@@ -36,7 +36,7 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
     ],
     rating: { scores: [{ label: 'Fixture rating source', score: '7.4', url: 'https://example.com/reviews/rise-of-the-wyrm' }] },
     platformGroups: [
-      [{ key: 'blu-ray', iconSize: 16, imgStyle: 'width: auto; height: 16px;', paren: 'Physical', url: 'https://example.com/store/rise-of-the-wyrm/bluray' }],
+      [{ key: 'blu-ray', paren: 'Physical', url: 'https://example.com/store/rise-of-the-wyrm/bluray' }],
       [{ key: 'youtube', name: 'Streaming (YouTube)', url: 'https://example.com/watch/rise-of-the-wyrm' }],
     ],
   },
