@@ -334,8 +334,7 @@ function withDedupeSuffix(baseKeys) {
   });
 }
 // Map from the OLD positional key ("<seriesNum>-<index>") to the new
-// content-derived one, for every entry in rawSeries -- used both to build
-// this render's live keys and to migrate old localStorage status keys.
+// content-derived one, for every entry in rawSeries.
 function buildEntryKeyMap(rawSeries) {
   const map = new Map();
   (rawSeries || []).forEach(s => {
@@ -343,17 +342,6 @@ function buildEntryKeyMap(rawSeries) {
     (s.games || []).forEach((g, i) => map.set(s.num + '-' + i, s.num + '-' + slugs[i]));
   });
   return map;
-}
-// One-time migration of a saved status object (checked/skipped) from the old
-// positional keys to the new content-derived ones. Old keys are only
-// resolvable by array position, and only against the rawSeries as loaded
-// right now -- once games[] is edited again after that, the position ->
-// identity link for anything not yet migrated is gone for good.
-function migratePositionalStatus(rawSeries, status) {
-  const keyMap = buildEntryKeyMap(rawSeries);
-  const next = {};
-  Object.keys(status || {}).forEach(k => { next[keyMap.get(k) || k] = status[k]; });
-  return next;
 }
 // Flattens a tagline/parts array (site.js schema: { text } / { strong } / { em } /
 // { text, url } / { em, url }) to plain text, for SITE_CONFIG.description's
@@ -365,7 +353,7 @@ class Component extends DCLogic {
   restoreInputRef = React.createRef();
   backupProgress = (e) => {
     e.preventDefault();
-    const data = { version: 2, status: this.state.status || {} };
+    const data = { version: 1, status: this.state.status || {} };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -390,17 +378,12 @@ class Component extends DCLogic {
           window.alert('That file doesn\'t look like a valid backup.');
           return;
         }
-        let status = parsed.status;
-        if (parsed.version === 1) {
-          // Pre-stable-key backup: its keys are positional ("<seriesNum>-<index>"),
-          // only resolvable against the series data as loaded right now.
-          status = migratePositionalStatus(this.state.rawSeries || [], status);
-        } else if (parsed.version !== 2) {
+        if (parsed.version !== 1) {
           window.alert('This backup was made with a newer version and can\'t be restored here.');
           return;
         }
-        localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(status));
-        this.setState({ status });
+        localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(parsed.status));
+        this.setState({ status: parsed.status });
         window.alert('Progress restored.');
       } catch (err) {
         window.alert('That file doesn\'t look like a valid backup.');
@@ -414,16 +397,7 @@ class Component extends DCLogic {
   langOrderDefault = ['JA', 'EN'];
   componentDidMount() {
     Promise.resolve(window.loadAllSeries ? window.loadAllSeries() : import('./data/index.js').then(m => m.loadAllSeries()))
-      .then(rawSeries => {
-        const MIGRATED_FLAG = STORAGE_PREFIX + 'StatusKeyV2';
-        let status = this.state.status;
-        if (!localStorage.getItem(MIGRATED_FLAG)) {
-          status = migratePositionalStatus(rawSeries, status);
-          localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(status));
-          localStorage.setItem(MIGRATED_FLAG, '1');
-        }
-        this.setState({ rawSeries, status });
-      });
+      .then(rawSeries => this.setState({ rawSeries }));
     if (typeof matchMedia !== 'undefined') {
       this._mq = matchMedia('(prefers-color-scheme: light)');
       this._mqListener = e => this.setState({ systemLight: e.matches });
