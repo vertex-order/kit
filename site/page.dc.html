@@ -286,6 +286,75 @@ function slugifyName(name) {
     .join('');
 }
 const STORAGE_PREFIX = SITE.storagePrefix || (slugifyName(SITE.name) + 'PlayOrder');
+// Stable per-entry keys (pilcrow anchors + checked/skipped state), derived
+// from content instead of array position -- editing games[] (insert/
+// remove/reorder, a routine data edit) must not silently reattach a
+// #entry-... link or a saved checkbox to a different entry.
+function slugifyTitle(s) {
+  return String(s || '')
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .replace(/['’]/g, '')
+    .replace(/[^A-Za-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+}
+// Slug for a top-level games[] entry: title + release year, or an explicit
+// `id:` override for the rare collision/retitle case. This is also what a
+// list repo's sources/<SERIES>/<slug>.md is named after (see docs/sources.md
+// there) -- one derivation serves both.
+function entrySlug(g) {
+  if (g.id) return g.id;
+  const yr = (g.releaseDate || '').slice(0, 4);
+  return slugifyTitle(g.title) + (yr ? '-' + yr : '');
+}
+// Slug for an extras[]/alt.extras[] "other version/platform" sub-entry,
+// which has no title field -- derived from its distinguishing parts[]
+// label: the small edition tag if present (e.g. "Remaster (2015)"), else
+// the non-title label(s), else parts[0].
+function subSlug(node) {
+  if (node.id) return node.id;
+  const parts = node.parts || [];
+  const small = parts.filter(p => p && p.small && p.label).map(p => p.label);
+  const labeled = parts.filter(p => p && p.label).map(p => p.label);
+  const src = small.length ? small.join(' ')
+    : labeled.length > 1 ? labeled.slice(1).join(' ')
+    : labeled.length ? labeled[0]
+    : (node.label || '');
+  return slugifyTitle(src);
+}
+// Appends -2, -3... to repeats of the same slug within one list, in order --
+// a safety net for a collision; check-dedup-drift.py also fails the build on
+// one, so this suffix is never meant to actually ship.
+function withDedupeSuffix(baseKeys) {
+  const seen = new Map();
+  return baseKeys.map(k => {
+    const n = (seen.get(k) || 0) + 1;
+    seen.set(k, n);
+    return n === 1 ? k : k + '-' + n;
+  });
+}
+// Map from the OLD positional key ("<seriesNum>-<index>") to the new
+// content-derived one, for every entry in rawSeries -- used both to build
+// this render's live keys and to migrate old localStorage status keys.
+function buildEntryKeyMap(rawSeries) {
+  const map = new Map();
+  (rawSeries || []).forEach(s => {
+    const slugs = withDedupeSuffix((s.games || []).map(entrySlug));
+    (s.games || []).forEach((g, i) => map.set(s.num + '-' + i, s.num + '-' + slugs[i]));
+  });
+  return map;
+}
+// One-time migration of a saved status object (checked/skipped) from the old
+// positional keys to the new content-derived ones. Old keys are only
+// resolvable by array position, and only against the rawSeries as loaded
+// right now -- once games[] is edited again after that, the position ->
+// identity link for anything not yet migrated is gone for good.
+function migratePositionalStatus(rawSeries, status) {
+  const keyMap = buildEntryKeyMap(rawSeries);
+  const next = {};
+  Object.keys(status || {}).forEach(k => { next[keyMap.get(k) || k] = status[k]; });
+  return next;
+}
 // Flattens a tagline/parts array (site.js schema: { text } / { strong } / { em } /
 // { text, url } / { em, url }) to plain text, for SITE_CONFIG.description's
 // fallback -- <meta name="description"> needs a plain string, not markup parts.
@@ -296,7 +365,7 @@ class Component extends DCLogic {
   restoreInputRef = React.createRef();
   backupProgress = (e) => {
     e.preventDefault();
-    const data = { version: 1, status: this.state.status || {} };
+    const data = { version: 2, status: this.state.status || {} };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -321,12 +390,17 @@ class Component extends DCLogic {
           window.alert('That file doesn\'t look like a valid backup.');
           return;
         }
-        if (parsed.version !== 1) {
+        let status = parsed.status;
+        if (parsed.version === 1) {
+          // Pre-stable-key backup: its keys are positional ("<seriesNum>-<index>"),
+          // only resolvable against the series data as loaded right now.
+          status = migratePositionalStatus(this.state.rawSeries || [], status);
+        } else if (parsed.version !== 2) {
           window.alert('This backup was made with a newer version and can\'t be restored here.');
           return;
         }
-        localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(parsed.status));
-        this.setState({ status: parsed.status });
+        localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(status));
+        this.setState({ status });
         window.alert('Progress restored.');
       } catch (err) {
         window.alert('That file doesn\'t look like a valid backup.');
@@ -340,7 +414,16 @@ class Component extends DCLogic {
   langOrderDefault = ['JA', 'EN'];
   componentDidMount() {
     Promise.resolve(window.loadAllSeries ? window.loadAllSeries() : import('./data/index.js').then(m => m.loadAllSeries()))
-      .then(rawSeries => this.setState({ rawSeries }));
+      .then(rawSeries => {
+        const MIGRATED_FLAG = STORAGE_PREFIX + 'StatusKeyV2';
+        let status = this.state.status;
+        if (!localStorage.getItem(MIGRATED_FLAG)) {
+          status = migratePositionalStatus(rawSeries, status);
+          localStorage.setItem(STORAGE_PREFIX + 'Status', JSON.stringify(status));
+          localStorage.setItem(MIGRATED_FLAG, '1');
+        }
+        this.setState({ rawSeries, status });
+      });
     if (typeof matchMedia !== 'undefined') {
       this._mq = matchMedia('(prefers-color-scheme: light)');
       this._mqListener = e => this.setState({ systemLight: e.matches });
@@ -737,8 +820,8 @@ class Component extends DCLogic {
     };
     const mediaLabels = { Game: ['game', 'games'], Expansion: ['expansion & DLC', 'expansions & DLC'], Book: ['book', 'books'], Comic: ['comic', 'comics'], Movie: ['movie & video', 'movies & videos'], Audio: ['audio drama', 'audio dramas'] };
     const buildSummary = (games, seriesNum, checkedFn, skippedFn) => {
-      const isChecked = checkedFn || ((g, i) => this.state.status[seriesNum + '-' + i] === 'checked');
-      const isSkipped = skippedFn || ((g, i) => this.state.status[seriesNum + '-' + i] === 'skipped');
+      const isChecked = checkedFn || ((g, i) => this.state.status[entryKeyMap.get(seriesNum + '-' + i)] === 'checked');
+      const isSkipped = skippedFn || ((g, i) => this.state.status[entryKeyMap.get(seriesNum + '-' + i)] === 'skipped');
       const counts = {};
       const checkedCounts = {};
       let skippedTotal = 0;
@@ -799,12 +882,13 @@ class Component extends DCLogic {
     this.anchorRegistry = {};
     this.anchorAliases = {};
     this.dupGroups = {};
+    const entryKeyMap = buildEntryKeyMap(raw);
     {
       const byKey = new Map();
       raw.forEach(s => (s.games || []).forEach((g, i) => {
         const subtitleKey = g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : (g.tags && g.tags.length ? g.tags.join(' · ') : '');
         const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
-        const entryKey = s.num + '-' + i;
+        const entryKey = entryKeyMap.get(s.num + '-' + i);
         if (!byKey.has(dedupeKey)) byKey.set(dedupeKey, []);
         byKey.get(dedupeKey).push(entryKey);
       }));
@@ -824,7 +908,11 @@ class Component extends DCLogic {
       sectionRef: el => { if (el) this.seriesEls[s.num] = el; else delete this.seriesEls[s.num]; },
       noUrl: !s.url,
       noteLines: note ? note.split('\n\n').map(t => s.notePartsMap && s.notePartsMap[t] ? { parts: s.notePartsMap[t] } : { plain: t }) : null,
-      games: s.games.map((g, i) => ({
+      games: s.games.map((g, i) => {
+        const k = entryKeyMap.get(s.num + '-' + i);
+        const exSlugs = g.extras ? withDedupeSuffix(g.extras.map(subSlug)) : null;
+        const altExSlugs = (g.alt && g.alt.extras) ? withDedupeSuffix(g.alt.extras.map(subSlug)) : null;
+        return {
         ...g,
         upcoming: isUpcoming(g.releaseDate),
         upcomingDateText: isUpcoming(g.releaseDate) ? formatUpcomingDate(g.releaseDate) : null,
@@ -835,26 +923,26 @@ class Component extends DCLogic {
         typeColor: g.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[g.mediaType].fg : null,
         typeBg: g.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[g.mediaType].bg : null,
         origIndex: i,
-        entryKey: s.num + '-' + i,
-        ...this.buildPilcrow('entry-' + s.num + '-' + i, false),
-        checked: this.state.status[s.num + '-' + i] === 'checked',
-        skipped: this.state.status[s.num + '-' + i] === 'skipped',
-        rowCompletedStyle: this.state.status[s.num + '-' + i] === 'checked' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);'
-          : this.state.status[s.num + '-' + i] === 'skipped' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-neutral-400) 6%, transparent) 2px);' : '',
-        wrapCompletedStyle: this.state.status[s.num + '-' + i] ? 'opacity: 0.5;' : '',
+        entryKey: k,
+        ...this.buildPilcrow('entry-' + k, false),
+        checked: this.state.status[k] === 'checked',
+        skipped: this.state.status[k] === 'skipped',
+        rowCompletedStyle: this.state.status[k] === 'checked' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);'
+          : this.state.status[k] === 'skipped' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-neutral-400) 6%, transparent) 2px);' : '',
+        wrapCompletedStyle: this.state.status[k] ? 'opacity: 0.5;' : '',
         showCheckbox: !g.noCheckbox && !isUpcoming(g.releaseDate),
-        showSkipIcon: this.state.status[s.num + '-' + i] !== 'checked',
-        showCheckboxInput: this.state.status[s.num + '-' + i] !== 'skipped',
+        showSkipIcon: this.state.status[k] !== 'checked',
+        showCheckboxInput: this.state.status[k] !== 'skipped',
         showPilcrow: true,
         titleJumpClick: null,
-        toggleChecked: () => this.toggleChecked(s.num + '-' + i),
-        toggleSkipped: () => this.toggleSkipped(s.num + '-' + i),
-        skipTitle: this.state.status[s.num + '-' + i] === 'skipped' ? 'Marked as skipped — click to unskip' : 'Skip (won\'t count toward completion)',
+        toggleChecked: () => this.toggleChecked(k),
+        toggleSkipped: () => this.toggleSkipped(k),
+        skipTitle: this.state.status[k] === 'skipped' ? 'Marked as skipped — click to unskip' : 'Skip (won\'t count toward completion)',
         skipIconClass: 'bi bi-skip-forward-fill',
-        skipIconColor: this.state.status[s.num + '-' + i] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
-        skipBg: this.state.status[s.num + '-' + i] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
-        skipPadding: this.state.status[s.num + '-' + i] === 'skipped' ? '4px 2px 2px' : '2px',
-        parts: mapParts(g.parts || [{ label: g.title, url: null }], this.state.status[s.num + '-' + i] === 'checked' ? 'solid' : (this.state.status[s.num + '-' + i] === 'skipped' ? 'dashed' : false)),
+        skipIconColor: this.state.status[k] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
+        skipBg: this.state.status[k] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
+        skipPadding: this.state.status[k] === 'skipped' ? '4px 2px 2px' : '2px',
+        parts: mapParts(g.parts || [{ label: g.title, url: null }], this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)),
         rating: this.resolveRating(g.rating),
         platformGroups: (g.platformGroups || g.platforms)
           && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => {
@@ -869,21 +957,21 @@ class Component extends DCLogic {
               (g.extras || g.alt.extras).forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
                 const rpl = this.resolvePl(pl, this.rowSearchTitle(ex));
                 if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
-                const k = pl.key || rpl.name || rpl.text || rpl.iconImg;
-                if (seen.has(k)) return;
-                seen.add(k);
+                const kk = pl.key || rpl.name || rpl.text || rpl.iconImg;
+                if (seen.has(kk)) return;
+                seen.add(kk);
                 out.push(rpl);
               }));
               return out.length ? this.sortPls(out) : null;
             })()
           : null,
         descParas: toDescParas(g.description),
-        extraExpanded: !!this.state.expandedMainExtras[s.num + '-' + i],
-        extraChevron: this.state.expandedMainExtras[s.num + '-' + i] ? 'rotate(180deg)' : 'rotate(0deg)',
-        toggleExtra: () => this.toggleMainExtra(s.num + '-' + i),
+        extraExpanded: !!this.state.expandedMainExtras[k],
+        extraChevron: this.state.expandedMainExtras[k] ? 'rotate(180deg)' : 'rotate(0deg)',
+        toggleExtra: () => this.toggleMainExtra(k),
         extras: g.extras && g.extras.map((ex, j) => {
-          const exAnchor = 'entry-' + s.num + '-' + i + '-x' + j;
-          this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedMainExtras', parentKey: s.num + '-' + i };
+          const exAnchor = 'entry-' + k + '-x-' + exSlugs[j];
+          this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedMainExtras', parentKey: k };
           return {
           ...ex,
           parts: ex.parts && mapParts(ex.parts),
@@ -912,7 +1000,7 @@ class Component extends DCLogic {
           byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined,
           rating: this.resolveRating(g.alt.rating),
           platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))),
-          ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)),
+          ...this.buildPilcrow('entry-' + k + '-alt', !!(g.alt.tags && g.alt.tags.length)),
           langsTopStyle: g.alt.extras.length ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
           extraPlatforms: (() => {
             const out = [];
@@ -920,19 +1008,19 @@ class Component extends DCLogic {
             g.alt.extras.forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
               const rpl = this.resolvePl(pl, this.rowSearchTitle(ex));
               if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
-              const k = pl.key || rpl.name || rpl.text || rpl.iconImg;
-              if (seen.has(k)) return;
-              seen.add(k);
+              const kk = pl.key || rpl.name || rpl.text || rpl.iconImg;
+              if (seen.has(kk)) return;
+              seen.add(kk);
               out.push(rpl);
             }));
             return out.length ? this.sortPls(out) : null;
           })(),
-          extraExpanded: !!this.state.expandedAlts[s.num + '-' + i],
-          extraChevron: this.state.expandedAlts[s.num + '-' + i] ? 'rotate(180deg)' : 'rotate(0deg)',
-          toggleExtra: () => this.toggleAlt(s.num + '-' + i),
+          extraExpanded: !!this.state.expandedAlts[k],
+          extraChevron: this.state.expandedAlts[k] ? 'rotate(180deg)' : 'rotate(0deg)',
+          toggleExtra: () => this.toggleAlt(k),
           extras: g.alt.extras.map((ex, j) => {
-            const exAnchor = 'entry-' + s.num + '-' + i + '-alt-x' + j;
-            this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedAlts', parentKey: s.num + '-' + i };
+            const exAnchor = 'entry-' + k + '-alt-x-' + altExSlugs[j];
+            this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedAlts', parentKey: k };
             return {
             ...ex,
             parts: ex.parts && mapParts(ex.parts),
@@ -943,8 +1031,8 @@ class Component extends DCLogic {
             descParas: toDescParas(ex.description),
             ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
           };}),
-        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, rating: this.resolveRating(g.alt.rating), platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + s.num + '-' + i + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
-      })),
+        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, rating: this.resolveRating(g.alt.rating), platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + k + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
+      };}),
     };});
     const kindOf = g => {
       if (g.mediaType !== 'Game') return g.mediaType;
@@ -1090,10 +1178,11 @@ class Component extends DCLogic {
     let pageSkippedTotal = 0;
     raw.forEach(s => (s.games || []).forEach((g, i) => {
       if (!g.mediaType) return;
-      if (this.state.status[s.num + '-' + i] === 'skipped') { pageSkippedTotal++; return; }
+      const ek = entryKeyMap.get(s.num + '-' + i);
+      if (this.state.status[ek] === 'skipped') { pageSkippedTotal++; return; }
       const k = kindOf(g);
       mediaCounts[k] = (mediaCounts[k] || 0) + 1;
-      if (this.state.status[s.num + '-' + i] === 'checked') mediaChecked[k] = (mediaChecked[k] || 0) + 1;
+      if (this.state.status[ek] === 'checked') mediaChecked[k] = (mediaChecked[k] || 0) + 1;
     }));
     const statVal = (...keys) => {
       const total = keys.reduce((sum, k) => sum + (mediaCounts[k] || 0), 0);

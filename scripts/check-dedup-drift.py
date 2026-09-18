@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # Owned by vertex-order/kit — edit here. Vendored elsewhere via sync.toml;
 # don't edit the copy there.
-"""Flag drift between duplicate/cross-listed game entries in site/data/.
+"""Flag drift between duplicate/cross-listed game entries in site/data/, and
+duplicate stable entry/pilcrow keys.
+
+## Dedup drift
 
 A game can be legitimately hand-cross-listed in two series (e.g. a Picture
 Book tie-in also listed under its parent game's series). site/page.dc.html
@@ -12,6 +15,22 @@ sharing page.dc.html's dedupe key (title|subtitleKey|releaseDate) and fails
 if their description/tags/rating/length/platforms/languages disagree. It
 intentionally does not look inside extras/alt/alts (other-version
 sub-entries) -- only the entry itself.
+
+## Entry-key collisions
+
+site/page.dc.html derives a stable pilcrow/checked-state key per entry
+(`entrySlug`/`subSlug`/`withDedupeSuffix`, ~line 282) from `title` +
+release year (or an explicit `id:`), and from a sub-entry's `parts[].label`
+for extras/alt.extras. That derivation has its own last-resort dedupe
+suffix (`-2`, `-3`...) so a collision never breaks rendering outright, but
+a suffixed key is a code smell -- it means two different things now render
+under near-identical anchors, e.g. `#entry-VII-remaster-2012` and
+`...-2012-2`, and links to the second are one accidental data reorder away
+from drifting back to the first. This script mirrors that same derivation
+in Python and fails on any collision (entry-level or within one entry's
+extras/alt.extras), and on any sub-entry with no derivable label at all --
+authors should either fix the underlying `parts[].label` or add an explicit
+`id:` rather than ship the review depending on the fallback.
 
 site/data/index.js and series-*.js are plain JS object literals (unquoted
 keys, single-quoted strings, trailing commas) -- not valid JSON -- so this
@@ -24,6 +43,7 @@ No external deps. Run: python3 scripts/check-dedup-drift.py
 """
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 SITE = Path(__file__).resolve().parent.parent / "site"
@@ -270,6 +290,104 @@ def field_snapshot(game, raw_keys, label):
     return tuple(game.get(k) for k in raw_keys)
 
 
+def slugify_title(s):
+    """Mirrors site/page.dc.html's slugifyTitle() exactly."""
+    s = unicodedata.normalize("NFKD", s or "")
+    s = "".join(c for c in s if not unicodedata.combining(c))
+    s = s.replace("'", "").replace("’", "")
+    s = re.sub(r"[^A-Za-z0-9]+", "-", s)
+    s = s.strip("-")
+    return s.lower()
+
+
+def entry_slug(game):
+    """Mirrors entrySlug(): explicit id: wins, else title + release year."""
+    if game.get("id"):
+        return game["id"]
+    year = (game.get("releaseDate") or "")[:4]
+    base = slugify_title(game.get("title") or "")
+    return base + ("-" + year if year else "")
+
+
+def sub_slug(node):
+    """Mirrors subSlug(): an extras[]/alt.extras[] item has no title, so this
+    derives from its distinguishing parts[] label instead (the small edition
+    tag if present, else the non-title label(s), else parts[0])."""
+    if node.get("id"):
+        return node["id"]
+    parts = node.get("parts") or []
+    small = [p.get("label") for p in parts if p and p.get("small") and p.get("label")]
+    labeled = [p.get("label") for p in parts if p and p.get("label")]
+    if small:
+        src = " ".join(small)
+    elif len(labeled) > 1:
+        src = " ".join(labeled[1:])
+    elif labeled:
+        src = labeled[0]
+    else:
+        src = node.get("label") or ""
+    return slugify_title(src)
+
+
+def with_dedupe_suffix(base_keys):
+    """Mirrors withDedupeSuffix(): -2, -3... on repeats, in order."""
+    seen = {}
+    out = []
+    for k in base_keys:
+        n = seen.get(k, 0) + 1
+        seen[k] = n
+        out.append(k if n == 1 else f"{k}-{n}")
+    return out
+
+
+def check_entry_keys(order):
+    """Fail on any derived pilcrow/status key collision (entry-level, or
+    within one entry's extras/alt.extras), and on any sub-entry with no
+    derivable label at all (a bare `alt: { extras: [...] }` with no parts[]
+    of its own is fine -- it always uses the fixed `-alt` suffix, never a
+    derived one)."""
+    findings = []
+    for slug in order:
+        series = load_series(slug)
+        games = series.get("games", [])
+        entry_keys = with_dedupe_suffix([entry_slug(g) for g in games])
+        seen_entries = {}
+        for i, key in enumerate(entry_keys):
+            seen_entries.setdefault(key, []).append(i)
+        for key, idxs in seen_entries.items():
+            if len(idxs) > 1:
+                findings.append(
+                    f"series-{slug}.js: duplicate entry key '{slug}-{key}' at games{idxs} "
+                    "-- add an explicit id: to one of them"
+                )
+
+        for i, game in enumerate(games):
+            sub_groups = []
+            if game.get("extras"):
+                sub_groups.append(("x", game["extras"]))
+            alt = game.get("alt")
+            if alt and alt.get("extras"):
+                sub_groups.append(("alt-x", alt["extras"]))
+            for tag, nodes in sub_groups:
+                base = [sub_slug(n) for n in nodes]
+                sub_keys = with_dedupe_suffix(base)
+                seen_sub = {}
+                for j, key in enumerate(sub_keys):
+                    if not base[j]:
+                        findings.append(
+                            f"series-{slug}.js games[{i}].{'extras' if tag == 'x' else 'alt.extras'}[{j}]: "
+                            "no derivable label for its pilcrow key -- add a parts[].label or an explicit id:"
+                        )
+                    seen_sub.setdefault(key, []).append(j)
+                for key, idxs in seen_sub.items():
+                    if len(idxs) > 1:
+                        findings.append(
+                            f"series-{slug}.js games[{i}].{'extras' if tag == 'x' else 'alt.extras'}: "
+                            f"duplicate derived key '{key}' at indices {idxs} -- add an explicit id: to one of them"
+                        )
+    return findings
+
+
 def main():
     try:
         order = load_series_order()
@@ -304,14 +422,26 @@ def main():
                 title = members[0][2].get("title", "?")
                 findings.append(f"  {title!r} ({where}): {label} differs")
 
-    if findings:
-        print(f"check-dedup-drift: {len(findings)} drift finding(s) across {len(dup_groups)} duplicate group(s):")
-        for finding in findings:
-            print(finding)
-        print("Fix: reconcile the duplicate entries so description/tags/rating/length/platforms/languages match.")
+    try:
+        key_findings = check_entry_keys(order)
+    except (ParseError, IndexError, ValueError) as e:
+        print(f"check-dedup-drift: {e}", file=sys.stderr)
         return 1
 
-    print(f"check-dedup-drift: checked {len(dup_groups)} duplicate group(s) across {len(entries)} entries, no drift")
+    if findings or key_findings:
+        if findings:
+            print(f"check-dedup-drift: {len(findings)} drift finding(s) across {len(dup_groups)} duplicate group(s):")
+            for finding in findings:
+                print(finding)
+            print("Fix: reconcile the duplicate entries so description/tags/rating/length/platforms/languages match.")
+        if key_findings:
+            print(f"check-dedup-drift: {len(key_findings)} entry-key finding(s):")
+            for finding in key_findings:
+                print(f"  {finding}")
+        return 1
+
+    print(f"check-dedup-drift: checked {len(dup_groups)} duplicate group(s) across {len(entries)} entries, "
+          f"and {len(order)} series' entry keys, no drift")
     return 0
 
 
