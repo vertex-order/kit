@@ -196,12 +196,16 @@ scripts/
 ├── normalize-svg.py         canonicalizes SVG serialization         (vendored ← platforms)
 └── trim-svg.py              one-time: drops subpaths outside viewBox (vendored ← platforms)
 svgo.config.mjs              config for `just trim-svg`               (vendored ← platforms)
+.stylelintrc.cjs              config for `just check-css`             (owned here)
 justfile                     build / bundle-components / sync / serve / clean / install-hooks
-.githooks/pre-commit         strips image metadata, normalizes SVGs, regenerates components.js
+.githooks/pre-commit         strips image metadata, normalizes SVGs, regenerates components.js,
+                              lints staged CSS/*.py/*.js
 .github/workflows/
 ├── check-generated.yml      PR check: components.js / SVG serialization stale
 ├── check-vendored.yml       PR check: a vendored file drifted from platforms
-└── check-dedup-drift.yml    PR check: cross-listed duplicate entries drifted
+├── check-dedup-drift.yml    PR check: cross-listed duplicate entries drifted
+├── check-css.yml            PR check: CSS fails to parse (stylelint)
+└── check-syntax.yml         PR check: scripts/*.py or scripts/*.js fails to parse
 .github/
 ├── ISSUE_TEMPLATE/config.yml   points non-collaborators to Discussions
 ├── PULL_REQUEST_TEMPLATE.md    contributor checklist
