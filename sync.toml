@@ -41,6 +41,8 @@ paths = [
   "docs/subtitle.md",
   "docs/upcoming.md",
   "docs/cache.md",
+  "docs/data.md",
+  "schemas/",
   "site/_ds/",
   "site/images/ui/",
   "site/support.js",

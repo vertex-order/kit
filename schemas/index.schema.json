@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "index.schema.json",
+  "description": "The SERIES_ORDER value in site/data/index.js -- one code per series-<code>.js file, in display order. Every other line in index.js is fixed loader boilerplate (identical shape across repos, not per-repo data), so this schema covers only the SERIES_ORDER array literal, not the whole file. Each code should also be the `num` a matching series-<code>.js assigns via series.schema.json.",
+  "type": "array",
+  "items": { "type": "string", "minLength": 1 },
+  "minItems": 1,
+  "uniqueItems": true
+}

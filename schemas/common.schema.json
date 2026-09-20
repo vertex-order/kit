@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common.schema.json",
+  "description": "Shared $defs referenced by other schemas in this directory via $ref (e.g. \"common.schema.json#/$defs/Paragraph\"). Not a data file's own shape on its own -- nothing assigns a global matching this file directly.",
+  "$defs": {
+    "ConfigPart": {
+      "description": "One inline styled run in a SITE_CONFIG.tagline/license array or inside a Paragraph's `parts`. `strong` is rendered by Footer.dc.html (credits/license/disclosures) but NOT by FAQ.dc.html's own paragraph mapper -- avoid `strong` inside a FAQ_ITEMS[].a paragraph even though this shared type allows it there too.",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "text": { "type": "string" },
+            "url": { "type": "string" }
+          },
+          "required": ["text"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "strong": { "type": "string" }
+          },
+          "required": ["strong"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "em": { "type": "string" },
+            "url": { "type": "string" }
+          },
+          "required": ["em"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Paragraph": {
+      "description": "One rendered paragraph in CREDITS, SITE_CONFIG.disclosures, or a FAQ_ITEMS[].a entry -- a bare string (one plain paragraph), or a `{parts}` envelope for a paragraph built from styled runs.",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "properties": {
+            "parts": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/ConfigPart" },
+              "minItems": 1
+            }
+          },
+          "required": ["parts"],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "faq.schema.json",
+  "description": "Shared shape for both window.FAQ_ITEMS (a repo's own site/data/faq.js) and window.FAQ_ITEMS_COMMON (kit's site/data/common-faq.js) -- a consuming repo's faq.js spreads FAQ_ITEMS_COMMON into its own array at runtime ([...own items, ...window.FAQ_ITEMS_COMMON]); that spread is a JS-runtime detail, not a schema concern -- each array validates independently against this same schema.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+        "description": "Stable, hand-picked kebab-case slug -- becomes the #faq-<id> pilcrow anchor. Never derive it from `q`, or existing links break when questions are reworded/reordered."
+      },
+      "q": { "type": "string" },
+      "a": {
+        "type": "array",
+        "items": { "$ref": "common.schema.json#/$defs/Paragraph" },
+        "minItems": 1,
+        "description": "One array item per rendered paragraph. FAQ.dc.html's own paragraph mapper doesn't render `{strong}` even though the shared Paragraph/ConfigPart type allows it -- avoid strong runs here."
+      }
+    },
+    "required": ["id", "q", "a"],
+    "additionalProperties": false
+  }
+}

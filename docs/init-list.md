@@ -156,13 +156,17 @@ vendored copy — don't touch it):
 - `site/data/credits.js` → `window.CREDITS`, the same parts schema, for the
   CREDITS paragraph `Footer.dc.html` renders.
 
-Write these three from scratch using final-fantasy's or kingdom-hearts'
-`site/data/` as the schema reference. The same goes for `index.js` and
-`series-*.js` (the actual entries) — final-fantasy's is the in-depth
-reference; kit's own fixture (just deleted by step 1) was a much smaller
-worked example of the same schema covering every row type, platform,
-language, and rating shape, if step 1 hasn't run yet in your checkout it's
-worth skimming before it goes.
+Write these three from scratch using `schemas/site-config.schema.json` and
+`schemas/credits.schema.json` (this repo, vendored into yours the same as
+everything else) as the field-by-field reference, cross-checked against
+final-fantasy's or kingdom-hearts' `site/data/` for real examples. The same
+goes for `index.js` and `series-*.js` (the actual entries) —
+`schemas/index.schema.json` and `schemas/series.schema.json` are the
+machine-readable reference (the latter covers every row type, platform,
+language, and rating shape, including the `extras`/`alt`/`alts` recursion);
+final-fantasy's data is still the best in-depth worked example, and kit's
+own fixture (just deleted by step 1) was a smaller one — if step 1 hasn't
+run yet in your checkout it's worth skimming before it goes.
 
 ## 3. Everything else
 

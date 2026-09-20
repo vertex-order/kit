@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "credits.schema.json",
+  "description": "The window.CREDITS value in site/data/credits.js -- the attribution paragraph(s) Footer.dc.html renders.",
+  "type": "array",
+  "items": { "$ref": "common.schema.json#/$defs/Paragraph" },
+  "minItems": 1
+}
