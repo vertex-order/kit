@@ -8,7 +8,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
       { value: 'EN', native: true, textOnly: true },
       { value: 'DE', textOnly: true },
     ],
-    title: 'Wyrmwatch Tactics', title_url: 'https://example.com/wiki/Wyrmwatch_Tactics', title_date: 2021,
+    title: 'Wyrmwatch Tactics', title_url: 'https://example.com/wiki/Wyrmwatch_Tactics', title_date: '2021-08-17',
     parts: [
       { label: 'Wyrmwatch Tactics (2021)', url: 'https://example.com/wiki/Wyrmwatch_Tactics' },
     ],
@@ -23,7 +23,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
   },
   { key: 'Wyrmwatch Tactics: Skirmish Pack', releaseDate: '2022-02-09', chronoOrder: 850, recommendedOrder: 720, tags: ['DLC', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '3h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '5h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '7h', tip: 'Completionist' }],
-    title: 'Wyrmwatch Tactics: Skirmish Pack', title_url: 'https://example.com/wiki/Skirmish_Pack', title_date: 2022,
+    title: 'Wyrmwatch Tactics: Skirmish Pack', title_url: 'https://example.com/wiki/Skirmish_Pack', title_date: '2022-02-09',
     subtitle: 'DLC',
     parts: [
       { label: 'Wyrmwatch Tactics: Skirmish Pack (2022)', url: 'https://example.com/wiki/Skirmish_Pack' },
