@@ -49,8 +49,8 @@ removing that redundant year from `title`, not from `title_date`.
 
 site/data/index.js and series-*.js are plain JS object literals (unquoted
 keys, single-quoted strings, trailing commas) -- not valid JSON -- so this
-includes a small hand-rolled parser for the subset actually in use (no
-template literals, no spread/computed keys).
+shares scripts/js_literal.py's hand-rolled parser for the subset actually
+in use (no template literals, no spread/computed keys).
 
 Runs unchanged in kit (checks its own fixture data) and every list repo.
 
@@ -61,150 +61,11 @@ import sys
 import unicodedata
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from js_literal import ParseError, parse_value_after as _parse_value_after  # noqa: E402
+
 SITE = Path(__file__).resolve().parent.parent / "site"
 DATA = SITE / "data"
-
-
-class ParseError(Exception):
-    pass
-
-
-# ---------------------------------------------------------------------------
-# Minimal JS-object-literal parser: {}/[], bare or quoted keys, single- or
-# double-quoted strings (\\ \" \' \n \t \r \uXXXX escapes; raw unicode passes
-# through untouched), int/float numbers, true/false/null, trailing commas,
-# and // line comments between tokens.
-# ---------------------------------------------------------------------------
-
-_WS_RE = re.compile(r"\s+")
-_LINE_COMMENT_RE = re.compile(r"//[^\n]*")
-_IDENT_RE = re.compile(r"[A-Za-z_$][A-Za-z0-9_$]*")
-_NUMBER_RE = re.compile(r"-?\d+(\.\d+)?([eE][+-]?\d+)?")
-_ESCAPES = {'"': '"', "'": "'", "\\": "\\", "n": "\n", "t": "\t", "r": "\r", "b": "\b", "f": "\f"}
-
-
-def _skip_trivia(s, i):
-    n = len(s)
-    while i < n:
-        m = _WS_RE.match(s, i)
-        if m:
-            i = m.end()
-            continue
-        m = _LINE_COMMENT_RE.match(s, i)
-        if m:
-            i = m.end()
-            continue
-        break
-    return i
-
-
-def _parse_string(s, i):
-    quote = s[i]
-    i += 1
-    out = []
-    n = len(s)
-    while True:
-        if i >= n:
-            raise ParseError("unterminated string")
-        c = s[i]
-        if c == quote:
-            return "".join(out), i + 1
-        if c == "\\":
-            i += 1
-            if i >= n:
-                raise ParseError("unterminated escape")
-            e = s[i]
-            if e == "u":
-                out.append(chr(int(s[i + 1:i + 5], 16)))
-                i += 5
-                continue
-            out.append(_ESCAPES.get(e, e))
-            i += 1
-            continue
-        out.append(c)
-        i += 1
-
-
-def _parse_object(s, i):
-    i = _skip_trivia(s, i + 1)
-    obj = {}
-    if s[i] == "}":
-        return obj, i + 1
-    while True:
-        i = _skip_trivia(s, i)
-        if s[i] in ("\"", "'"):
-            key, i = _parse_string(s, i)
-        else:
-            m = _IDENT_RE.match(s, i)
-            if not m:
-                raise ParseError(f"expected object key at offset {i}: {s[i:i + 40]!r}")
-            key, i = m.group(0), m.end()
-        i = _skip_trivia(s, i)
-        if s[i] != ":":
-            raise ParseError(f"expected ':' at offset {i}: {s[i:i + 40]!r}")
-        i = _skip_trivia(s, i + 1)
-        obj[key], i = _parse_value(s, i)
-        i = _skip_trivia(s, i)
-        if s[i] == ",":
-            i = _skip_trivia(s, i + 1)
-            if s[i] == "}":
-                return obj, i + 1
-            continue
-        if s[i] == "}":
-            return obj, i + 1
-        raise ParseError(f"expected ',' or '}}' at offset {i}: {s[i:i + 40]!r}")
-
-
-def _parse_array(s, i):
-    i = _skip_trivia(s, i + 1)
-    arr = []
-    if s[i] == "]":
-        return arr, i + 1
-    while True:
-        i = _skip_trivia(s, i)
-        value, i = _parse_value(s, i)
-        arr.append(value)
-        i = _skip_trivia(s, i)
-        if s[i] == ",":
-            i = _skip_trivia(s, i + 1)
-            if s[i] == "]":
-                return arr, i + 1
-            continue
-        if s[i] == "]":
-            return arr, i + 1
-        raise ParseError(f"expected ',' or ']' at offset {i}: {s[i:i + 40]!r}")
-
-
-def _parse_value(s, i):
-    i = _skip_trivia(s, i)
-    c = s[i]
-    if c == "{":
-        return _parse_object(s, i)
-    if c == "[":
-        return _parse_array(s, i)
-    if c in ("\"", "'"):
-        return _parse_string(s, i)
-    if s.startswith("true", i):
-        return True, i + 4
-    if s.startswith("false", i):
-        return False, i + 5
-    if s.startswith("null", i):
-        return None, i + 4
-    m = _NUMBER_RE.match(s, i)
-    if m:
-        text = m.group(0)
-        num = float(text) if ("." in text or "e" in text or "E" in text) else int(text)
-        return num, m.end()
-    raise ParseError(f"unexpected token at offset {i}: {s[i:i + 40]!r}")
-
-
-def _parse_value_after(text, anchor_re):
-    """Find anchor_re in text, then parse the JS literal starting right after it."""
-    m = anchor_re.search(text)
-    if not m:
-        raise ParseError(f"pattern {anchor_re.pattern!r} not found")
-    value, _ = _parse_value(text, m.end())
-    return value
 
 
 # ---------------------------------------------------------------------------
