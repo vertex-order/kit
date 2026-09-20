@@ -11,7 +11,7 @@ Book tie-in also listed under its parent game's series). site/page.dc.html
 dedupes these at render time (`dupGroups`, ~line 772) so checking one
 checkbox checks both. That relies on the two hand-typed copies staying in
 sync -- nothing enforces it. This script finds every group of entries
-sharing page.dc.html's dedupe key (title|subtitleKey|releaseDate) and
+sharing page.dc.html's dedupe key (title|subtitleKey|title_date) and
 fails if their description/tags/rating/length/platforms/languages
 disagree. It intentionally does not look inside extras/alt/alts
 (other-version sub-entries) -- only the entry itself.
@@ -20,17 +20,11 @@ disagree. It intentionally does not look inside extras/alt/alts
 
 site/page.dc.html derives a stable pilcrow/checked-state key per entry
 (`entrySlug`/`subSlug`/`withDedupeSuffix`, ~line 282) from `title` +
-releaseDate's year (or an explicit `id:`), and from a sub-entry's
-`parts[].label` for extras/alt.extras. `title`'s year still deliberately
-comes from releaseDate, not title_date: for a handful of entries (e.g. a
-remaster whose title repeats the base game's own year for display
-continuity) title_date's year is the *displayed* year, not necessarily
-this entry's own -- switching would collide two different entries' slugs
-(see .plan/001_title.md's Stage 3 follow-up for the open question on how
-to resolve that before releaseDate itself can go away). That derivation
-has its own last-resort dedupe suffix (`-2`, `-3`...) so a collision
-never breaks rendering outright, but a suffixed key is a code smell -- it
-means two different things now render under near-identical anchors, e.g.
+title_date's year (or an explicit `id:`), and from a sub-entry's
+`parts[].label` for extras/alt.extras. That derivation has its own
+last-resort dedupe suffix (`-2`, `-3`...) so a collision never breaks
+rendering outright, but a suffixed key is a code smell -- it means two
+different things now render under near-identical anchors, e.g.
 `#entry-VII-remaster-2012` and `...-2012-2`, and links to the second are
 one accidental data reorder away from drifting back to the first. This
 script mirrors that same derivation in Python and fails on any collision
@@ -243,6 +237,22 @@ def load_series(slug):
 # a non-empty array, so an empty tags array falls through to ''.
 # ---------------------------------------------------------------------------
 
+def title_date_key(d):
+    """Mirrors titleDateKey(): full-precision string for a title_date
+    value -- itself if already a string, the year as a string for a plain
+    year number, or a {start,end} range's start year."""
+    if d is None:
+        return ""
+    if isinstance(d, dict):
+        return str(d["start"])
+    return str(d)
+
+
+def title_date_year(d):
+    """Mirrors titleDateYear(): title_date_key() sliced to its year."""
+    return title_date_key(d)[:4]
+
+
 def dedupe_key(game):
     byline_parts = game.get("bylineParts")
     if byline_parts is not None:
@@ -250,7 +260,7 @@ def dedupe_key(game):
     else:
         tags = game.get("tags")
         subtitle_key = " · ".join(tags) if tags else ""
-    return f'{game.get("title", "")}|{subtitle_key}|{game.get("releaseDate") or ""}'
+    return f'{game.get("title", "")}|{subtitle_key}|{title_date_key(game.get("title_date"))}'
 
 
 # ---------------------------------------------------------------------------
@@ -320,13 +330,11 @@ def slugify_title(s):
 
 
 def entry_slug(game):
-    """Mirrors entrySlug(): explicit id: wins, else title + release year.
-    Year still comes from releaseDate, not title_date -- see the "Year
-    still comes from releaseDate" comment on entrySlug() in page.dc.html
-    for why."""
+    """Mirrors entrySlug(): explicit id: wins, else title + release year
+    (from title_date)."""
     if game.get("id"):
         return game["id"]
-    year = (game.get("releaseDate") or "")[:4]
+    year = title_date_year(game.get("title_date"))
     base = slugify_title(game.get("title") or "")
     return base + ("-" + year if year else "")
 
@@ -419,11 +427,7 @@ def check_title_year_redundancy(entries):
     findings = []
     for slug, idx, game in entries:
         title = game.get("title")
-        title_date = game.get("title_date")
-        if isinstance(title_date, dict):
-            year = str(title_date.get("start") or "")[:4]
-        else:
-            year = str(title_date or "")[:4]
+        year = title_date_year(game.get("title_date"))
         if title and year and f"({year})" in title:
             findings.append(
                 f"series-{slug}.js games[{idx}]: title {title!r} redundantly "
