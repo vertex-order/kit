@@ -12,7 +12,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'DE', voice: true },
       { value: 'JA', voice: true },
     ],
-    title: 'Wyrmwatch', title_url: 'https://example.com/wiki/Wyrmwatch', title_date: 2014,
+    title: 'Wyrmwatch', title_url: 'https://example.com/wiki/Wyrmwatch', title_date: '2014-03-11',
     subtitle: 'Remaster', subtitle_url: 'https://example.com/wiki/Wyrmwatch_Remaster', subtitle_date: 2022,
     parts: [
       { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
@@ -72,7 +72,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'EN', native: true, voice: true },
       { value: 'FR', textOnly: true },
     ],
-    title: 'Wyrmwatch: Ashfall Uprising', title_url: 'https://example.com/wiki/Ashfall_Uprising', title_date: 2015,
+    title: 'Wyrmwatch: Ashfall Uprising', title_url: 'https://example.com/wiki/Ashfall_Uprising', title_date: '2015-06-02',
     subtitle: 'Expansion',
     parts: [
       { label: 'Wyrmwatch: Ashfall Uprising (2015)', url: 'https://example.com/wiki/Ashfall_Uprising' },
@@ -102,7 +102,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'DE', textOnly: true },
       { value: 'ES', textOnly: true },
     ],
-    title: 'Wyrmwatch II', title_url: 'https://example.com/wiki/Wyrmwatch_II', title_date: 2019,
+    title: 'Wyrmwatch II', title_url: 'https://example.com/wiki/Wyrmwatch_II', title_date: '2019-05-14',
     subtitle: 'Edit', subtitle_url: 'https://example.com/wiki/Wyrmwatch_II#Edit', subtitle_date: 2021,
     parts: [
       { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
@@ -159,7 +159,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'EN', native: true, voice: true },
       { value: 'FR', textOnly: true },
     ],
-    title: 'Wyrmwatch: Ember Reckoning', title_url: 'https://example.com/wiki/Ember_Reckoning', title_date: 2026,
+    title: 'Wyrmwatch: Ember Reckoning', title_url: 'https://example.com/wiki/Ember_Reckoning', title_date: '2026-02-14',
     subtitle: 'Expansion',
     parts: [
       { label: 'Wyrmwatch: Ember Reckoning (2026)', url: 'https://example.com/wiki/Ember_Reckoning' },
@@ -181,7 +181,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'EN', native: true, voice: true },
       { value: 'JA', voice: true },
     ],
-    title: 'Wyrmwatch III', title_url: 'https://example.com/wiki/Wyrmwatch_III', title_date: 2027,
+    title: 'Wyrmwatch III', title_url: 'https://example.com/wiki/Wyrmwatch_III', title_date: '2027-03-18',
     parts: [
       { label: 'Wyrmwatch III (2027)', url: 'https://example.com/wiki/Wyrmwatch_III' },
     ],
