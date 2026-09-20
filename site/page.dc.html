@@ -814,16 +814,25 @@ class Component extends DCLogic {
     // was never meant to show one, just the extras list under it. Use
     // mapTitleParts() below, not mapParts(buildTitleParts(...)) directly, so
     // that undefined short-circuits instead of hitting mapParts's .map().
+    // title_tip/title_italic and subtitle_tip/subtitle_italic are rare
+    // (3 entries total, as of this writing) carry-overs from the old
+    // parts[]'s tip/italic -- a hover tooltip disambiguating a short
+    // subtitle (e.g. "Book" tip "YA Novel"), and italicizing a non-game
+    // media title. title_tip/title_italic inherit alongside the rest of
+    // the title fields; subtitle_tip/subtitle_italic are always the node's
+    // own, like subtitle_url.
     const buildTitleParts = (node, parent) => {
       if (node.title === undefined && node.subtitle === undefined && node.extras) return undefined;
       const hasOwnTitle = node.title !== undefined;
       const title = hasOwnTitle ? node.title : (parent && parent.title);
       const titleUrl = hasOwnTitle ? node.title_url : (parent && parent.title_url);
       const titleDate = hasOwnTitle ? node.title_date : (parent && parent.title_date);
+      const titleTip = hasOwnTitle ? node.title_tip : (parent && parent.title_tip);
+      const titleItalic = hasOwnTitle ? node.title_italic : (parent && parent.title_italic);
       const out = [];
-      if (title) out.push({ label: title + composeDateLabel(titleDate), url: titleUrl || null });
+      if (title) out.push({ label: title + composeDateLabel(titleDate), url: titleUrl || null, tip: titleTip || undefined, italic: titleItalic || undefined });
       else if (!parent) out.push({ label: node.key, url: null });
-      if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitle_date), url: node.subtitle_url || null, small: true });
+      if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitle_date), url: node.subtitle_url || null, small: true, tip: node.subtitle_tip || undefined, italic: node.subtitle_italic || undefined });
       return out;
     };
     const mapTitleParts = (node, parent, strikeMode) => {
