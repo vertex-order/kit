@@ -11,41 +11,45 @@ Book tie-in also listed under its parent game's series). site/page.dc.html
 dedupes these at render time (`dupGroups`, ~line 772) so checking one
 checkbox checks both. That relies on the two hand-typed copies staying in
 sync -- nothing enforces it. This script finds every group of entries
-sharing page.dc.html's dedupe key (key|subtitleKey|releaseDate) and fails
-if their description/tags/rating/length/platforms/languages disagree. It
-intentionally does not look inside extras/alt/alts (other-version
-sub-entries) -- only the entry itself.
+sharing page.dc.html's dedupe key (title|subtitleKey|releaseDate) and
+fails if their description/tags/rating/length/platforms/languages
+disagree. It intentionally does not look inside extras/alt/alts
+(other-version sub-entries) -- only the entry itself.
 
 ## Entry-key collisions
 
 site/page.dc.html derives a stable pilcrow/checked-state key per entry
-(`entrySlug`/`subSlug`/`withDedupeSuffix`, ~line 282) from `key` +
-release year (or an explicit `id:`), and from a sub-entry's `parts[].label`
-for extras/alt.extras. That derivation has its own last-resort dedupe
-suffix (`-2`, `-3`...) so a collision never breaks rendering outright, but
-a suffixed key is a code smell -- it means two different things now render
-under near-identical anchors, e.g. `#entry-VII-remaster-2012` and
-`...-2012-2`, and links to the second are one accidental data reorder away
-from drifting back to the first. This script mirrors that same derivation
-in Python and fails on any collision (entry-level or within one entry's
-extras/alt.extras), and on any sub-entry with no derivable label at all --
-authors should either fix the underlying `parts[].label` or add an explicit
-`id:` rather than ship the review depending on the fallback.
+(`entrySlug`/`subSlug`/`withDedupeSuffix`, ~line 282) from `title` +
+releaseDate's year (or an explicit `id:`), and from a sub-entry's
+`parts[].label` for extras/alt.extras. `title`'s year still deliberately
+comes from releaseDate, not title_date: for a handful of entries (e.g. a
+remaster whose title repeats the base game's own year for display
+continuity) title_date's year is the *displayed* year, not necessarily
+this entry's own -- switching would collide two different entries' slugs
+(see .plan/001_title.md's Stage 3 follow-up for the open question on how
+to resolve that before releaseDate itself can go away). That derivation
+has its own last-resort dedupe suffix (`-2`, `-3`...) so a collision
+never breaks rendering outright, but a suffixed key is a code smell -- it
+means two different things now render under near-identical anchors, e.g.
+`#entry-VII-remaster-2012` and `...-2012-2`, and links to the second are
+one accidental data reorder away from drifting back to the first. This
+script mirrors that same derivation in Python and fails on any collision
+(entry-level or within one entry's extras/alt.extras), and on any
+sub-entry with no derivable label at all -- authors should either fix the
+underlying `parts[].label` or add an explicit `id:` rather than ship the
+review depending on the fallback.
 
-## Key/year redundancy
+## Title/year redundancy
 
-`entrySlug()` builds its slug from `key` + release year, specifically so
-`key` can stay free of the year -- the year is display-composed
-separately at render time from `parts[].label`/`releaseDate`, never from
-`key` (see the list repos' docs/sources.md for the fuller writeup of
-why). If someone also types the year into `key` (redundant with what
-`parts`/`releaseDate` already carry, and usually a copy-paste habit from
-writing `parts[].label`), `entrySlug()` concatenates key-derived text
-with the release year and produces a doubled or confusingly adjacent
-year, e.g. `final-fantasy-i-1987-1987` or `...-remake-2018-2016`. This
-check flags any entry whose `key` contains `(<same year as
-releaseDate>)` anywhere in the string (not just trailing) -- fix by
-removing that redundant year from `key`, not from `parts`/`releaseDate`.
+The year shown next to `title` at render time is composed separately by
+`composeDateLabel()` from `title_date`, never baked into `title` itself
+(see the list repos' docs/sources.md for the fuller writeup of why). If
+someone also types the year into `title` (redundant with what
+`title_date` already carries), the displayed title ends up with a
+doubled or confusingly adjacent year, e.g. `Final Fantasy I (1987)
+(1987)`. This check flags any entry whose `title` contains `(<same year
+as title_date>)` anywhere in the string (not just trailing) -- fix by
+removing that redundant year from `title`, not from `title_date`.
 
 site/data/index.js and series-*.js are plain JS object literals (unquoted
 keys, single-quoted strings, trailing commas) -- not valid JSON -- so this
@@ -246,7 +250,7 @@ def dedupe_key(game):
     else:
         tags = game.get("tags")
         subtitle_key = " · ".join(tags) if tags else ""
-    return f'{game.get("key", "")}|{subtitle_key}|{game.get("releaseDate") or ""}'
+    return f'{game.get("title", "")}|{subtitle_key}|{game.get("releaseDate") or ""}'
 
 
 # ---------------------------------------------------------------------------
@@ -316,11 +320,14 @@ def slugify_title(s):
 
 
 def entry_slug(game):
-    """Mirrors entrySlug(): explicit id: wins, else key + release year."""
+    """Mirrors entrySlug(): explicit id: wins, else title + release year.
+    Year still comes from releaseDate, not title_date -- see the "Year
+    still comes from releaseDate" comment on entrySlug() in page.dc.html
+    for why."""
     if game.get("id"):
         return game["id"]
     year = (game.get("releaseDate") or "")[:4]
-    base = slugify_title(game.get("key") or "")
+    base = slugify_title(game.get("title") or "")
     return base + ("-" + year if year else "")
 
 
@@ -403,21 +410,25 @@ def check_entry_keys(order):
     return findings
 
 
-def check_key_year_redundancy(entries):
-    """Flag any entry whose key contains "(<year>)" matching its own
-    releaseDate year -- see the module docstring's "Key/year redundancy"
-    section. Checks for the year anywhere in key, not just trailing,
+def check_title_year_redundancy(entries):
+    """Flag any entry whose title contains "(<year>)" matching its own
+    title_date year -- see the module docstring's "Title/year redundancy"
+    section. Checks for the year anywhere in title, not just trailing,
     since a legitimate edition suffix (e.g. "Remake (2018)") can sit after
-    a redundant leading "(<releaseDate year>)"."""
+    a redundant leading "(<title_date year>)"."""
     findings = []
     for slug, idx, game in entries:
-        key = game.get("key")
-        year = (game.get("releaseDate") or "")[:4]
-        if key and year and f"({year})" in key:
+        title = game.get("title")
+        title_date = game.get("title_date")
+        if isinstance(title_date, dict):
+            year = str(title_date.get("start") or "")[:4]
+        else:
+            year = str(title_date or "")[:4]
+        if title and year and f"({year})" in title:
             findings.append(
-                f"series-{slug}.js games[{idx}]: key {key!r} redundantly "
-                f"repeats its own releaseDate year ({year}) -- remove it from "
-                "key, parts[].label/releaseDate already carry it for display"
+                f"series-{slug}.js games[{idx}]: title {title!r} redundantly "
+                f"repeats its own title_date year ({year}) -- remove it from "
+                "title, composeDateLabel() already composes it for display"
             )
     return findings
 
@@ -453,8 +464,8 @@ def main():
             snapshots = [field_snapshot(g, raw_keys, label) for _, _, g in members]
             if any(snap != snapshots[0] for snap in snapshots[1:]):
                 where = ", ".join(f"series-{slug}.js games[{idx}]" for slug, idx, _ in members)
-                entry_key = members[0][2].get("key", "?")
-                findings.append(f"  {entry_key!r} ({where}): {label} differs")
+                entry_title = members[0][2].get("title", "?")
+                findings.append(f"  {entry_title!r} ({where}): {label} differs")
 
     try:
         key_findings = check_entry_keys(order)
@@ -462,7 +473,7 @@ def main():
         print(f"check-dedup-drift: {e}", file=sys.stderr)
         return 1
 
-    year_findings = check_key_year_redundancy(entries)
+    year_findings = check_title_year_redundancy(entries)
 
     if findings or key_findings or year_findings:
         if findings:
@@ -475,13 +486,13 @@ def main():
             for finding in key_findings:
                 print(f"  {finding}")
         if year_findings:
-            print(f"check-dedup-drift: {len(year_findings)} key/year redundancy finding(s):")
+            print(f"check-dedup-drift: {len(year_findings)} title/year redundancy finding(s):")
             for finding in year_findings:
                 print(f"  {finding}")
         return 1
 
     print(f"check-dedup-drift: checked {len(dup_groups)} duplicate group(s) across {len(entries)} entries, "
-          f"{len(order)} series' entry keys, and key/year redundancy, no drift")
+          f"{len(order)} series' entry keys, and title/year redundancy, no drift")
     return 0
 
 
