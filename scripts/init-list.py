@@ -25,6 +25,7 @@ script once it's run; `just sync` never looks for it.
 Usage:
   python3 scripts/init-list.py
 """
+
 import sys
 from pathlib import Path
 
@@ -51,8 +52,10 @@ FIXTURE_DATA_FILES = [
 
 def main():
     if not LIST_TOML.exists():
-        print(f"{LIST_TOML.name} not found — already promoted, or this isn't "
-              "a fresh kit template. Nothing to do.")
+        print(
+            f"{LIST_TOML.name} not found — already promoted, or this isn't "
+            "a fresh kit template. Nothing to do."
+        )
         return 0
     TOML.unlink(missing_ok=True)
     LIST_TOML.rename(TOML)

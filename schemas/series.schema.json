@@ -311,10 +311,7 @@
             "abbrTerm": { "type": "string" },
             "abbrDef": { "type": "string" }
           },
-          "anyOf": [
-            { "required": ["textOnly"] },
-            { "required": ["kind"] }
-          ],
+          "anyOf": [{ "required": ["textOnly"] }, { "required": ["kind"] }],
           "additionalProperties": false
         }
       ]
