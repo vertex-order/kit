@@ -806,7 +806,14 @@ class Component extends DCLogic {
     // the same title that can drift apart. A bare node with neither its own
     // title nor a parent (shouldn't happen for a real games[] entry) falls
     // back to `key` so rendering never silently goes blank.
+    // A node with no title/subtitle of its own that exists purely to group
+    // its own `extras` (a singular `alt` used only as `{ extras: [...] }`,
+    // no row of its own) returns [] rather than inheriting -- MediaEntry
+    // gates that whole header row on `g.alt.parts` being non-empty, and this
+    // kind of node was never meant to show one, just the extras list under
+    // it.
     const buildTitleParts = (node, parent) => {
+      if (node.title === undefined && node.subtitle === undefined && node.extras) return [];
       const hasOwnTitle = node.title !== undefined;
       const title = hasOwnTitle ? node.title : (parent && parent.title);
       const titleUrl = hasOwnTitle ? node.title_url : (parent && parent.title_url);
