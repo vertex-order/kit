@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "catalogs.schema.json",
+  "description": "site/data/catalogs.js -- owned by kit, vendored everywhere, never hand-edited by a list repo. The file assigns three separate globals, not one object; this schema models their combined shape as a convenience object with one property per global, for validating the three literals together.",
+  "type": "object",
+  "properties": {
+    "LANGUAGE_NAMES": {
+      "type": "object",
+      "description": "window.LANGUAGE_NAMES -- language code -> plain display name. Keys are what a series entry's languages[].value references (plus the literal '…?' sentinel for \"Unknown additional languages\").",
+      "additionalProperties": { "type": "string" }
+    },
+    "RATING_KINDS": {
+      "type": "object",
+      "description": "window.RATING_KINDS -- rating-source kind -> label info. Keys are referenced by rating.scores[].kind (score-link mode, reads only `.label`) or a top-level rating.kind (badge mode, reads `.abbrTerm`/`.abbrDef`/`.textOnly`). `steam` is handled by special-case code and is deliberately not a key here.",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": { "label": { "type": "string" } },
+            "required": ["label"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "abbrTerm": { "type": "string" },
+              "abbrDef": { "type": "string" },
+              "textOnly": { "const": true }
+            },
+            "required": ["abbrTerm", "abbrDef", "textOnly"],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "STEAM_REVIEW_LABELS": {
+      "type": "object",
+      "description": "window.STEAM_REVIEW_LABELS -- Steam review abbreviation -> full adjective. Keys are the only values a rating.scores[].score can hold when that score's kind is 'steam'.",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "required": ["LANGUAGE_NAMES", "RATING_KINDS", "STEAM_REVIEW_LABELS"],
+  "additionalProperties": false
+}

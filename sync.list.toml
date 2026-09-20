@@ -31,6 +31,8 @@ ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync`
 paths = [
   "sync.list.toml",
   "docs/cache.md",
+  "docs/data.md",
+  "schemas/",
   "site/_ds/",
   "site/images/ui/",
   "site/support.js",

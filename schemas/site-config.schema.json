@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "site-config.schema.json",
+  "description": "The window.SITE_CONFIG value in site/data/site.js. See docs/init-list.md.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Franchise display name, e.g. \"Final Fantasy\". Also the default source for a derived storagePrefix when that field is omitted."
+    },
+    "tagline": {
+      "type": "array",
+      "description": "Flat parts array (no paragraph/`{parts}` envelope) rendered under the page heading.",
+      "items": { "$ref": "common.schema.json#/$defs/ConfigPart" }
+    },
+    "description": {
+      "type": "string",
+      "description": "Plain string for <meta name=\"description\">. Omit to fall back to `tagline` flattened to plain text."
+    },
+    "lastUpdated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO date. Omit for no \"Last Updated\" line."
+    },
+    "foundingYear": {
+      "type": "integer",
+      "description": "Footer copyright start year. Defaults to 2026 when omitted."
+    },
+    "entities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Who the footer's \"Not affiliated with ___\" disclaimer names, e.g. [\"Square Enix\"]."
+    },
+    "license": {
+      "type": "array",
+      "description": "Flat parts array, same shape as `tagline`. Omit for the default CC BY-NC-SA 4.0 line.",
+      "items": { "$ref": "common.schema.json#/$defs/ConfigPart" }
+    },
+    "noticeUrl": {
+      "type": "string",
+      "description": "Link to this repo's NOTICE.md. Omit for no \"See NOTICE...\" sentence."
+    },
+    "storagePrefix": {
+      "type": "string",
+      "description": "Literal localStorage key prefix for every visitor's saved checklist/theme/display preferences. Load-bearing once a repo has visitors -- get it right once and never change it, or existing saved data is silently orphaned. Omit only for a brand-new repo with no visitors yet (a deterministic default is derived from `name`)."
+    },
+    "discussionsUrl": {
+      "type": "string",
+      "description": "This repo's GitHub Discussions URL. Read directly by kit's common-faq.js (\"help-improve\"/\"fan-art\" answers), not just by page.dc.html."
+    },
+    "disclosures": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/Paragraph" },
+      "description": "Extra footer paragraphs, same dual string|{parts} shape as CREDITS."
+    }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}
