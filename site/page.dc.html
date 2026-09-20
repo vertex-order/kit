@@ -964,11 +964,7 @@ class Component extends DCLogic {
         const k = entryKeyMap.get(s.num + '-' + i);
         const exSlugs = g.extras ? withDedupeSuffix(g.extras.map(ex => subSlug(ex, g))) : null;
         const altExSlugs = (g.alt && g.alt.extras) ? withDedupeSuffix(g.alt.extras.map(ex => subSlug(ex, g))) : null;
-        // title_date now safe to use here: the .plan/001_title.md Stage 3
-        // "date source" pass resolved every entry where it wasn't this
-        // entry's own chronological date. releaseDate kept only as a
-        // defensive fallback while it's still present in the data.
-        const gDate = titleDateKey(g.title_date) || g.releaseDate;
+        const gDate = titleDateKey(g.title_date);
         return {
         ...g,
         gDate,
