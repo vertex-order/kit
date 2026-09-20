@@ -4,7 +4,7 @@
 // vertex-order/final-fantasy's site/data/series-*.js (the in-depth reference
 // example); a real list repo should copy that repo's shape, not this one.
 window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder: 100, recommendedOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', games: [
-  { key: 'Wyrmwatch', releaseDate: '2014-03-11', chronoOrder: 200, recommendedOrder: 100, mainline: true, tags: [], mediaType: 'Game',
+  { chronoOrder: 200, recommendedOrder: 100, mainline: true, tags: [], mediaType: 'Game',
     lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '48h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, voice: true },
@@ -14,10 +14,6 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     title: 'Wyrmwatch', title_url: 'https://example.com/wiki/Wyrmwatch', title_date: '2014-03-11',
     subtitle: 'Remaster', subtitle_url: 'https://example.com/wiki/Wyrmwatch_Remaster', subtitle_date: 2022,
-    parts: [
-      { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
-      { label: 'Remaster (2022)', url: 'https://example.com/wiki/Wyrmwatch_Remaster', small: true },
-    ],
     storeUrl: 'https://example.com/store/wyrmwatch',
     description: [
       'Recruit-and-bond tactics RPG. Warden Rook Ashvane arrives at the Ashfall frontier and must bond with wild wyrms to hold the watchtowers against the Blightswarm.',
@@ -43,10 +39,6 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       {
         // title omitted: inherits 'Wyrmwatch' (2014) wholesale from the parent entry.
         subtitle: 'Mobile', subtitle_url: 'https://example.com/wiki/Wyrmwatch_Mobile', subtitle_date: 2015,
-        parts: [
-          { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
-          { label: 'Mobile (2015)', url: 'https://example.com/wiki/Wyrmwatch_Mobile', small: true },
-        ],
         description: [
           ['A feature-phone port with simplified bonding menus and two bonding chapters cut for hardware limits. Released as ', { emText: 'Wyrmwatch Go' }, '.'],
         ],
@@ -66,7 +58,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       },
     ],
   },
-  { key: 'Wyrmwatch: Ashfall Uprising', releaseDate: '2015-06-02', chronoOrder: 250, recommendedOrder: 300, tags: ['Expansion', 'Optional'], mediaType: 'Game',
+  { chronoOrder: 250, recommendedOrder: 300, tags: ['Expansion', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '8h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '11h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '14h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, voice: true },
@@ -74,10 +66,6 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     title: 'Wyrmwatch: Ashfall Uprising', title_url: 'https://example.com/wiki/Ashfall_Uprising', title_date: '2015-06-02',
     subtitle: 'Expansion',
-    parts: [
-      { label: 'Wyrmwatch: Ashfall Uprising (2015)', url: 'https://example.com/wiki/Ashfall_Uprising' },
-      { label: 'Expansion', url: null, small: true },
-    ],
     description: [
       ['Standalone expansion set ', { emText: 'immediately after' }, ' the base game — the Blightswarm regroups beyond the watchtowers.'],
     ],
@@ -93,7 +81,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     platformsUrl: 'https://example.com/store/ashfall-uprising',
   },
-  { key: 'Wyrmwatch II', releaseDate: '2019-05-14', chronoOrder: 50, recommendedOrder: 200, mainline: true, tags: ['Prequel'], mediaType: 'Game',
+  { chronoOrder: 50, recommendedOrder: 200, mainline: true, tags: ['Prequel'], mediaType: 'Game',
     lengthParts: [{ value: '26h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '35h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '55h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, voice: true },
@@ -104,10 +92,6 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     title: 'Wyrmwatch II', title_url: 'https://example.com/wiki/Wyrmwatch_II', title_date: '2019-05-14',
     subtitle: 'Edit', subtitle_url: 'https://example.com/wiki/Wyrmwatch_II#Edit', subtitle_date: 2021,
-    parts: [
-      { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
-      { label: 'Edit (2021)', url: 'https://example.com/wiki/Wyrmwatch_II#Edit', small: true },
-    ],
     storeUrl: 'https://example.com/store/wyrmwatch-ii',
     description: [
       'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.',
@@ -133,10 +117,6 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       // title omitted: inherits 'Wyrmwatch II' (2019) wholesale from the parent entry.
       subtitle: 'Remake', subtitle_url: 'https://example.com/wiki/Wyrmwatch_II_Reborn', subtitle_date: 2024,
       label: 'Wyrmwatch II: Reborn',
-      parts: [
-        { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
-        { label: 'Remake (2024)', url: 'https://example.com/wiki/Wyrmwatch_II_Reborn', small: true },
-      ],
       description: [
         ['Replaces the original’s turn-based tactics with real-time combat, and adds a new prologue chapter and an alternate ending. Released as ', { emText: 'Wyrmwatch II: Reborn' }, '.'],
       ],
@@ -153,7 +133,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       ],
     },
   },
-  { key: 'Wyrmwatch: Ember Reckoning', releaseDate: '2026-02-14', chronoOrder: 260, recommendedOrder: 350, tags: ['Expansion', 'Optional'], mediaType: 'Game',
+  { chronoOrder: 260, recommendedOrder: 350, tags: ['Expansion', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '9h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '13h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '17h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, voice: true },
@@ -161,10 +141,6 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     title: 'Wyrmwatch: Ember Reckoning', title_url: 'https://example.com/wiki/Ember_Reckoning', title_date: '2026-02-14',
     subtitle: 'Expansion',
-    parts: [
-      { label: 'Wyrmwatch: Ember Reckoning (2026)', url: 'https://example.com/wiki/Ember_Reckoning' },
-      { label: 'Expansion', url: null, small: true },
-    ],
     description: [
       ['A standalone expansion set alongside ', { emText: 'Wyrmwatch II (2019)' }, ', following a splinter watch as they hold a collapsing tower in the frontier’s ember basin.'],
     ],
@@ -176,15 +152,12 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     platformsUrl: 'https://example.com/store/ember-reckoning',
   },
-  { key: 'Wyrmwatch III', releaseDate: '2027-03-18', chronoOrder: 350, recommendedOrder: 400, mainline: true, tags: ['Sequel'], mediaType: 'Game',
+  { chronoOrder: 350, recommendedOrder: 400, mainline: true, tags: ['Sequel'], mediaType: 'Game',
     languages: [
       { value: 'EN', native: true, voice: true },
       { value: 'JA', voice: true },
     ],
     title: 'Wyrmwatch III', title_url: 'https://example.com/wiki/Wyrmwatch_III', title_date: '2027-03-18',
-    parts: [
-      { label: 'Wyrmwatch III (2027)', url: 'https://example.com/wiki/Wyrmwatch_III' },
-    ],
     storeUrl: 'https://example.com/store/wyrmwatch-iii',
     description: [
       'Warden Rook Ashvane returns to the Ashfall frontier after a decade of peace, as a new Blightswarm strain breaches the outer watchtowers.',
