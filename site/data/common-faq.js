@@ -21,6 +21,7 @@
 // question's #faq-<id> pilcrow anchor. Never derived from the question text or
 // array index, so existing links don't break when questions are reworded,
 // reordered, or entries are added/removed around them.
+// schema: faq.schema.json
 window.FAQ_ITEMS_COMMON = [
   {
     id: "which-version",

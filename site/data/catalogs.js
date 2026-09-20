@@ -14,6 +14,7 @@
 // `voice`/`textOnly` flags (see mapLangs in page.dc.html); an entry only
 // states its own `tip` for something a flag can't capture (fan-translation
 // credits, "content up to", etc.), used verbatim with no suffix appended.
+// schema: catalogs.schema.json#/$defs/LanguageNames
 window.LANGUAGE_NAMES = {
   JA: 'Japanese',
   EN: 'English',
@@ -56,6 +57,7 @@ window.LANGUAGE_NAMES = {
 // `rating.kind` in badge mode (`rating.textOnly`) reads `abbrTerm`/`abbrDef`
 // instead; `abbrTermLinked`/`abbrTermPlain` are derived from whether `url`
 // is set.
+// schema: catalogs.schema.json#/$defs/RatingKinds
 window.RATING_KINDS = {
   metacritic: { label: 'Metacritic' },
   'metacritic-user': { label: 'Metacritic User Score' },
@@ -68,6 +70,7 @@ window.RATING_KINDS = {
 // Steam review-adjective abbreviation shown on a `kind: 'steam'` score
 // (the abbreviation is the score's own `score` value) -> the full word(s)
 // used in its tooltip (`Steam; <full text>`).
+// schema: catalogs.schema.json#/$defs/SteamReviewLabels
 window.STEAM_REVIEW_LABELS = {
   VP: 'Very Positive',
   MP: 'Mostly Positive',

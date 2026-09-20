@@ -13,6 +13,14 @@ Every file here is a classic `<script>` (not an ES module) assigning
 `window.*` global(s) — plain JS, not JSON, so page.dc.html and friends can
 load it over `file://` too.
 
+Each file below points at its own schema with a `// schema: <name>.schema.json`
+comment before the assignment it covers — `scripts/validate-data.py`
+(`just check-data`) scans for that comment and validates against whatever
+it names, so the table below is a description of current convention, not
+something the validator reads. A file with no such comment (or one naming
+a schema outside this directory, e.g. a repo's own local schema) is simply
+not covered by kit's default schemas/ — see `schemas/README.md`.
+
 | File | Owned by | Schema | What it holds |
 | --- | --- | --- | --- |
 | `index.js` | list repo | `index.schema.json` | `SERIES_ORDER` — which `series-*.js` files exist and their display order. Rest of the file is fixed loader boilerplate. |

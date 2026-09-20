@@ -9,6 +9,7 @@
 // this list. Classic script (not an ES module) so it also loads over file://
 // — browsers block module/import and fetch on file://, but plain <script src>
 // tags still work.
+// schema: index.schema.json
 var SERIES_ORDER = [
   "WW",
   "CH",
