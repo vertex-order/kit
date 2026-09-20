@@ -32,6 +32,21 @@ extras/alt.extras), and on any sub-entry with no derivable label at all --
 authors should either fix the underlying `parts[].label` or add an explicit
 `id:` rather than ship the review depending on the fallback.
 
+## Title/year redundancy
+
+`entrySlug()` builds its key from `title` + release year, specifically so
+`title` can stay free of the year -- the year is display-composed
+separately at render time from `parts[].label`/`releaseDate`, never from
+`title` (see the list repos' docs/sources.md for the fuller writeup of
+why). If someone also types the year into `title` (redundant with what
+`parts`/`releaseDate` already carry, and usually a copy-paste habit from
+writing `parts[].label`), `entrySlug()` concatenates title-derived text
+with the release year and produces a doubled or confusingly adjacent
+year, e.g. `final-fantasy-i-1987-1987` or `...-remake-2018-2016`. This
+check flags any entry whose `title` contains `(<same year as
+releaseDate>)` anywhere in the string (not just trailing) -- fix by
+removing that redundant year from `title`, not from `parts`/`releaseDate`.
+
 site/data/index.js and series-*.js are plain JS object literals (unquoted
 keys, single-quoted strings, trailing commas) -- not valid JSON -- so this
 includes a small hand-rolled parser for the subset actually in use (no
@@ -388,6 +403,25 @@ def check_entry_keys(order):
     return findings
 
 
+def check_title_year_redundancy(entries):
+    """Flag any entry whose title contains "(<year>)" matching its own
+    releaseDate year -- see the module docstring's "Title/year redundancy"
+    section. Checks for the year anywhere in title, not just trailing,
+    since a legitimate edition suffix (e.g. "Remake (2018)") can sit after
+    a redundant leading "(<releaseDate year>)"."""
+    findings = []
+    for slug, idx, game in entries:
+        title = game.get("title")
+        year = (game.get("releaseDate") or "")[:4]
+        if title and year and f"({year})" in title:
+            findings.append(
+                f"series-{slug}.js games[{idx}]: title {title!r} redundantly "
+                f"repeats its own releaseDate year ({year}) -- remove it from "
+                "title, parts[].label/releaseDate already carry it for display"
+            )
+    return findings
+
+
 def main():
     try:
         order = load_series_order()
@@ -428,7 +462,9 @@ def main():
         print(f"check-dedup-drift: {e}", file=sys.stderr)
         return 1
 
-    if findings or key_findings:
+    year_findings = check_title_year_redundancy(entries)
+
+    if findings or key_findings or year_findings:
         if findings:
             print(f"check-dedup-drift: {len(findings)} drift finding(s) across {len(dup_groups)} duplicate group(s):")
             for finding in findings:
@@ -438,10 +474,14 @@ def main():
             print(f"check-dedup-drift: {len(key_findings)} entry-key finding(s):")
             for finding in key_findings:
                 print(f"  {finding}")
+        if year_findings:
+            print(f"check-dedup-drift: {len(year_findings)} title/year redundancy finding(s):")
+            for finding in year_findings:
+                print(f"  {finding}")
         return 1
 
     print(f"check-dedup-drift: checked {len(dup_groups)} duplicate group(s) across {len(entries)} entries, "
-          f"and {len(order)} series' entry keys, no drift")
+          f"{len(order)} series' entry keys, and title/year redundancy, no drift")
     return 0
 
 
