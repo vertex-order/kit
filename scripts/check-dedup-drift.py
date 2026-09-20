@@ -20,18 +20,20 @@ disagree. It intentionally does not look inside extras/alt/alts
 
 site/page.dc.html derives a stable pilcrow/checked-state key per entry
 (`entrySlug`/`subSlug`/`withDedupeSuffix`, ~line 282) from `title` +
-title_date's year (or an explicit `id:`), and from a sub-entry's
-`parts[].label` for extras/alt.extras. That derivation has its own
-last-resort dedupe suffix (`-2`, `-3`...) so a collision never breaks
-rendering outright, but a suffixed key is a code smell -- it means two
-different things now render under near-identical anchors, e.g.
-`#entry-VII-remaster-2012` and `...-2012-2`, and links to the second are
-one accidental data reorder away from drifting back to the first. This
-script mirrors that same derivation in Python and fails on any collision
-(entry-level or within one entry's extras/alt.extras), and on any
-sub-entry with no derivable label at all -- authors should either fix the
-underlying `parts[].label` or add an explicit `id:` rather than ship the
-review depending on the fallback.
+title_date's year (or an explicit `id:`), and for an extras/alt.extras
+sub-entry from its own `subtitle`/`title` + year, or (for a bare
+inheriting sub-entry with neither) the *parent* entry's `title` + year.
+That derivation has its own last-resort dedupe suffix (`-2`, `-3`...) so
+a collision never breaks rendering outright, but a suffixed key is a
+code smell -- it means two different things now render under
+near-identical anchors, e.g. `#entry-VII-remaster-2012` and
+`...-2012-2`, and links to the second are one accidental data reorder
+away from drifting back to the first. This script mirrors that same
+derivation in Python and fails on any collision (entry-level or within
+one entry's extras/alt.extras), and on any sub-entry with no derivable
+label at all -- authors should either fix the underlying `subtitle`/
+`title` or add an explicit `id:` rather than ship the review depending
+on the fallback.
 
 ## Title/year redundancy
 
@@ -339,24 +341,23 @@ def entry_slug(game):
     return base + ("-" + year if year else "")
 
 
-def sub_slug(node):
-    """Mirrors subSlug(): an extras[]/alt.extras[] item has no key, so this
-    derives from its distinguishing parts[] label instead (the small edition
-    tag if present, else the non-title label(s), else parts[0])."""
+def sub_slug(node, parent):
+    """Mirrors subSlug(): own subtitle + year if it has one, else own title
+    + year if it has one (a cross-reference to a different entry), else the
+    *parent* games[] entry's title + year (a bare inheriting sub-entry with
+    no edition tag), else the legacy bare `label` field."""
     if node.get("id"):
         return node["id"]
-    parts = node.get("parts") or []
-    small = [p.get("label") for p in parts if p and p.get("small") and p.get("label")]
-    labeled = [p.get("label") for p in parts if p and p.get("label")]
-    if small:
-        src = " ".join(small)
-    elif len(labeled) > 1:
-        src = " ".join(labeled[1:])
-    elif labeled:
-        src = labeled[0]
-    else:
-        src = node.get("label") or ""
-    return slugify_title(src)
+    if node.get("subtitle"):
+        yr = title_date_year(node.get("subtitle_date"))
+        return slugify_title(node["subtitle"]) + (f"-{yr}" if yr else "")
+    has_own = node.get("title") is not None
+    title = node.get("title") if has_own else (parent.get("title") if parent else None)
+    title_date = node.get("title_date") if has_own else (parent.get("title_date") if parent else None)
+    if title:
+        yr = title_date_year(title_date)
+        return slugify_title(title) + (f"-{yr}" if yr else "")
+    return slugify_title(node.get("label") or "")
 
 
 def with_dedupe_suffix(base_keys):
@@ -399,14 +400,15 @@ def check_entry_keys(order):
             if alt and alt.get("extras"):
                 sub_groups.append(("alt-x", alt["extras"]))
             for tag, nodes in sub_groups:
-                base = [sub_slug(n) for n in nodes]
+                base = [sub_slug(n, game) for n in nodes]
                 sub_keys = with_dedupe_suffix(base)
                 seen_sub = {}
                 for j, key in enumerate(sub_keys):
                     if not base[j]:
                         findings.append(
                             f"series-{slug}.js games[{i}].{'extras' if tag == 'x' else 'alt.extras'}[{j}]: "
-                            "no derivable label for its pilcrow key -- add a parts[].label or an explicit id:"
+                            "no derivable label for its pilcrow key -- add a subtitle/title (or a parent "
+                            "title to inherit) or an explicit id:"
                         )
                     seen_sub.setdefault(key, []).append(j)
                 for key, idxs in seen_sub.items():

@@ -325,20 +325,28 @@ function entrySlug(g) {
   const yr = titleDateYear(g.title_date);
   return slugifyTitle(g.title) + (yr ? '-' + yr : '');
 }
-// Slug for an extras[]/alt.extras[] "other version/platform" sub-entry,
-// which has no key field -- derived from its distinguishing parts[]
-// label: the small edition tag if present (e.g. "Remaster (2015)"), else
-// the non-title label(s), else parts[0].
-function subSlug(node) {
+// Slug for an extras[]/alt.extras[] "other version/platform" sub-entry:
+// its own subtitle + year if it has one (the distinguishing edition tag,
+// e.g. "Remaster (2015)"), else its own title + year if it has one (a
+// cross-reference to a different entry entirely), else the *parent*
+// games[] entry's title + year (a bare inheriting sub-entry with no
+// edition tag of its own), else the legacy bare `label` field. `parent`
+// is required for the inheritance case -- omit it only for a node that's
+// certain to have its own subtitle or title.
+function subSlug(node, parent) {
   if (node.id) return node.id;
-  const parts = node.parts || [];
-  const small = parts.filter(p => p && p.small && p.label).map(p => p.label);
-  const labeled = parts.filter(p => p && p.label).map(p => p.label);
-  const src = small.length ? small.join(' ')
-    : labeled.length > 1 ? labeled.slice(1).join(' ')
-    : labeled.length ? labeled[0]
-    : (node.label || '');
-  return slugifyTitle(src);
+  if (node.subtitle) {
+    const yr = titleDateYear(node.subtitle_date);
+    return slugifyTitle(node.subtitle) + (yr ? '-' + yr : '');
+  }
+  const hasOwnTitle = node.title !== undefined;
+  const title = hasOwnTitle ? node.title : (parent && parent.title);
+  const titleDate = hasOwnTitle ? node.title_date : (parent && parent.title_date);
+  if (title) {
+    const yr = titleDateYear(titleDate);
+    return slugifyTitle(title) + (yr ? '-' + yr : '');
+  }
+  return slugifyTitle(node.label || '');
 }
 // Appends -2, -3... to repeats of the same slug within one list, in order --
 // a safety net for a collision; check-dedup-drift.py also fails the build on
@@ -954,8 +962,8 @@ class Component extends DCLogic {
       noteLines: note ? note.split('\n\n').map(t => s.notePartsMap && s.notePartsMap[t] ? { parts: s.notePartsMap[t] } : { plain: t }) : null,
       games: s.games.map((g, i) => {
         const k = entryKeyMap.get(s.num + '-' + i);
-        const exSlugs = g.extras ? withDedupeSuffix(g.extras.map(subSlug)) : null;
-        const altExSlugs = (g.alt && g.alt.extras) ? withDedupeSuffix(g.alt.extras.map(subSlug)) : null;
+        const exSlugs = g.extras ? withDedupeSuffix(g.extras.map(ex => subSlug(ex, g))) : null;
+        const altExSlugs = (g.alt && g.alt.extras) ? withDedupeSuffix(g.alt.extras.map(ex => subSlug(ex, g))) : null;
         // title_date now safe to use here: the .plan/001_title.md Stage 3
         // "date source" pass resolved every entry where it wasn't this
         // entry's own chronological date. releaseDate kept only as a
