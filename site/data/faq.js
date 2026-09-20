@@ -2,6 +2,7 @@
 // Deleted by scripts/init-list.py when this repo is used as a template for a
 // new list repo — see docs/init-list.md. Franchise-specific items first, then
 // the generic items every list shares (data/common-faq.js, owned by kit).
+// schema: faq.schema.json
 window.FAQ_ITEMS = [
   {
     id: "is-this-real",

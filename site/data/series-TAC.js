@@ -1,6 +1,7 @@
 // site/data/series-TAC.js — kit's own fixture data (component gallery
 // preview). Deleted by scripts/init-list.py when this repo is used as a
 // template for a new list repo — see docs/init-list.md.
+// schema: series.schema.json
 window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrder: 700, recommendedOrder: 700, title: 'Wyrmwatch Tactics', url: null, note: 'A turn-based tactics spin-off — entirely optional, no bearing on the main story.', games: [
   { chronoOrder: 800, recommendedOrder: 710, tags: ['Turn-Based', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '12h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '16h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '24h', tip: 'Completionist' }],

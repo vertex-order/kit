@@ -3,6 +3,7 @@
 // template for a new list repo — see docs/init-list.md. Schema modeled on
 // vertex-order/final-fantasy's site/data/series-*.js (the in-depth reference
 // example); a real list repo should copy that repo's shape, not this one.
+// schema: series.schema.json
 window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder: 100, recommendedOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', games: [
   { chronoOrder: 200, recommendedOrder: 100, mainline: true, tags: [], mediaType: 'Game',
     lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '48h', tip: 'Completionist' }],

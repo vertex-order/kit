@@ -1,6 +1,7 @@
 // site/data/site.js — kit's own fixture data (component gallery preview).
 // Deleted by scripts/init-list.py when this repo is used as a template for a
-// new list repo — see docs/init-list.md. Schema: docs/init-list.md.
+// new list repo — see docs/init-list.md.
+// schema: site-config.schema.json
 window.SITE_CONFIG = {
   name: "Wyrmwatch",
   tagline: [
