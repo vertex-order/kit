@@ -2,7 +2,7 @@
 // preview). Deleted by scripts/init-list.py when this repo is used as a
 // template for a new list repo — see docs/init-list.md.
 window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrder: 700, recommendedOrder: 700, title: 'Wyrmwatch Tactics', url: null, note: 'A turn-based tactics spin-off — entirely optional, no bearing on the main story.', games: [
-  { title: 'Wyrmwatch Tactics', releaseDate: '2021-08-17', chronoOrder: 800, recommendedOrder: 710, tags: ['Turn-Based', 'Optional'], mediaType: 'Game',
+  { key: 'Wyrmwatch Tactics', releaseDate: '2021-08-17', chronoOrder: 800, recommendedOrder: 710, tags: ['Turn-Based', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '12h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '16h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '24h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, textOnly: true },
@@ -20,7 +20,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
   },
-  { title: 'Wyrmwatch Tactics: Skirmish Pack', releaseDate: '2022-02-09', chronoOrder: 850, recommendedOrder: 720, tags: ['DLC', 'Optional'], mediaType: 'Game',
+  { key: 'Wyrmwatch Tactics: Skirmish Pack', releaseDate: '2022-02-09', chronoOrder: 850, recommendedOrder: 720, tags: ['DLC', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '3h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '5h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '7h', tip: 'Completionist' }],
     parts: [
       { label: 'Wyrmwatch Tactics: Skirmish Pack (2022)', url: 'https://example.com/wiki/Skirmish_Pack' },
@@ -36,7 +36,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
     ],
     platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
   },
-  { title: 'Wyrmwatch Tactics', releaseDate: '2027-09-10', chronoOrder: 800, recommendedOrder: 705, tags: ['Turn-Based', 'Optional'], mediaType: 'Game',
+  { key: 'Wyrmwatch Tactics', releaseDate: '2027-09-10', chronoOrder: 800, recommendedOrder: 705, tags: ['Turn-Based', 'Optional'], mediaType: 'Game',
     languages: [
       { value: 'EN', native: true, textOnly: true },
       { value: 'DE', textOnly: true },

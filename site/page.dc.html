@@ -298,17 +298,17 @@ function slugifyTitle(s) {
     .replace(/^-+|-+$/g, '')
     .toLowerCase();
 }
-// Slug for a top-level games[] entry: title + release year, or an explicit
+// Slug for a top-level games[] entry: key + release year, or an explicit
 // `id:` override for the rare collision/retitle case. This is also what a
 // list repo's sources/<SERIES>/<slug>.md is named after (see docs/sources.md
 // there) -- one derivation serves both.
 function entrySlug(g) {
   if (g.id) return g.id;
   const yr = (g.releaseDate || '').slice(0, 4);
-  return slugifyTitle(g.title) + (yr ? '-' + yr : '');
+  return slugifyTitle(g.key) + (yr ? '-' + yr : '');
 }
 // Slug for an extras[]/alt.extras[] "other version/platform" sub-entry,
-// which has no title field -- derived from its distinguishing parts[]
+// which has no key field -- derived from its distinguishing parts[]
 // label: the small edition tag if present (e.g. "Remaster (2015)"), else
 // the non-title label(s), else parts[0].
 function subSlug(node) {
@@ -544,11 +544,11 @@ class Component extends DCLogic {
     }
     return merged;
   }
-  // Row-level default search title for ytSearch: a game's own `title`, or
-  // (for an extra/alt with no `title`) the first non-`small` `parts` label.
+  // Row-level default search title for ytSearch: a game's own `key`, or
+  // (for an extra/alt with no `key`) the first non-`small` `parts` label.
   rowSearchTitle(row) {
     if (!row) return '';
-    if (row.title) return row.title;
+    if (row.key) return row.key;
     const p = (row.parts || []).find(p => !p.small);
     return (p && p.label) || '';
   }
@@ -861,7 +861,7 @@ class Component extends DCLogic {
       const byKey = new Map();
       raw.forEach(s => (s.games || []).forEach((g, i) => {
         const subtitleKey = g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : (g.tags && g.tags.length ? g.tags.join(' · ') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.key + '|' + subtitleKey + '|' + (g.releaseDate || '');
         const entryKey = entryKeyMap.get(s.num + '-' + i);
         if (!byKey.has(dedupeKey)) byKey.set(dedupeKey, []);
         byKey.get(dedupeKey).push(entryKey);
@@ -916,7 +916,7 @@ class Component extends DCLogic {
         skipIconColor: this.state.status[k] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
         skipBg: this.state.status[k] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
         skipPadding: this.state.status[k] === 'skipped' ? '4px 2px 2px' : '2px',
-        parts: mapParts(g.parts || [{ label: g.title, url: null }], this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)),
+        parts: mapParts(g.parts || [{ label: g.key, url: null }], this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)),
         rating: this.resolveRating(g.rating),
         platformGroups: (g.platformGroups || g.platforms)
           && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => {
@@ -1047,7 +1047,7 @@ class Component extends DCLogic {
       const flat = [];
       orderedSeries.forEach(s => s.games.forEach(g => {
         const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.key + '|' + subtitleKey + '|' + (g.releaseDate || '');
         if (keptAnchorByKey.has(dedupeKey)) {
           this.anchorAliases[g.anchorId] = keptAnchorByKey.get(dedupeKey);
           return;
@@ -1076,7 +1076,7 @@ class Component extends DCLogic {
         // Same game can be hand-cross-listed in two real series (e.g. a Picture Book
         // tie-in) - keep only the first copy here, same dedupeKey the "ALL" flat view uses.
         const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.key + '|' + subtitleKey + '|' + (g.releaseDate || '');
         if (seenKeys.has(dedupeKey)) return;
         seenKeys.add(dedupeKey);
         const realAnchorId = g.anchorId;

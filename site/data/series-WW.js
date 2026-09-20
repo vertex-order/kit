@@ -4,7 +4,7 @@
 // vertex-order/final-fantasy's site/data/series-*.js (the in-depth reference
 // example); a real list repo should copy that repo's shape, not this one.
 window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder: 100, recommendedOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', games: [
-  { title: 'Wyrmwatch', releaseDate: '2014-03-11', chronoOrder: 200, recommendedOrder: 100, mainline: true, tags: [], mediaType: 'Game',
+  { key: 'Wyrmwatch', releaseDate: '2014-03-11', chronoOrder: 200, recommendedOrder: 100, mainline: true, tags: [], mediaType: 'Game',
     lengthParts: [{ value: '22h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '31h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '48h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, voice: true },
@@ -61,7 +61,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       },
     ],
   },
-  { title: 'Wyrmwatch: Ashfall Uprising', releaseDate: '2015-06-02', chronoOrder: 250, recommendedOrder: 300, tags: ['Expansion', 'Optional'], mediaType: 'Game',
+  { key: 'Wyrmwatch: Ashfall Uprising', releaseDate: '2015-06-02', chronoOrder: 250, recommendedOrder: 300, tags: ['Expansion', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '8h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '11h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '14h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, voice: true },
@@ -86,7 +86,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     platformsUrl: 'https://example.com/store/ashfall-uprising',
   },
-  { title: 'Wyrmwatch II', releaseDate: '2019-05-14', chronoOrder: 50, recommendedOrder: 200, mainline: true, tags: ['Prequel'], mediaType: 'Game',
+  { key: 'Wyrmwatch II', releaseDate: '2019-05-14', chronoOrder: 50, recommendedOrder: 200, mainline: true, tags: ['Prequel'], mediaType: 'Game',
     lengthParts: [{ value: '26h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '35h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '55h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, voice: true },
@@ -141,7 +141,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       ],
     },
   },
-  { title: 'Wyrmwatch: Ember Reckoning', releaseDate: '2026-02-14', chronoOrder: 260, recommendedOrder: 350, tags: ['Expansion', 'Optional'], mediaType: 'Game',
+  { key: 'Wyrmwatch: Ember Reckoning', releaseDate: '2026-02-14', chronoOrder: 260, recommendedOrder: 350, tags: ['Expansion', 'Optional'], mediaType: 'Game',
     lengthParts: [{ value: '9h', tip: 'Main Story', sep: true, sepChar: ' / ' }, { value: '13h', tip: 'Main + Extra', sep: true, sepChar: ' / ' }, { value: '17h', tip: 'Completionist' }],
     languages: [
       { value: 'EN', native: true, voice: true },
@@ -162,7 +162,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     ],
     platformsUrl: 'https://example.com/store/ember-reckoning',
   },
-  { title: 'Wyrmwatch III', releaseDate: '2027-03-18', chronoOrder: 350, recommendedOrder: 400, mainline: true, tags: ['Sequel'], mediaType: 'Game',
+  { key: 'Wyrmwatch III', releaseDate: '2027-03-18', chronoOrder: 350, recommendedOrder: 400, mainline: true, tags: ['Sequel'], mediaType: 'Game',
     languages: [
       { value: 'EN', native: true, voice: true },
       { value: 'JA', voice: true },
