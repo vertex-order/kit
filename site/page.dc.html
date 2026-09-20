@@ -298,18 +298,31 @@ function slugifyTitle(s) {
     .replace(/^-+|-+$/g, '')
     .toLowerCase();
 }
+// Canonical full-precision string for a title_date/subtitle_date value --
+// the value itself when it's already a string (a full date, ord-trick
+// suffix included), the year as a string for a plain year number, or a
+// {start,end} range's start year. Mirrors what releaseDate used to give
+// raw for string-sort/dedupe comparison; titleDateYear() below slices it
+// down to just the year for slugs/display.
+function titleDateKey(d) {
+  if (d === null || d === undefined) return '';
+  if (typeof d === 'object') return String(d.start);
+  return String(d);
+}
+function titleDateYear(d) {
+  return titleDateKey(d).slice(0, 4);
+}
 // Slug for a top-level games[] entry: title + release year, or an explicit
 // `id:` override for the rare collision/retitle case. This is also what a
 // list repo's sources/<SERIES>/<slug>.md is named after (see docs/sources.md
-// there) -- one derivation serves both. Year still comes from releaseDate,
-// not title_date: for the handful of entries where title_date's year is
-// the *displayed* year rather than this entry's own (e.g. a remaster
-// whose title repeats the base game's year for display continuity),
-// switching would collide two different entries' slugs -- see
-// .plan/001_title.md's Stage 3 follow-up.
+// there) -- one derivation serves both. Year now comes from title_date, not
+// releaseDate -- safe as of the .plan/001_title.md Stage 3 "date source"
+// pass, which resolved every entry where title_date's year wasn't this
+// entry's own (a remaster whose title repeated the base game's year for
+// display continuity, etc.) to have its own correct title_date first.
 function entrySlug(g) {
   if (g.id) return g.id;
-  const yr = (g.releaseDate || '').slice(0, 4);
+  const yr = titleDateYear(g.title_date);
   return slugifyTitle(g.title) + (yr ? '-' + yr : '');
 }
 // Slug for an extras[]/alt.extras[] "other version/platform" sub-entry,
@@ -918,7 +931,7 @@ class Component extends DCLogic {
       const byKey = new Map();
       raw.forEach(s => (s.games || []).forEach((g, i) => {
         const subtitleKey = g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : (g.tags && g.tags.length ? g.tags.join(' · ') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.title_date);
         const entryKey = entryKeyMap.get(s.num + '-' + i);
         if (!byKey.has(dedupeKey)) byKey.set(dedupeKey, []);
         byKey.get(dedupeKey).push(entryKey);
@@ -943,14 +956,11 @@ class Component extends DCLogic {
         const k = entryKeyMap.get(s.num + '-' + i);
         const exSlugs = g.extras ? withDedupeSuffix(g.extras.map(subSlug)) : null;
         const altExSlugs = (g.alt && g.alt.extras) ? withDedupeSuffix(g.alt.extras.map(subSlug)) : null;
-        // Deliberately still releaseDate, not title_date: for a handful of
-        // entries (e.g. a remaster whose title repeats the base game's own
-        // year for display continuity, subtitle_date carrying its real
-        // release instead) title_date's year is the *displayed* year, not
-        // necessarily this entry's own chronological date -- releaseDate
-        // stays the authoritative source for sort/upcoming until that's
-        // resolved (see plan .plan/001_title.md, Stage 3 follow-up).
-        const gDate = g.releaseDate;
+        // title_date now safe to use here: the .plan/001_title.md Stage 3
+        // "date source" pass resolved every entry where it wasn't this
+        // entry's own chronological date. releaseDate kept only as a
+        // defensive fallback while it's still present in the data.
+        const gDate = titleDateKey(g.title_date) || g.releaseDate;
         return {
         ...g,
         gDate,
@@ -1113,7 +1123,7 @@ class Component extends DCLogic {
       const flat = [];
       orderedSeries.forEach(s => s.games.forEach(g => {
         const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.title_date);
         if (keptAnchorByKey.has(dedupeKey)) {
           this.anchorAliases[g.anchorId] = keptAnchorByKey.get(dedupeKey);
           return;
@@ -1142,7 +1152,7 @@ class Component extends DCLogic {
         // Same game can be hand-cross-listed in two real series (e.g. a Picture Book
         // tie-in) - keep only the first copy here, same dedupeKey the "ALL" flat view uses.
         const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.title_date);
         if (seenKeys.has(dedupeKey)) return;
         seenKeys.add(dedupeKey);
         const realAnchorId = g.anchorId;
