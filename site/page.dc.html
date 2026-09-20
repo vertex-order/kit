@@ -298,14 +298,19 @@ function slugifyTitle(s) {
     .replace(/^-+|-+$/g, '')
     .toLowerCase();
 }
-// Slug for a top-level games[] entry: key + release year, or an explicit
+// Slug for a top-level games[] entry: title + release year, or an explicit
 // `id:` override for the rare collision/retitle case. This is also what a
 // list repo's sources/<SERIES>/<slug>.md is named after (see docs/sources.md
-// there) -- one derivation serves both.
+// there) -- one derivation serves both. Year still comes from releaseDate,
+// not title_date: for the handful of entries where title_date's year is
+// the *displayed* year rather than this entry's own (e.g. a remaster
+// whose title repeats the base game's year for display continuity),
+// switching would collide two different entries' slugs -- see
+// .plan/001_title.md's Stage 3 follow-up.
 function entrySlug(g) {
   if (g.id) return g.id;
   const yr = (g.releaseDate || '').slice(0, 4);
-  return slugifyTitle(g.key) + (yr ? '-' + yr : '');
+  return slugifyTitle(g.title) + (yr ? '-' + yr : '');
 }
 // Slug for an extras[]/alt.extras[] "other version/platform" sub-entry,
 // which has no key field -- derived from its distinguishing parts[]
@@ -544,11 +549,12 @@ class Component extends DCLogic {
     }
     return merged;
   }
-  // Row-level default search title for ytSearch: a game's own `key`, or
-  // (for an extra/alt with no `key`) the first non-`small` `parts` label.
+  // Row-level default search title for ytSearch: a game's own `title`, or
+  // (for an extra/alt with no own `title`, inherited or not) the first
+  // non-`small` `parts` label.
   rowSearchTitle(row) {
     if (!row) return '';
-    if (row.key) return row.key;
+    if (row.title) return row.title;
     const p = (row.parts || []).find(p => !p.small);
     return (p && p.label) || '';
   }
@@ -803,9 +809,7 @@ class Component extends DCLogic {
     // entry: if `node` omits `title` (undefined), it inherits
     // title/title_url/title_date wholesale from `parent` -- all-or-nothing,
     // never a partial override, so there's never two sources of truth for
-    // the same title that can drift apart. A bare node with neither its own
-    // title nor a parent (shouldn't happen for a real games[] entry) falls
-    // back to `key` so rendering never silently goes blank.
+    // the same title that can drift apart.
     // A node with no title/subtitle of its own that exists purely to group
     // its own `extras` (a singular `alt` used only as `{ extras: [...] }`,
     // no row of its own) returns undefined rather than inheriting -- an
@@ -831,7 +835,6 @@ class Component extends DCLogic {
       const titleItalic = hasOwnTitle ? node.title_italic : (parent && parent.title_italic);
       const out = [];
       if (title) out.push({ label: title + composeDateLabel(titleDate), url: titleUrl || null, tip: titleTip || undefined, italic: titleItalic || undefined });
-      else if (!parent) out.push({ label: node.key, url: null });
       if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitle_date), url: node.subtitle_url || null, small: true, tip: node.subtitle_tip || undefined, italic: node.subtitle_italic || undefined });
       return out;
     };
@@ -915,7 +918,7 @@ class Component extends DCLogic {
       const byKey = new Map();
       raw.forEach(s => (s.games || []).forEach((g, i) => {
         const subtitleKey = g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : (g.tags && g.tags.length ? g.tags.join(' · ') : '');
-        const dedupeKey = g.key + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
         const entryKey = entryKeyMap.get(s.num + '-' + i);
         if (!byKey.has(dedupeKey)) byKey.set(dedupeKey, []);
         byKey.get(dedupeKey).push(entryKey);
@@ -940,11 +943,20 @@ class Component extends DCLogic {
         const k = entryKeyMap.get(s.num + '-' + i);
         const exSlugs = g.extras ? withDedupeSuffix(g.extras.map(subSlug)) : null;
         const altExSlugs = (g.alt && g.alt.extras) ? withDedupeSuffix(g.alt.extras.map(subSlug)) : null;
+        // Deliberately still releaseDate, not title_date: for a handful of
+        // entries (e.g. a remaster whose title repeats the base game's own
+        // year for display continuity, subtitle_date carrying its real
+        // release instead) title_date's year is the *displayed* year, not
+        // necessarily this entry's own chronological date -- releaseDate
+        // stays the authoritative source for sort/upcoming until that's
+        // resolved (see plan .plan/001_title.md, Stage 3 follow-up).
+        const gDate = g.releaseDate;
         return {
         ...g,
-        upcoming: isUpcoming(g.releaseDate),
-        upcomingDateText: isUpcoming(g.releaseDate) ? formatUpcomingDate(g.releaseDate) : null,
-        recentlyReleased: isRecentlyReleased(g.releaseDate),
+        gDate,
+        upcoming: isUpcoming(gDate),
+        upcomingDateText: isUpcoming(gDate) ? formatUpcomingDate(gDate) : null,
+        recentlyReleased: isRecentlyReleased(gDate),
         languages: mapLangs(g.languages, g.langOrder),
         otherLanguages: mapLangs(computeOtherLangs(g.languages, g.extras || (g.alt && g.alt.extras)), g.langOrder),
         byline: g.bylineParts ? undefined : (g.tags && g.tags.length ? g.tags.join(' · ') : undefined),
@@ -958,7 +970,7 @@ class Component extends DCLogic {
         rowCompletedStyle: this.state.status[k] === 'checked' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);'
           : this.state.status[k] === 'skipped' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-neutral-400) 6%, transparent) 2px);' : '',
         wrapCompletedStyle: this.state.status[k] ? 'opacity: 0.5;' : '',
-        showCheckbox: !g.noCheckbox && !isUpcoming(g.releaseDate),
+        showCheckbox: !g.noCheckbox && !isUpcoming(gDate),
         showSkipIcon: this.state.status[k] !== 'checked',
         showCheckboxInput: this.state.status[k] !== 'skipped',
         showPilcrow: true,
@@ -1069,7 +1081,7 @@ class Component extends DCLogic {
     };
     const gameSortKey = g => {
       if (mode === 'B') return g.chronoOrder ?? 0;
-      if (mode === 'C') return g.releaseDate || '9999';
+      if (mode === 'C') return g.gDate || '9999';
       return g.recommendedOrder ?? 0;
     };
     const seriesSortKey = s => {
@@ -1078,7 +1090,7 @@ class Component extends DCLogic {
         if (s.num === 'Other' || s.num === 'PB') return '9999';
         const core = s.games.filter(g => !(g.tags || []).includes('Optional'));
         const pool = core.length ? core : s.games;
-        const dates = pool.map(g => g.releaseDate).filter(Boolean);
+        const dates = pool.map(g => g.gDate).filter(Boolean);
         return dates.length ? dates.reduce((m, d) => (d < m ? d : m)) : '9999';
       }
       return s.recommendedOrder ?? 0;
@@ -1101,7 +1113,7 @@ class Component extends DCLogic {
       const flat = [];
       orderedSeries.forEach(s => s.games.forEach(g => {
         const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
-        const dedupeKey = g.key + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
         if (keptAnchorByKey.has(dedupeKey)) {
           this.anchorAliases[g.anchorId] = keptAnchorByKey.get(dedupeKey);
           return;
@@ -1110,7 +1122,7 @@ class Component extends DCLogic {
         flat.push(g);
       }));
       flat.sort((a, b) => {
-        const ka = a.releaseDate || '9999', kb = b.releaseDate || '9999';
+        const ka = a.gDate || '9999', kb = b.gDate || '9999';
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
       const games = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
@@ -1130,7 +1142,7 @@ class Component extends DCLogic {
         // Same game can be hand-cross-listed in two real series (e.g. a Picture Book
         // tie-in) - keep only the first copy here, same dedupeKey the "ALL" flat view uses.
         const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
-        const dedupeKey = g.key + '|' + subtitleKey + '|' + (g.releaseDate || '');
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + (g.releaseDate || '');
         if (seenKeys.has(dedupeKey)) return;
         seenKeys.add(dedupeKey);
         const realAnchorId = g.anchorId;
@@ -1157,7 +1169,7 @@ class Component extends DCLogic {
       // entries are pulled out of their series - always sort by real release date instead,
       // regardless of the page's active sort mode.
       games.sort((a, b) => {
-        const ka = a.releaseDate || '9999', kb = b.releaseDate || '9999';
+        const ka = a.gDate || '9999', kb = b.gDate || '9999';
         return sortDesc ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
       });
       return {
