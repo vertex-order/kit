@@ -44,7 +44,7 @@ window.__wwSeriesReg['TAC'] = { num: 'TAC', releaseDate: '2021-08-17', chronoOrd
       { value: 'EN', native: true, textOnly: true },
       { value: 'DE', textOnly: true },
     ],
-    title: 'Wyrmwatch Tactics', title_url: 'https://example.com/wiki/Wyrmwatch_Tactics', title_date: 2021,
+    title: 'Wyrmwatch Tactics', title_url: 'https://example.com/wiki/Wyrmwatch_Tactics', title_date: '2027-09-10',
     subtitle: 'Remaster', subtitle_url: 'https://example.com/wiki/Wyrmwatch_Tactics_Remaster', subtitle_date: 2027,
     parts: [
       { label: 'Wyrmwatch Tactics (2021)', url: 'https://example.com/wiki/Wyrmwatch_Tactics' },
