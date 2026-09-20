@@ -808,12 +808,14 @@ class Component extends DCLogic {
     // back to `key` so rendering never silently goes blank.
     // A node with no title/subtitle of its own that exists purely to group
     // its own `extras` (a singular `alt` used only as `{ extras: [...] }`,
-    // no row of its own) returns [] rather than inheriting -- MediaEntry
-    // gates that whole header row on `g.alt.parts` being non-empty, and this
-    // kind of node was never meant to show one, just the extras list under
-    // it.
+    // no row of its own) returns undefined rather than inheriting -- an
+    // empty array is still truthy, and MediaEntry gates that whole header
+    // row on `g.alt.parts` being non-empty/non-undefined; this kind of node
+    // was never meant to show one, just the extras list under it. Use
+    // mapTitleParts() below, not mapParts(buildTitleParts(...)) directly, so
+    // that undefined short-circuits instead of hitting mapParts's .map().
     const buildTitleParts = (node, parent) => {
-      if (node.title === undefined && node.subtitle === undefined && node.extras) return [];
+      if (node.title === undefined && node.subtitle === undefined && node.extras) return undefined;
       const hasOwnTitle = node.title !== undefined;
       const title = hasOwnTitle ? node.title : (parent && parent.title);
       const titleUrl = hasOwnTitle ? node.title_url : (parent && parent.title_url);
@@ -823,6 +825,10 @@ class Component extends DCLogic {
       else if (!parent) out.push({ label: node.key, url: null });
       if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitle_date), url: node.subtitle_url || null, small: true });
       return out;
+    };
+    const mapTitleParts = (node, parent, strikeMode) => {
+      const parts = buildTitleParts(node, parent);
+      return parts && mapParts(parts, strikeMode);
     };
     const toDescParas = (desc) => {
       if (!desc) return null;
@@ -955,7 +961,7 @@ class Component extends DCLogic {
         skipIconColor: this.state.status[k] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
         skipBg: this.state.status[k] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
         skipPadding: this.state.status[k] === 'skipped' ? '4px 2px 2px' : '2px',
-        parts: mapParts(buildTitleParts(g, null), this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)),
+        parts: mapTitleParts(g, null, this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)),
         rating: this.resolveRating(g.rating),
         platformGroups: (g.platformGroups || g.platforms)
           && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => {
@@ -987,7 +993,7 @@ class Component extends DCLogic {
           this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedMainExtras', parentKey: k };
           return {
           ...ex,
-          parts: mapParts(buildTitleParts(ex, g)),
+          parts: mapTitleParts(ex, g),
           languages: mapLangs(ex.languages, ex.langOrder),
           byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
           rating: this.resolveRating(ex.rating),
@@ -997,7 +1003,7 @@ class Component extends DCLogic {
         };}),
         alts: g.alts && g.alts.map(alt => ({
           ...alt,
-          parts: mapParts(buildTitleParts(alt, g)),
+          parts: mapTitleParts(alt, g),
           languages: mapLangs(alt.languages, alt.langOrder),
           byline: alt.tags && alt.tags.length ? alt.tags.join(' · ') : undefined,
           rating: this.resolveRating(alt.rating),
@@ -1006,7 +1012,7 @@ class Component extends DCLogic {
         })),
         alt: g.alt && g.alt.extras ? {
           ...g.alt,
-          parts: mapParts(buildTitleParts(g.alt, g)),
+          parts: mapTitleParts(g.alt, g),
           languages: mapLangs(g.alt.languages, g.alt.langOrder),
           descParas: toDescParas(g.alt.description),
           otherLanguages: mapLangs(computeOtherLangs(g.alt.languages, g.alt.extras), g.alt.langOrder),
@@ -1036,7 +1042,7 @@ class Component extends DCLogic {
             this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedAlts', parentKey: k };
             return {
             ...ex,
-            parts: mapParts(buildTitleParts(ex, g)),
+            parts: mapTitleParts(ex, g),
             languages: mapLangs(ex.languages, ex.langOrder),
             byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
             rating: this.resolveRating(ex.rating),
@@ -1044,7 +1050,7 @@ class Component extends DCLogic {
             descParas: toDescParas(ex.description),
             ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
           };}),
-        } : (g.alt ? { ...g.alt, parts: mapParts(buildTitleParts(g.alt, g)), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, rating: this.resolveRating(g.alt.rating), platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + k + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
+        } : (g.alt ? { ...g.alt, parts: mapTitleParts(g.alt, g), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, rating: this.resolveRating(g.alt.rating), platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + k + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
       };}),
     };});
     const kindOf = g => {
