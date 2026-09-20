@@ -37,6 +37,27 @@ with `curl -LsSf https://astral.sh/uv/install.sh | sh` (or see
 https://docs.astral.sh/uv/getting-started/installation/), a single static
 binary, no dependencies of its own.
 
+## `uv.toml` and the supply-chain age guard
+
+`uv.toml` (repo root) sets `exclude-newer = "7 days"` -- a supply-chain
+guard: uv refuses to resolve to any package version uploaded more
+recently than that, so a just-published/compromised release can't get
+pulled in the moment it lands. It only constrains which version an
+existing pin (e.g. `ruff@0.16`) resolves to within its own range -- it
+doesn't replace the pin.
+
+**This does not apply automatically.** Confirmed by testing, not
+assumed: `uv tool run` (`uvx`) never discovers a project-level `uv.toml`
+by walking up from the current directory the way `uv sync`/`uv add` do --
+it only reads a user-global config (`~/.config/uv/uv.toml` on Linux/macOS,
+`%APPDATA%\uv\uv.toml` on Windows), which is per-machine and not something
+CI or another contributor has. Every `uvx` invocation in this repo must
+therefore set `UV_CONFIG_FILE=uv.toml` (or pass `--config-file uv.toml`)
+explicitly to pick it up -- already done in `just check-ruff`/`just
+format`, `.githooks/pre-commit`, and `check-ruff.yml`'s job-level `env:`.
+Adding a new `uvx`-based check later means remembering this the same way
+it means remembering the version pin.
+
 ## Current ephemeral tools
 
 | Tool | Covers | Local recipe | CI workflow |
