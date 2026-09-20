@@ -8,6 +8,8 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
       { value: 'EN', native: true, url: 'https://example.com/books/ashfall-codex/en' },
       { value: 'ES', tip: 'Spanish (Castilian)', url: 'https://example.com/books/ashfall-codex/es' },
     ],
+    title: 'Wyrmwatch Chronicles: The Ashfall Codex', title_url: 'https://example.com/wiki/The_Ashfall_Codex', title_date: 2017,
+    subtitle: 'Book',
     parts: [
       { label: 'Wyrmwatch Chronicles: The Ashfall Codex (2017)', url: 'https://example.com/wiki/The_Ashfall_Codex' },
       { label: 'Book', url: null, small: true },
@@ -28,6 +30,7 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
       { value: 'JA', tip: 'Japanese — dub', voice: true },
       { value: 'FR', tip: 'French — subtitles only' },
     ],
+    title: 'Wyrmwatch: Rise of the Wyrm', title_url: 'https://example.com/wiki/Rise_of_the_Wyrm', title_date: 2020,
     parts: [
       { label: 'Wyrmwatch: Rise of the Wyrm (2020)', url: 'https://example.com/wiki/Rise_of_the_Wyrm' },
     ],
@@ -45,6 +48,8 @@ window.__wwSeriesReg['CH'] = { num: 'CH', releaseDate: '2017-10-03', chronoOrder
     languages: [
       { value: 'EN', native: true, url: 'https://example.com/books/cinderwake/en' },
     ],
+    title: 'Wyrmwatch Chronicles: Cinderwake', title_url: 'https://example.com/wiki/Cinderwake', title_date: 2025,
+    subtitle: 'Book',
     parts: [
       { label: 'Wyrmwatch Chronicles: Cinderwake (2025)', url: 'https://example.com/wiki/Cinderwake' },
       { label: 'Book', url: null, small: true },

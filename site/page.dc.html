@@ -785,6 +785,38 @@ class Component extends DCLogic {
       ...p,
       smallStyle: (p.small ? 'font-size:12px;color:var(--color-neutral-400);' : '') + ((p.strike || strikeMode) ? ('text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-style: ' + (!p.strike && strikeMode === 'dashed' ? 'dashed' : 'solid') + '; text-decoration-color: var(--color-neutral-500);') : '') + (p.italic ? 'font-style: italic;' : ''),
     }));
+    // Appends " (YYYY)" (or " (YYYY–YYYY)" for a {start,end} range, `end`
+    // allowed to carry a trailing "+"/etc. as free text) to a title/subtitle
+    // label -- a title_date/subtitle_date value is a year number, a full
+    // releaseDate-shaped string (optionally with the ord-trick " 10"/" 20"
+    // suffix, sliced to its first 4 chars same as entrySlug's year), or a
+    // {start,end} range for the handful of date-range pseudo-entries.
+    const composeDateLabel = (d) => {
+      if (d === null || d === undefined) return '';
+      if (typeof d === 'object') return ' (' + d.start + '–' + d.end + ')';
+      const yr = String(d).slice(0, 4);
+      return yr ? ' (' + yr + ')' : '';
+    };
+    // Builds a parts[]-shaped [title, subtitle?] array from the
+    // title/title_url/title_date/subtitle/subtitle_url/subtitle_date fields,
+    // for mapParts() to style. `parent` is the enclosing top-level games[]
+    // entry: if `node` omits `title` (undefined), it inherits
+    // title/title_url/title_date wholesale from `parent` -- all-or-nothing,
+    // never a partial override, so there's never two sources of truth for
+    // the same title that can drift apart. A bare node with neither its own
+    // title nor a parent (shouldn't happen for a real games[] entry) falls
+    // back to `key` so rendering never silently goes blank.
+    const buildTitleParts = (node, parent) => {
+      const hasOwnTitle = node.title !== undefined;
+      const title = hasOwnTitle ? node.title : (parent && parent.title);
+      const titleUrl = hasOwnTitle ? node.title_url : (parent && parent.title_url);
+      const titleDate = hasOwnTitle ? node.title_date : (parent && parent.title_date);
+      const out = [];
+      if (title) out.push({ label: title + composeDateLabel(titleDate), url: titleUrl || null });
+      else if (!parent) out.push({ label: node.key, url: null });
+      if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitle_date), url: node.subtitle_url || null, small: true });
+      return out;
+    };
     const toDescParas = (desc) => {
       if (!desc) return null;
       const arr = Array.isArray(desc) ? desc : [desc];
@@ -916,7 +948,7 @@ class Component extends DCLogic {
         skipIconColor: this.state.status[k] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
         skipBg: this.state.status[k] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
         skipPadding: this.state.status[k] === 'skipped' ? '4px 2px 2px' : '2px',
-        parts: mapParts(g.parts || [{ label: g.key, url: null }], this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)),
+        parts: mapParts(buildTitleParts(g, null), this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)),
         rating: this.resolveRating(g.rating),
         platformGroups: (g.platformGroups || g.platforms)
           && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => {
@@ -948,7 +980,7 @@ class Component extends DCLogic {
           this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedMainExtras', parentKey: k };
           return {
           ...ex,
-          parts: ex.parts && mapParts(ex.parts),
+          parts: mapParts(buildTitleParts(ex, g)),
           languages: mapLangs(ex.languages, ex.langOrder),
           byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
           rating: this.resolveRating(ex.rating),
@@ -958,7 +990,7 @@ class Component extends DCLogic {
         };}),
         alts: g.alts && g.alts.map(alt => ({
           ...alt,
-          parts: alt.parts && mapParts(alt.parts),
+          parts: mapParts(buildTitleParts(alt, g)),
           languages: mapLangs(alt.languages, alt.langOrder),
           byline: alt.tags && alt.tags.length ? alt.tags.join(' · ') : undefined,
           rating: this.resolveRating(alt.rating),
@@ -967,7 +999,7 @@ class Component extends DCLogic {
         })),
         alt: g.alt && g.alt.extras ? {
           ...g.alt,
-          parts: g.alt.parts && mapParts(g.alt.parts),
+          parts: mapParts(buildTitleParts(g.alt, g)),
           languages: mapLangs(g.alt.languages, g.alt.langOrder),
           descParas: toDescParas(g.alt.description),
           otherLanguages: mapLangs(computeOtherLangs(g.alt.languages, g.alt.extras), g.alt.langOrder),
@@ -997,7 +1029,7 @@ class Component extends DCLogic {
             this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedAlts', parentKey: k };
             return {
             ...ex,
-            parts: ex.parts && mapParts(ex.parts),
+            parts: mapParts(buildTitleParts(ex, g)),
             languages: mapLangs(ex.languages, ex.langOrder),
             byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
             rating: this.resolveRating(ex.rating),
@@ -1005,7 +1037,7 @@ class Component extends DCLogic {
             descParas: toDescParas(ex.description),
             ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
           };}),
-        } : (g.alt ? { ...g.alt, parts: g.alt.parts && mapParts(g.alt.parts), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, rating: this.resolveRating(g.alt.rating), platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + k + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
+        } : (g.alt ? { ...g.alt, parts: mapParts(buildTitleParts(g.alt, g)), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, rating: this.resolveRating(g.alt.rating), platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + k + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
       };}),
     };});
     const kindOf = g => {

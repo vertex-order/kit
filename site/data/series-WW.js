@@ -12,6 +12,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'DE', voice: true },
       { value: 'JA', voice: true },
     ],
+    title: 'Wyrmwatch', title_url: 'https://example.com/wiki/Wyrmwatch', title_date: 2014,
+    subtitle: 'Remaster', subtitle_url: 'https://example.com/wiki/Wyrmwatch_Remaster', subtitle_date: 2022,
     parts: [
       { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
       { label: 'Remaster (2022)', url: 'https://example.com/wiki/Wyrmwatch_Remaster', small: true },
@@ -39,6 +41,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     platformsUrl: 'https://example.com/store/wyrmwatch',
     extras: [
       {
+        // title omitted: inherits 'Wyrmwatch' (2014) wholesale from the parent entry.
+        subtitle: 'Mobile', subtitle_url: 'https://example.com/wiki/Wyrmwatch_Mobile', subtitle_date: 2015,
         parts: [
           { label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch' },
           { label: 'Mobile (2015)', url: 'https://example.com/wiki/Wyrmwatch_Mobile', small: true },
@@ -52,6 +56,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
         ],
       },
       {
+        // title and subtitle both omitted: just the inherited base title, no edition tag.
         label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch',
         description: ['The original release, before the free rebalance patch and the 2022 remaster.'],
         languages: [{ value: 'EN', native: true, voice: true }],
@@ -67,6 +72,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'EN', native: true, voice: true },
       { value: 'FR', textOnly: true },
     ],
+    title: 'Wyrmwatch: Ashfall Uprising', title_url: 'https://example.com/wiki/Ashfall_Uprising', title_date: 2015,
+    subtitle: 'Expansion',
     parts: [
       { label: 'Wyrmwatch: Ashfall Uprising (2015)', url: 'https://example.com/wiki/Ashfall_Uprising' },
       { label: 'Expansion', url: null, small: true },
@@ -95,6 +102,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'DE', textOnly: true },
       { value: 'ES', textOnly: true },
     ],
+    title: 'Wyrmwatch II', title_url: 'https://example.com/wiki/Wyrmwatch_II', title_date: 2019,
+    subtitle: 'Edit', subtitle_url: 'https://example.com/wiki/Wyrmwatch_II#Edit', subtitle_date: 2021,
     parts: [
       { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
       { label: 'Edit (2021)', url: 'https://example.com/wiki/Wyrmwatch_II#Edit', small: true },
@@ -115,11 +124,14 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
     platformsUrl: 'https://example.com/store/wyrmwatch-ii',
     extras: [
       {
+        // title and subtitle both omitted: just the inherited base title, no edition tag.
         label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II',
         description: ['The original release, before the Hard difficulty and New Game+ edit.'],
       },
     ],
     alt: {
+      // title omitted: inherits 'Wyrmwatch II' (2019) wholesale from the parent entry.
+      subtitle: 'Remake', subtitle_url: 'https://example.com/wiki/Wyrmwatch_II_Reborn', subtitle_date: 2024,
       label: 'Wyrmwatch II: Reborn',
       parts: [
         { label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II' },
@@ -147,6 +159,8 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'EN', native: true, voice: true },
       { value: 'FR', textOnly: true },
     ],
+    title: 'Wyrmwatch: Ember Reckoning', title_url: 'https://example.com/wiki/Ember_Reckoning', title_date: 2026,
+    subtitle: 'Expansion',
     parts: [
       { label: 'Wyrmwatch: Ember Reckoning (2026)', url: 'https://example.com/wiki/Ember_Reckoning' },
       { label: 'Expansion', url: null, small: true },
@@ -167,6 +181,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', releaseDate: '2014-03-11', chronoOrder
       { value: 'EN', native: true, voice: true },
       { value: 'JA', voice: true },
     ],
+    title: 'Wyrmwatch III', title_url: 'https://example.com/wiki/Wyrmwatch_III', title_date: 2027,
     parts: [
       { label: 'Wyrmwatch III (2027)', url: 'https://example.com/wiki/Wyrmwatch_III' },
     ],
