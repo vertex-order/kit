@@ -16,30 +16,36 @@
 <link rel="stylesheet" href="data/theme.css">
 <script src="./theme-dev.js"></script>
 </helmet>
-<sc-if value="{{ rating }}" hint-placeholder-val="{{ false }}">
+<!-- `ratings` (schema: series.schema.json#/$defs/RatingItem[]) -- each item
+     is independently either a badge (isBadge, e.g. NYR/TBD/favorable, a
+     plain score/abbr-tooltip, never linked as a score) or a linked score
+     (isScore); one release can mix both. Resolved by resolveRatings() in
+     page.dc.html, not here -- this component only renders the two shapes. -->
+<sc-if value="{{ ratings }}" hint-placeholder-val="{{ false }}">
   <span style="display: flex; flex-direction: column; gap: 1px;">
     <span style="color: var(--color-neutral-500);">Rating</span>
-    <sc-if value="{{ rating.textOnly }}" hint-placeholder-val="{{ false }}">
-      <sc-if value="{{ rating.score }}" hint-placeholder-val="{{ false }}">
-        <span>{{ rating.score }}</span>
-      </sc-if>
-      <sc-if value="{{ rating.abbrTermLinked }}" hint-placeholder-val="{{ false }}">
-        <span><a href="{{ rating.url }}" target="_blank" rel="noopener"><abbr title="{{ rating.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ rating.abbrTerm }}</abbr></a></span>
-      </sc-if>
-      <sc-if value="{{ rating.abbrTermPlain }}" hint-placeholder-val="{{ false }}">
-        <span><abbr title="{{ rating.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ rating.abbrTerm }}</abbr></span>
-      </sc-if>
-    </sc-if>
-    <sc-if value="{{ rating.scores }}" hint-placeholder-val="{{ false }}">
-      <span>
-        <sc-for list="{{ rating.scores }}" as="sc" hint-placeholder-count="2">
-          <a href="{{ sc.url }}" target="_blank" rel="noopener" title="{{ sc.label }}">{{ sc.value }}</a><sc-if value="{{ sc.sep }}" hint-placeholder-val="{{ false }}"> / </sc-if>
-        </sc-for>
-      </span>
-    </sc-if>
+    <span>
+      <sc-for list="{{ ratings }}" as="r" hint-placeholder-count="2">
+        <sc-if value="{{ r.isBadge }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ r.score }}" hint-placeholder-val="{{ false }}">
+            <span>{{ r.score }}</span>
+          </sc-if>
+          <sc-if value="{{ r.abbrTermLinked }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ r.url }}" target="_blank" rel="noopener"><abbr title="{{ r.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ r.abbrTerm }}</abbr></a>
+          </sc-if>
+          <sc-if value="{{ r.abbrTermPlain }}" hint-placeholder-val="{{ false }}">
+            <abbr title="{{ r.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ r.abbrTerm }}</abbr>
+          </sc-if>
+        </sc-if>
+        <sc-if value="{{ r.isScore }}" hint-placeholder-val="{{ true }}">
+          <a href="{{ r.url }}" target="_blank" rel="noopener" title="{{ r.label }}">{{ r.value }}</a>
+        </sc-if>
+        <sc-if value="{{ r.sep }}" hint-placeholder-val="{{ false }}"> / </sc-if>
+      </sc-for>
+    </span>
   </span>
 </sc-if>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 90, &quot;height&quot;: 40}, &quot;rating&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;object | null&quot;}}"></script>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 90, &quot;height&quot;: 40}, &quot;ratings&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;array | null&quot;}}"></script>
 </body>
 </html>

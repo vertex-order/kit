@@ -16,19 +16,46 @@
 <link rel="stylesheet" href="data/theme.css">
 <script src="./theme-dev.js"></script>
 </helmet>
-<sc-if value="{{ value }}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{ text }}" hint-placeholder-val="{{ false }}">
   <span style="display: flex; flex-direction: column; gap: 1px;">
     <span style="color: var(--color-neutral-500);">Length</span>
-    <span>{{ value }}</span>
+    <span>{{ text }}</span>
   </span>
 </sc-if>
 <sc-if value="{{ parts }}" hint-placeholder-val="{{ false }}">
   <span style="display: flex; flex-direction: column; gap: 1px;">
     <span style="color: var(--color-neutral-500);">Length</span>
-    <span><sc-for list="{{ parts }}" as="lp" hint-placeholder-count="3"><sc-if value="{{ lp.label }}" hint-placeholder-val="{{ false }}">{{ lp.label }}</sc-if><abbr title="{{ lp.tip }}" style="text-decoration: none; cursor: help;">{{ lp.value }}</abbr><sc-if value="{{ lp.sep }}" hint-placeholder-val="{{ false }}">{{ lp.sepChar }}</sc-if><sc-if value="{{ lp.br }}" hint-placeholder-val="{{ false }}"><br></sc-if></sc-for></span>
+    <span><sc-for list="{{ parts }}" as="lp" hint-placeholder-count="3"><sc-if value="{{ lp.label }}" hint-placeholder-val="{{ false }}">{{ lp.label }}</sc-if><abbr title="{{ lp.tip }}" style="text-decoration: none; cursor: help;">{{ lp.value }}</abbr><sc-if value="{{ lp.printJoin }}" hint-placeholder-val="{{ false }}">{{ lp.printJoin }}</sc-if><sc-if value="{{ lp.printBr }}" hint-placeholder-val="{{ false }}"><br></sc-if></sc-for></span>
   </span>
 </sc-if>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 90, &quot;height&quot;: 32}, &quot;value&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;parts&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;array | null&quot;}}"></script>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 90, &quot;height&quot;: 32}, &quot;length&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | array | null&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    // schema: series.schema.json#/$defs/Length -- a bare string, or an
+    // array of segments joined by ' / ' by default. Per segment: `join`
+    // overrides the default joiner, `br` forces a line break instead, and
+    // a `label` on the NEXT segment also forces one (its own visual cue
+    // that it starts a new line) -- the two signals are OR'd into one
+    // `printBr` per boundary so setting both never double-breaks.
+    const length = this.props.length;
+    const isArray = Array.isArray(length);
+    const parts = isArray ? length.map((p, i) => {
+      const isLast = i === length.length - 1;
+      const next = length[i + 1];
+      const brAfter = !isLast && (!!p.br || (next && next.label != null));
+      return {
+        ...p,
+        printBr: brAfter,
+        printJoin: (!isLast && !brAfter) ? (p.join !== undefined ? p.join : ' / ') : '',
+      };
+    }) : null;
+    return {
+      text: isArray ? null : length,
+      parts,
+    };
+  }
+}
+</script>
 </body>
 </html>

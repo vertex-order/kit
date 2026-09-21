@@ -49,14 +49,13 @@ window.LANGUAGE_NAMES = {
   '…?': 'Unknown additional languages',
 };
 
-// Rating label boilerplate per `kind` — see resolveRating in page.dc.html.
-// Two shapes share this table: a `rating.scores[i].kind` entry (score-link
-// mode) reads only `.label` — one independent kind per score, so a
-// mixed-source rating (e.g. IMDb critic + Metacritic user) just lists two
-// differently-kinded scores instead of needing a combo kind. A top-level
-// `rating.kind` in badge mode (`rating.textOnly`) reads `abbrTerm`/`abbrDef`
-// instead; `abbrTermLinked`/`abbrTermPlain` are derived from whether `url`
-// is set.
+// Rating label boilerplate per `key` — see resolveRating in page.dc.html.
+// A ratings[] item reads either `.label` (score mode, e.g. IMDb critic +
+// Metacritic user just list two differently-keyed scores, no combo kind
+// needed) or `.abbrTerm`/`.abbrDef`/`.score` (badge mode, implied by this
+// table's own `textOnly: true` -- an entry states only `key`, never repeats
+// the catalog's text). `abbrTermLinked`/`abbrTermPlain` are derived from
+// whether `url` is set.
 // schema: catalogs.schema.json#/$defs/RatingKinds
 window.RATING_KINDS = {
   metacritic: { label: 'Metacritic' },
@@ -65,6 +64,8 @@ window.RATING_KINDS = {
   goodreads: { label: 'Goodreads' },
   nyr: { abbrTerm: 'NYR', abbrDef: 'Not Yet Rated', textOnly: true },
   tbd: { abbrTerm: 'TBD', abbrDef: 'To Be Determined', textOnly: true },
+  favorable: { score: 'Favorable', textOnly: true },
+  unfavorable: { score: 'Unfavorable', textOnly: true },
 };
 
 // Steam review-adjective abbreviation shown on a `kind: 'steam'` score

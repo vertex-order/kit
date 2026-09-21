@@ -49,7 +49,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 [data-theme="dark"] a { color: var(--color-accent-400); }
 [data-theme="light"] a { color: var(--color-accent-300); }
 [data-theme="light"] a:hover { color: var(--color-accent); }
-.sc-host[data-sc-name="DescRun"] { display: inline; }
+.sc-host[data-sc-name="TextSpan"] { display: inline; }
 .sc-host[data-sc-name="EntryTitleLinks"] { display: inline; }
 [data-theme="light"] img[style*="invert(80%) sepia(15%)"] { filter: brightness(0) saturate(100%) invert(35%) sepia(10%) saturate(400%) hue-rotate(195deg) !important; }
 [data-theme="light"] img[style*="invert(100%)"] { filter: brightness(0) saturate(100%) !important; }
@@ -312,36 +312,31 @@ function titleDateKey(d) {
 function titleDateYear(d) {
   return titleDateKey(d).slice(0, 4);
 }
-// Slug for a top-level games[] entry: title + release year, or an explicit
-// `id:` override for the rare collision/retitle case. This is also what a
-// list repo's sources/<SERIES>/<slug>.md is named after (see docs/sources.md
-// there) -- one derivation serves both. Year now comes from title_date, not
-// releaseDate -- safe as of the .plan/001_title.md Stage 3 "date source"
-// pass, which resolved every entry where title_date's year wasn't this
-// entry's own (a remaster whose title repeated the base game's year for
-// display continuity, etc.) to have its own correct title_date first.
-function entrySlug(g) {
-  if (g.id) return g.id;
-  const yr = titleDateYear(g.title_date);
-  return slugifyTitle(g.title) + (yr ? '-' + yr : '');
+// Slug for a media[] slot: its primary release's (releases[0]) title +
+// release year, or an explicit `id:` override for the rare collision/retitle
+// case. This is also what a list repo's sources/<SERIES>/<slug>.md is named
+// after (see docs/sources.md there) -- one derivation serves both.
+function entrySlug(release) {
+  if (release.id) return release.id;
+  const yr = titleDateYear(release.titleDate);
+  return slugifyTitle(release.title) + (yr ? '-' + yr : '');
 }
-// Slug for an extras[]/alt.extras[] "other version/platform" sub-entry:
-// its own subtitle + year if it has one (the distinguishing edition tag,
-// e.g. "Remaster (2015)"), else its own title + year if it has one (a
-// cross-reference to a different entry entirely), else the *parent*
-// games[] entry's title + year (a bare inheriting sub-entry with no
-// edition tag of its own), else the legacy bare `label` field. `parent`
-// is required for the inheritance case -- omit it only for a node that's
-// certain to have its own subtitle or title.
+// Slug for a versions[] "other version/platform" sub-entry: its own subtitle
+// + year if it has one (the distinguishing edition tag, e.g. "Remaster
+// (2015)"), else its own title + year if it has one (a cross-reference to a
+// different entry entirely), else the *parent* release's title + year (a
+// bare inheriting sub-entry with no edition tag of its own), else the legacy
+// bare `label` field. `parent` is required for the inheritance case -- omit
+// it only for a node that's certain to have its own subtitle or title.
 function subSlug(node, parent) {
   if (node.id) return node.id;
   if (node.subtitle) {
-    const yr = titleDateYear(node.subtitle_date);
+    const yr = titleDateYear(node.subtitleDate);
     return slugifyTitle(node.subtitle) + (yr ? '-' + yr : '');
   }
   const hasOwnTitle = node.title !== undefined;
   const title = hasOwnTitle ? node.title : (parent && parent.title);
-  const titleDate = hasOwnTitle ? node.title_date : (parent && parent.title_date);
+  const titleDate = hasOwnTitle ? node.titleDate : (parent && parent.titleDate);
   if (title) {
     const yr = titleDateYear(titleDate);
     return slugifyTitle(title) + (yr ? '-' + yr : '');
@@ -359,13 +354,14 @@ function withDedupeSuffix(baseKeys) {
     return n === 1 ? k : k + '-' + n;
   });
 }
-// Map from the OLD positional key ("<seriesNum>-<index>") to the new
-// content-derived one, for every entry in rawSeries.
+// Map from the positional key ("<seriesNum>-<index>") to the content-derived
+// one, for every media[] slot in rawSeries -- derived from each slot's
+// primary release (releases[0]).
 function buildEntryKeyMap(rawSeries) {
   const map = new Map();
   (rawSeries || []).forEach(s => {
-    const slugs = withDedupeSuffix((s.games || []).map(entrySlug));
-    (s.games || []).forEach((g, i) => map.set(s.num + '-' + i, s.num + '-' + slugs[i]));
+    const slugs = withDedupeSuffix((s.media || []).map(m => entrySlug(m.releases[0])));
+    (s.media || []).forEach((m, i) => map.set(s.num + '-' + i, s.num + '-' + slugs[i]));
   });
   return map;
 }
@@ -418,7 +414,7 @@ class Component extends DCLogic {
     };
     reader.readAsText(file);
   }
-  state = { expandedAlts: {}, expandedMainExtras: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
+  state = { expandedVersions: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
   seriesEls = {};
   langOrderDefault = ['JA', 'EN'];
   componentDidMount() {
@@ -523,11 +519,10 @@ class Component extends DCLogic {
     Audio: { fg: 'oklch(40% 0.12 110)', bg: 'oklch(40% 0.12 110 / 0.08)' },
     App: { fg: 'oklch(38% 0.12 250)', bg: 'oklch(38% 0.12 250 / 0.08)' },
   };
-  // Default search-suffix per fan-* key for ytSearch (below) — override per
-  // entry with `ytSuffix` (empty string for "just the title, no suffix").
-  ytSuffixByKey = { 'fan-movie': 'game movie', 'fan-recap': 'story recap', 'fan-playthrough': 'playthrough' };
-  ytSearchUrl(title, suffix) {
-    return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(suffix ? title + ' ' + suffix : title);
+  searchUrl(engine, title, suffix) {
+    const q = suffix ? title + ' ' + suffix : title;
+    if (engine === 'duckduckgo') return 'https://duckduckgo.com/?q=' + encodeURIComponent(q);
+    return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
   }
   // Merges an entry's { key, ...overrides } platform reference with its
   // canonical PLATFORM_ICONS record (icon path/size/style/jpTag/...) — the
@@ -540,21 +535,29 @@ class Component extends DCLogic {
   // One") — an entry states only `paren` (the part in parens that's true
   // for it specifically) to get "<base> (<paren>)", nothing for just the
   // bare base label, or a full `name` override for a label that isn't
-  // "<base> (<something>)" shaped at all (e.g. a book's "Novel").
+  // "<base> (<something>)" shaped at all (e.g. a book's "Short Stories") --
+  // only legitimate on a key platform-icons.js flags `nameOverride: true`
+  // for; scripts/validate-data.py enforces that, not this renderer.
   //
-  // `ytSearch: true` on a fan-movie/fan-recap/fan-playthrough entry computes
-  // `url` as a YouTube search instead of stating the encoded URL by hand.
-  // Title defaults to `rowTitle` (the enclosing game/extra/alt's own title);
-  // override per-entry with `ytTitle` when the search deliberately deviates
-  // (a different title gets better results) or there's no natural rowTitle
-  // (an extra/alt has no bare title, only `parts`). Suffix defaults from
-  // `ytSuffixByKey`; override with `ytSuffix` (`''` for no suffix at all).
-  // `paren` defaults to 'Youtube' unless the entry gives its own `paren` or
-  // a full `name` override.
+  // jpTag/nonJpTag/terminated/noResults each auto-append their own fixed
+  // text to the composed name (tooltip) -- an entry never hand-types
+  // '(Japan Only)'/'; terminated'/'; no results yet' itself, on top of a
+  // composed OR a full `name` override either way.
+  //
+  // `search: 'youtube' | 'duckduckgo'` on an entry computes `url` as a
+  // search instead of stating the encoded URL by hand. Title defaults to
+  // `rowTitle` (the enclosing release/version's own title); override
+  // per-entry with `term` when the search deliberately deviates (a
+  // different title gets better results) or there's no natural rowTitle (a
+  // version with no bare title, only `parts`). Suffix defaults from the
+  // catalog's own `searchSuffix`; override with the entry's own
+  // `searchSuffix` (`''` for no suffix at all). `paren` defaults to the
+  // engine's display name unless the entry gives its own `paren` or a full
+  // `name` override.
   resolvePl(pl, rowTitle) {
     if (!pl || !pl.key) return pl;
     let src = pl;
-    if (pl.ytSearch && pl.paren === undefined && pl.name === undefined) src = { ...pl, paren: 'Youtube' };
+    if (pl.search && pl.paren === undefined && pl.name === undefined) src = { ...pl, paren: pl.search === 'duckduckgo' ? 'DuckDuckGo' : 'Youtube' };
     const master = this._plMaster || (this._plMaster = new Map((window.PLATFORM_ICONS || []).map(p => [p.key, p])));
     const base = master.get(src.key);
     if (!base) return src;
@@ -563,14 +566,18 @@ class Component extends DCLogic {
       const baseName = base.name.replace(/\s*\([^()]*\)\s*$/, '');
       merged.name = src.paren ? `${baseName} (${src.paren})` : baseName;
     }
-    if (src.ytSearch) {
-      const suffix = src.ytSuffix !== undefined ? src.ytSuffix : (this.ytSuffixByKey[src.key] || '');
-      const title = src.ytTitle !== undefined ? src.ytTitle : (rowTitle || '');
-      merged.url = this.ytSearchUrl(title, suffix);
+    if (src.jpTag) merged.name += ' (Japan Only)';
+    else if (src.nonJpTag) merged.name += ' (Non-Japan Only)';
+    if (src.terminated) merged.name += '; terminated';
+    else if (src.noResults) merged.name += '; no results yet';
+    if (src.search) {
+      const suffix = src.searchSuffix !== undefined ? src.searchSuffix : (base.searchSuffix || '');
+      const title = src.term !== undefined ? src.term : (rowTitle || '');
+      merged.url = this.searchUrl(src.search, title, suffix);
     }
     return merged;
   }
-  // Row-level default search title for ytSearch: a game's own `title`, or
+  // Row-level default search title for a `search`-computed platform url: a release/version's own `title`, or
   // (for an extra/alt with no own `title`, inherited or not) the first
   // non-`small` `parts` label.
   rowSearchTitle(row) {
@@ -579,46 +586,43 @@ class Component extends DCLogic {
     const p = (row.parts || []).find(p => !p.small);
     return (p && p.label) || '';
   }
-  // Resolves a `rating` object's `kind` (and `sourceKind`) against fixed
-  // label catalogs, so entries state which kind of score this is instead of
-  // repeating that kind's tooltip text verbatim. `single` (score+url only),
-  // `textOnly` (abbr badge, e.g. NYR/TBD), and `abbrTermLinked`/`abbrTermPlain`
-  // (linked vs plain badge) all follow from `kind` + whether `url` is set —
-  // an entry only overrides them for a shape its `kind` doesn't imply.
-  // LANGUAGE_NAMES / RATING_KINDS / STEAM_REVIEW_LABELS come from
-  // site/data/catalogs.js (kit-owned, see that file's header) — extend
-  // there, not here, when a new language code or rating source shows up.
-  // Badge mode (`textOnly`, e.g. NYR/TBD) merges `kind`'s catalog entry
-  // whole, same as before. Score mode (`scores`) resolves each score's own
-  // `kind` independently — a rating is just however many scores it has, no
-  // fixed critic/user/source slots, joined by the common ' / ' separator.
-  resolveRating(r) {
-    if (!r) return r;
+  // Resolves a `ratings[]` array's each item's `key` against fixed label
+  // catalogs, so entries state which kind of score this is instead of
+  // repeating that kind's tooltip text verbatim. `isBadge` (a plain
+  // text/abbr badge, e.g. NYR/TBD/favorable/unfavorable, vs a linked score)
+  // and `abbrTermLinked`/`abbrTermPlain` (linked vs plain badge) all follow
+  // from `key` + whether `url` is set — an entry only overrides them for a
+  // shape its `key` doesn't imply. A ratings[] item is independently
+  // resolved (mode is per-item, not a whole-array choice), so one entry can
+  // mix a real score with a badge, e.g. a Metacritic score plus a separate
+  // 'favorable' word-of-mouth badge. LANGUAGE_NAMES / RATING_KINDS /
+  // STEAM_REVIEW_LABELS come from site/data/catalogs.js (kit-owned, see
+  // that file's header) — extend there, not here, when a new language code
+  // or rating source shows up.
+  resolveRatings(items) {
+    if (!items || !items.length) return items;
     const kinds = window.RATING_KINDS || {};
-    const kindDef = r.kind ? kinds[r.kind] : null;
-    // A badge kind (nyr/tbd) implies textOnly via its own catalog entry —
-    // an entry doesn't repeat `textOnly: true` itself just to name `kind`.
-    if (r.textOnly || (kindDef && kindDef.textOnly)) {
-      const merged = { ...kindDef, ...r };
-      if (merged.abbrTerm) {
-        merged.abbrTermLinked = !!r.url;
-        merged.abbrTermPlain = !r.url;
-      }
-      return merged;
-    }
-    if (r.scores) {
-      const steamLabels = window.STEAM_REVIEW_LABELS || {};
-      const n = r.scores.length;
-      const scores = r.scores.map((s, i) => {
-        let label = s.label;
-        if (label === undefined && s.kind) {
-          label = s.kind === 'steam' ? 'Steam; ' + (steamLabels[s.score] || s.score) : (kinds[s.kind] || {}).label;
+    const steamLabels = window.STEAM_REVIEW_LABELS || {};
+    const n = items.length;
+    return items.map((r, i) => {
+      const kindDef = r.key ? kinds[r.key] : null;
+      // A badge key (nyr/tbd/favorable/unfavorable) implies textOnly via
+      // its own catalog entry — an entry doesn't repeat `textOnly: true`
+      // itself just to name `key`.
+      if (r.textOnly || (kindDef && kindDef.textOnly)) {
+        const merged = { ...kindDef, ...r, isBadge: true, isScore: false, sep: i < n - 1 };
+        if (merged.abbrTerm) {
+          merged.abbrTermLinked = !!r.url;
+          merged.abbrTermPlain = !r.url;
         }
-        return { value: s.score, url: s.url, label, sep: i < n - 1 };
-      });
-      return { ...r, scores };
-    }
-    return r;
+        return merged;
+      }
+      let label = r.label;
+      if (label === undefined && r.key) {
+        label = r.key === 'steam' ? 'Steam; ' + (steamLabels[r.score] || r.score) : (kinds[r.key] || {}).label;
+      }
+      return { isBadge: false, isScore: true, value: r.score, url: r.url, label, sep: i < n - 1 };
+    });
   }
   // Sorts a single platform list into PLATFORM_ICONS order. Items with no
   // key (or no match) keep their original slot, so lists are never
@@ -638,11 +642,11 @@ class Component extends DCLogic {
     slots.forEach((pos, n) => { out[pos] = items[n][2]; });
     return out;
   }
-  toggleAlt(key) {
-    this.setState(s => ({ expandedAlts: { ...s.expandedAlts, [key]: !s.expandedAlts[key] } }));
-  }
-  toggleMainExtra(key) {
-    this.setState(s => ({ expandedMainExtras: { ...s.expandedMainExtras, [key]: !s.expandedMainExtras[key] } }));
+  // Keyed by the release's own anchorId (unique across primary + every
+  // inline-or), not a per-role bucket -- every release's versions[] toggle
+  // works the same way now, so there's only one state shape to track.
+  toggleVersions(anchorId) {
+    this.setState(s => ({ expandedVersions: { ...s.expandedVersions, [anchorId]: !s.expandedVersions[anchorId] } }));
   }
   buildPilcrow(anchorId, hasSubtitle) {
     return {
@@ -764,7 +768,7 @@ class Component extends DCLogic {
     const onJumpChange = e => { if (e.target.value) location.hash = e.target.value; };
     const notScrolled = !this.state.scrolled;
     const jumpRef = el => { this._jumpEl = el; };
-    // Game length from HowLongToBeat, only for entries mapping 1:1 to a single HLTB page representing the row's headline version (skip omnibus releases like X/X-2, and skip if the row's headline differs from the only HLTB data available, e.g. a remaster-only page for a row headlined by the original). lengthParts: array of { value, tip, sep } rendered as tooltipped abbreviations joined by ' / ' — sep:true on all but the last. Default categories: Main Story, Main + Extra, Completionist. Differently-categorized games (e.g. MMOs) use their own tips, e.g. Solo, Co-op, Vs.
+    // Game length from HowLongToBeat, only for entries mapping 1:1 to a single HLTB page representing the row's headline version (skip omnibus releases like X/X-2, and skip if the row's headline differs from the only HLTB data available, e.g. a remaster-only page for a row headlined by the original). `length` (schema: series.schema.json#/$defs/Length): a bare string, or an array of { value, tip, join, br, label } segments rendered as tooltipped abbreviations joined by ' / ' by default (override per-segment with `join`; `br`/a following `label` insert a line break instead). Default categories: Main Story, Main + Extra, Completionist. Differently-categorized games (e.g. MMOs) use their own tips, e.g. Solo, Co-op, Vs.
     const chronoSeriesOverrides = { AN: 1515 };
     const selectedLanguages = this.state.selectedLanguages;
     const isLangSelected = v => selectedLanguages === null ? (v === 'EN' || v.startsWith('EN-')) : selectedLanguages.includes(v);
@@ -825,50 +829,56 @@ class Component extends DCLogic {
       return yr ? ' (' + yr + ')' : '';
     };
     // Builds a parts[]-shaped [title, subtitle?] array from the
-    // title/title_url/title_date/subtitle/subtitle_url/subtitle_date fields,
-    // for mapParts() to style. `parent` is the enclosing top-level games[]
-    // entry: if `node` omits `title` (undefined), it inherits
-    // title/title_url/title_date wholesale from `parent` -- all-or-nothing,
-    // never a partial override, so there's never two sources of truth for
-    // the same title that can drift apart.
+    // title/titleUrl/titleDate/subtitle/subtitleUrl/subtitleDate fields, for
+    // mapParts() to style. `parent` is the enclosing MediaDetails release: if
+    // `node` omits `title` (undefined), it inherits title/titleUrl/titleDate
+    // wholesale from `parent` -- all-or-nothing, never a partial override,
+    // so there's never two sources of truth for the same title that can
+    // drift apart.
     // A node with no title/subtitle of its own that exists purely to group
-    // its own `extras` (a singular `alt` used only as `{ extras: [...] }`,
-    // no row of its own) returns undefined rather than inheriting -- an
-    // empty array is still truthy, and MediaEntry gates that whole header
-    // row on `g.alt.parts` being non-empty/non-undefined; this kind of node
-    // was never meant to show one, just the extras list under it. Use
+    // its own `versions` (a release used only as `{ versions: [...] }`, no
+    // row of its own) returns undefined rather than inheriting -- an empty
+    // array is still truthy, and MediaEntry gates that whole header row on
+    // the release's `parts` being non-empty/non-undefined; this kind of node
+    // was never meant to show one, just the versions list under it. Use
     // mapTitleParts() below, not mapParts(buildTitleParts(...)) directly, so
     // that undefined short-circuits instead of hitting mapParts's .map().
-    // title_tip/title_italic and subtitle_tip/subtitle_italic are rare
-    // (3 entries total, as of this writing) carry-overs from the old
-    // parts[]'s tip/italic -- a hover tooltip disambiguating a short
-    // subtitle (e.g. "Book" tip "YA Novel"), and italicizing a non-game
-    // media title. title_tip/title_italic inherit alongside the rest of
-    // the title fields; subtitle_tip/subtitle_italic are always the node's
-    // own, like subtitle_url.
+    // titleItalic is a rare carry-over from the old parts[]'s own italic --
+    // italicizing a non-game media title. It inherits alongside the rest of
+    // the title fields.
     const buildTitleParts = (node, parent) => {
-      if (node.title === undefined && node.subtitle === undefined && node.extras) return undefined;
+      if (node.title === undefined && node.subtitle === undefined && node.versions) return undefined;
       const hasOwnTitle = node.title !== undefined;
       const title = hasOwnTitle ? node.title : (parent && parent.title);
-      const titleUrl = hasOwnTitle ? node.title_url : (parent && parent.title_url);
-      const titleDate = hasOwnTitle ? node.title_date : (parent && parent.title_date);
-      const titleTip = hasOwnTitle ? node.title_tip : (parent && parent.title_tip);
-      const titleItalic = hasOwnTitle ? node.title_italic : (parent && parent.title_italic);
+      const titleUrl = hasOwnTitle ? node.titleUrl : (parent && parent.titleUrl);
+      const titleDate = hasOwnTitle ? node.titleDate : (parent && parent.titleDate);
+      const titleItalic = hasOwnTitle ? node.titleItalic : (parent && parent.titleItalic);
       const out = [];
-      if (title) out.push({ label: title + composeDateLabel(titleDate), url: titleUrl || null, tip: titleTip || undefined, italic: titleItalic || undefined });
-      if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitle_date), url: node.subtitle_url || null, small: true, tip: node.subtitle_tip || undefined, italic: node.subtitle_italic || undefined });
+      if (title) out.push({ label: title + composeDateLabel(titleDate), url: titleUrl || null, italic: titleItalic || undefined });
+      if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitleDate), url: node.subtitleUrl || null, small: true });
       return out;
     };
     const mapTitleParts = (node, parent, strikeMode) => {
       const parts = buildTitleParts(node, parent);
       return parts && mapParts(parts, strikeMode);
     };
-    const toDescParas = (desc) => {
-      if (!desc) return null;
-      const arr = Array.isArray(desc) ? desc : [desc];
+    // Shared by `description` (release/version) and the series-level `note`
+    // -- both are Prose (schema: series.schema.json#/$defs/Prose): a bare
+    // string, or an array of per-paragraph strings/TextSpan[] runs.
+    const toProseParas = (prose) => {
+      if (!prose) return null;
+      const arr = Array.isArray(prose) ? prose : [prose];
       return arr.map(p => Array.isArray(p)
         ? { parts: p.map(seg => typeof seg === 'string' ? { text: seg } : seg) }
         : { text: p });
+    };
+    // Appends a plain-string paragraph (e.g. the auto-computed completion
+    // summary) to a Prose value, without requiring the '\n\n'-split string
+    // convention the old notePartsMap-based `note` used.
+    const appendProsePara = (prose, para) => {
+      if (!para) return prose;
+      if (!prose) return para;
+      return [...(Array.isArray(prose) ? prose : [prose]), para];
     };
     const mediaLabels = { Game: ['game', 'games'], Expansion: ['expansion & DLC', 'expansions & DLC'], Book: ['book', 'books'], Comic: ['comic', 'comics'], Movie: ['movie & video', 'movies & videos'], Audio: ['audio drama', 'audio dramas'] };
     const buildSummary = (games, seriesNum, checkedFn, skippedFn) => {
@@ -937,18 +947,54 @@ class Component extends DCLogic {
     const entryKeyMap = buildEntryKeyMap(raw);
     {
       const byKey = new Map();
-      raw.forEach(s => (s.games || []).forEach((g, i) => {
-        const subtitleKey = g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : (g.tags && g.tags.length ? g.tags.join(' · ') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.title_date);
+      raw.forEach(s => (s.media || []).forEach((m, i) => {
+        const p = m.releases[0];
+        const subtitleKey = p.bylineParts ? p.bylineParts.map(bp => bp.text || '').join('') : (p.tags && p.tags.length ? p.tags.join(' · ') : '');
+        const dedupeKey = p.title + '|' + subtitleKey + '|' + titleDateKey(p.titleDate);
         const entryKey = entryKeyMap.get(s.num + '-' + i);
         if (!byKey.has(dedupeKey)) byKey.set(dedupeKey, []);
         byKey.get(dedupeKey).push(entryKey);
       }));
       byKey.forEach(keys => { if (keys.length > 1) keys.forEach(k => { this.dupGroups[k] = keys; }); });
     }
+    // Aggregates every platform icon across a release's versions[] into one
+    // deduped, catalog-ordered "in other versions" strip (skips the fan-*
+    // video-search icons, which are never worth repeating in the muted
+    // strip; a version can still show its own copy in its own row).
+    const extraPlatformsFor = (release) => {
+      if (!release.versions) return null;
+      const out = [];
+      const seen = new Set();
+      release.versions.forEach(ver => (ver.platforms || []).forEach(pl => {
+        const rpl = this.resolvePl(pl, this.rowSearchTitle(ver));
+        if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
+        const kk = pl.key || rpl.name || rpl.text || rpl.iconImg;
+        if (seen.has(kk)) return;
+        seen.add(kk);
+        out.push(rpl);
+      }));
+      return out.length ? this.sortPls(out) : null;
+    };
+    // Maps one VersionDetails node -- shared by a release itself (index 0 =
+    // primary/checkbox row, 1+ = inline "or" rows, all fully self-contained)
+    // and by each of a release's own versions[] items (the collapsible "and
+    // other versions" list) -- everything from title through platforms is
+    // the identical shape and mapping either way.
+    const mapVersionCommon = (node, parent) => ({
+      ...node,
+      parts: mapTitleParts(node, parent),
+      languages: mapLangs(node.languages, node.langOrder),
+      byline: node.bylineParts ? undefined : (node.tags && node.tags.length ? node.tags.join(' · ') : undefined),
+      ratings: this.resolveRatings(node.ratings),
+      platforms: node.platforms && this.sortPls(node.platforms.map(pl => {
+        const r = this.resolvePl(pl, this.rowSearchTitle(node));
+        return { ...r, href: r.url || node.platformsUrl, noPlUrl: !pl.url && !pl.search };
+      })),
+      descParas: toProseParas(node.description),
+    });
     const series = raw.map(s => {
-      const summary = buildSummary(s.games, s.num);
-      const note = summary ? (s.note ? `${s.note}\n\n${summary}` : summary) : s.note;
+      const summary = buildSummary(s.media.map(m => m.releases[0]), s.num);
+      const note = appendProsePara(s.note, summary);
       return {
       ...s,
       note,
@@ -959,134 +1005,76 @@ class Component extends DCLogic {
       ...this.buildPilcrow('series-' + s.num, false),
       sectionRef: el => { if (el) this.seriesEls[s.num] = el; else delete this.seriesEls[s.num]; },
       noUrl: !s.url,
-      noteLines: note ? note.split('\n\n').map(t => s.notePartsMap && s.notePartsMap[t] ? { parts: s.notePartsMap[t] } : { plain: t }) : null,
-      games: s.games.map((g, i) => {
+      noteParas: toProseParas(note),
+      media: s.media.map((m, i) => {
         const k = entryKeyMap.get(s.num + '-' + i);
-        const exSlugs = g.extras ? withDedupeSuffix(g.extras.map(ex => subSlug(ex, g))) : null;
-        const altExSlugs = (g.alt && g.alt.extras) ? withDedupeSuffix(g.alt.extras.map(ex => subSlug(ex, g))) : null;
-        const gDate = titleDateKey(g.title_date);
-        return {
-        ...g,
-        gDate,
-        upcoming: isUpcoming(gDate),
-        upcomingDateText: isUpcoming(gDate) ? formatUpcomingDate(gDate) : null,
-        recentlyReleased: isRecentlyReleased(gDate),
-        languages: mapLangs(g.languages, g.langOrder),
-        otherLanguages: mapLangs(computeOtherLangs(g.languages, g.extras || (g.alt && g.alt.extras)), g.langOrder),
-        byline: g.bylineParts ? undefined : (g.tags && g.tags.length ? g.tags.join(' · ') : undefined),
-        typeColor: g.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[g.mediaType].fg : null,
-        typeBg: g.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[g.mediaType].bg : null,
-        origIndex: i,
-        entryKey: k,
-        ...this.buildPilcrow('entry-' + k, false),
-        checked: this.state.status[k] === 'checked',
-        skipped: this.state.status[k] === 'skipped',
-        rowCompletedStyle: this.state.status[k] === 'checked' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);'
-          : this.state.status[k] === 'skipped' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-neutral-400) 6%, transparent) 2px);' : '',
-        wrapCompletedStyle: this.state.status[k] ? 'opacity: 0.5;' : '',
-        showCheckbox: !g.noCheckbox && !isUpcoming(gDate),
-        showSkipIcon: this.state.status[k] !== 'checked',
-        showCheckboxInput: this.state.status[k] !== 'skipped',
-        showPilcrow: true,
-        titleJumpClick: null,
-        toggleChecked: () => this.toggleChecked(k),
-        toggleSkipped: () => this.toggleSkipped(k),
-        skipTitle: this.state.status[k] === 'skipped' ? 'Marked as skipped — click to unskip' : 'Skip (won\'t count toward completion)',
-        skipIconClass: 'bi bi-skip-forward-fill',
-        skipIconColor: this.state.status[k] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
-        skipBg: this.state.status[k] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
-        skipPadding: this.state.status[k] === 'skipped' ? '4px 2px 2px' : '2px',
-        parts: mapTitleParts(g, null, this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)),
-        rating: this.resolveRating(g.rating),
-        platformGroups: (g.platformGroups || g.platforms)
-          && this.sortPls((g.platformGroups ? g.platformGroups.flat() : g.platforms).map(pl => {
-            const r = this.resolvePl(pl, this.rowSearchTitle(g));
-            return { ...r, href: r.url || g.platformsUrl };
-          })),
-        langsTopStyle: (g.extras || (g.alt && g.alt.extras)) ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
-        extraPlatforms: (g.extras || (g.alt && g.alt.extras))
-          ? (() => {
-              const out = [];
-              const seen = new Set();
-              (g.extras || g.alt.extras).forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
-                const rpl = this.resolvePl(pl, this.rowSearchTitle(ex));
-                if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
-                const kk = pl.key || rpl.name || rpl.text || rpl.iconImg;
-                if (seen.has(kk)) return;
-                seen.add(kk);
-                out.push(rpl);
-              }));
-              return out.length ? this.sortPls(out) : null;
-            })()
-          : null,
-        descParas: toDescParas(g.description),
-        extraExpanded: !!this.state.expandedMainExtras[k],
-        extraChevron: this.state.expandedMainExtras[k] ? 'rotate(180deg)' : 'rotate(0deg)',
-        toggleExtra: () => this.toggleMainExtra(k),
-        extras: g.extras && g.extras.map((ex, j) => {
-          const exAnchor = 'entry-' + k + '-x-' + exSlugs[j];
-          this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedMainExtras', parentKey: k };
+        const primaryRaw = m.releases[0];
+        const gDate = titleDateKey(primaryRaw.titleDate);
+        // Each release (primary + inline-ors) is fully self-contained, so
+        // this is the one function that maps any of them -- `idx` only
+        // picks the anchor id and whether it's the checkbox row.
+        const mapRelease = (release, idx) => {
+          const isPrimary = idx === 0;
+          const anchorId = isPrimary ? 'entry-' + k : 'entry-' + k + '-or' + (idx > 1 ? '-' + idx : '');
+          const parent = isPrimary ? null : primaryRaw;
+          const verSlugs = release.versions ? withDedupeSuffix(release.versions.map(ver => subSlug(ver, release))) : null;
+          const strikeMode = isPrimary ? (this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)) : false;
           return {
-          ...ex,
-          parts: mapTitleParts(ex, g),
-          languages: mapLangs(ex.languages, ex.langOrder),
-          byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
-          rating: this.resolveRating(ex.rating),
-          platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...this.resolvePl(pl, this.rowSearchTitle(ex)), noPlUrl: !pl.url && !pl.ytSearch }))),
-          descParas: toDescParas(ex.description),
-          ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
-        };}),
-        alts: g.alts && g.alts.map(alt => ({
-          ...alt,
-          parts: mapTitleParts(alt, g),
-          languages: mapLangs(alt.languages, alt.langOrder),
-          byline: alt.tags && alt.tags.length ? alt.tags.join(' · ') : undefined,
-          rating: this.resolveRating(alt.rating),
-          platformGroups: alt.platformGroups && this.sortPls(alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(alt)))),
-          descParas: toDescParas(alt.description),
-        })),
-        alt: g.alt && g.alt.extras ? {
-          ...g.alt,
-          parts: mapTitleParts(g.alt, g),
-          languages: mapLangs(g.alt.languages, g.alt.langOrder),
-          descParas: toDescParas(g.alt.description),
-          otherLanguages: mapLangs(computeOtherLangs(g.alt.languages, g.alt.extras), g.alt.langOrder),
-          byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined,
-          rating: this.resolveRating(g.alt.rating),
-          platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))),
-          ...this.buildPilcrow('entry-' + k + '-alt', !!(g.alt.tags && g.alt.tags.length)),
-          langsTopStyle: g.alt.extras.length ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
-          extraPlatforms: (() => {
-            const out = [];
-            const seen = new Set();
-            g.alt.extras.forEach(ex => ((ex.platformGroups || []).flat()).forEach(pl => {
-              const rpl = this.resolvePl(pl, this.rowSearchTitle(ex));
-              if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
-              const kk = pl.key || rpl.name || rpl.text || rpl.iconImg;
-              if (seen.has(kk)) return;
-              seen.add(kk);
-              out.push(rpl);
-            }));
-            return out.length ? this.sortPls(out) : null;
-          })(),
-          extraExpanded: !!this.state.expandedAlts[k],
-          extraChevron: this.state.expandedAlts[k] ? 'rotate(180deg)' : 'rotate(0deg)',
-          toggleExtra: () => this.toggleAlt(k),
-          extras: g.alt.extras.map((ex, j) => {
-            const exAnchor = 'entry-' + k + '-alt-x-' + altExSlugs[j];
-            this.anchorRegistry[exAnchor] = { expandStateKey: 'expandedAlts', parentKey: k };
-            return {
-            ...ex,
-            parts: mapTitleParts(ex, g),
-            languages: mapLangs(ex.languages, ex.langOrder),
-            byline: ex.tags && ex.tags.length ? ex.tags.join(' · ') : undefined,
-            rating: this.resolveRating(ex.rating),
-            platformGroups: ex.platformGroups && this.sortPls(ex.platformGroups.flat().map(pl => ({ ...this.resolvePl(pl, this.rowSearchTitle(ex)), noPlUrl: !pl.url && !pl.ytSearch }))),
-            descParas: toDescParas(ex.description),
-            ...this.buildPilcrow(exAnchor, !!(ex.tags && ex.tags.length)),
-          };}),
-        } : (g.alt ? { ...g.alt, parts: mapTitleParts(g.alt, g), languages: mapLangs(g.alt.languages, g.alt.langOrder), byline: g.alt.tags && g.alt.tags.length ? g.alt.tags.join(' · ') : undefined, rating: this.resolveRating(g.alt.rating), platformGroups: g.alt.platformGroups && this.sortPls(g.alt.platformGroups.flat().map(pl => this.resolvePl(pl, this.rowSearchTitle(g.alt)))), descParas: toDescParas(g.alt.description), ...this.buildPilcrow('entry-' + k + '-alt', !!(g.alt.tags && g.alt.tags.length)) } : g.alt),
-      };}),
+            ...mapVersionCommon(release, parent),
+            parts: mapTitleParts(release, parent, strikeMode),
+            otherLanguages: mapLangs(computeOtherLangs(release.languages, release.versions), release.langOrder),
+            isPrimary,
+            isOr: !isPrimary,
+            anchorId,
+            ...this.buildPilcrow(anchorId, isPrimary ? false : !!(release.tags && release.tags.length)),
+            langsTopStyle: release.versions ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
+            extraPlatforms: extraPlatformsFor(release),
+            extraExpanded: !!this.state.expandedVersions[anchorId],
+            extraChevron: this.state.expandedVersions[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
+            toggleExtra: () => this.toggleVersions(anchorId),
+            versions: release.versions && release.versions.map((ver, j) => {
+              const verAnchor = anchorId + '-x-' + verSlugs[j];
+              this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };
+              return {
+                ...mapVersionCommon(ver, release),
+                ...this.buildPilcrow(verAnchor, !!(ver.tags && ver.tags.length)),
+              };
+            }),
+          };
+        };
+        const releases = m.releases.map((release, idx) => mapRelease(release, idx));
+        const primary = releases[0];
+        return {
+          ...primary,
+          gDate,
+          upcoming: isUpcoming(gDate),
+          upcomingDateText: isUpcoming(gDate) ? formatUpcomingDate(gDate) : null,
+          recentlyReleased: isRecentlyReleased(gDate),
+          typeColor: primaryRaw.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[primaryRaw.mediaType].fg : null,
+          typeBg: primaryRaw.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[primaryRaw.mediaType].bg : null,
+          origIndex: i,
+          entryKey: k,
+          checked: this.state.status[k] === 'checked',
+          skipped: this.state.status[k] === 'skipped',
+          rowCompletedStyle: this.state.status[k] === 'checked' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);'
+            : this.state.status[k] === 'skipped' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-neutral-400) 6%, transparent) 2px);' : '',
+          wrapCompletedStyle: this.state.status[k] ? 'opacity: 0.5;' : '',
+          showCheckbox: !primaryRaw.noCheckbox && !isUpcoming(gDate),
+          showSkipIcon: this.state.status[k] !== 'checked',
+          showCheckboxInput: this.state.status[k] !== 'skipped',
+          showPilcrow: true,
+          titleJumpClick: null,
+          toggleChecked: () => this.toggleChecked(k),
+          toggleSkipped: () => this.toggleSkipped(k),
+          skipTitle: this.state.status[k] === 'skipped' ? 'Marked as skipped — click to unskip' : 'Skip (won\'t count toward completion)',
+          skipIconClass: 'bi bi-skip-forward-fill',
+          skipIconColor: this.state.status[k] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
+          skipBg: this.state.status[k] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
+          skipPadding: this.state.status[k] === 'skipped' ? '4px 2px 2px' : '2px',
+          releases,
+          alts: releases.slice(1),
+        };
+      }),
     };});
     const kindOf = g => {
       if (g.mediaType !== 'Game') return g.mediaType;
@@ -1102,8 +1090,8 @@ class Component extends DCLogic {
       if (mode === 'B') return chronoSeriesOverrides[s.num] ?? s.chronoOrder ?? 0;
       if (mode === 'C') {
         if (s.num === 'Other' || s.num === 'PB') return '9999';
-        const core = s.games.filter(g => !(g.tags || []).includes('Optional'));
-        const pool = core.length ? core : s.games;
+        const core = s.media.filter(g => !(g.tags || []).includes('Optional'));
+        const pool = core.length ? core : s.media;
         const dates = pool.map(g => g.gDate).filter(Boolean);
         return dates.length ? dates.reduce((m, d) => (d < m ? d : m)) : '9999';
       }
@@ -1111,11 +1099,11 @@ class Component extends DCLogic {
     };
     const orderedSeries = series
       .map(s => {
-        const games = s.games.slice().sort((a, b) => {
+        const media = s.media.slice().sort((a, b) => {
           const ka = gameSortKey(a), kb = gameSortKey(b);
           return ka < kb ? -1 : ka > kb ? 1 : 0;
         }).map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
-        return { ...s, games };
+        return { ...s, media };
       })
       .sort((a, b) => {
         const ka = seriesSortKey(a), kb = seriesSortKey(b);
@@ -1125,9 +1113,9 @@ class Component extends DCLogic {
     if (mode === 'D') {
       const keptAnchorByKey = new Map();
       const flat = [];
-      orderedSeries.forEach(s => s.games.forEach(g => {
+      orderedSeries.forEach(s => s.media.forEach(g => {
         const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.title_date);
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.titleDate);
         if (keptAnchorByKey.has(dedupeKey)) {
           this.anchorAliases[g.anchorId] = keptAnchorByKey.get(dedupeKey);
           return;
@@ -1139,28 +1127,28 @@ class Component extends DCLogic {
         const ka = a.gDate || '9999', kb = b.gDate || '9999';
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
-      const games = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
-      const allSummary = buildSummary(games, null, g => g.checked, g => g.skipped);
+      const media = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
+      const allSummary = buildSummary(media, null, g => g.checked, g => g.skipped);
       displaySeries = [{
         num: 'ALL', title: SITE.name, navLabel: SITE.name, eyebrow: '', id: 'series-ALL', anchor: '#series-ALL', noUrl: true, url: null,
         ...this.buildPilcrow('series-ALL', false),
-        note: allSummary, noteLines: allSummary ? [{ plain: allSummary }] : null, games,
+        note: allSummary, noteParas: toProseParas(allSummary), media,
         sectionRef: el => { if (el) this.seriesEls['ALL'] = el; else delete this.seriesEls['ALL']; },
       }];
     }
     const buildPseudoSeries = (num, title, filterFn, note, sortDesc) => {
-      const games = [];
+      const media = [];
       const seenKeys = new Set();
-      series.forEach(s => s.games.forEach(g => {
+      series.forEach(s => s.media.forEach(g => {
         if (!filterFn(g)) return;
         // Same game can be hand-cross-listed in two real series (e.g. a Picture Book
         // tie-in) - keep only the first copy here, same dedupeKey the "ALL" flat view uses.
         const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
-        const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.title_date);
+        const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.titleDate);
         if (seenKeys.has(dedupeKey)) return;
         seenKeys.add(dedupeKey);
         const realAnchorId = g.anchorId;
-        games.push({
+        media.push({
           ...g,
           // Shortcut card: no checkbox (check it off at the real entry), no row pilcrow
           // (nothing distinct to link to here) - the title itself jumps to the real entry.
@@ -1169,27 +1157,27 @@ class Component extends DCLogic {
           showPilcrow: false,
           parts: (g.parts || []).map(p => ({ ...p, url: '#' + realAnchorId })),
           titleJumpClick: e => { e.preventDefault(); history.pushState(null, '', '#' + realAnchorId); this.handleHashNav(realAnchorId); },
-          rating: null, lengthParts: null, length: null,
-          platformGroups: null, extraPlatforms: null,
+          ratings: null, length: null,
+          platforms: null, extraPlatforms: null,
           languages: null, otherLanguages: null,
           listTitle: null, listItems: null,
           descParas: null,
-          extras: null, alt: null,
+          versions: null, alts: null,
           helpWanted: false,
         });
       }));
-      if (!games.length) return null;
+      if (!media.length) return null;
       // Chrono/recommended order are per-series concepts that don't mean anything once
       // entries are pulled out of their series - always sort by real release date instead,
       // regardless of the page's active sort mode.
-      games.sort((a, b) => {
+      media.sort((a, b) => {
         const ka = a.gDate || '9999', kb = b.gDate || '9999';
         return sortDesc ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
       });
       return {
         num, title, navLabel: title, eyebrow: '', id: 'series-' + num, anchor: '#series-' + num, noUrl: true, url: null,
         ...this.buildPilcrow('series-' + num, false),
-        note: note || null, noteLines: note ? [{ plain: note }] : null, games,
+        note: note || null, noteParas: toProseParas(note), media,
         sectionRef: el => { if (el) this.seriesEls[num] = el; else delete this.seriesEls[num]; },
       };
     };
@@ -1226,11 +1214,12 @@ class Component extends DCLogic {
       { key: 'showPlatforms', label: 'Platforms', checked: showPlatforms },
       { key: 'showLanguages', label: 'Languages', checked: showLanguages },
     ].map(o => ({ ...o, toggle: () => this.toggleColumn(o.key) }));
-    const mainlineCount = raw.filter(s => (s.games || []).some(g => g.mainline)).length;
+    const mainlineCount = raw.filter(s => (s.media || []).some(m => m.releases[0].mainline)).length;
     const mediaCounts = {};
     const mediaChecked = {};
     let pageSkippedTotal = 0;
-    raw.forEach(s => (s.games || []).forEach((g, i) => {
+    raw.forEach(s => (s.media || []).forEach((m, i) => {
+      const g = m.releases[0];
       if (!g.mediaType) return;
       const ek = entryKeyMap.get(s.num + '-' + i);
       if (this.state.status[ek] === 'skipped') { pageSkippedTotal++; return; }
@@ -1248,7 +1237,7 @@ class Component extends DCLogic {
     let navProgress = null;
     if (activeSeries) {
       let total = 0, checkedN = 0;
-      (activeSeries.games || []).forEach(g => {
+      (activeSeries.media || []).forEach(g => {
         if (!g.showCheckbox || g.skipped) return;
         total++;
         if (g.checked) checkedN++;
