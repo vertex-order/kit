@@ -16,7 +16,7 @@
     },
     "note": {
       "allOf": [{ "$ref": "#/$defs/Prose" }],
-      "description": "Prose blurb under the heading. Same shape as a MediaDetails' `description`: a bare string (one paragraph), or an array of per-paragraph strings/TextSpan[] runs for inline <em>/<abbr> styling."
+      "description": "Prose blurb under the heading. Same shape as a release's `description`: a bare string (one paragraph), or an array of per-paragraph strings/TextSpan[] runs for inline <em>/<abbr> styling."
     },
     "chronoOrder": {
       "type": "number",
@@ -110,7 +110,7 @@
       ]
     },
     "Prose": {
-      "description": "Shared shape for `description` (MediaDetails/VersionDetails) and the series-level `note`: a bare string (one plain paragraph), or an array where each item is a plain string (one paragraph) or a nested TextSpan[] run (one paragraph built from styled parts).",
+      "description": "Shared shape for a release/version's `description` and the series-level `note`: a bare string (one plain paragraph), or an array where each item is a plain string (one paragraph) or a nested TextSpan[] run (one paragraph built from styled parts).",
       "oneOf": [
         { "type": "string" },
         {
@@ -213,7 +213,7 @@
         },
         "url": {
           "type": ["string", "null"],
-          "description": "This release's own link. Unset falls back to the enclosing VersionDetails/MediaDetails' own `platformsUrl` if it has one."
+          "description": "This release's own link. Unset falls back to the enclosing release/version's own `platformsUrl` if it has one."
         },
         "name": {
           "type": "string",
@@ -310,29 +310,44 @@
       "additionalProperties": false
     },
     "MediaSlot": {
-      "description": "One item in `media[]` -- one checkbox-row slot. `releases[0]` is the primary row; `releases[1:]` are inline \"or <title>\" rows on the same line, in display order. Each release is fully self-contained (own mediaType/chronoOrder/recommendedOrder/etc, not shared across the slot) so promoting/reordering/moving a release is a pure array operation, never a field-by-field reshape.",
+      "description": "One item in `media[]` -- one checkbox-row slot. `mediaType`/`chronoOrder`/`recommendedOrder`/`title`/`titleUrl`/`titleDate` live here exactly once, since they describe the slot itself (what kind of media this is, where it sits in the timeline) independent of which specific edition is currently `primary` -- promoting an edition never requires touching them. `title`/`titleUrl`/`titleDate` are also this slot's inheritance root: `primary`, each `alts[]` item, and each of their `versions[]` items may each independently omit their own and inherit -- chained (a versions[] item inherits from its own release if that release set an override, else from this slot), not flat, so a genuinely distinct-titled alt's own versions[] still inherit the alt's title, not the slot's. `primary` is the checkbox row; `alts[]` are inline \"or <title>\" rows on the same line, in display order.",
       "type": "object",
       "properties": {
-        "releases": {
+        "mediaType": { "$ref": "#/$defs/MediaType" },
+        "chronoOrder": {
+          "type": "number",
+          "description": "Sort key for Chronological mode (mode B), read as `slot.chronoOrder ?? 0`. Distinct from the series-level chronoOrder on the enclosing series file."
+        },
+        "recommendedOrder": {
+          "type": "number",
+          "description": "Sort key for Narrative mode (the default), read as `slot.recommendedOrder ?? 0`. Distinct from the series-level recommendedOrder on the enclosing series file."
+        },
+        "title": { "type": "string" },
+        "titleUrl": { "type": ["string", "null"] },
+        "titleDate": { "$ref": "#/$defs/DateValue" },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Manual override of this slot's derived slug/anchor id (title + release year). Currently unused in real data but a valid escape hatch."
+        },
+        "primary": { "$ref": "#/$defs/ReleaseDetails" },
+        "alts": {
           "type": "array",
-          "items": { "$ref": "#/$defs/MediaDetails" },
-          "minItems": 1
+          "items": { "$ref": "#/$defs/ReleaseDetails" },
+          "minItems": 1,
+          "description": "Inline \"or <title>\" rows on the same slot -- omit entirely when there are none (most slots)."
         }
       },
-      "required": ["releases"],
+      "required": ["title", "primary"],
       "additionalProperties": false
     },
     "VersionDetails": {
-      "description": "The full content shape for one release or one of its collapsible versions[] items -- title through listItems. A node with no own title/subtitle inherits title/titleUrl/titleDate/titleItalic wholesale from its immediate parent (all-or-nothing) -- not enforceable in this single-node schema. Recursion is bounded: a VersionDetails has no `versions` of its own (only MediaDetails does, one level), so a versions[] item can't nest further versions.",
+      "description": "The content shape for one `versions[]` item (a release's own collapsible \"other versions and platforms\" list) -- subtitle through listItems, plus an optional title/titleUrl/titleDate override. Recursion is bounded: a VersionDetails has no `versions`/`alts` of its own (only ReleaseDetails does, one level).",
       "type": "object",
       "properties": {
         "title": { "type": "string" },
         "titleUrl": { "type": ["string", "null"] },
         "titleDate": { "$ref": "#/$defs/DateValue" },
-        "titleItalic": {
-          "type": ["string", "boolean"],
-          "description": "Italicizes the title -- for a non-game media work, since game titles render plain/bold by default."
-        },
         "subtitle": { "type": "string" },
         "subtitleUrl": { "type": ["string", "null"] },
         "subtitleDate": { "$ref": "#/$defs/DateValue" },
@@ -349,18 +364,9 @@
           "type": "string",
           "description": "Deprecated/legacy link paired with `label`. Distinct from platformsUrl/profileUrl."
         },
-        "mediaType": { "$ref": "#/$defs/MediaType" },
-        "chronoOrder": {
-          "type": "number",
-          "description": "Sort key for Chronological mode, read off `releases[0]` (`releases[0].chronoOrder ?? 0`). Kept on every release/version (not hoisted to a shared MediaSlot field) so promoting one to be the new `releases[0]` never requires a second edit elsewhere. Distinct from the series-level chronoOrder."
-        },
-        "recommendedOrder": {
-          "type": "number",
-          "description": "Sort key for Narrative mode (the default), read off `releases[0]` (`releases[0].recommendedOrder ?? 0`). Same self-containment rationale as chronoOrder. Distinct from the series-level recommendedOrder."
-        },
         "mainline": {
           "type": "boolean",
-          "description": "Counted for the intro's mainlineCount stat, read off `releases[0]`."
+          "description": "Counted for the intro's mainlineCount stat, read off the slot's `primary`."
         },
         "tags": {
           "type": "array",
@@ -417,17 +423,13 @@
       },
       "additionalProperties": false
     },
-    "MediaDetails": {
-      "description": "A `releases[]` item: the same content shape as VersionDetails (title through listItems -- kept as a literal duplicate of VersionDetails' own `properties` here, not an `allOf`/$ref composition, because scripts/validate-data.py's hand-rolled validator doesn't implement `unevaluatedProperties` and an `allOf` branch's own `additionalProperties: false` would wrongly reject this def's extra `versions` field; AJV alone would've been fine with the composed form), plus its own collapsible `versions[]` (\"other versions and platforms\" toggle list). Each release has an independent versions[] -- not shared across the enclosing MediaSlot. Keep this in sync with VersionDetails by hand if either changes.",
+    "ReleaseDetails": {
+      "description": "A `primary` or `alts[]` item: the same content shape as VersionDetails (kept as a literal duplicate of its `properties` here, not an `allOf`/$ref composition, because scripts/validate-data.py's hand-rolled validator doesn't implement `unevaluatedProperties` and an `allOf` branch's own `additionalProperties: false` would wrongly reject this def's extra `versions` field), plus its own collapsible `versions[]` (\"other versions and platforms\" toggle list). Each release has an independent versions[] -- not shared across the enclosing MediaSlot. Keep this in sync with VersionDetails by hand if either changes.",
       "type": "object",
       "properties": {
         "title": { "type": "string" },
         "titleUrl": { "type": ["string", "null"] },
         "titleDate": { "$ref": "#/$defs/DateValue" },
-        "titleItalic": {
-          "type": ["string", "boolean"],
-          "description": "Italicizes the title -- for a non-game media work, since game titles render plain/bold by default."
-        },
         "subtitle": { "type": "string" },
         "subtitleUrl": { "type": ["string", "null"] },
         "subtitleDate": { "$ref": "#/$defs/DateValue" },
@@ -444,18 +446,9 @@
           "type": "string",
           "description": "Deprecated/legacy link paired with `label`. Distinct from platformsUrl/profileUrl."
         },
-        "mediaType": { "$ref": "#/$defs/MediaType" },
-        "chronoOrder": {
-          "type": "number",
-          "description": "Sort key for Chronological mode, read off `releases[0]` (`releases[0].chronoOrder ?? 0`). Kept on every release/version (not hoisted to a shared MediaSlot field) so promoting one to be the new `releases[0]` never requires a second edit elsewhere. Distinct from the series-level chronoOrder."
-        },
-        "recommendedOrder": {
-          "type": "number",
-          "description": "Sort key for Narrative mode (the default), read off `releases[0]` (`releases[0].recommendedOrder ?? 0`). Same self-containment rationale as chronoOrder. Distinct from the series-level recommendedOrder."
-        },
         "mainline": {
           "type": "boolean",
-          "description": "Counted for the intro's mainlineCount stat, read off `releases[0]`."
+          "description": "Counted for the intro's mainlineCount stat, read off the slot's `primary`."
         },
         "tags": {
           "type": "array",

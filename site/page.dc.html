@@ -312,22 +312,25 @@ function titleDateKey(d) {
 function titleDateYear(d) {
   return titleDateKey(d).slice(0, 4);
 }
-// Slug for a media[] slot: its primary release's (releases[0]) title +
-// release year, or an explicit `id:` override for the rare collision/retitle
+// Slug for a media[] slot: its own title + release year (the slot's title
+// is the stable identity now -- unaffected by which edition is currently
+// `primary`), or an explicit `id:` override for the rare collision/retitle
 // case. This is also what a list repo's sources/<SERIES>/<slug>.md is named
 // after (see docs/sources.md there) -- one derivation serves both.
-function entrySlug(release) {
-  if (release.id) return release.id;
-  const yr = titleDateYear(release.titleDate);
-  return slugifyTitle(release.title) + (yr ? '-' + yr : '');
+function entrySlug(slot) {
+  if (slot.id) return slot.id;
+  const yr = titleDateYear(slot.titleDate);
+  return slugifyTitle(slot.title) + (yr ? '-' + yr : '');
 }
-// Slug for a versions[] "other version/platform" sub-entry: its own subtitle
-// + year if it has one (the distinguishing edition tag, e.g. "Remaster
-// (2015)"), else its own title + year if it has one (a cross-reference to a
-// different entry entirely), else the *parent* release's title + year (a
-// bare inheriting sub-entry with no edition tag of its own), else the legacy
-// bare `label` field. `parent` is required for the inheritance case -- omit
-// it only for a node that's certain to have its own subtitle or title.
+// Slug for a versions[] "other version/platform" sub-entry, or for an
+// alts[] item: its own subtitle + year if it has one (the distinguishing
+// edition tag, e.g. "Remaster (2015)"), else its own title + year if it has
+// one (a cross-reference to a different entry entirely), else `parent`'s
+// title + year (a bare inheriting sub-entry with no edition tag of its
+// own), else the legacy bare `label` field. `parent` should already be the
+// *resolved* title source (release-or-slot for a versions[] item, slot for
+// an alts[] item) -- see resolveTitleSource -- not necessarily the node's
+// immediate container, so this only ever needs one hop.
 function subSlug(node, parent) {
   if (node.id) return node.id;
   if (node.subtitle) {
@@ -354,13 +357,20 @@ function withDedupeSuffix(baseKeys) {
     return n === 1 ? k : k + '-' + n;
   });
 }
+// A node (release or version) that omits title/titleUrl/titleDate inherits
+// them from `fallback` wholesale (all-or-nothing) -- one hop. Chained
+// resolution (version -> release -> slot) is just two calls: the release's
+// own resolved source, then the version's own resolved source against that.
+function resolveTitleSource(node, fallback) {
+  return node.title !== undefined ? node : fallback;
+}
 // Map from the positional key ("<seriesNum>-<index>") to the content-derived
-// one, for every media[] slot in rawSeries -- derived from each slot's
-// primary release (releases[0]).
+// one, for every media[] slot in rawSeries -- derived from each slot's own
+// title (the stable identity; unaffected by which edition is `primary`).
 function buildEntryKeyMap(rawSeries) {
   const map = new Map();
   (rawSeries || []).forEach(s => {
-    const slugs = withDedupeSuffix((s.media || []).map(m => entrySlug(m.releases[0])));
+    const slugs = withDedupeSuffix((s.media || []).map(entrySlug));
     (s.media || []).forEach((m, i) => map.set(s.num + '-' + i, s.num + '-' + slugs[i]));
   });
   return map;
@@ -830,11 +840,12 @@ class Component extends DCLogic {
     };
     // Builds a parts[]-shaped [title, subtitle?] array from the
     // title/titleUrl/titleDate/subtitle/subtitleUrl/subtitleDate fields, for
-    // mapParts() to style. `parent` is the enclosing MediaDetails release: if
-    // `node` omits `title` (undefined), it inherits title/titleUrl/titleDate
-    // wholesale from `parent` -- all-or-nothing, never a partial override,
-    // so there's never two sources of truth for the same title that can
-    // drift apart.
+    // mapParts() to style. `titleSrc` must already be the *resolved* title
+    // source (see resolveTitleSource) -- this function itself does no
+    // fallback walking, just reads title/titleUrl/titleDate off whichever
+    // object the caller already picked (`node` itself, or its release, or
+    // the slot -- one hop is all resolveTitleSource ever needs, chained
+    // by the caller for a two-hop version->release->slot lookup).
     // A node with no title/subtitle of its own that exists purely to group
     // its own `versions` (a release used only as `{ versions: [...] }`, no
     // row of its own) returns undefined rather than inheriting -- an empty
@@ -843,23 +854,15 @@ class Component extends DCLogic {
     // was never meant to show one, just the versions list under it. Use
     // mapTitleParts() below, not mapParts(buildTitleParts(...)) directly, so
     // that undefined short-circuits instead of hitting mapParts's .map().
-    // titleItalic is a rare carry-over from the old parts[]'s own italic --
-    // italicizing a non-game media title. It inherits alongside the rest of
-    // the title fields.
-    const buildTitleParts = (node, parent) => {
+    const buildTitleParts = (node, titleSrc) => {
       if (node.title === undefined && node.subtitle === undefined && node.versions) return undefined;
-      const hasOwnTitle = node.title !== undefined;
-      const title = hasOwnTitle ? node.title : (parent && parent.title);
-      const titleUrl = hasOwnTitle ? node.titleUrl : (parent && parent.titleUrl);
-      const titleDate = hasOwnTitle ? node.titleDate : (parent && parent.titleDate);
-      const titleItalic = hasOwnTitle ? node.titleItalic : (parent && parent.titleItalic);
       const out = [];
-      if (title) out.push({ label: title + composeDateLabel(titleDate), url: titleUrl || null, italic: titleItalic || undefined });
+      if (titleSrc.title) out.push({ label: titleSrc.title + composeDateLabel(titleSrc.titleDate), url: titleSrc.titleUrl || null });
       if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitleDate), url: node.subtitleUrl || null, small: true });
       return out;
     };
-    const mapTitleParts = (node, parent, strikeMode) => {
-      const parts = buildTitleParts(node, parent);
+    const mapTitleParts = (node, titleSrc, strikeMode) => {
+      const parts = buildTitleParts(node, titleSrc);
       return parts && mapParts(parts, strikeMode);
     };
     // Shared by `description` (release/version) and the series-level `note`
@@ -891,7 +894,7 @@ class Component extends DCLogic {
         if (!g.mediaType) return;
         if (isSkipped(g, i)) { skippedTotal++; return; }
         let key = g.mediaType;
-        if (key === 'Game' && ((g.tags || []).includes('Expansion') || (g.tags || []).includes('DLC'))) key = 'Expansion';
+        if (key === 'Game' && ((g.primary.tags || []).includes('Expansion') || (g.primary.tags || []).includes('DLC'))) key = 'Expansion';
         if (key === 'TV' || key === 'Video') key = 'Movie';
         counts[key] = (counts[key] || 0) + 1;
         if (isChecked(g, i)) checkedCounts[key] = (checkedCounts[key] || 0) + 1;
@@ -948,9 +951,9 @@ class Component extends DCLogic {
     {
       const byKey = new Map();
       raw.forEach(s => (s.media || []).forEach((m, i) => {
-        const p = m.releases[0];
+        const p = m.primary;
         const subtitleKey = p.bylineParts ? p.bylineParts.map(bp => bp.text || '').join('') : (p.tags && p.tags.length ? p.tags.join(' · ') : '');
-        const dedupeKey = p.title + '|' + subtitleKey + '|' + titleDateKey(p.titleDate);
+        const dedupeKey = m.title + '|' + subtitleKey + '|' + titleDateKey(m.titleDate);
         const entryKey = entryKeyMap.get(s.num + '-' + i);
         if (!byKey.has(dedupeKey)) byKey.set(dedupeKey, []);
         byKey.get(dedupeKey).push(entryKey);
@@ -975,14 +978,13 @@ class Component extends DCLogic {
       }));
       return out.length ? this.sortPls(out) : null;
     };
-    // Maps one VersionDetails node -- shared by a release itself (index 0 =
-    // primary/checkbox row, 1+ = inline "or" rows, all fully self-contained)
-    // and by each of a release's own versions[] items (the collapsible "and
-    // other versions" list) -- everything from title through platforms is
-    // the identical shape and mapping either way.
-    const mapVersionCommon = (node, parent) => ({
+    // Maps one VersionDetails-shaped node -- shared by `primary`, each
+    // `alts[]` item, and each of a release's own versions[] items -- title
+    // through platforms is the identical shape and mapping regardless of
+    // role. `titleSrc` must already be resolved (see resolveTitleSource).
+    const mapVersionCommon = (node, titleSrc) => ({
       ...node,
-      parts: mapTitleParts(node, parent),
+      parts: mapTitleParts(node, titleSrc),
       languages: mapLangs(node.languages, node.langOrder),
       byline: node.bylineParts ? undefined : (node.tags && node.tags.length ? node.tags.join(' · ') : undefined),
       ratings: this.resolveRatings(node.ratings),
@@ -993,7 +995,7 @@ class Component extends DCLogic {
       descParas: toProseParas(node.description),
     });
     const series = raw.map(s => {
-      const summary = buildSummary(s.media.map(m => m.releases[0]), s.num);
+      const summary = buildSummary(s.media, s.num);
       const note = appendProsePara(s.note, summary);
       return {
       ...s,
@@ -1008,33 +1010,21 @@ class Component extends DCLogic {
       noteParas: toProseParas(note),
       media: s.media.map((m, i) => {
         const k = entryKeyMap.get(s.num + '-' + i);
-        const primaryRaw = m.releases[0];
-        const gDate = titleDateKey(primaryRaw.titleDate);
-        // Each release (primary + inline-ors) is fully self-contained, so
-        // this is the one function that maps any of them -- `idx` only
-        // picks the anchor id and whether it's the checkbox row.
-        const mapRelease = (release, idx) => {
-          const isPrimary = idx === 0;
-          const anchorId = isPrimary ? 'entry-' + k : 'entry-' + k + '-or' + (idx > 1 ? '-' + idx : '');
-          const parent = isPrimary ? null : primaryRaw;
-          // A release with no title/subtitle of its own is purely a "hang
-          // its own versions[] off this slot" grouping node (its own title
-          // inherits from primaryRaw, same as any other title-less node) --
-          // so its versions[] must inherit from primaryRaw too, not from
-          // this title-less node itself, or a bare versions[] item (no
-          // subtitle/title either) has nothing to derive a slug/title from
-          // at all.
-          const versionsParent = (release.title !== undefined || release.subtitle !== undefined) ? release : primaryRaw;
-          const verSlugs = release.versions ? withDedupeSuffix(release.versions.map(ver => subSlug(ver, versionsParent))) : null;
-          const strikeMode = isPrimary ? (this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)) : false;
+        const gDate = titleDateKey(m.titleDate);
+        // `primary` and each `alts[]` item map through this one function --
+        // both are ReleaseDetails, no role distinction in the content
+        // itself (checkbox state lives on the slot wrapper below, not
+        // here). `anchorId` is the only thing the caller picks per role.
+        const mapRelease = (release, anchorId, strikeMode) => {
+          const titleSrc = resolveTitleSource(release, m);
+          const verSlugs = release.versions ? withDedupeSuffix(release.versions.map(ver => subSlug(ver, titleSrc))) : null;
           return {
-            ...mapVersionCommon(release, parent),
-            parts: mapTitleParts(release, parent, strikeMode),
+            ...mapVersionCommon(release, titleSrc),
+            parts: mapTitleParts(release, titleSrc, strikeMode),
             otherLanguages: mapLangs(computeOtherLangs(release.languages, release.versions), release.langOrder),
-            isPrimary,
-            isOr: !isPrimary,
             anchorId,
-            ...this.buildPilcrow(anchorId, isPrimary ? false : !!(release.tags && release.tags.length)),
+            titleJumpClick: null,
+            ...this.buildPilcrow(anchorId, !!(release.tags && release.tags.length)),
             langsTopStyle: release.versions ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
             extraPlatforms: extraPlatformsFor(release),
             extraExpanded: !!this.state.expandedVersions[anchorId],
@@ -1044,34 +1034,36 @@ class Component extends DCLogic {
               const verAnchor = anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };
               return {
-                ...mapVersionCommon(ver, versionsParent),
+                ...mapVersionCommon(ver, titleSrc),
                 ...this.buildPilcrow(verAnchor, !!(ver.tags && ver.tags.length)),
               };
             }),
           };
         };
-        const releases = m.releases.map((release, idx) => mapRelease(release, idx));
-        const primary = releases[0];
+        const primaryAnchor = 'entry-' + k;
+        const strikeMode = this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false);
+        const primary = mapRelease(m.primary, primaryAnchor, strikeMode);
+        const alts = (m.alts || []).map((alt, idx) => mapRelease(alt, primaryAnchor + '-or' + (idx > 0 ? '-' + (idx + 1) : ''), false));
         return {
-          ...primary,
+          title: m.title, titleUrl: m.titleUrl, titleDate: m.titleDate,
+          mediaType: m.mediaType, chronoOrder: m.chronoOrder, recommendedOrder: m.recommendedOrder,
           gDate,
           upcoming: isUpcoming(gDate),
           upcomingDateText: isUpcoming(gDate) ? formatUpcomingDate(gDate) : null,
           recentlyReleased: isRecentlyReleased(gDate),
-          typeColor: primaryRaw.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[primaryRaw.mediaType].fg : null,
-          typeBg: primaryRaw.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[primaryRaw.mediaType].bg : null,
+          typeColor: m.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[m.mediaType].fg : null,
+          typeBg: m.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[m.mediaType].bg : null,
           origIndex: i,
           entryKey: k,
+          anchorId: primaryAnchor,
           checked: this.state.status[k] === 'checked',
           skipped: this.state.status[k] === 'skipped',
           rowCompletedStyle: this.state.status[k] === 'checked' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);'
             : this.state.status[k] === 'skipped' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-neutral-400) 6%, transparent) 2px);' : '',
           wrapCompletedStyle: this.state.status[k] ? 'opacity: 0.5;' : '',
-          showCheckbox: !primaryRaw.noCheckbox && !isUpcoming(gDate),
+          showCheckbox: !m.primary.noCheckbox && !isUpcoming(gDate),
           showSkipIcon: this.state.status[k] !== 'checked',
           showCheckboxInput: this.state.status[k] !== 'skipped',
-          showPilcrow: true,
-          titleJumpClick: null,
           toggleChecked: () => this.toggleChecked(k),
           toggleSkipped: () => this.toggleSkipped(k),
           skipTitle: this.state.status[k] === 'skipped' ? 'Marked as skipped — click to unskip' : 'Skip (won\'t count toward completion)',
@@ -1079,14 +1071,14 @@ class Component extends DCLogic {
           skipIconColor: this.state.status[k] === 'skipped' ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)',
           skipBg: this.state.status[k] === 'skipped' ? 'var(--color-neutral-700)' : 'transparent',
           skipPadding: this.state.status[k] === 'skipped' ? '4px 2px 2px' : '2px',
-          releases,
-          alts: releases.slice(1),
+          primary,
+          alts,
         };
       }),
     };});
     const kindOf = g => {
       if (g.mediaType !== 'Game') return g.mediaType;
-      if ((g.tags || []).includes('Expansion') || (g.tags || []).includes('DLC')) return 'Expansion';
+      if ((g.primary.tags || []).includes('Expansion') || (g.primary.tags || []).includes('DLC')) return 'Expansion';
       return 'Game';
     };
     const gameSortKey = g => {
@@ -1098,7 +1090,7 @@ class Component extends DCLogic {
       if (mode === 'B') return chronoSeriesOverrides[s.num] ?? s.chronoOrder ?? 0;
       if (mode === 'C') {
         if (s.num === 'Other' || s.num === 'PB') return '9999';
-        const core = s.media.filter(g => !(g.tags || []).includes('Optional'));
+        const core = s.media.filter(g => !(g.primary.tags || []).includes('Optional'));
         const pool = core.length ? core : s.media;
         const dates = pool.map(g => g.gDate).filter(Boolean);
         return dates.length ? dates.reduce((m, d) => (d < m ? d : m)) : '9999';
@@ -1122,7 +1114,7 @@ class Component extends DCLogic {
       const keptAnchorByKey = new Map();
       const flat = [];
       orderedSeries.forEach(s => s.media.forEach(g => {
-        const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
+        const subtitleKey = g.primary.byline || (g.primary.bylineParts ? g.primary.bylineParts.map(p => p.text || '').join('') : '');
         const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.titleDate);
         if (keptAnchorByKey.has(dedupeKey)) {
           this.anchorAliases[g.anchorId] = keptAnchorByKey.get(dedupeKey);
@@ -1151,7 +1143,7 @@ class Component extends DCLogic {
         if (!filterFn(g)) return;
         // Same game can be hand-cross-listed in two real series (e.g. a Picture Book
         // tie-in) - keep only the first copy here, same dedupeKey the "ALL" flat view uses.
-        const subtitleKey = g.byline || (g.bylineParts ? g.bylineParts.map(p => p.text || '').join('') : '');
+        const subtitleKey = g.primary.byline || (g.primary.bylineParts ? g.primary.bylineParts.map(p => p.text || '').join('') : '');
         const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.titleDate);
         if (seenKeys.has(dedupeKey)) return;
         seenKeys.add(dedupeKey);
@@ -1162,16 +1154,21 @@ class Component extends DCLogic {
           // (nothing distinct to link to here) - the title itself jumps to the real entry.
           anchorId: num + '-' + g.entryKey,
           showCheckbox: false,
-          showPilcrow: false,
-          parts: (g.parts || []).map(p => ({ ...p, url: '#' + realAnchorId })),
-          titleJumpClick: e => { e.preventDefault(); history.pushState(null, '', '#' + realAnchorId); this.handleHashNav(realAnchorId); },
-          ratings: null, length: null,
-          platforms: null, extraPlatforms: null,
-          languages: null, otherLanguages: null,
-          listTitle: null, listItems: null,
-          descParas: null,
-          versions: null, alts: null,
-          helpWanted: false,
+          primary: {
+            ...g.primary,
+            pilcrowAfterTitle: false,
+            pilcrowAfterSubtitle: false,
+            parts: (g.primary.parts || []).map(p => ({ ...p, url: '#' + realAnchorId })),
+            titleJumpClick: e => { e.preventDefault(); history.pushState(null, '', '#' + realAnchorId); this.handleHashNav(realAnchorId); },
+            ratings: null, length: null,
+            platforms: null, extraPlatforms: null,
+            languages: null, otherLanguages: null,
+            listTitle: null, listItems: null,
+            descParas: null,
+            versions: null,
+            helpWanted: false,
+          },
+          alts: null,
         });
       }));
       if (!media.length) return null;
@@ -1222,16 +1219,15 @@ class Component extends DCLogic {
       { key: 'showPlatforms', label: 'Platforms', checked: showPlatforms },
       { key: 'showLanguages', label: 'Languages', checked: showLanguages },
     ].map(o => ({ ...o, toggle: () => this.toggleColumn(o.key) }));
-    const mainlineCount = raw.filter(s => (s.media || []).some(m => m.releases[0].mainline)).length;
+    const mainlineCount = raw.filter(s => (s.media || []).some(m => m.primary.mainline)).length;
     const mediaCounts = {};
     const mediaChecked = {};
     let pageSkippedTotal = 0;
     raw.forEach(s => (s.media || []).forEach((m, i) => {
-      const g = m.releases[0];
-      if (!g.mediaType) return;
+      if (!m.mediaType) return;
       const ek = entryKeyMap.get(s.num + '-' + i);
       if (this.state.status[ek] === 'skipped') { pageSkippedTotal++; return; }
-      const k = kindOf(g);
+      const k = kindOf(m);
       mediaCounts[k] = (mediaCounts[k] || 0) + 1;
       if (this.state.status[ek] === 'checked') mediaChecked[k] = (mediaChecked[k] || 0) + 1;
     }));
