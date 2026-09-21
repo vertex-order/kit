@@ -1017,7 +1017,15 @@ class Component extends DCLogic {
           const isPrimary = idx === 0;
           const anchorId = isPrimary ? 'entry-' + k : 'entry-' + k + '-or' + (idx > 1 ? '-' + idx : '');
           const parent = isPrimary ? null : primaryRaw;
-          const verSlugs = release.versions ? withDedupeSuffix(release.versions.map(ver => subSlug(ver, release))) : null;
+          // A release with no title/subtitle of its own is purely a "hang
+          // its own versions[] off this slot" grouping node (its own title
+          // inherits from primaryRaw, same as any other title-less node) --
+          // so its versions[] must inherit from primaryRaw too, not from
+          // this title-less node itself, or a bare versions[] item (no
+          // subtitle/title either) has nothing to derive a slug/title from
+          // at all.
+          const versionsParent = (release.title !== undefined || release.subtitle !== undefined) ? release : primaryRaw;
+          const verSlugs = release.versions ? withDedupeSuffix(release.versions.map(ver => subSlug(ver, versionsParent))) : null;
           const strikeMode = isPrimary ? (this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false)) : false;
           return {
             ...mapVersionCommon(release, parent),
@@ -1036,7 +1044,7 @@ class Component extends DCLogic {
               const verAnchor = anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };
               return {
-                ...mapVersionCommon(ver, release),
+                ...mapVersionCommon(ver, versionsParent),
                 ...this.buildPilcrow(verAnchor, !!(ver.tags && ver.tags.length)),
               };
             }),
