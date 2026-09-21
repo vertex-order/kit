@@ -35,6 +35,8 @@ paths = [
   "docs/tooling.md",
   ".prettierignore",
   "uv.toml",
+  "pyproject.toml",
+  "uv.lock",
   "schemas/",
   "site/_ds/",
   "site/images/ui/",
