@@ -103,6 +103,10 @@ paths = [
   ".github/workflows/check-data.yml",
   ".github/workflows/check-ruff.yml",
   ".github/workflows/check-format.yml",
+  ".github/workflows/check-oxlint.yml",
+  ".github/workflows/check-actions.yml",
+  ".github/workflows/check-toml.yml",
+  ".github/workflows/check-schemas.yml",
   ".github/workflows/check-css.yml",
   ".github/workflows/check-syntax.yml",
   ".github/workflows/sync-repin.yml",
@@ -115,7 +119,7 @@ paths = [
 # platforms-only, not published: site/ZoomedPlatformIcon.dc.html
 # (2x wrapper — kit doesn't need it).
 
-[publish.consumers]  # for humans; sync.py ignores this
+[publish.consumers] # for humans; sync.py ignores this
 "vertex-order/platforms" = "pulls the paths above for its tuning bench"
 "vertex-order/<list>" = "pulls kit for the above, plus platforms directly for the platform micro-kit (not transitively through kit — see sync.list.toml's [subscribe.platforms]); Intro.dc.html is not among them — each list owns its own copy, seeded once at template time (see docs/init-list.md)"
 

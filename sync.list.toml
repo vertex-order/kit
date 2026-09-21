@@ -27,7 +27,7 @@
 
 [subscribe.kit]
 repo = "vertex-order/kit"
-ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync`
+ref = "main" # pin to a commit SHA / tag for reproducibility: `just sync`
 paths = [
   "sync.list.toml",
   "docs/cache.md",
@@ -90,6 +90,10 @@ paths = [
   ".github/workflows/check-data.yml",
   ".github/workflows/check-ruff.yml",
   ".github/workflows/check-format.yml",
+  ".github/workflows/check-oxlint.yml",
+  ".github/workflows/check-actions.yml",
+  ".github/workflows/check-toml.yml",
+  ".github/workflows/check-schemas.yml",
   ".github/workflows/sync-repin.yml",
   ".github/workflows/static.yml",
   ".github/workflows/fix-build.yml",
@@ -100,7 +104,7 @@ paths = [
 
 [subscribe.platforms]
 repo = "vertex-order/platforms"
-ref  = "main"   # pin to a commit SHA / tag for reproducibility: `just sync`
+ref = "main" # pin to a commit SHA / tag for reproducibility: `just sync`
 paths = [
   "site/PlatformIcon.dc.html",
   "site/data/platform-icons.js",
