@@ -276,6 +276,7 @@ def check_entry_keys(order):
                     "-- add an explicit id: to one of them"
                 )
 
+        primaries = [primary_of(m) for m in media]
         for i, slot in enumerate(media):
             releases = slot.get("releases", [])
             for ri, release in enumerate(releases):
@@ -283,7 +284,12 @@ def check_entry_keys(order):
                 if not versions:
                     continue
                 where = f"media[{i}].releases[{ri}]"
-                base = [sub_slug(n, release) for n in versions]
+                # Mirrors page.dc.html's versionsParent: a title-less release
+                # (a bare "hang versions[] off this slot" grouping node) has
+                # its own versions[] inherit from the slot's primary release
+                # instead, not from this title-less node itself.
+                versions_parent = release if (release.get("title") is not None or release.get("subtitle") is not None) else primaries[i]
+                base = [sub_slug(n, versions_parent) for n in versions]
                 sub_keys = with_dedupe_suffix(base)
                 seen_sub = {}
                 for j, key in enumerate(sub_keys):
