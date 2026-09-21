@@ -10,7 +10,7 @@
     },
     "RatingKinds": {
       "type": "object",
-      "description": "window.RATING_KINDS -- rating-source kind -> label info. Keys are referenced by rating.scores[].kind (score-link mode, reads only `.label`) or a top-level rating.kind (badge mode, reads `.abbrTerm`/`.abbrDef`/`.textOnly`). `steam` is handled by special-case code and is deliberately not a key here.",
+      "description": "window.RATING_KINDS -- rating-source key -> label info. Keys are referenced by a MediaDetails' ratings[].key: score mode reads only `.label`; badge mode (`.textOnly: true`) reads either `.abbrTerm`/`.abbrDef` (a real abbreviation needing a tooltip, e.g. 'nyr' -> 'NYR'/'Not Yet Rated') or a bare `.score` (an already-plain word needing no tooltip, e.g. 'favorable' -> 'Favorable'). `steam` is handled by special-case code and is deliberately not a key here.",
       "additionalProperties": {
         "oneOf": [
           {
@@ -27,6 +27,15 @@
               "textOnly": { "const": true }
             },
             "required": ["abbrTerm", "abbrDef", "textOnly"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "score": { "type": "string" },
+              "textOnly": { "const": true }
+            },
+            "required": ["score", "textOnly"],
             "additionalProperties": false
           }
         ]

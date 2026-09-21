@@ -25,14 +25,14 @@
 
   <sc-if value="{{ s.note }}" hint-placeholder-val="{{ false }}">
     <div style="max-width: 720px; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);">
-      <sc-for list="{{ s.noteLines }}" as="nl" hint-placeholder-count="1">
-        <p style="color: var(--color-neutral-400); font-size: 14px; line-height: 1.6; margin: 0;"><sc-if value="{{ nl.parts }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ nl.parts }}" as="np" hint-placeholder-count="0"><sc-if value="{{ np.emText }}" hint-placeholder-val="{{ false }}"><em>{{ np.emText }}</em></sc-if><sc-if value="{{ np.tipText }}" hint-placeholder-val="{{ false }}"><abbr title="{{ np.tip }}" style="text-decoration: underline dotted; text-decoration-color: var(--color-neutral-600); cursor: help;">{{ np.tipText }}</abbr></sc-if><sc-if value="{{ np.text }}" hint-placeholder-val="{{ false }}"><span>{{ np.text }}</span></sc-if></sc-for></sc-if><sc-if value="{{ nl.plain }}" hint-placeholder-val="{{ false }}">{{ nl.plain }}</sc-if></p>
+      <sc-for list="{{ s.noteParas }}" as="np" hint-placeholder-count="1">
+        <p style="color: var(--color-neutral-400); font-size: 14px; line-height: 1.6; margin: 0;"><sc-if value="{{ np.text }}" hint-placeholder-val="{{ false }}">{{ np.text }}</sc-if><sc-if value="{{ np.parts }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ np.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></sc-if></p>
       </sc-for>
     </div>
   </sc-if>
 
   <div style="display: flex; flex-direction: column; gap: var(--space-1);">
-    <sc-for list="{{ s.games }}" as="g" hint-placeholder-count="0">
+    <sc-for list="{{ s.media }}" as="g" hint-placeholder-count="0">
       <dc-import name="MediaEntry" g="{{ g }}" show-rating="{{ showRating }}" show-length="{{ showLength }}" show-platforms="{{ showPlatforms }}" show-languages="{{ showLanguages }}" side-by-side="{{ sideBySide }}" stacked="{{ stacked }}" show-col2="{{ showCol2 }}" show-stacked-rl="{{ showStackedRl }}" hint-size="auto,80px" style="display: block;"></dc-import>
     </sc-for>
   </div>
