@@ -246,6 +246,29 @@ def sub_slug(node, parent):
     return slugify_title(node.get("label") or "")
 
 
+def version_date_key(node, title_src):
+    """Mirrors versionDateKey(): a versions[] item's own real-world release
+    date -- its own subtitleDate, else its own titleDate override, else (a
+    bare inheriting entry with neither) title_src's titleDate."""
+    if node.get("subtitleDate") is not None:
+        return title_date_key(node.get("subtitleDate"))
+    if node.get("titleDate") is not None:
+        return title_date_key(node.get("titleDate"))
+    return title_date_key(title_src.get("titleDate"))
+
+
+def sort_versions(versions, title_src):
+    """Mirrors sortVersions(): reverse release order, pinned entries hoisted
+    ahead of every unpinned one, each group keeping that same reverse-date
+    order relative to each other. Two stable sorts (date first, then
+    pinned) rather than a single comparator, same trick as the JS version's
+    tuple-free comparator relies on stability for."""
+    by_date = sorted(
+        versions, key=lambda v: version_date_key(v, title_src), reverse=True
+    )
+    return sorted(by_date, key=lambda v: 0 if v.get("pinned") else 1)
+
+
 def with_dedupe_suffix(base_keys):
     """Mirrors withDedupeSuffix(): -2, -3... on repeats, in order."""
     seen = {}
@@ -293,6 +316,7 @@ def check_entry_keys(order):
                 # no title override has its own versions[] inherit from the
                 # slot instead, not from this title-less node itself.
                 versions_parent = resolve_title_source(release, slot)
+                versions = sort_versions(versions, versions_parent)
                 base = [sub_slug(n, versions_parent) for n in versions]
                 sub_keys = with_dedupe_suffix(base)
                 seen_sub = {}

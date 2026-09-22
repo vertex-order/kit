@@ -364,6 +364,24 @@ function withDedupeSuffix(baseKeys) {
 function resolveTitleSource(node, fallback) {
   return node.title !== undefined ? node : fallback;
 }
+// A versions[] item's own real-world release date -- its own subtitleDate
+// (an edition, e.g. a port/remaster), else its own titleDate override, else
+// (a bare inheriting entry with neither) titleSrc's titleDate, since it's
+// then the same release as whatever titleSrc resolved to.
+function versionDateKey(node, titleSrc) {
+  return titleDateKey(node.subtitleDate !== undefined ? node.subtitleDate : (node.titleDate !== undefined ? node.titleDate : titleSrc.titleDate));
+}
+// Reverse release order (most to least recent), with `pinned: true` entries
+// hoisted ahead of every unpinned one -- multiple pinned entries keep that
+// same reverse-release order relative to each other, not authoring order.
+function sortVersions(versions, titleSrc) {
+  return versions.slice().sort((a, b) => {
+    const pa = a.pinned ? 0 : 1, pb = b.pinned ? 0 : 1;
+    if (pa !== pb) return pa - pb;
+    const ka = versionDateKey(a, titleSrc), kb = versionDateKey(b, titleSrc);
+    return ka < kb ? 1 : ka > kb ? -1 : 0;
+  });
+}
 // Map from the positional key ("<seriesNum>-<index>") to the content-derived
 // one, for every media[] slot in rawSeries -- derived from each slot's own
 // title (the stable identity; unaffected by which edition is `primary`).
@@ -1017,7 +1035,8 @@ class Component extends DCLogic {
         // here). `anchorId` is the only thing the caller picks per role.
         const mapRelease = (release, anchorId, strikeMode) => {
           const titleSrc = resolveTitleSource(release, m);
-          const verSlugs = release.versions ? withDedupeSuffix(release.versions.map(ver => subSlug(ver, titleSrc))) : null;
+          const sortedVersions = release.versions ? sortVersions(release.versions, titleSrc) : null;
+          const verSlugs = sortedVersions ? withDedupeSuffix(sortedVersions.map(ver => subSlug(ver, titleSrc))) : null;
           return {
             ...mapVersionCommon(release, titleSrc),
             parts: mapTitleParts(release, titleSrc, strikeMode),
@@ -1030,7 +1049,7 @@ class Component extends DCLogic {
             extraExpanded: !!this.state.expandedVersions[anchorId],
             extraChevron: this.state.expandedVersions[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
             toggleExtra: () => this.toggleVersions(anchorId),
-            versions: release.versions && release.versions.map((ver, j) => {
+            versions: sortedVersions && sortedVersions.map((ver, j) => {
               const verAnchor = anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };
               return {
