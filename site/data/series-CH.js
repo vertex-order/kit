@@ -5,6 +5,9 @@
 window.__wwSeriesReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 400, title: 'Wyrmwatch Chronicles', url: 'https://example.com/wiki/Wyrmwatch_Chronicles', note: 'A novel and a short film expanding the Ashfall frontier beyond the games — entirely optional.', media: [
   { chronoOrder: 300, recommendedOrder: 410, mediaType: 'Book',
     title: 'Wyrmwatch Chronicles: The Ashfall Codex', titleUrl: 'https://example.com/wiki/The_Ashfall_Codex', titleDate: '2017-10-03',
+    mediaDesc: [
+      ['Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ', { emText: 'Wyrmwatch II (2019)' }, '. Also known as ', { emText: 'The Codex of Ashfall' }, ' in some markets.'],
+    ],
     primary: { tags: ['Novel'],
       length: '384p; P',
       languages: [
@@ -12,9 +15,6 @@ window.__wwSeriesReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 40
         { value: 'ES', tip: 'Spanish (Castilian)', url: 'https://example.com/books/ashfall-codex/es' },
       ],
       subtitle: 'Book',
-      description: [
-        ['Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ', { emText: 'Wyrmwatch II (2019)' }, '. Also known as ', { emText: 'The Codex of Ashfall' }, ' in some markets.'],
-      ],
       ratings: [{ label: 'Fixture rating source', score: '4.12', url: 'https://example.com/books/ashfall-codex' }],
       platforms: [
         { key: 'book', name: 'Novel', noUrl: true },
@@ -24,15 +24,15 @@ window.__wwSeriesReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 40
   },
   { chronoOrder: 900, recommendedOrder: 420, mediaType: 'Video',
     title: 'Wyrmwatch: Rise of the Wyrm', titleUrl: 'https://example.com/wiki/Rise_of_the_Wyrm', titleDate: '2020-11-20',
+    mediaDesc: [
+      ['A 52-minute animated short following the founding of the first watchtower, made as a tie-in for ', { emText: 'Wyrmwatch II (2019)' }, '.'],
+    ],
     primary: { tags: ['Short Film', 'Optional'],
       length: '52m',
       languages: [
         { value: 'EN', native: true, voice: true },
         { value: 'JA', tip: 'Japanese — dub', voice: true },
         { value: 'FR', tip: 'French — subtitles only' },
-      ],
-      description: [
-        ['A 52-minute animated short following the founding of the first watchtower, made as a tie-in for ', { emText: 'Wyrmwatch II (2019)' }, '.'],
       ],
       ratings: [{ label: 'Fixture rating source', score: '7.4', url: 'https://example.com/reviews/rise-of-the-wyrm' }],
       platforms: [
@@ -43,15 +43,15 @@ window.__wwSeriesReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 40
   },
   { chronoOrder: 320, recommendedOrder: 415, mediaType: 'Book',
     title: 'Wyrmwatch Chronicles: Cinderwake', titleUrl: 'https://example.com/wiki/Cinderwake', titleDate: '2025-11-12',
+    mediaDesc: [
+      ['Set shortly after ', { emText: 'Ashfall Uprising (2015)' }, ', a retired warden is called back to the frontier when the ember basin towers go dark.'],
+    ],
     primary: { tags: ['Novel', 'Optional'],
       length: '312p',
       languages: [
         { value: 'EN', native: true, url: 'https://example.com/books/cinderwake/en' },
       ],
       subtitle: 'Book',
-      description: [
-        ['Set shortly after ', { emText: 'Ashfall Uprising (2015)' }, ', a retired warden is called back to the frontier when the ember basin towers go dark.'],
-      ],
       ratings: [{ label: 'Fixture rating source', score: '3.95', url: 'https://example.com/books/cinderwake' }],
       platforms: [
         { key: 'book', name: 'Novel', noUrl: true },
