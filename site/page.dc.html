@@ -992,13 +992,7 @@ class Component extends DCLogic {
         const r = this.resolvePl(pl, this.rowSearchTitle(node));
         return { ...r, href: r.url || node.platformsUrl, noPlUrl: !pl.url && !pl.search };
       })),
-      // versionDesc/description is a migration-in-progress split (see
-      // MediaSlot.mediaDesc's schema description): a node carries either
-      // the new edition-only `versionDesc` (paired with the slot's
-      // `mediaDesc`, merged into the primary row's descParas below) or the
-      // old unsplit `description` (rendered as-is, exactly like before),
-      // never a mix of both on the same node.
-      descParas: toProseParas(node.versionDesc !== undefined ? node.versionDesc : node.description),
+      descParas: toProseParas(node.versionDesc),
     });
     const series = raw.map(s => {
       const summary = buildSummary(s.media, s.num);
