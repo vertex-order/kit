@@ -14,9 +14,10 @@ slot's title/titleDate + its primary's tags/bylineParts) so checking one
 checkbox checks both. That relies on the two hand-typed copies staying in
 sync -- nothing enforces it. This script finds every group of slots sharing
 page.dc.html's dedupe key (title|subtitleKey|titleDate) and fails if their
-description/tags/ratings/length/platforms/languages (all read off `primary`)
-disagree. It intentionally does not look inside `alts` or `versions[]`
-(inline-or/other-version sub-entries) -- only each slot's primary release.
+versionDesc/tags/ratings/length/platforms/languages (all read off
+`primary`) or mediaDesc (read off the slot itself) disagree. It
+intentionally does not look inside `alts` or `versions[]` (inline-or/
+other-version sub-entries) -- only each slot's primary release.
 
 ## Entry-key collisions
 
@@ -150,7 +151,7 @@ def dedupe_key(slot):
 # ---------------------------------------------------------------------------
 
 COMPARED_FIELDS = {
-    "description": ("description",),
+    "versionDesc": ("versionDesc",),
     "mediaDesc": ("mediaDesc",),
     "tags": ("tags",),
     "ratings": ("ratings",),
@@ -195,15 +196,8 @@ def normalize_description(desc):
 
 def field_snapshot(slot, raw_keys, label):
     primary = slot["primary"]
-    if label == "description":
-        # versionDesc/description is a migration-in-progress split (see
-        # page.dc.html's mapVersionCommon) -- a primary carries either the
-        # new edition-only versionDesc or the old unsplit description,
-        # never both, so compare whichever is present.
-        value = primary.get("versionDesc")
-        if value is None:
-            value = primary.get("description")
-        return (normalize_description(value),)
+    if label == "versionDesc":
+        return (normalize_description(primary.get("versionDesc")),)
     if label == "mediaDesc":
         return (normalize_description(slot.get("mediaDesc")),)
     return tuple(primary.get(k) for k in raw_keys)
@@ -393,7 +387,7 @@ def main():
             for finding in findings:
                 print(finding)
             print(
-                "Fix: reconcile the duplicate entries so description/tags/rating/length/platforms/languages match."
+                "Fix: reconcile the duplicate entries so versionDesc/mediaDesc/tags/rating/length/platforms/languages match."
             )
         if key_findings:
             print(f"check-dedup-drift: {len(key_findings)} entry-key finding(s):")
