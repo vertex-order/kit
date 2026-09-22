@@ -844,17 +844,39 @@ class Component extends DCLogic {
       ...p,
       smallStyle: (p.small ? 'font-size:12px;color:var(--color-neutral-400);' : '') + ((p.strike || strikeMode) ? ('text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-style: ' + (!p.strike && strikeMode === 'dashed' ? 'dashed' : 'solid') + '; text-decoration-color: var(--color-neutral-500);') : '') + (p.italic ? 'font-style: italic;' : ''),
     }));
-    // Appends " (YYYY)" (or " (YYYY–YYYY)" for a {start,end} range, `end`
-    // allowed to carry a trailing "+"/etc. as free text) to a title/subtitle
-    // label -- a title_date/subtitle_date value is a year number, a full
-    // releaseDate-shaped string (optionally with the ord-trick " 10"/" 20"
-    // suffix, sliced to its first 4 chars same as entrySlug's year), or a
-    // {start,end} range for the handful of date-range pseudo-entries.
-    const composeDateLabel = (d) => {
-      if (d === null || d === undefined) return '';
-      if (typeof d === 'object') return ' (' + d.start + '–' + d.end + ')';
+    // A titleDate/subtitleDate side (a bare value, or one side of a
+    // {start,end} range) is a year number, or a full releaseDate-shaped
+    // string (optionally with the ord-trick " 10"/" 20" suffix) that's more
+    // precise than the year alone. Only the year ever displays; this is the
+    // tooltip for that displayed year when the underlying value carries
+    // more than just the year (undefined -- no tooltip -- when it doesn't).
+    const dateTipFor = (d) => {
+      if (d === null || d === undefined) return undefined;
+      const full = String(d);
+      return full.slice(0, 4) === full ? undefined : full;
+    };
+    // Builds the " (YYYY)" / " (YYYY–YYYY)" date suffix for a title/subtitle
+    // label as an array of {text, tip?} runs (rendered as nested <span
+    // title="...">s inside EntryTitleLinks' own outer <a>) -- plain
+    // punctuation runs plus one run per displayed year, each carrying its
+    // own tooltip (dateTipFor) when that side's source value is more
+    // precise than the bare year it shows (e.g. a full releaseDate string,
+    // or one side of a {start,end} range -- `end` may carry a trailing
+    // "+"/etc. as free text, left untouched in the tooltip). Empty array
+    // for no date.
+    const buildDateSegments = (d) => {
+      if (d === null || d === undefined) return [];
+      if (typeof d === 'object') {
+        return [
+          { text: ' (' },
+          { text: String(d.start).slice(0, 4), tip: dateTipFor(d.start) },
+          { text: '–' },
+          { text: String(d.end).slice(0, 4), tip: dateTipFor(d.end) },
+          { text: ')' },
+        ];
+      }
       const yr = String(d).slice(0, 4);
-      return yr ? ' (' + yr + ')' : '';
+      return yr ? [{ text: ' (' + yr + ')', tip: dateTipFor(d) }] : [];
     };
     // Builds a parts[]-shaped [title, subtitle?] array from the
     // title/titleUrl/titleDate/subtitle/subtitleUrl/subtitleDate fields, for
@@ -875,8 +897,8 @@ class Component extends DCLogic {
     const buildTitleParts = (node, titleSrc) => {
       if (node.title === undefined && node.subtitle === undefined && node.versions) return undefined;
       const out = [];
-      if (titleSrc.title) out.push({ label: titleSrc.title + composeDateLabel(titleSrc.titleDate), url: titleSrc.titleUrl || null });
-      if (node.subtitle) out.push({ label: node.subtitle + composeDateLabel(node.subtitleDate), url: node.subtitleUrl || null, small: true });
+      if (titleSrc.title) out.push({ label: titleSrc.title, dateSegments: buildDateSegments(titleSrc.titleDate), url: titleSrc.titleUrl || null });
+      if (node.subtitle) out.push({ label: node.subtitle, dateSegments: buildDateSegments(node.subtitleDate), url: node.subtitleUrl || null, small: true });
       return out;
     };
     const mapTitleParts = (node, titleSrc, strikeMode) => {
