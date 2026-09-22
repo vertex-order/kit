@@ -355,6 +355,10 @@
         "subtitle": { "type": "string" },
         "subtitleUrl": { "type": ["string", "null"] },
         "subtitleDate": { "$ref": "#/$defs/DateValue" },
+        "pinned": {
+          "type": "boolean",
+          "description": "Auto-sorted reverse release order (most to least recent, by this entry's own subtitleDate/titleDate, falling back to the enclosing release's title date for a bare inheriting entry) is the default -- set true only for the rare platform-availability exception that needs to jump ahead of every non-pinned entry. Multiple pinned entries keep the same reverse-release order relative to each other, not authoring order."
+        },
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
