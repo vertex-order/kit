@@ -151,6 +151,7 @@ def dedupe_key(slot):
 
 COMPARED_FIELDS = {
     "description": ("description",),
+    "mediaDesc": ("mediaDesc",),
     "tags": ("tags",),
     "ratings": ("ratings",),
     "length": ("length",),
@@ -195,7 +196,16 @@ def normalize_description(desc):
 def field_snapshot(slot, raw_keys, label):
     primary = slot["primary"]
     if label == "description":
-        return tuple(normalize_description(primary.get(k)) for k in raw_keys)
+        # versionDesc/description is a migration-in-progress split (see
+        # page.dc.html's mapVersionCommon) -- a primary carries either the
+        # new edition-only versionDesc or the old unsplit description,
+        # never both, so compare whichever is present.
+        value = primary.get("versionDesc")
+        if value is None:
+            value = primary.get("description")
+        return (normalize_description(value),)
+    if label == "mediaDesc":
+        return (normalize_description(slot.get("mediaDesc")),)
     return tuple(primary.get(k) for k in raw_keys)
 
 

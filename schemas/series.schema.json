@@ -330,6 +330,10 @@
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
           "description": "Manual override of this slot's derived slug/anchor id (title + release year). Currently unused in real data but a valid escape hatch."
         },
+        "mediaDesc": {
+          "allOf": [{ "$ref": "#/$defs/Prose" }],
+          "description": "Plot/franchise-level prose describing the thing itself, independent of edition -- lives here exactly once for the same reason mediaType/title do, so it never needs copying when `primary` changes. Renders once, alongside primary's own `versionDesc` (never repeated on alts/versions[] rows). Transitional: some entries still carry the old combined `description` (on primary/alts/versions[] instead) until fully split -- `description` is dropped once every entry has been migrated to mediaDesc/versionDesc."
+        },
         "primary": { "$ref": "#/$defs/ReleaseDetails" },
         "alts": {
           "type": "array",
@@ -410,6 +414,10 @@
           "description": "Per-entry override of the default language sort-priority order (default ['JA','EN'])."
         },
         "description": { "$ref": "#/$defs/Prose" },
+        "versionDesc": {
+          "allOf": [{ "$ref": "#/$defs/Prose" }],
+          "description": "Prose describing what's specific to *this* edition (a remaster's changes, a port's differences, or just \"The original release.\") -- as opposed to mediaDesc's plot/franchise-level text on the enclosing MediaSlot. Present on every self-contained release/version node (primary, each alts[] item, each versions[] item), never inherited. Transitional alongside `description` -- see mediaDesc's description."
+        },
         "listTitle": {
           "type": "string",
           "description": "FFXI-style linked heading rendered as a plain <ul> under the description, alongside listItems."
@@ -492,6 +500,10 @@
           "description": "Per-entry override of the default language sort-priority order (default ['JA','EN'])."
         },
         "description": { "$ref": "#/$defs/Prose" },
+        "versionDesc": {
+          "allOf": [{ "$ref": "#/$defs/Prose" }],
+          "description": "Prose describing what's specific to *this* edition (a remaster's changes, a port's differences, or just \"The original release.\") -- as opposed to mediaDesc's plot/franchise-level text on the enclosing MediaSlot. Present on every self-contained release/version node (primary, each alts[] item, each versions[] item), never inherited. Transitional alongside `description` -- see mediaDesc's description."
+        },
         "listTitle": {
           "type": "string",
           "description": "FFXI-style linked heading rendered as a plain <ul> under the description, alongside listItems."

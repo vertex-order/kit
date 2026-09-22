@@ -992,7 +992,13 @@ class Component extends DCLogic {
         const r = this.resolvePl(pl, this.rowSearchTitle(node));
         return { ...r, href: r.url || node.platformsUrl, noPlUrl: !pl.url && !pl.search };
       })),
-      descParas: toProseParas(node.description),
+      // versionDesc/description is a migration-in-progress split (see
+      // MediaSlot.mediaDesc's schema description): a node carries either
+      // the new edition-only `versionDesc` (paired with the slot's
+      // `mediaDesc`, merged into the primary row's descParas below) or the
+      // old unsplit `description` (rendered as-is, exactly like before),
+      // never a mix of both on the same node.
+      descParas: toProseParas(node.versionDesc !== undefined ? node.versionDesc : node.description),
     });
     const series = raw.map(s => {
       const summary = buildSummary(s.media, s.num);
@@ -1043,6 +1049,12 @@ class Component extends DCLogic {
         const primaryAnchor = 'entry-' + k;
         const strikeMode = this.state.status[k] === 'checked' ? 'solid' : (this.state.status[k] === 'skipped' ? 'dashed' : false);
         const primary = mapRelease(m.primary, primaryAnchor, strikeMode);
+        if (m.mediaDesc !== undefined) {
+          // mediaDesc renders only on the primary row (never alts/versions[])
+          // -- prepended ahead of primary's own versionDesc paragraphs.
+          const merged = [...(toProseParas(m.mediaDesc) || []), ...(primary.descParas || [])];
+          primary.descParas = merged.length ? merged : null;
+        }
         const alts = (m.alts || []).map((alt, idx) => mapRelease(alt, primaryAnchor + '-or' + (idx > 0 ? '-' + (idx + 1) : ''), false));
         return {
           title: m.title, titleUrl: m.titleUrl, titleDate: m.titleDate,
