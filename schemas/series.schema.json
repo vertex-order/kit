@@ -343,9 +343,20 @@
         "primary": { "$ref": "#/$defs/ReleaseDetails" },
         "alts": {
           "type": "array",
-          "items": { "$ref": "#/$defs/ReleaseDetails" },
+          "items": {
+            "allOf": [
+              { "$ref": "#/$defs/ReleaseDetails" },
+              {
+                "anyOf": [
+                  { "required": ["title"] },
+                  { "required": ["subtitle"] }
+                ],
+                "description": "Unlike `primary` (which can ride the slot's own title as the featured version) and a `versions[]` item (which can inherit silently), an alts[] item exists only to be its own inline \"or <title>\" row -- it must carry a title or subtitle of its own. A titleless alt that merely wraps `versions[]` is a data bug (those versions belong on `primary.versions` instead), not a display case to accommodate."
+              }
+            ]
+          },
           "minItems": 1,
-          "description": "Inline \"or <title>\" rows on the same slot -- omit entirely when there are none (most slots)."
+          "description": "Inline \"or <title>\" rows on the same slot -- omit entirely when there are none (most slots). Every item must have its own title or subtitle (see the item schema) -- there's no such thing as a titleless alt."
         }
       },
       "required": ["title", "primary"],

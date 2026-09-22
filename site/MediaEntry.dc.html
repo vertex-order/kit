@@ -230,9 +230,7 @@
   <sc-for list="{{ g.alts }}" as="rel" hint-placeholder-count="0">
   <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) calc(20px + var(--space-3) * 2); margin-top: var(--space-2); border-radius: 0 var(--radius-md) var(--radius-md) 0;" style-hover="background: var(--color-neutral-800);">
     <div style="flex: 1;" id="{{ rel.anchorId }}">
-      <sc-if value="{{ rel.parts }}" hint-placeholder-val="{{ true }}">
-        <span style="font-size: 12px;">or </span>
-      </sc-if>
+      <span style="font-size: 12px;">or </span>
       <sc-if value="{{ rel.url }}" hint-placeholder-val="{{ false }}">
         <a href="{{ rel.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">{{ rel.label }}</a>
       </sc-if>
