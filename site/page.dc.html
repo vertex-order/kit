@@ -885,17 +885,12 @@ class Component extends DCLogic {
     // fallback walking, just reads title/titleUrl/titleDate off whichever
     // object the caller already picked (`node` itself, or its release, or
     // the slot -- one hop is all resolveTitleSource ever needs, chained
-    // by the caller for a two-hop version->release->slot lookup).
-    // A node with no title/subtitle of its own that exists purely to group
-    // its own `versions` (a release used only as `{ versions: [...] }`, no
-    // row of its own) returns undefined rather than inheriting -- an empty
-    // array is still truthy, and MediaEntry gates that whole header row on
-    // the release's `parts` being non-empty/non-undefined; this kind of node
-    // was never meant to show one, just the versions list under it. Use
-    // mapTitleParts() below, not mapParts(buildTitleParts(...)) directly, so
-    // that undefined short-circuits instead of hitting mapParts's .map().
+    // by the caller for a two-hop version->release->slot lookup). An
+    // alts[] item is schema-required to carry a title or subtitle of its
+    // own (series.schema.json) -- there's no titleless-alt case to special
+    // case here; `primary` always resolves a title via the slot, and a
+    // versions[] item is free to inherit both.
     const buildTitleParts = (node, titleSrc) => {
-      if (node.title === undefined && node.subtitle === undefined && node.versions) return undefined;
       const out = [];
       if (titleSrc.title) out.push({ label: titleSrc.title, dateSegments: buildDateSegments(titleSrc.titleDate), url: titleSrc.titleUrl || null });
       if (node.subtitle) out.push({ label: node.subtitle, dateSegments: buildDateSegments(node.subtitleDate), url: node.subtitleUrl || null, small: true });
