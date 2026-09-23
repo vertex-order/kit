@@ -100,6 +100,7 @@ paths = [
   "CODE_OF_CONDUCT.md",
   ".githooks/pre-commit",
   ".github/workflows/check-generated.yml",
+  ".github/workflows/dependabot-automerge.yml",
   ".github/workflows/check-vendored.yml",
   ".github/workflows/check-dedup-drift.yml",
   ".github/workflows/check-data.yml",
