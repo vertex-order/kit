@@ -117,8 +117,11 @@ paths = [
   ".github/workflows/fix-build.yml",
   ".github/workflows/autofix.yml",
   ".github/workflows/autofix-apply.yml",
-  ".github/dependabot.yml",
 ]
+# .github/dependabot.yml deliberately NOT published: it's kit-only, since
+# every file it'd watch elsewhere (package.json, pyproject.toml/uv.lock,
+# .github/workflows/*.yml) is vendored, not owned, in every other repo --
+# see that file's own header comment.
 # platforms-only, not published: site/ZoomedPlatformIcon.dc.html
 # (2x wrapper — kit doesn't need it).
 
