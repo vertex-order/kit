@@ -40,8 +40,8 @@ bench in that repo. `ZoomedPlatformIcon.dc.html` also lives there.
 ## Quick start
 
 ```sh
-git clone https://github.com/vertex-order/kit
-cd kit
+git clone https://github.com/vertex-order/kit vertex-order-kit
+cd vertex-order-kit
 # open any site/*.dc.html in a browser — no build step
 ```
 
