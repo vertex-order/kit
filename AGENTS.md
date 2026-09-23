@@ -23,7 +23,7 @@ and confirm with the user before proceeding.
 ## What this repo is
 
 **kit** is the shared build substrate for the
-[Vertex Order](https://vertex-order.github.io) game-list sites: the Design
+[Vertex Order](https://order.vertexprojects.org) game-list sites: the Design
 Component runtime (`site/support.js`), the **Nocturne** design system
 (`site/_ds/`), and the `*.dc.html` components (`PlatformIcon.dc.html`,
 `BackToTop.dc.html`, `HelpWanted.dc.html`). It's a component library — the
