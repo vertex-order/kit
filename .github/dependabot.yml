@@ -1,5 +1,11 @@
-# Owned by vertex-order/kit — edit here. Vendored elsewhere via sync.toml;
-# don't edit the copy there.
+# kit-only, not vendored elsewhere. Every file these ecosystems would
+# touch (package.json, pyproject.toml/uv.lock, .github/workflows/*.yml) is
+# byte-identical-vendored FROM here into every other vertex-order repo
+# (sync.toml) -- a bump dependabot proposed against a vendored copy would
+# always fail check-vendored.yml's drift check regardless of content, since
+# that copy is only ever supposed to change via `just sync` pulling from
+# here. If a repo ever gains something it genuinely owns and wants
+# dependabot on, give it its own dependabot.yml with just that ecosystem.
 version: 2
 updates:
   # Keep the SHA-pinned actions in .github/workflows/ current.
