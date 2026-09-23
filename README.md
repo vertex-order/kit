@@ -2,7 +2,7 @@
 
 # kit
 
-The shared build substrate for the [Vertex Order](https://vertex-order.github.io)
+The shared build substrate for the [Vertex Order](https://order.vertexprojects.org)
 game-list sites: the Design Component runtime, the **Nocturne** design system
 (tokens + component CSS), and the `*.dc.html` components every list renders
 with. A component library, not a framework — it gives you pieces to compose,
@@ -47,7 +47,7 @@ After any `*.dc.html` change run `just bundle-components` and commit
 `site/components.js` — CI fails the PR otherwise. See
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Live preview with fixture data: https://vertex-order.github.io/kit/ — this
+Live preview with fixture data: https://order.vertexprojects.org/kit/ — this
 is a demo page, not a how-to-use-this-toolkit site, so it's not set as the
 repo's GitHub URL.
 
