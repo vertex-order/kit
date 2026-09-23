@@ -147,6 +147,32 @@ window.__wwSeriesReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 10
           { key: 'nintendo-switch-2', paren: 'Digital', url: 'https://example.com/store/wyrmwatch-ii-reborn/switch2' },
         ],
       },
+      {
+        // title omitted: inherits 'Wyrmwatch II' (2019) wholesale from the slot root.
+        subtitle: 'Definitive Edition', subtitleUrl: 'https://example.com/wiki/Wyrmwatch_II_Definitive_Edition', subtitleDate: 2020,
+        versionDesc: [
+          'Bundles the base game with every pre-order bonus and a director’s commentary track, with no gameplay changes.',
+        ],
+        languages: [
+          { value: 'EN', native: true, voice: true },
+          { value: 'JA', voice: true },
+        ],
+        profileUrl: 'https://example.com/store/wyrmwatch-ii-definitive',
+        ratings: [{ label: 'Fixture rating source', score: '85', url: 'https://example.com/reviews/wyrmwatch-ii-definitive' }],
+        platforms: [
+          { key: 'playstation4', paren: 'Digital', url: 'https://example.com/store/wyrmwatch-ii-definitive/ps4' },
+        ],
+        versions: [
+          {
+            // title and subtitle both omitted: just the inherited base title, no edition tag.
+            label: 'Wyrmwatch II: Definitive Edition (Early Access)', url: 'https://example.com/wiki/Wyrmwatch_II_Definitive_Edition',
+            versionDesc: ['An early-access build sold briefly ahead of the full release, missing the director’s commentary track.'],
+            platforms: [
+              { key: 'steam', paren: 'PC; Early Access', terminated: true },
+            ],
+          },
+        ],
+      },
     ],
   },
   { mediaType: 'Game', chronoOrder: 260, recommendedOrder: 350,
