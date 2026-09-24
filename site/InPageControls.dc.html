@@ -44,7 +44,7 @@
 <p style="color: var(--color-neutral-500); font-size: 13px; margin: var(--space-6) 0 0;">Jump to series:</p>
 <div ref="{{ jumpRef }}" style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0 var(--space-4);">
   <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
-    <a href="{{ s.anchor }}" class="tag tag-outline" title="{{ s.title }}">{{ s.num }}</a>
+    <a href="{{ s.anchor }}" class="tag tag-outline" title="{{ s.tagTooltip }}">{{ s.num }}</a>
   </sc-for>
   <a href="#faq" class="tag tag-outline" title="Frequently Asked Questions">FAQ</a>
   <a href="#help-wanted" class="tag tag-outline" title="Help Wanted">Help</a>
