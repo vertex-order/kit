@@ -17,7 +17,7 @@ window.__wwSeriesReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 40
       subtitle: 'Book',
       ratings: [{ label: 'Fixture rating source', score: '4.12', url: 'https://example.com/books/ashfall-codex' }],
       platforms: [
-        { key: 'book', name: 'Novel', noUrl: true },
+        { key: 'book', name: 'Novel' },
         { key: 'fan-audiobook', paren: 'Youtube', url: 'https://example.com/audiobook/ashfall-codex' },
       ],
     },
@@ -54,7 +54,7 @@ window.__wwSeriesReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 40
       subtitle: 'Book',
       ratings: [{ label: 'Fixture rating source', score: '3.95', url: 'https://example.com/books/cinderwake' }],
       platforms: [
-        { key: 'book', name: 'Novel', noUrl: true },
+        { key: 'book', name: 'Novel' },
       ],
     },
   },

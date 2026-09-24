@@ -1082,7 +1082,6 @@ class Component extends DCLogic {
       anchor: '#series-' + s.num,
       ...this.buildPilcrow('series-' + s.num, false),
       sectionRef: el => { if (el) this.seriesEls[s.num] = el; else delete this.seriesEls[s.num]; },
-      noUrl: !s.url,
       noteParas: toProseParas(note),
       media: s.media.map((m, i) => {
         const k = entryKeyMap.get(s.num + '-' + i);
@@ -1214,7 +1213,7 @@ class Component extends DCLogic {
       const media = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
       const allSummary = buildSummary(media, null, g => g.checked, g => g.skipped);
       displaySeries = [{
-        num: 'ALL', title: SITE.name, navLabel: SITE.name, eyebrow: '', id: 'series-ALL', anchor: '#series-ALL', noUrl: true, url: null,
+        num: 'ALL', title: SITE.name, navLabel: SITE.name, eyebrow: '', id: 'series-ALL', anchor: '#series-ALL',
         ...this.buildPilcrow('series-ALL', false),
         note: allSummary, noteParas: toProseParas(allSummary), media,
         sectionRef: el => { if (el) this.seriesEls['ALL'] = el; else delete this.seriesEls['ALL']; },
@@ -1264,7 +1263,7 @@ class Component extends DCLogic {
         return sortDesc ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
       });
       return {
-        num, title, navLabel: title, eyebrow: '', id: 'series-' + num, anchor: '#series-' + num, noUrl: true, url: null,
+        num, title, navLabel: title, eyebrow: '', id: 'series-' + num, anchor: '#series-' + num,
         ...this.buildPilcrow('series-' + num, false),
         note: note || null, noteParas: toProseParas(note), media,
         sectionRef: el => { if (el) this.seriesEls[num] = el; else delete this.seriesEls[num]; },
