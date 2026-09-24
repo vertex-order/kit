@@ -246,10 +246,6 @@
           "description": "Dims the icon (same as `terminated`, no strike) AND auto-appends '; no results yet' to the composed tooltip -- don't also hand-type it, and there is no separate opacity override (every real use was the same dim level)."
         },
         "strikeColor": { "type": "string" },
-        "noUrl": {
-          "type": "boolean",
-          "description": "Common in real data alongside a null/absent url, but not read by any current template -- authoring annotation only."
-        },
         "prefix": {
           "type": "string",
           "description": "Short text prefix before the icon (unlinked-icon render path), e.g. 'U' for an UltraHD Blu-ray variant."
