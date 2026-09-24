@@ -28,15 +28,17 @@
 </div>
 
 <div style="max-width: 620px; margin: 0 0 var(--space-6); display: flex; flex-direction: column; gap: var(--space-2);">
-  <p id="order-to-display" style="color: var(--color-neutral-500); font-size: 13px; margin: 0;">Order to display:</p>
-  <div style="display: flex; flex-wrap: wrap; gap: var(--space-4);">
-    <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
-      <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
-        <input type="radio" name="pathMode" checked="{{ po.checked }}" onChange="{{ po.select }}" style="width: 16px; height: 16px; accent-color: var(--color-accent); cursor: pointer;">
-        {{ po.label }}
-      </label>
-    </sc-for>
-  </div>
+  <fieldset id="order-to-display" style="border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2);">
+    <legend style="color: var(--color-neutral-500); font-size: 13px; margin: 0; padding: 0;">Order to display:</legend>
+    <div style="display: flex; flex-wrap: wrap; gap: var(--space-4);">
+      <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; color: var(--color-neutral-300);">
+          <input type="radio" name="pathMode" checked="{{ po.checked }}" onChange="{{ po.select }}" style="width: 16px; height: 16px; accent-color: var(--color-accent); cursor: pointer;">
+          {{ po.label }}
+        </label>
+      </sc-for>
+    </div>
+  </fieldset>
 </div>
 
 <p style="color: var(--color-neutral-500); font-size: 13px; margin: var(--space-6) 0 0;">Jump to series:</p>
@@ -44,7 +46,7 @@
   <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
     <a href="{{ s.anchor }}" class="tag tag-outline" title="{{ s.title }}">{{ s.num }}</a>
   </sc-for>
-  <a href="#faq" class="tag tag-outline" title="FAQ">FAQ</a>
+  <a href="#faq" class="tag tag-outline" title="Frequently Asked Questions">FAQ</a>
   <a href="#help-wanted" class="tag tag-outline" title="Help Wanted">Help</a>
 </div>
 
@@ -76,7 +78,7 @@
     <span>·</span>
     <a href="#" onClick="{{ triggerRestore }}" style="color: var(--color-neutral-500);">Restore progress</a>
   </p>
-  <input ref="{{ restoreInputRef }}" type="file" accept="application/json" onChange="{{ restoreProgress }}" style="display: none;">
+  <input ref="{{ restoreInputRef }}" type="file" accept="application/json" onChange="{{ restoreProgress }}" aria-label="Restore progress" style="display: none;">
 </div>
 
 </x-dc>
