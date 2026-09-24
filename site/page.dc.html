@@ -1075,7 +1075,8 @@ class Component extends DCLogic {
       return {
       ...s,
       note,
-      navLabel: s.num + ' — ' + s.title,
+      navLabel: s.num === s.title ? s.num : (s.num + ' — ' + s.title),
+      tagTooltip: s.num === s.title ? null : s.title,
       eyebrow: 'SERIES ' + s.num,
       id: 'series-' + s.num,
       anchor: '#series-' + s.num,
