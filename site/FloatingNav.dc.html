@@ -23,12 +23,12 @@
       <span style="font-family: var(--font-display, var(--font-heading)); font-weight: var(--font-display-weight, 500); letter-spacing: var(--font-display-tracking, normal); font-size: 13px; line-height: 1; white-space: nowrap; color: var(--color-text);">{{ seriesName }} <span title="Vertex Projects, that's us!">Vertex</span> Order</span>
       <span style="font-size: 9px; line-height: 1; white-space: nowrap; color: var(--color-neutral-600); margin-top: 2px;">Updated: {{ lastUpdatedShort }}</span>
     </div>
-    <select value="{{ mode }}" onChange="{{ onOrderChange }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px;">
+    <select value="{{ mode }}" onChange="{{ onOrderChange }}" aria-label="Narrative order" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px;">
       <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
         <option value="{{ po.key }}">{{ po.shortLabel }}</option>
       </sc-for>
     </select>
-    <select value="{{ activeAnchor }}" onChange="{{ onJumpChange }}" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px; max-width: 160px;">
+    <select value="{{ activeAnchor }}" onChange="{{ onJumpChange }}" aria-label="Jump to section" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px; max-width: 160px;">
       <option value="" disabled="">Jump to series…</option>
       <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
         <option value="{{ s.anchor }}">{{ s.num }} — {{ s.title }}</option>
