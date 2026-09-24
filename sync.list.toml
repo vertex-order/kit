@@ -33,6 +33,7 @@ paths = [
   "docs/cache.md",
   "docs/data.md",
   "docs/tooling.md",
+  "docs/responsive.md",
   ".prettierignore",
   "uv.toml",
   "pyproject.toml",
