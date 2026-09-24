@@ -64,6 +64,35 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 </helmet>
 <div data-theme="{{ effectiveTheme }}" style="background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); min-height: 100vh;">
   <span id="top" style="position: absolute; top: 0; left: 0;"></span>
+  <!-- Hidden measurer rig -- offscreen copies of every collapsible nav element, kept
+       mounted at all times so their real (font/data-dependent) widths are always
+       known, even while the visible copy is hidden. Drives the fit math in
+       renderVals(); see docs/responsive.md "Dynamic sizing requirement". -->
+  <div style="position: absolute; visibility: hidden; height: 0; overflow: hidden; top: 0; left: 0; pointer-events: none;" aria-hidden="true">
+    <span ref="{{ titleRow1MeasureRef }}" style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 18px; white-space: nowrap;">{{ siteName }} — Vertex Order</span>
+    <div ref="{{ titleRow2MeasureRef }}" style="display: inline-flex; flex-direction: column; gap: 1px;">
+      <span style="font-family: var(--font-display, var(--font-heading)); font-weight: var(--font-display-weight, 500); letter-spacing: var(--font-display-tracking, normal); font-size: 13px; line-height: 1; white-space: nowrap;">{{ siteName }} Vertex Order</span>
+      <span style="font-size: 9px; line-height: 1; white-space: nowrap;">Updated: {{ lastUpdatedShort }}</span>
+    </div>
+    <select ref="{{ orderMeasureRef }}" style="font-size: 12px; height: 26px; border: 1px solid transparent; padding: 0 6px;">
+      <sc-for list="{{ pathOptions }}" as="po" hint-placeholder-count="3">
+        <option value="{{ po.key }}">{{ po.shortLabel }}</option>
+      </sc-for>
+    </select>
+    <select ref="{{ jumpMeasureRef }}" style="font-size: 12px; height: 26px; border: 1px solid transparent; padding: 0 6px; max-width: 160px;">
+      <option value="#top">Top</option>
+      <option value="#order-to-display">Settings</option>
+      <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+        <option value="{{ s.anchor }}">{{ s.navLabel }}</option>
+      </sc-for>
+      <option value="#faq">FAQ</option>
+      <option value="#help-wanted">Help Wanted</option>
+    </select>
+    <button ref="{{ languagesMeasureRef }}" style="font-size: 12px; height: 26px; border: 1px solid transparent; padding: 0 8px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">Languages<i class="bi bi-chevron-down" style="font-size: 9px;"></i></button>
+    <button ref="{{ displayMeasureRef }}" style="font-size: 12px; height: 26px; border: 1px solid transparent; padding: 0 8px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">Display<i class="bi bi-chevron-down" style="font-size: 9px;"></i></button>
+    <a ref="{{ checklistRow1MeasureRef }}" style="height: 36px; display: inline-flex; align-items: center; font-size: 12.5px; line-height: 1.15; text-align: right; white-space: nowrap;">Check out our<br>other lists ↗</a>
+    <a ref="{{ checklistRow2MeasureRef }}" style="height: 26px; display: inline-flex; align-items: center; font-size: 11px; line-height: 1.15; text-align: right; white-space: nowrap;">Check out our<br>other lists ↗</a>
+  </div>
   <sc-if value="{{ scrolled }}" hint-placeholder-val="{{ false }}">
     <div style="position: fixed; top: 0; left: 0; right: 0; z-index: 20; height: 44px; background: var(--color-surface); border-bottom: 1px solid var(--color-divider);">
     <div style="max-width: 760px; margin: 0 auto; height: 44px; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-4); padding-right: calc(var(--space-4) + {{ navReservedRightPx }});">
@@ -129,19 +158,23 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
         </sc-if>
       </div>
       </sc-if>
-      <sc-if value="{{ navProgress }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ navProgressVisible }}" hint-placeholder-val="{{ false }}">
         <div style="display: flex; flex-direction: column; justify-content: center; gap: 1px; width: 130px; flex-shrink: 0;">
           <span style="font-size: 9px; line-height: 1; white-space: nowrap; color: var(--color-neutral-600);">Series progress</span>
           <span style="font-size: 12px; line-height: 1; white-space: nowrap; color: var(--color-neutral-400); margin-top: 2px;">{{ navProgress }}</span>
         </div>
       </sc-if>
-      <sc-if value="{{ navShowCheckList }}" hint-placeholder-val="{{ true }}">
-      <a href="https://order.vertexprojects.org" target="_blank" rel="noopener" title="More lists from Vertex Projects" style="margin-left: auto; margin-right: 8px; display: flex; align-items: center; height: 26px; font-size: 11px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
-      </sc-if>
-      <sc-if value="{{ navShowTheme }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="width: 26px; height: 26px; flex-shrink: 0; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; margin-right: {{ navToggleMarginRight }}; margin-left: {{ themeMarginLeft }};">
-        <i class="{{ themeIcon }}"></i>
-      </button>
+      <sc-if value="{{ navShowRightGroup }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 8px; margin-right: {{ navGroupMarginRight }};">
+        <sc-if value="{{ navShowCheckList }}" hint-placeholder-val="{{ true }}">
+        <a href="https://order.vertexprojects.org" target="_blank" rel="noopener" title="More lists from Vertex Projects" style="display: flex; align-items: center; height: 26px; font-size: 11px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
+        </sc-if>
+        <sc-if value="{{ navShowTheme }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="width: 26px; height: 26px; flex-shrink: 0; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px;">
+          <i class="{{ themeIcon }}"></i>
+        </button>
+        </sc-if>
+      </div>
       </sc-if>
     </div>
     </div>
@@ -149,10 +182,10 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
   <sc-if value="{{ notScrolled }}" hint-placeholder-val="{{ true }}">
   <div style="position: fixed; top: calc(var(--space-3) - var(--space-2)); left: 0; right: 0; z-index: 10; max-width: 760px; margin: 0 auto; padding: 0 var(--space-4); padding-right: calc(var(--space-4) + {{ navReservedRightPx }}); display: flex; justify-content: flex-end; align-items: center; pointer-events: none;">
     <div style="pointer-events: auto; display: flex; align-items: center; gap: var(--space-3); background: color-mix(in srgb, var(--color-bg) 55%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); margin-right: {{ navFloatingWidgetMarginRight }};">
-      <sc-if value="{{ navShowCheckList }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ cornerShowCheckList }}" hint-placeholder-val="{{ true }}">
       <a href="https://order.vertexprojects.org" target="_blank" rel="noopener" title="More lists from Vertex Projects" style="height: 36px; display: flex; align-items: center; font-size: 12.5px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
       </sc-if>
-      <sc-if value="{{ navShowTheme }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ cornerShowTheme }}" hint-placeholder-val="{{ true }}">
       <button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: var(--radius-md); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer;">
         <i class="{{ themeIcon }}"></i>
       </button>
@@ -220,6 +253,12 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
           </sc-for>
         </div>
         </sc-if>
+        <sc-if value="{{ hideProgressInMenu }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+          <span style="font-size: 10px; letter-spacing: 0.06em; color: var(--color-neutral-500);">SERIES PROGRESS</span>
+          <span style="font-size: 12px; color: var(--color-neutral-400);">{{ navProgress }}</span>
+        </div>
+        </sc-if>
         <sc-if value="{{ hideCheckListInMenu }}" hint-placeholder-val="{{ false }}">
         <a href="https://order.vertexprojects.org" target="_blank" rel="noopener" style="font-size: 12px; color: var(--color-neutral-400); text-decoration: none;">Check out our other lists ↗</a>
         </sc-if>
@@ -233,11 +272,13 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
   </div>
   </sc-if>
 
+  <sc-if value="{{ cornerShowTitle }}" hint-placeholder-val="{{ true }}">
   <nav class="nav" style="padding: var(--space-3) 0;">
     <div style="max-width: 760px; margin: 0 auto; padding: 0 var(--space-4); width: 100%;">
       <div class="nav-brand" style="margin-left: {{ navTitleMarginLeft }}; font-family: var(--font-display, var(--font-heading)); font-weight: var(--font-display-weight, 500); letter-spacing: var(--font-display-tracking, normal);">{{ siteName }} — <span title="Vertex Projects, that's us!">Vertex</span> Order</div>
     </div>
   </nav>
+  </sc-if>
 
   <div style="max-width: 760px; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-8);">
 
@@ -401,6 +442,14 @@ function taglinePlainText(parts) {
 }
 class Component extends DCLogic {
   restoreInputRef = React.createRef();
+  titleRow1MeasureRef = React.createRef();
+  titleRow2MeasureRef = React.createRef();
+  orderMeasureRef = React.createRef();
+  jumpMeasureRef = React.createRef();
+  languagesMeasureRef = React.createRef();
+  displayMeasureRef = React.createRef();
+  checklistRow1MeasureRef = React.createRef();
+  checklistRow2MeasureRef = React.createRef();
   backupProgress = (e) => {
     e.preventDefault();
     const data = { version: 1, status: this.state.status || {} };
@@ -447,7 +496,12 @@ class Component extends DCLogic {
   langOrderDefault = ['JA', 'EN'];
   componentDidMount() {
     Promise.resolve(window.loadAllSeries ? window.loadAllSeries() : import('./data/index.js').then(m => m.loadAllSeries()))
-      .then(rawSeries => this.setState({ rawSeries }));
+      .then(rawSeries => {
+        this.setState({ rawSeries });
+        // Jump-select options just changed (series list arrived) -- re-read the
+        // measurer rig's new widths once that's committed.
+        requestAnimationFrame(() => requestAnimationFrame(() => this.forceUpdate()));
+      });
     if (typeof matchMedia !== 'undefined') {
       this._mq = matchMedia('(prefers-color-scheme: light)');
       this._mqListener = e => this.setState({ systemLight: e.matches });
@@ -455,6 +509,12 @@ class Component extends DCLogic {
     }
     this._onResize = () => this.setState({ navWidth: window.innerWidth });
     window.addEventListener('resize', this._onResize, { passive: true });
+    // First paint renders with the measurer rig's real widths, so nav-fit is
+    // right immediately -- see docs/responsive.md "Dynamic sizing requirement".
+    requestAnimationFrame(() => requestAnimationFrame(() => this.forceUpdate()));
+    if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => this.forceUpdate());
+    }
     this._onScroll = () => {
       const scrolled = this._jumpEl ? this._jumpEl.getBoundingClientRect().bottom <= 0 : window.scrollY > 260;
       let activeAnchor = '';
@@ -755,35 +815,13 @@ class Component extends DCLogic {
     const toggleTheme = () => this.toggleTheme();
     const navWidth = this.state.navWidth;
     const NAV_CONTENT_WIDTH = 760;
-    const NAV_STICKOUT = 96;
-    const navStuckOut = navWidth > (NAV_CONTENT_WIDTH + NAV_STICKOUT * 2);
-    const navTitleMarginLeft = navStuckOut ? (-NAV_STICKOUT + 'px') : '0px';
-    const navToggleMarginRight = navStuckOut ? (-NAV_STICKOUT + 'px') : '0px';
-    const navShowLanguages = navWidth >= 820;
-    const navShowTheme = navWidth >= 720;
-    const navShowDisplay = navWidth >= 690;
-    const navShowTitle = navWidth >= 610;
-    const navShowCheckList = navWidth >= 440;
-    const navShowOrder = navWidth >= 360;
-    const navShowJump = navWidth >= 280;
-    const navAnyHidden = !(navShowTitle && navShowOrder && navShowJump && navShowLanguages && navShowDisplay && navShowCheckList && navShowTheme);
-    const navReservedRightPx = navAnyHidden ? '44px' : '0px';
-    const navFloatingWidgetMarginRight = navAnyHidden ? '0px' : '-109.4px';
     const ROW_STACK_BREAKPOINT = NAV_CONTENT_WIDTH + 16 + 8 + 22; // content col + media-type strip + gap + side padding
     const stacked = navWidth < ROW_STACK_BREAKPOINT;
     const sideBySide = !stacked;
     const navHamburgerTopPx = this.state.scrolled ? '4px' : 'var(--space-3)';
-    const hideTitleInMenu = !navShowTitle;
-    const hideOrderInMenu = !navShowOrder;
-    const hideJumpInMenu = !navShowJump;
-    const hideLanguagesInMenu = !navShowLanguages;
-    const hideDisplayInMenu = !navShowDisplay;
-    const hideCheckListInMenu = !navShowCheckList;
-    const hideThemeInMenu = !navShowTheme;
     const hamburgerOpen = !!this.state.hamburgerOpen;
     const toggleHamburgerMenu = () => this.toggleHamburgerMenu();
     const closeHamburgerMenu = () => this.closeHamburgerMenu();
-    const themeMarginLeft = navShowCheckList ? '0px' : 'auto';
     const lastUpdatedShort = lastUpdatedShortText();
     const mode = this.state.pathMode || 'A';
     const pathOptions = [
@@ -1290,6 +1328,127 @@ class Component extends DCLogic {
       });
       if (total && checkedN) navProgress = `${checkedN}/${total} checked, ${Math.round(checkedN / total * 100)}%`;
     }
+    // --- Header/nav responsive collapse -------------------------------------
+    // Spec: docs/responsive.md ("Header/nav collapse"). Fit is driven by the
+    // measurer rig's actual rendered widths (title length varies per site),
+    // never fixed viewport breakpoints -- see that doc's "Dynamic sizing
+    // requirement".
+    const SPACE3 = 8.4; // var(--space-3)
+    const SPACE4 = 11.2; // var(--space-4)
+    const THEME_BTN_ROW1 = 36;
+    const THEME_BTN_ROW2 = 26;
+    const HAMBURGER_BTN = 36;
+    const HAMBURGER_RESERVE = HAMBURGER_BTN + 8; // matches navReservedRightPx below
+    const NAV_STICKOUT = 96; // px the title (both rows) and row 2's right group poke past the content column, at full width
+    // The right group is meant to read as the same widget shrinking into the
+    // navbar on scroll, so it's the theme icon's *center* -- not the group's
+    // outer edge -- that should hold its screen position through that
+    // transition. Row 1's pill needs a bigger stick-out than row 2's group,
+    // both because its theme button is bigger AND because (unlike row 2's
+    // bare wrapper) the pill has its own padding-right (--space-3) inside
+    // the stuck-out edge; derive it from that invariant instead of
+    // hand-tuning a second magic number.
+    const ICON_CENTER_OFFSET = NAV_STICKOUT - THEME_BTN_ROW2 / 2;
+    const ROW1_PILL_PADDING = SPACE3;
+    const ROW1_GROUP_STICKOUT = ICON_CENTER_OFFSET + ROW1_PILL_PADDING + THEME_BTN_ROW1 / 2;
+    const gutter = Math.max(0, (navWidth - NAV_CONTENT_WIDTH) / 2);
+    // Continuous, not a binary stuck-out/flush toggle: this cancels the
+    // content column's own centering offset once the gutter can't fully
+    // cover the stick-out, so the element tracks the window edge 1:1 instead
+    // of "jumping" to sit flush against the (still centered) column edge.
+    const navTitleMarginLeft = -Math.min(gutter, NAV_STICKOUT) + 'px';
+    const navGroupMarginRight = -Math.min(gutter, NAV_STICKOUT) + 'px';
+    const navFloatingWidgetMarginRight = -Math.min(gutter, ROW1_GROUP_STICKOUT) + 'px';
+
+    const available = navWidth - 2 * SPACE4;
+    const measuredWidth = (ref, fallback) => (ref && ref.current) ? ref.current.offsetWidth : fallback;
+    // Cuts lowest-priority-first until it fits, then backfills: tries restoring
+    // each hidden item, highest-priority-among-hidden first, in case a later
+    // (bigger, higher-priority) cut freed more room than it needed. Never
+    // leaves slack unused just because the item that fits is lower priority
+    // than one that doesn't -- see docs/responsive.md "Collapse priority".
+    const fitWithBackfill = (allKeys, hidePriorityOrder, requiredWidthFn) => {
+      const shown = new Set(allKeys);
+      if (requiredWidthFn(shown) <= available) return shown;
+      for (const k of hidePriorityOrder) {
+        if (requiredWidthFn(shown) <= available) break;
+        shown.delete(k);
+      }
+      const hiddenNow = hidePriorityOrder.filter(k => !shown.has(k));
+      for (const k of [...hiddenNow].reverse()) {
+        shown.add(k);
+        if (requiredWidthFn(shown) > available) shown.delete(k);
+      }
+      return shown;
+    };
+
+    // Row 2 -- navbar (scrolled). One shared row; priority order (least-kept
+    // first below) matches docs/responsive.md exactly.
+    const row2Widths = {
+      title: measuredWidth(this.titleRow2MeasureRef, 140),
+      order: measuredWidth(this.orderMeasureRef, 130),
+      jump: measuredWidth(this.jumpMeasureRef, 160),
+      languages: measuredWidth(this.languagesMeasureRef, 90),
+      display: measuredWidth(this.displayMeasureRef, 80),
+      progress: 130, // authored fixed width (see the progress block's own style), not measured
+      checklist: measuredWidth(this.checklistRow2MeasureRef, 95),
+      theme: THEME_BTN_ROW2,
+    };
+    const row2Applicable = { title: true, order: true, jump: true, languages: true, display: true, progress: !!navProgress, checklist: true, theme: true };
+    const row2LeftOrder = ['title', 'order', 'jump', 'languages', 'display', 'progress'];
+    const row2RightOrder = ['checklist', 'theme'];
+    const row2HidePriority = ['languages', 'theme', 'display', 'title', 'order', 'checklist', 'progress', 'jump'];
+    const row2RequiredWidth = shownSet => {
+      const leftKeys = row2LeftOrder.filter(k => row2Applicable[k] && shownSet.has(k));
+      const rightKeys = row2RightOrder.filter(k => row2Applicable[k] && shownSet.has(k));
+      const leftW = leftKeys.reduce((s, k) => s + row2Widths[k], 0) + Math.max(0, leftKeys.length - 1) * SPACE3;
+      const rightW = rightKeys.reduce((s, k) => s + row2Widths[k], 0) + (rightKeys.length > 1 ? 8 : 0);
+      const anyHiddenNow = Object.keys(row2Applicable).some(k => row2Applicable[k] && !shownSet.has(k));
+      return leftW + rightW + (anyHiddenNow ? HAMBURGER_RESERVE : 0);
+    };
+    const row2Shown = fitWithBackfill(Object.keys(row2Applicable).filter(k => row2Applicable[k]), row2HidePriority, row2RequiredWidth);
+    const navShowTitle = row2Shown.has('title');
+    const navShowOrder = row2Shown.has('order');
+    const navShowJump = row2Shown.has('jump');
+    const navShowLanguages = row2Shown.has('languages');
+    const navShowDisplay = row2Shown.has('display');
+    const navShowProgress = row2Shown.has('progress');
+    const navShowCheckList = row2Shown.has('checklist');
+    const navShowTheme = row2Shown.has('theme');
+    const navShowRightGroup = navShowCheckList || navShowTheme;
+    const navProgressVisible = !!navProgress && navShowProgress;
+    const row2AnyHidden = Object.keys(row2Applicable).some(k => row2Applicable[k] && !row2Shown.has(k));
+
+    // Row 1 -- corner elements (unscrolled). Just three elements: the static
+    // in-flow title, and the floating check-list link + theme toggle -- its
+    // own fit/hamburger threshold, not row 2's (they're different element sets).
+    const cornerWidths = { title: measuredWidth(this.titleRow1MeasureRef, 140), checklist: measuredWidth(this.checklistRow1MeasureRef, 105), theme: THEME_BTN_ROW1 };
+    const cornerHidePriority = ['title', 'theme', 'checklist'];
+    const cornerRequiredWidth = shownSet => {
+      const titleShown = shownSet.has('title');
+      const pillKeys = ['checklist', 'theme'].filter(k => shownSet.has(k));
+      const pillW = pillKeys.reduce((s, k) => s + cornerWidths[k], 0) + (pillKeys.length > 1 ? SPACE3 : 0);
+      const anyHiddenNow = ['title', 'checklist', 'theme'].some(k => !shownSet.has(k));
+      const gapBetween = (titleShown && pillKeys.length) ? SPACE4 : 0;
+      return (titleShown ? cornerWidths.title : 0) + gapBetween + pillW + (anyHiddenNow ? HAMBURGER_RESERVE : 0);
+    };
+    const cornerShown = fitWithBackfill(['title', 'checklist', 'theme'], cornerHidePriority, cornerRequiredWidth);
+    const cornerShowTitle = cornerShown.has('title');
+    const cornerShowCheckList = cornerShown.has('checklist');
+    const cornerShowTheme = cornerShown.has('theme');
+    const cornerAnyHidden = !(cornerShowTitle && cornerShowCheckList && cornerShowTheme);
+
+    const navAnyHidden = this.state.scrolled ? row2AnyHidden : cornerAnyHidden;
+    const navReservedRightPx = navAnyHidden ? (HAMBURGER_BTN + 8) + 'px' : '0px';
+    const hideTitleInMenu = this.state.scrolled ? !navShowTitle : !cornerShowTitle;
+    const hideCheckListInMenu = this.state.scrolled ? !navShowCheckList : !cornerShowCheckList;
+    const hideThemeInMenu = this.state.scrolled ? !navShowTheme : !cornerShowTheme;
+    const hideOrderInMenu = this.state.scrolled && !navShowOrder;
+    const hideJumpInMenu = this.state.scrolled && !navShowJump;
+    const hideLanguagesInMenu = this.state.scrolled && !navShowLanguages;
+    const hideDisplayInMenu = this.state.scrolled && !navShowDisplay;
+    const hideProgressInMenu = this.state.scrolled && !!navProgress && !navShowProgress;
+    // -------------------------------------------------------------------------
     const ourOrderAnchor = this.buildPilcrow('our-order', false);
     const statTotal = (...keys) => keys.reduce((sum, k) => sum + (mediaCounts[k] || 0), 0);
     const statSegments = [
@@ -1314,7 +1473,7 @@ class Component extends DCLogic {
     const footerEntities = SITE.entities || [];
     const footerDisclosures = SITE.disclosures || [];
     const metaDescription = SITE.description || taglinePlainText(SITE.tagline);
-    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, series: displaySeries, pathOptions, showReleaseOrder: (this.state.rawSeries || []).length > 1, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, themeMarginLeft, navTitleMarginLeft, navToggleMarginRight, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [], backupProgress: this.backupProgress, triggerRestore: this.triggerRestore, restoreProgress: this.restoreProgress, restoreInputRef: this.restoreInputRef };
+    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, series: displaySeries, pathOptions, showReleaseOrder: (this.state.rawSeries || []).length > 1, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, navShowProgress, navProgressVisible, navShowRightGroup, navGroupMarginRight, cornerShowTitle, cornerShowCheckList, cornerShowTheme, navTitleMarginLeft, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hideProgressInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [], backupProgress: this.backupProgress, triggerRestore: this.triggerRestore, restoreProgress: this.restoreProgress, restoreInputRef: this.restoreInputRef, titleRow1MeasureRef: this.titleRow1MeasureRef, titleRow2MeasureRef: this.titleRow2MeasureRef, orderMeasureRef: this.orderMeasureRef, jumpMeasureRef: this.jumpMeasureRef, languagesMeasureRef: this.languagesMeasureRef, displayMeasureRef: this.displayMeasureRef, checklistRow1MeasureRef: this.checklistRow1MeasureRef, checklistRow2MeasureRef: this.checklistRow2MeasureRef };
   }
 }
 </script>
