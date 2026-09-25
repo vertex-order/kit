@@ -194,7 +194,7 @@
         },
         "native": {
           "type": "boolean",
-          "description": "Marks the original/source language. Not read by any component -- annotation only, kept for real data compatibility."
+          "description": "Marks the original/source language. Auto-appends ' (Native)' to the composed tooltip (see mapLangs in page.dc.html) unless `tip` overrides it -- don't also hand-type '(Native)' into `tip`."
         },
         "voice": {
           "type": "boolean",
