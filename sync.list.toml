@@ -32,6 +32,7 @@ paths = [
   "sync.list.toml",
   "docs/cache.md",
   "docs/data.md",
+  "docs/components-kit.md",
   "docs/tooling.md",
   "docs/responsive-design.md",
   "docs/sources.md",
