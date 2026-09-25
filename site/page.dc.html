@@ -168,7 +168,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
       <sc-if value="{{ navShowRightGroup }}" hint-placeholder-val="{{ true }}">
       <div style="margin-left: auto; display: flex; align-items: center; gap: 8px; margin-right: {{ navGroupMarginRight }};">
         <sc-if value="{{ navShowCheckList }}" hint-placeholder-val="{{ true }}">
-        <a href="https://order.vertexprojects.org" target="_blank" rel="noopener" title="More lists from Vertex Projects" style="display: flex; align-items: center; height: 26px; font-size: 11px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
+        <a href="/" target="_blank" rel="noopener" title="More lists from Vertex Projects" style="display: flex; align-items: center; height: 26px; font-size: 11px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
         </sc-if>
         <sc-if value="{{ navShowTheme }}" hint-placeholder-val="{{ true }}">
         <button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="width: 26px; height: 26px; flex-shrink: 0; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px;">
@@ -184,7 +184,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
   <div style="position: fixed; top: calc(var(--space-3) - var(--space-2)); left: 0; right: 0; z-index: 10; max-width: 760px; margin: 0 auto; padding: 0 var(--space-4); padding-right: calc(var(--space-4) + {{ navReservedRightPx }}); display: flex; justify-content: flex-end; align-items: center; pointer-events: none;">
     <div style="pointer-events: auto; display: flex; align-items: center; gap: var(--space-3); background: color-mix(in srgb, var(--color-bg) 55%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); margin-right: {{ navFloatingWidgetMarginRight }};">
       <sc-if value="{{ cornerShowCheckList }}" hint-placeholder-val="{{ true }}">
-      <a href="https://order.vertexprojects.org" target="_blank" rel="noopener" title="More lists from Vertex Projects" style="height: 36px; display: flex; align-items: center; font-size: 12.5px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
+      <a href="/" target="_blank" rel="noopener" title="More lists from Vertex Projects" style="height: 36px; display: flex; align-items: center; font-size: 12.5px; line-height: 1.15; text-align: right; color: var(--color-neutral-400); text-decoration: none; white-space: nowrap;">Check out our<br>other lists ↗</a>
       </sc-if>
       <sc-if value="{{ cornerShowTheme }}" hint-placeholder-val="{{ true }}">
       <button onClick="{{ toggleTheme }}" title="Toggle light/dark mode" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: var(--radius-md); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; cursor: pointer;">
@@ -261,7 +261,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
         </div>
         </sc-if>
         <sc-if value="{{ hideCheckListInMenu }}" hint-placeholder-val="{{ false }}">
-        <a href="https://order.vertexprojects.org" target="_blank" rel="noopener" style="font-size: 12px; color: var(--color-neutral-400); text-decoration: none;">Check out our other lists ↗</a>
+        <a href="/" target="_blank" rel="noopener" style="font-size: 12px; color: var(--color-neutral-400); text-decoration: none;">Check out our other lists ↗</a>
         </sc-if>
         <sc-if value="{{ hideThemeInMenu }}" hint-placeholder-val="{{ false }}">
         <button onClick="{{ toggleTheme }}" style="font-size: 12px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
