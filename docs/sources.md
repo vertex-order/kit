@@ -88,6 +88,10 @@ worth recording (e.g. a wiki that's since gone stale).
   numeric app-store ID). A slug or named `#anchor` doesn't need one.
   - Anchors rot faster than pages (silent rename) — if the anchor name
     might drift, say the section name in words too.
+- Same page, multiple anchors: one line for the bare page URL, each
+  `#anchor` as its own indented sub-bullet below it — full
+  `<url>#anchor`, not just `#anchor`, so the sub-bullet stays clickable
+  on its own — not separate flat lines.
 - **`*` on a tag** = "this fact is actually reflected in the entry right
   now." Unstarred = "this page covers it too," not a claim of origin.
   - Coarse, not a footnote — no per-word/per-sentence tracing.

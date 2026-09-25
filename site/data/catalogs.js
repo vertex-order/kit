@@ -11,9 +11,10 @@
 
 // Plain display name per language code — LanguageTag's tooltip is this name
 // plus an auto " — full audio" / " — text only" suffix from an entry's own
-// `voice`/`textOnly` flags (see mapLangs in page.dc.html); an entry only
-// states its own `tip` for something a flag can't capture (fan-translation
-// credits, "content up to", etc.), used verbatim with no suffix appended.
+// `voice`/`textOnly` flags, plus a trailing " (Native)" when `native` is set
+// (see mapLangs in page.dc.html); an entry only states its own `tip` for
+// something a flag can't capture (fan-translation credits, "content up to",
+// etc.), used verbatim with no suffix appended.
 // schema: catalogs.schema.json#/$defs/LanguageNames
 window.LANGUAGE_NAMES = {
   JA: 'Japanese',

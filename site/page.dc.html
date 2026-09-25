@@ -873,7 +873,7 @@ class Component extends DCLogic {
     }).map((lg, i, arr) => {
       const name = langName(lg);
       if (!langSet.has(lg.value)) langSet.set(lg.value, name);
-      const tip = lg.tip !== undefined ? lg.tip : name + (lg.voice ? ' — full audio' : lg.textOnly ? ' — text only' : '');
+      const tip = lg.tip !== undefined ? lg.tip : name + (lg.voice ? ' — full audio' : lg.textOnly ? ' — text only' : '') + (lg.native ? ' (Native)' : '');
       const active = isLangSelected(lg.value);
       const voiceSep = i > 0 && !!arr[i - 1].voice && !lg.voice;
       return { ...lg, tip, voiceSep, active, style: 'font-size: 10.8px; letter-spacing: 0.03em; text-transform: uppercase; cursor: default; text-decoration: none; ' + (active ? 'font-weight: 700; color: var(--color-text);' : 'color: var(--color-neutral-300);') };
