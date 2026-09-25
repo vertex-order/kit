@@ -67,7 +67,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
   <!-- Hidden measurer rig -- offscreen copies of every collapsible nav element, kept
        mounted at all times so their real (font/data-dependent) widths are always
        known, even while the visible copy is hidden. Drives the fit math in
-       renderVals(); see docs/responsive.md "Dynamic sizing requirement". -->
+       renderVals(); see docs/responsive-design.md "Dynamic sizing requirement". -->
   <div style="position: absolute; visibility: hidden; height: 0; overflow: hidden; top: 0; left: 0; pointer-events: none;" aria-hidden="true">
     <span ref="{{ titleRow1MeasureRef }}" style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 18px; white-space: nowrap;">{{ siteName }} — Vertex Order</span>
     <div ref="{{ titleRow2MeasureRef }}" style="display: inline-flex; flex-direction: column; gap: 1px;">
@@ -512,7 +512,7 @@ class Component extends DCLogic {
     this._onResize = () => this.setState({ navWidth: window.innerWidth });
     window.addEventListener('resize', this._onResize, { passive: true });
     // First paint renders with the measurer rig's real widths, so nav-fit is
-    // right immediately -- see docs/responsive.md "Dynamic sizing requirement".
+    // right immediately -- see docs/responsive-design.md "Dynamic sizing requirement".
     requestAnimationFrame(() => requestAnimationFrame(() => this.forceUpdate()));
     if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => this.forceUpdate());
@@ -1332,7 +1332,7 @@ class Component extends DCLogic {
       if (total && checkedN) navProgress = `${checkedN}/${total} checked, ${Math.round(checkedN / total * 100)}%`;
     }
     // --- Header/nav responsive collapse -------------------------------------
-    // Spec: docs/responsive.md ("Header/nav collapse"). Fit is driven by the
+    // Spec: docs/responsive-design.md ("Header/nav collapse"). Fit is driven by the
     // measurer rig's actual rendered widths (title length varies per site),
     // never fixed viewport breakpoints -- see that doc's "Dynamic sizing
     // requirement".
@@ -1369,7 +1369,7 @@ class Component extends DCLogic {
     // each hidden item, highest-priority-among-hidden first, in case a later
     // (bigger, higher-priority) cut freed more room than it needed. Never
     // leaves slack unused just because the item that fits is lower priority
-    // than one that doesn't -- see docs/responsive.md "Collapse priority".
+    // than one that doesn't -- see docs/responsive-design.md "Collapse priority".
     const fitWithBackfill = (allKeys, hidePriorityOrder, requiredWidthFn) => {
       const shown = new Set(allKeys);
       if (requiredWidthFn(shown) <= available) return shown;
@@ -1386,7 +1386,7 @@ class Component extends DCLogic {
     };
 
     // Row 2 -- navbar (scrolled). One shared row; priority order (least-kept
-    // first below) matches docs/responsive.md exactly.
+    // first below) matches docs/responsive-design.md exactly.
     const row2Widths = {
       title: measuredWidth(this.titleRow2MeasureRef, 140),
       order: measuredWidth(this.orderMeasureRef, 130),
