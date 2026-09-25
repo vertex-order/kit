@@ -49,7 +49,7 @@ window.__wwSeriesReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 10
           ],
           languages: [{ value: 'EN', textOnly: true }],
           platforms: [
-            { key: 'mobile-phone', paren: 'iOS; Android; Digital', terminated: true },
+            { key: 'mobile-phone', paren: 'iOS; Android; Digital', terminated: true, jpTag: true },
           ],
         },
         {
