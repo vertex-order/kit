@@ -66,6 +66,13 @@
   `Surveyed`, `Not yet surveyed`). No `###`, no `####`.
 - Grouping *within* a section (by site) is a plain-text label line, not a
   heading — these files are hand-edited plaintext far more than rendered.
+  - Exception: a **ratings site** section (Metacritic, Goodreads, IMDB,
+    etc.) may split its URLs under a bare `### Omnibus` subheading when
+    some of them score a multi-game collection page rather than this
+    entry alone — a real distinction worth seeing at a glance, since an
+    omnibus score isn't this entry's own. Not for other site sections
+    (Wikipedia, platform stores, etc.) — a plain-text label still covers
+    those.
 
 ## What goes in a file
 
