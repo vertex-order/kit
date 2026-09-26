@@ -59,3 +59,8 @@ and pull via `just sync`.
 - Some real, common fields are annotations with no runtime effect (e.g. a
   language's `native`, a platform item's `noUrl`) — kept valid because
   real data uses them, not because anything reads them.
+- **`DateValue`'s `approx`/`ongoing` flags apply to the whole value, not
+  per side** of a `{start,end}` range — there's no `startApprox`/`endApprox`
+  split. `ongoing` (a franchise/series expected to get more entries) is
+  unrelated to `releaseDate`'s future-dated / `Upcoming` machinery (see
+  docs/upcoming.md), which is about one specific unreleased title.

@@ -39,37 +39,45 @@
     "MediaType": {
       "enum": ["Game", "Book", "Comic", "Movie", "Video", "TV", "Audio", "App"]
     },
+    "DateString": {
+      "description": "The full-date grammar shared by DateValue's bare-string form and its object form's start/end: a year, year-month, or year-month-day, optionally carrying a two-digit same-day tie-break ord suffix (' 10' / ' 20'); OR a bare year plus a coarser within-year estimate (' early'/' mid'/' late'/' q1'-' q4'); OR a year-month plus a within-month estimate (' early'/' mid'/' late' -- no quarters, a month has no quarters). The estimate suffix never combines with the ord suffix or with day-precision -- it's answering 'roughly when within the smallest unit given', which day-precision already answers exactly.",
+      "type": "string",
+      "pattern": "^(\\d{4}(-\\d{2}(-\\d{2})?)?( \\d{2})?|\\d{4} (early|mid|late|q[1-4])|\\d{4}-\\d{2} (early|mid|late))$"
+    },
     "DateValue": {
-      "description": "titleDate / subtitleDate. A plain year, a full date optionally carrying a two-digit same-day tie-break ord suffix (' 10' / ' 20'), or a {start,end} range for the handful of multi-year pseudo-entries (`end` may be an open-ended '<year>+'). `start`/`end` each accept the same full-date grammar as the bare-string form (year, or year-month(-day)) -- display still truncates to just the year, but the exact date is kept for entries (e.g. a webcomic's run) where it's known.",
+      "description": "titleDate / subtitleDate. A plain year, a DateString (see that $def for the full grammar, including the early/mid/late/q1-q4 estimate suffix), or an object for the handful of entries that need a range and/or the `approx`/`ongoing`/`tba` flags below. `start`/`end` each accept the same grammar as the bare form -- display still truncates to just the year, but the exact value is kept for entries (e.g. a webcomic's run, or an estimate's tooltip) where it's known. `end` is optional: omit it for a single date that still needs `approx`/`ongoing`/`tba` (a bare integer/string can't carry those). `approx: true` renders/tips the whole value with a leading '~' (`(~2006–2015)`) -- one flag for the whole value, not per-side, since an uncertain range is normally uncertain on both ends together. `ongoing: true` renders/tips a trailing '+' after the last date (`(2006–2015+)`), for a franchise or series expected to have more entries -- distinct from `releaseDate`'s own future-dated / `Upcoming` machinery (docs/upcoming.md), which is about one specific unreleased title, not a series with no announced end. `tba: true` marks a single date (no `end`) as our own best-guess floor, not a publisher-stated date -- renders/tips a trailing '?' instead of `approx`'s '~' (the two never combine -- `tba` always wins, even if `approx` is also set), never auto-clears from Upcoming once its year passes, and its sort position is frozen at the literal value given, never bumped to the current year -- see docs/upcoming.md.",
       "oneOf": [
         { "type": "integer" },
-        {
-          "type": "string",
-          "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?( \\d{2})?$"
-        },
+        { "$ref": "#/$defs/DateString" },
         {
           "type": "object",
           "properties": {
             "start": {
               "oneOf": [
                 { "type": "integer" },
-                {
-                  "type": "string",
-                  "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?( \\d{2})?$"
-                }
+                { "$ref": "#/$defs/DateString" }
               ]
             },
             "end": {
               "oneOf": [
                 { "type": "integer" },
-                {
-                  "type": "string",
-                  "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?( \\d{2})?\\+?$"
-                }
+                { "$ref": "#/$defs/DateString" }
               ]
+            },
+            "approx": {
+              "type": "boolean",
+              "description": "Whole value is approximate -- prefixes the displayed (and tooltip) date(s) with '~'. One flag for the whole range, not split start_approx/end_approx. No effect when `tba` is also set -- see `tba`."
+            },
+            "ongoing": {
+              "type": "boolean",
+              "description": "More entries expected -- a still-active franchise, or a comic/novel series still being published. Suffixes the displayed (and tooltip) last date with '+'."
+            },
+            "tba": {
+              "type": "boolean",
+              "description": "`start` is our own best-guess floor for the next entry, not a publisher-stated date -- suffixes the displayed (and tooltip) date with '?' instead of `approx`'s '~'. Perpetual: never auto-clears from Upcoming just because its year has passed (unlike a firm date, which is trusted and auto-clears), and its sort/display value is frozen exactly as written -- never bumped forward to the current year. That's deliberate: bumping would silently imply the list has been re-checked as current through that whole span, which isn't true -- a stale, still-2027-labeled entry sitting in a 2029 list is a truthful signal that this one hasn't been revisited, not a bug to hide. Only a person clearing `tba` and supplying a real date should ever change how this displays."
             }
           },
-          "required": ["start", "end"],
+          "required": ["start"],
           "additionalProperties": false
         }
       ]

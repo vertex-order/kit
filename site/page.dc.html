@@ -884,35 +884,58 @@ class Component extends DCLogic {
       ...p,
       smallStyle: (p.small ? 'font-size:12px;color:var(--color-neutral-400);' : '') + ((p.strike || strikeMode) ? ('text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-style: ' + (!p.strike && strikeMode === 'dashed' ? 'dashed' : 'solid') + '; text-decoration-color: var(--color-neutral-500);') : '') + (p.italic ? 'font-style: italic;' : ''),
     }));
-    // A titleDate/subtitleDate side (a bare value, or one side of a
-    // {start,end} range) is a year number, or a full releaseDate-shaped
-    // string (optionally with the ord-trick " 10"/" 20" suffix) that's more
+    // A titleDate/subtitleDate side (a bare value, or start/end of a
+    // {start,end,approx?,ongoing?,tba?} object) is a year number, or a full
+    // releaseDate-shaped string (optionally with the ord-trick " 10"/" 20"
+    // suffix, or the early/mid/late/q1-q4 estimate suffix) that's more
     // precise than the year alone. Only the year ever displays; this is the
-    // tooltip for that displayed year when the underlying value carries
-    // more than just the year (undefined -- no tooltip -- when it doesn't).
-    const dateTipFor = (d) => {
+    // tooltip for that displayed year when the underlying value carries more
+    // than just the year (undefined -- no tooltip -- when it doesn't, since
+    // there'd be nothing in it beyond what's already shown). When a tooltip
+    // does show, `opts.approx` prefixes it with '~' and `opts.ongoing`/
+    // `opts.tba` suffix it with '+'/'?' -- e.g. "2025-03" (a firm month, day
+    // unknown) vs "~2025-03" (that month is itself only approximate, could be
+    // off by weeks). A bare year gets no tooltip either way: "~2025" the
+    // tooltip would just repeat "~2025" the visible title already shows.
+    const dateTipFor = (d, opts) => {
       if (d === null || d === undefined) return undefined;
+      opts = opts || {};
       const full = String(d);
-      return full.slice(0, 4) === full ? undefined : full;
+      if (full.slice(0, 4) === full) return undefined;
+      return (opts.approx ? '~' : '') + full + (opts.ongoing ? '+' : '') + (opts.tba ? '?' : '');
     };
     // Builds the " (YYYY)" / " (YYYY–YYYY)" date suffix for a title/subtitle
     // label as an array of {text, tip?} runs (rendered as nested <span
     // title="...">s inside EntryTitleLinks' own outer <a>) -- plain
     // punctuation runs plus one run per displayed year, each carrying its
     // own tooltip (dateTipFor) when that side's source value is more
-    // precise than the bare year it shows (e.g. a full releaseDate string,
-    // or one side of a {start,end} range -- `end` may carry a trailing
-    // "+"/etc. as free text, left untouched in the tooltip). Empty array
-    // for no date.
+    // precise than the bare year it shows. `approx` prefixes the whole
+    // thing with one '~' (not per-side -- an uncertain range is normally
+    // uncertain start-to-end together, so this also sidesteps any "which
+    // side got the ~" ambiguity); `ongoing` suffixes a trailing '+' after
+    // the last date shown, single-date object form included. `tba` suffixes
+    // '?' the same way `ongoing` suffixes '+', and always wins over `approx`
+    // -- '~' and '?' are answering different questions (fuzzy-but-settled
+    // past vs. unresolved-and-still-movable future) and must never both show
+    // on the same entry, so `approx` is force-disabled whenever `tba` is set,
+    // regardless of what the data says. Empty array for no date.
     const buildDateSegments = (d) => {
       if (d === null || d === undefined) return [];
       if (typeof d === 'object') {
+        const tba = !!d.tba;
+        const approx = !!d.approx && !tba;
+        const ongoing = !!d.ongoing;
+        if (d.end === null || d.end === undefined) {
+          const yr = String(d.start).slice(0, 4);
+          const text = (approx ? '~' : '') + yr + (ongoing ? '+' : '') + (tba ? '?' : '');
+          return [{ text: ' (' + text + ')', tip: dateTipFor(d.start, { approx, ongoing, tba }) }];
+        }
         return [
-          { text: ' (' },
-          { text: String(d.start).slice(0, 4), tip: dateTipFor(d.start) },
+          { text: ' (' + (approx ? '~' : '') },
+          { text: String(d.start).slice(0, 4), tip: dateTipFor(d.start, { approx }) },
           { text: '–' },
-          { text: String(d.end).slice(0, 4), tip: dateTipFor(d.end) },
-          { text: ')' },
+          { text: String(d.end).slice(0, 4), tip: dateTipFor(d.end, { approx, ongoing, tba }) },
+          { text: (ongoing ? '+' : '') + (tba ? '?' : '') + ')' },
         ];
       }
       const yr = String(d).slice(0, 4);
@@ -1003,15 +1026,32 @@ class Component extends DCLogic {
       if (m[2]) return new Date(year, +m[2], 0);
       return new Date(year, 11, 31);
     };
-    const isUpcoming = (releaseDate) => {
+    // `titleDate` is checked directly (not just the resolved gDate string) so a
+    // `tba` object is unmistakable regardless of what `start` looks like.
+    const isTba = (titleDate) => !!(titleDate && typeof titleDate === 'object' && titleDate.tba);
+    // A firm date is trusted at face value -- once it's passed, the release
+    // almost always happened, and the rare true delay is the kind of news a
+    // curator watching this franchise will see and fix promptly. `tba` is the
+    // opposite: it's *our* guess, not the publisher's word, so nothing here
+    // may ever infer "released" from it -- it stays upcoming until a curator
+    // clears `tba` and supplies a real date (see docs/upcoming.md).
+    const isUpcoming = (titleDate, releaseDate) => {
+      if (isTba(titleDate)) return true;
       const d = parseReleaseEnd(releaseDate);
       return !!d && d >= now;
     };
-    const isRecentlyReleased = (releaseDate) => {
+    const isRecentlyReleased = (titleDate, releaseDate) => {
+      if (isTba(titleDate)) return false;
       const d = parseReleaseEnd(releaseDate);
       return !!d && d < now && d >= recentCutoff;
     };
-    const formatUpcomingDate = (str) => {
+    const formatUpcomingDate = (titleDate, str) => {
+      // A `tba` value is our own guess, not a publisher date -- never spell it
+      // out as a specific month/day here (that would overclaim precision this
+      // section doesn't have). Its year already shows in the title itself,
+      // and any finer estimate we do have (e.g. "late") only ever surfaces in
+      // that title's tooltip, not this callout.
+      if (isTba(titleDate)) return null;
       // Skip year-only dates - that precision is already shown as "(2027)" in the title.
       const m = str && /^(\d{4})-(\d{2})(?:-(\d{2}))?/.exec(str);
       if (!m) return null;
@@ -1019,6 +1059,35 @@ class Component extends DCLogic {
       if (m[3]) opts.day = 'numeric';
       return new Date(+m[1], +m[2] - 1, m[3] ? +m[3] : 1).toLocaleDateString('en-US', opts);
     };
+    // Sort key for a `tba` value -- frozen at the literal recorded value,
+    // never bumped to the current year (see the `tba` schema description for
+    // why: bumping would falsely imply this entry's been re-checked as current
+    // through every year it silently rolled past). A bare year (no estimate
+    // suffix) sorts after every real date in its year via the synthetic '-13'
+    // month (no real month exceeds 12); an early/mid/late/q1-q4 suffix on a
+    // bare year maps to a representative month instead, so it can interleave
+    // with real same-year dates rather than always trailing the whole year --
+    // '-99' as the synthetic day still keeps it trailing every *firm* date
+    // that lands in that same mapped month specifically (a guess, however
+    // well-described, stays less certain than an actual confirmed date).
+    // Quarters map to their own end-month (unambiguous); early/mid/late map
+    // to a representative month each (later than the matching quarter alone
+    // would suggest -- "late" firmly means "toward Q4", not merely "Q3-ish").
+    // A month-level early/mid/late suffix (e.g. "2027-04 late") isn't mapped
+    // further (no day-of-month heuristic) -- deferred until a real case needs
+    // finer ordering than "same month as everything else guessed for that
+    // month."
+    const TBA_SEASON_MONTH = { early: '02', mid: '07', late: '11', q1: '03', q2: '06', q3: '09', q4: '12' };
+    const tbaSortKey = (start) => {
+      const s = String(start);
+      let m = /^(\d{4}) (early|mid|late|q[1-4])$/.exec(s);
+      if (m) return m[1] + '-' + TBA_SEASON_MONTH[m[2]] + '-99';
+      m = /^(\d{4}-\d{2}) (early|mid|late)$/.exec(s);
+      if (m) return m[1];
+      m = /^(\d{4})(-\d{2})?/.exec(s);
+      return m ? m[1] + (m[2] || '-13') : s;
+    };
+    const releaseSortKey = (titleDate, gDate) => isTba(titleDate) ? tbaSortKey(titleDate.start) : (gDate || '9999');
     this.anchorRegistry = {};
     this.anchorAliases = {};
     this.dupGroups = {};
@@ -1130,9 +1199,10 @@ class Component extends DCLogic {
           title: m.title, titleUrl: m.titleUrl, titleDate: m.titleDate,
           mediaType: m.mediaType, chronoOrder: m.chronoOrder, recommendedOrder: m.recommendedOrder,
           gDate,
-          upcoming: isUpcoming(gDate),
-          upcomingDateText: isUpcoming(gDate) ? formatUpcomingDate(gDate) : null,
-          recentlyReleased: isRecentlyReleased(gDate),
+          releaseSortKey: releaseSortKey(m.titleDate, gDate),
+          upcoming: isUpcoming(m.titleDate, gDate),
+          upcomingDateText: isUpcoming(m.titleDate, gDate) ? formatUpcomingDate(m.titleDate, gDate) : null,
+          recentlyReleased: isRecentlyReleased(m.titleDate, gDate),
           typeColor: m.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[m.mediaType].fg : null,
           typeBg: m.mediaType ? (effectiveTheme === 'light' ? this.typeColorsLight : this.typeColors)[m.mediaType].bg : null,
           origIndex: i,
@@ -1143,7 +1213,7 @@ class Component extends DCLogic {
           rowCompletedStyle: this.state.status[k] === 'checked' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-accent) 6%, transparent) 2px);'
             : this.state.status[k] === 'skipped' ? 'background: linear-gradient(to right, transparent 2px, color-mix(in srgb, var(--color-neutral-400) 6%, transparent) 2px);' : '',
           wrapCompletedStyle: this.state.status[k] ? 'opacity: 0.5;' : '',
-          showCheckbox: !m.primary.noCheckbox && !isUpcoming(gDate),
+          showCheckbox: !m.primary.noCheckbox && !isUpcoming(m.titleDate, gDate),
           showSkipIcon: this.state.status[k] !== 'checked',
           showCheckboxInput: this.state.status[k] !== 'skipped',
           toggleChecked: () => this.toggleChecked(k),
@@ -1166,7 +1236,7 @@ class Component extends DCLogic {
     };
     const gameSortKey = g => {
       if (mode === 'B') return g.chronoOrder ?? 0;
-      if (mode === 'C') return g.gDate || '9999';
+      if (mode === 'C') return g.releaseSortKey;
       return g.recommendedOrder ?? 0;
     };
     const seriesSortKey = s => {
@@ -1175,7 +1245,7 @@ class Component extends DCLogic {
         if (s.num === 'Other' || s.num === 'PB') return '9999';
         const core = s.media.filter(g => !(g.primary.tags || []).includes('Optional'));
         const pool = core.length ? core : s.media;
-        const dates = pool.map(g => g.gDate).filter(Boolean);
+        const dates = pool.map(g => g.releaseSortKey).filter(Boolean);
         return dates.length ? dates.reduce((m, d) => (d < m ? d : m)) : '9999';
       }
       return s.recommendedOrder ?? 0;
@@ -1207,7 +1277,7 @@ class Component extends DCLogic {
         flat.push(g);
       }));
       flat.sort((a, b) => {
-        const ka = a.gDate || '9999', kb = b.gDate || '9999';
+        const ka = a.releaseSortKey, kb = b.releaseSortKey;
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
       const media = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
@@ -1259,7 +1329,7 @@ class Component extends DCLogic {
       // entries are pulled out of their series - always sort by real release date instead,
       // regardless of the page's active sort mode.
       media.sort((a, b) => {
-        const ka = a.gDate || '9999', kb = b.gDate || '9999';
+        const ka = a.releaseSortKey, kb = b.releaseSortKey;
         return sortDesc ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
       });
       return {
@@ -1270,7 +1340,7 @@ class Component extends DCLogic {
       };
     };
     const pseudoSeries = [
-      buildPseudoSeries('Upcoming', 'Upcoming Releases', g => g.upcoming, 'May already have a demo — check platform storefronts.', false),
+      buildPseudoSeries('Upcoming', 'Upcoming Releases', g => g.upcoming, 'May already have a demo — check platform storefronts. A "?" after a year is our own best guess, not a confirmed date — it stays here, unchanged, until a firm date is announced, however long that takes.', false),
       buildPseudoSeries('Recent', 'Recently Released', g => g.recentlyReleased, null, true),
     ].filter(Boolean);
     displaySeries = [...pseudoSeries, ...displaySeries];
