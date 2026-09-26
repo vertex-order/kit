@@ -738,12 +738,16 @@ class Component extends DCLogic {
   toggleVersions(anchorId) {
     this.setState(s => ({ expandedVersions: { ...s.expandedVersions, [anchorId]: !s.expandedVersions[anchorId] } }));
   }
-  buildPilcrow(anchorId, hasSubtitle) {
+  buildPilcrow(anchorId) {
     return {
       anchorId,
       anchorHref: '#' + anchorId,
-      pilcrowAfterTitle: !hasSubtitle,
-      pilcrowAfterSubtitle: !!hasSubtitle,
+      // Always the title line -- a release's own `subtitle` (if any) is
+      // already one of `parts` on that same EntryTitleLinks line (see
+      // mapTitleParts), so the pilcrow lands after it for free. `byline`
+      // (the tags line) is a different, always-separate line and never
+      // gets the pilcrow, regardless of whether tags are present.
+      pilcrowAfterTitle: true,
       pilcrowOpacity: this.state.hoverAnchor === anchorId ? 1 : 0,
       onAnchorHoverEnter: () => this.setState({ hoverAnchor: anchorId }),
       onAnchorHoverLeave: () => this.setState(s => s.hoverAnchor === anchorId ? { hoverAnchor: null } : null),
@@ -1149,7 +1153,7 @@ class Component extends DCLogic {
       eyebrow: 'SERIES ' + s.num,
       id: 'series-' + s.num,
       anchor: '#series-' + s.num,
-      ...this.buildPilcrow('series-' + s.num, false),
+      ...this.buildPilcrow('series-' + s.num),
       sectionRef: el => { if (el) this.seriesEls[s.num] = el; else delete this.seriesEls[s.num]; },
       noteParas: toProseParas(note),
       media: s.media.map((m, i) => {
@@ -1169,7 +1173,7 @@ class Component extends DCLogic {
             otherLanguages: mapLangs(computeOtherLangs(release.languages, release.versions), release.langOrder),
             anchorId,
             titleJumpClick: null,
-            ...this.buildPilcrow(anchorId, !!(release.tags && release.tags.length)),
+            ...this.buildPilcrow(anchorId),
             langsTopStyle: release.versions ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
             extraPlatforms: extraPlatformsFor(release),
             extraExpanded: !!this.state.expandedVersions[anchorId],
@@ -1180,7 +1184,7 @@ class Component extends DCLogic {
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };
               return {
                 ...mapVersionCommon(ver, titleSrc),
-                ...this.buildPilcrow(verAnchor, !!(ver.tags && ver.tags.length)),
+                ...this.buildPilcrow(verAnchor),
               };
             }),
           };
@@ -1284,7 +1288,7 @@ class Component extends DCLogic {
       const allSummary = buildSummary(media, null, g => g.checked, g => g.skipped);
       displaySeries = [{
         num: 'ALL', title: SITE.name, navLabel: SITE.name, eyebrow: '', id: 'series-ALL', anchor: '#series-ALL',
-        ...this.buildPilcrow('series-ALL', false),
+        ...this.buildPilcrow('series-ALL'),
         note: allSummary, noteParas: toProseParas(allSummary), media,
         sectionRef: el => { if (el) this.seriesEls['ALL'] = el; else delete this.seriesEls['ALL']; },
       }];
@@ -1310,7 +1314,6 @@ class Component extends DCLogic {
           primary: {
             ...g.primary,
             pilcrowAfterTitle: false,
-            pilcrowAfterSubtitle: false,
             parts: (g.primary.parts || []).map(p => ({ ...p, url: '#' + realAnchorId })),
             titleJumpClick: e => { e.preventDefault(); history.pushState(null, '', '#' + realAnchorId); this.handleHashNav(realAnchorId); },
             ratings: null, length: null,
@@ -1334,7 +1337,7 @@ class Component extends DCLogic {
       });
       return {
         num, title, navLabel: title, eyebrow: '', id: 'series-' + num, anchor: '#series-' + num,
-        ...this.buildPilcrow('series-' + num, false),
+        ...this.buildPilcrow('series-' + num),
         note: note || null, noteParas: toProseParas(note), media,
         sectionRef: el => { if (el) this.seriesEls[num] = el; else delete this.seriesEls[num]; },
       };
@@ -1522,7 +1525,7 @@ class Component extends DCLogic {
     const hideDisplayInMenu = this.state.scrolled && !navShowDisplay;
     const hideProgressInMenu = this.state.scrolled && !!navProgress && !navShowProgress;
     // -------------------------------------------------------------------------
-    const ourOrderAnchor = this.buildPilcrow('our-order', false);
+    const ourOrderAnchor = this.buildPilcrow('our-order');
     const statTotal = (...keys) => keys.reduce((sum, k) => sum + (mediaCounts[k] || 0), 0);
     const statSegments = [
       { keys: ['Game'], label: 'games' },

@@ -166,7 +166,7 @@
           </div>
           <sc-if value="{{ ver.byline }}" hint-placeholder-val="{{ false }}">
             <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
-              <dc-import name="EntryByline" byline="{{ ver.byline }}" on-mouse-enter="{{ ver.onAnchorHoverEnter }}" on-mouse-leave="{{ ver.onAnchorHoverLeave }}" show-pilcrow="{{ true }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" hint-size="auto,16px" style="display: block;"></dc-import>
+              <dc-import name="EntryByline" byline="{{ ver.byline }}" on-mouse-enter="{{ ver.onAnchorHoverEnter }}" on-mouse-leave="{{ ver.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
             </div>
           </sc-if>
           <sc-if value="{{ ver.helpWanted }}" hint-placeholder-val="{{ false }}">
@@ -236,10 +236,10 @@
       </sc-if>
       <dc-import name="EntryTitleLinks" parts="{{ rel.parts }}" on-mouse-enter="{{ rel.onAnchorHoverEnter }}" on-mouse-leave="{{ rel.onAnchorHoverLeave }}" pilcrow-href="{{ rel.anchorHref }}" on-pilcrow-click="{{ rel.onAnchorClick }}" pilcrow-opacity="{{ rel.pilcrowOpacity }}" show-pilcrow="{{ rel.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
       <sc-if value="{{ rel.byline }}" hint-placeholder-val="{{ false }}">
-        <dc-import name="EntryByline" byline="{{ rel.byline }}" on-mouse-enter="{{ rel.onAnchorHoverEnter }}" on-mouse-leave="{{ rel.onAnchorHoverLeave }}" show-pilcrow="{{ true }}" pilcrow-href="{{ rel.anchorHref }}" on-pilcrow-click="{{ rel.onAnchorClick }}" pilcrow-opacity="{{ rel.pilcrowOpacity }}" hint-size="auto,16px" style="display: block;"></dc-import>
+        <dc-import name="EntryByline" byline="{{ rel.byline }}" on-mouse-enter="{{ rel.onAnchorHoverEnter }}" on-mouse-leave="{{ rel.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
       </sc-if>
       <sc-if value="{{ rel.bylineParts }}" hint-placeholder-val="{{ false }}">
-        <dc-import name="EntryByline" byline-parts="{{ rel.bylineParts }}" on-mouse-enter="{{ rel.onAnchorHoverEnter }}" on-mouse-leave="{{ rel.onAnchorHoverLeave }}" show-pilcrow="{{ true }}" pilcrow-href="{{ rel.anchorHref }}" on-pilcrow-click="{{ rel.onAnchorClick }}" pilcrow-opacity="{{ rel.pilcrowOpacity }}" hint-size="auto,16px" style="display: block;"></dc-import>
+        <dc-import name="EntryByline" byline-parts="{{ rel.bylineParts }}" on-mouse-enter="{{ rel.onAnchorHoverEnter }}" on-mouse-leave="{{ rel.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
       </sc-if>
       <sc-if value="{{ rel.helpWanted }}" hint-placeholder-val="{{ false }}">
         <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
@@ -335,7 +335,7 @@
           </div>
           <sc-if value="{{ ver.byline }}" hint-placeholder-val="{{ false }}">
             <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
-              <dc-import name="EntryByline" byline="{{ ver.byline }}" on-mouse-enter="{{ ver.onAnchorHoverEnter }}" on-mouse-leave="{{ ver.onAnchorHoverLeave }}" show-pilcrow="{{ true }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" hint-size="auto,16px" style="display: block;"></dc-import>
+              <dc-import name="EntryByline" byline="{{ ver.byline }}" on-mouse-enter="{{ ver.onAnchorHoverEnter }}" on-mouse-leave="{{ ver.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
             </div>
           </sc-if>
           <sc-if value="{{ ver.helpWanted }}" hint-placeholder-val="{{ false }}">
