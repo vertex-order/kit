@@ -53,16 +53,10 @@
           "type": "object",
           "properties": {
             "start": {
-              "oneOf": [
-                { "type": "integer" },
-                { "$ref": "#/$defs/DateString" }
-              ]
+              "oneOf": [{ "type": "integer" }, { "$ref": "#/$defs/DateString" }]
             },
             "end": {
-              "oneOf": [
-                { "type": "integer" },
-                { "$ref": "#/$defs/DateString" }
-              ]
+              "oneOf": [{ "type": "integer" }, { "$ref": "#/$defs/DateString" }]
             },
             "approx": {
               "type": "boolean",
