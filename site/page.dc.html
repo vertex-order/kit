@@ -1313,6 +1313,19 @@ class Component extends DCLogic {
           showCheckbox: false,
           primary: {
             ...g.primary,
+            // g.primary was built by mapRelease against the real entry's
+            // anchor id (anchorId/anchorHref/onAnchorHoverEnter&Leave/
+            // onAnchorClick/pilcrowOpacity all close over it) -- left as-is,
+            // MediaEntry's `id="{{ g.primary.anchorId }}"` would render two
+            // elements sharing one id (this shortcut card and the real
+            // entry further down the page, since pseudoSeries are
+            // prepended), and the first one wins every #hash/getElementById
+            // lookup: title click and the real entry's own pilcrow both
+            // silently land here instead. Rebuild against this card's own
+            // id so none of that leaks; pilcrowAfterTitle is then forced
+            // back off since this shortcut still shouldn't show its own
+            // pilcrow (the title itself jumps to the real entry instead).
+            ...this.buildPilcrow(num + '-' + g.entryKey),
             pilcrowAfterTitle: false,
             parts: (g.primary.parts || []).map(p => ({ ...p, url: '#' + realAnchorId })),
             titleJumpClick: e => { e.preventDefault(); history.pushState(null, '', '#' + realAnchorId); this.handleHashNav(realAnchorId); },
