@@ -24,6 +24,11 @@
   platform it's on.
 - This is guidance, not a hard rule — use judgment where a repo's own
   list shape or content makes a different call reasonable.
+- Don't confuse this with a `titleDate`/`subtitleDate`'s own `ongoing`
+  flag (`DateValue`, `schemas/series.schema.json`) — that's a series-level
+  "expect more entries" marker (e.g. a cross-referenced franchise that's
+  still active), rendered as a trailing `+` on the date itself, not a
+  per-entry `Upcoming` badge.
 
 ## Rationale
 
