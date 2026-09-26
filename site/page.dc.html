@@ -1356,7 +1356,7 @@ class Component extends DCLogic {
       };
     };
     const pseudoSeries = [
-      buildPseudoSeries('Upcoming', 'Upcoming Releases', g => g.upcoming, 'May already have a demo — check platform storefronts. A "?" after a year is our own best guess, not a confirmed date — it stays here, unchanged, until a firm date is announced, however long that takes.', false),
+      buildPseudoSeries('Upcoming', 'Upcoming Releases', g => g.upcoming, 'May already have a demo — check platform storefronts.', false),
       buildPseudoSeries('Recent', 'Recently Released', g => g.recentlyReleased, null, true),
     ].filter(Boolean);
     displaySeries = [...pseudoSeries, ...displaySeries];
