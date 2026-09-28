@@ -934,11 +934,21 @@ class Component extends DCLogic {
           const text = (approx ? '~' : '') + yr + (ongoing ? '+' : '') + (tba ? '?' : '');
           return [{ text: ' (' + text + ')', tip: dateTipFor(d.start, { approx, ongoing, tba }) }];
         }
+        const startYr = String(d.start).slice(0, 4);
+        const endYr = String(d.end).slice(0, 4);
+        if (startYr === endYr) {
+          // Same-year range: one year, tooltip merges both full dates with
+          // " to " (not '–', which would collide visually with ISO dates'
+          // own '-' separators).
+          const text = (approx ? '~' : '') + startYr + (ongoing ? '+' : '') + (tba ? '?' : '');
+          const tips = [dateTipFor(d.start, { approx }), dateTipFor(d.end, { approx, ongoing, tba })].filter(Boolean);
+          return [{ text: ' (' + text + ')', tip: tips.length ? tips.join(' to ') : undefined }];
+        }
         return [
           { text: ' (' + (approx ? '~' : '') },
-          { text: String(d.start).slice(0, 4), tip: dateTipFor(d.start, { approx }) },
+          { text: startYr, tip: dateTipFor(d.start, { approx }) },
           { text: '–' },
-          { text: String(d.end).slice(0, 4), tip: dateTipFor(d.end, { approx, ongoing, tba }) },
+          { text: endYr, tip: dateTipFor(d.end, { approx, ongoing, tba }) },
           { text: (ongoing ? '+' : '') + (tba ? '?' : '') + ')' },
         ];
       }
