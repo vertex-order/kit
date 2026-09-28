@@ -73,12 +73,51 @@
     omnibus score isn't this entry's own. Not for other site sections
     (Wikipedia, platform stores, etc.) — a plain-text label still covers
     those.
+  - Exception: an `## Editions (ISBN)` section (see below) may use
+    `### Edition <label>` subheadings to split content-differentiated
+    editions.
 
 ## What goes in a file
 
 Not every field needs an entry — only what this doc calls out. Languages/
 tags/release dates usually don't need sourcing unless from something
 worth recording (e.g. a wiki that's since gone stale).
+
+### Editions (ISBN) — books/comics with multiple print editions
+
+For a book/comic/manga entry with many ISBN'd printings (translations,
+imprints, formats) — a `## Editions (ISBN)` section, structured
+differently from the site-grouped pattern below:
+
+- One label per **book** (print edition), not per site: `ISBN <isbn>`
+  when it has one, else `ASIN <asin>`, plus enough detail to identify it
+  (language, publisher, date, page count, format). Sub-bullets under the
+  label are that book's sources across sites (goodreads, Wikipedia's
+  `Special:BookSources?isbn=`, Google Books, Open Library, ...) — one
+  book can have several source lines under the same label.
+- Multiple **content-differentiated editions** (different bonus content/
+  story — not just a translation or reprint of the same content) →
+  `### Edition <label>` subheadings splitting the book labels
+  underneath, matching `site/data/`'s own edition split verbatim (e.g.
+  each edition's own `subtitleDate`) so it stays greppable against the
+  entry. This is the one place multi-level headers are normal in this
+  section — doesn't change the `##`-only policy below for the rest of
+  the file.
+- **Goal is language discovery, not a full print catalog.** The point is
+  finding which languages/locales a title is available in, to feed
+  `site/data/`'s `languages[]` — not cataloguing every printing that
+  ever existed.
+  - Stop hunting once a language's covered for an edition — a
+    multi-volume edition's languages don't vary by volume in practice;
+    don't re-sweep every volume separately looking for more.
+  - Don't chase a 3rd/4th/5th printing of an already-confirmed language.
+  - Still record whatever turns up anyway (a language you weren't
+    hunting for, a printing you stumble into) — "we looked at this" has
+    standing value even past the point of actively searching.
+- Prefer a **collection/omnibus edition**'s own source page as the
+  representative `languages[]`/rating link over an individual volume,
+  when one exists — closer match to how the entry displays (e.g. one
+  "4 volumes" unit) than an arbitrary single volume.
 
 ### Sources — one flat, deduped list
 
@@ -121,6 +160,11 @@ worth recording (e.g. a wiki that's since gone stale).
   second URL onto the canonical page's line. If the mirror was actually
   consulted, it's its own line in `## Surveyed`, marked `dup`, nested
   under the page it duplicates.
+- Strip locale-specific parts when recording a URL: `en.wikipedia.org` →
+  `wikipedia.org`, a Google Books link's country TLD (`.ca`, `.co.uk`,
+  ...) → `.com`, drop a `?hl=<lang>` query param. Keeps the recorded URL
+  from silently implying "this is the English/regional version" when
+  the content is locale-agnostic.
 
 ### Which source wins for a given fact
 
