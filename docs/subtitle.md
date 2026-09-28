@@ -155,3 +155,15 @@ Doesn't use the [games scale](#the-scale) — different axis entirely.
 - If it happens: [marketing override](#marketing-override) first — use
   the publisher's own term if one exists. Otherwise default to `Revised`
   (rewrites) or `Extended` (added content), whichever fits.
+
+### Multi-Volume Works
+
+- **Manga:** almost always rolls into one entry with a single `length`
+  value (`4 volumes`) — individual volumes aren't given their own
+  entry/subtitle.
+- **YA novel series:** often the same treatment, but not a fixed rule —
+  editorial judgment call per series. Some read better split into a
+  separate entry per volume.
+- Representative sourcing for a rolled-up multi-volume entry: prefer a
+  collection/omnibus edition's own page over an individual volume's,
+  when one exists — see docs/sources.md's Editions (ISBN) section.

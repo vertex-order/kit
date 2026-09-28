@@ -64,3 +64,23 @@ and pull via `just sync`.
   split. `ongoing` (a franchise/series expected to get more entries) is
   unrelated to `releaseDate`'s future-dated / `Upcoming` machinery (see
   docs/upcoming.md), which is about one specific unreleased title.
+
+## Choosing a rating when more than one exists
+
+Applies to every entry with a `ratings`/`scores[]` field — games, books,
+films, anything — not just books/comics. See docs/sources.md for which
+*site* wins by default per media type; this is about picking *within*
+that once several candidate numbers are on the table.
+
+- **Minimum ~10 ratings/reviews to count.** Below that, the number is
+  noise — skip it even if it's otherwise the "right" source.
+- **Confidence (sample size) beats site-priority when the gap is an
+  order of magnitude or more** — 1.3k ratings beats 10 ratings outright,
+  regardless of which site each is on. A close gap (1.3k vs 1.5k) isn't
+  a clear win either way — judgment call, fall back to the normal
+  site-priority pecking order.
+- **Not concerned with matching the rating to this exact print/edition.**
+  Use the best-confidence rating found across any version/edition of the
+  title, not necessarily the one for this specific one — e.g. a book's
+  displayed rating can come from an omnibus edition's page even though
+  the entry itself represents the individual volumes.
