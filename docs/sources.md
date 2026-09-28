@@ -118,6 +118,15 @@ differently from the site-grouped pattern below:
   representative `languages[]`/rating link over an individual volume,
   when one exists — closer match to how the entry displays (e.g. one
   "4 volumes" unit) than an arbitrary single volume.
+- **Every ISBN'd book label gets 3 lookup links** (ASIN-only books skip
+  these — no ISBN to search):
+  - `wikipedia: https://wikipedia.org/wiki/Special:BookSources?isbn=<isbn>` — permanent, a real portal on its own.
+  - `google books: https://www.google.com/search?tbm=bks&q=isbn:<isbn>` — placeholder.
+  - `open library: https://openlibrary.org/search?isbn=<isbn>` — placeholder.
+  - Once a placeholder is checked: found something → replace the search
+    URL with the specific edition page (+ `accessed <date>`). Found
+    nothing → keep the line, append `-- no results as of <date>`. Either
+    way, the bare unresolved search URL doesn't linger once acted on.
 
 ### Sources — one flat, deduped list
 
