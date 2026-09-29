@@ -284,6 +284,22 @@ source, don't backfill a citation to match it.
 Record a choice only when there *was* one (among rating sites, or wikis
 disagreeing). One line each, latest reasoning is enough:
 
+- **Not an editing-history log.** A line states the standing choice and
+  why — it never narrates the edit that produced it ("switched from X to
+  Y", "old link had a bug, fixed it", "re-pasted with fuller data, now
+  confirmed"). If a later edit changes the choice again, overwrite the
+  line in place — don't stack a second entry describing the change on
+  top of the first. Same rule for the rest of the file, not just this
+  section: no session-by-session/edit-history narration anywhere in a
+  `sources/` file — it records what's true and why, not what an editing
+  session did.
+- **AI-authored entries need a human's explicit go-ahead before they're
+  added.** An assistant proposes the line and its reasoning; a human
+  confirms it belongs; only then does it go in `## Decisions`. A
+  proposed-but-unconfirmed line isn't added and left standing on the
+  assumption it'll be caught on review — it doesn't belong in the file
+  until confirmed.
+
 ```md
 ## Decisions
 
@@ -362,3 +378,7 @@ the source's terms for real.
   cross-source conflicts need a line.
 - Not retroactive — new/edited entries get a sources file going forward,
   no obligation to backfill.
+- Not an editing-history/changelog of AI or human sessions — a
+  `sources/` file states current facts and standing decisions, not a
+  log of what got added, fixed, or re-checked and when. That belongs in
+  commit messages, not the file.
