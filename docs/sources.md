@@ -127,21 +127,13 @@ differently from the site-grouped pattern below:
     URL with the specific edition page (+ `accessed <date>`). Found
     nothing → keep the line, append `-- no results as of <date>`. Either
     way, the bare unresolved search URL doesn't linger once acted on.
-- **Priority is coverage, not triple-confirmation.** The real goal per
-  ISBN is *some* source confirming it exists — `goodreads > google books
-  > open library`, in that order. Once goodreads (or any one source)
-  already confirms a book and its language, checking the other two for
-  that same ISBN is optional cleanup, not required work.
-  - If goodreads already covers most/all of a title's known languages,
-    running every remaining ISBN through Google Books and Open Library
-    too is a "nice to have for later," not something to grind through in
-    one sitting — it found real things (new languages, ISBN corrections,
-    resolved ambiguities) but at a high time cost for mostly-redundant
-    confirmations once coverage already exists.
-  - Leave the two placeholder lines (Google Books/Open Library) in place
-    unresolved when skipping them for this reason — same "todo, not done
-    yet" meaning as always, just deliberately deprioritized rather than
-    not-yet-reached.
+- **Priority is coverage, not triple-confirmation** — some source per
+  ISBN, `goodreads > google books > open library`. One hit is enough;
+  checking the other two for that ISBN is optional cleanup.
+  - Goodreads already covers most/all of a title's languages → Google
+    Books/Open Library become a "nice to have later," not a full sweep.
+  - Leave those two placeholder lines unresolved when skipped this way —
+    still a todo, just deprioritized.
 
 ### Sources — one flat, deduped list
 
