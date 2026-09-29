@@ -195,6 +195,10 @@ Default pecking order when multiple sources could back the same fact.
 Default to reach for, not a hard rule — override and say why in
 `## Decisions` when needed.
 
+- **dates** — Wikipedia ≈ a specialized/fan wiki (khwiki, etc.) > other
+  sources (goodreads, amazon, google books, storefronts, ...) — a
+  retailer listing's date commonly drifts a few days from the announced
+  date; treat that drift as noise, not a competing fact
 - **story** — publisher/dev site > platform store page > fan wiki > Wikipedia
 - **platforms** — fan wiki ≈ Wikipedia for describing which platforms;
   a store page only proves *its own* platform's existence (different job)
@@ -216,9 +220,10 @@ defaults to `*`. Default star only where a site is *unconditionally* top
 (a store always proves its own platform exists); context-dependent picks
 (story, versions, which rating site) aren't pre-starred — decide per entry.
 
-- **Wikipedia** — dates, story, platforms, tags, versions
-- **Fandom wikis (+ mirrors)** — dates, platforms\*, tags, versions\*, age
-  — starred: top/tied-top of the platforms/versions pecking order
+- **Wikipedia** — dates\*, story, platforms, tags, versions
+- **Fandom wikis (+ mirrors)** — dates\*, platforms\*, tags, versions\*, age
+  — starred: tied-top of the dates pecking order, top/tied-top of the
+  platforms/versions pecking order
 - **MobyGames** — credits, platforms, regional release info
 - **Metacritic** — ratings\*, story, platforms, age — starred: top of the
   game-ratings order
