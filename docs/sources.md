@@ -134,6 +134,13 @@ differently from the site-grouped pattern below:
     Books/Open Library become a "nice to have later," not a full sweep.
   - Leave those two placeholder lines unresolved when skipped this way —
     still a todo, just deprioritized.
+- **Same order for the `languages[]` link itself, not just for citing** —
+  when a language has both a goodreads hit and a google books/open
+  library hit, `site/data/`'s own link uses the goodreads one.
+  - A google-books/open-library link on a language that already has a
+    goodreads page recorded for it is a bug — swap it.
+  - A google-books/open-library link is only correct when no goodreads
+    page has been found for that language yet (a real gap, not a choice).
 
 ### Sources — one flat, deduped list
 
