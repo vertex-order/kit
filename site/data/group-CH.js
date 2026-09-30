@@ -1,8 +1,8 @@
-// site/data/series-CH.js — kit's own fixture data (component gallery
+// site/data/group-CH.js — kit's own fixture data (component gallery
 // preview). Deleted by scripts/init-list.py when this repo is used as a
 // template for a new list repo — see docs/init-list.md.
-// schema: series.schema.json
-window.__wwSeriesReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 400, title: 'Wyrmwatch Chronicles', url: 'https://example.com/wiki/Wyrmwatch_Chronicles', note: 'A novel and a short film expanding the Ashfall frontier beyond the games — entirely optional.', media: [
+// schema: group.schema.json
+window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 400, title: 'Wyrmwatch Chronicles', url: 'https://example.com/wiki/Wyrmwatch_Chronicles', note: 'A novel and a short film expanding the Ashfall frontier beyond the games — entirely optional.', media: [
   { chronoOrder: 300, recommendedOrder: 410, mediaType: 'Book',
     title: 'Wyrmwatch Chronicles: The Ashfall Codex', titleUrl: 'https://example.com/wiki/The_Ashfall_Codex', titleDate: '2017-10-03',
     mediaDesc: [

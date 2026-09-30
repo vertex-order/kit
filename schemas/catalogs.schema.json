@@ -5,7 +5,7 @@
   "$defs": {
     "LanguageNames": {
       "type": "object",
-      "description": "window.LANGUAGE_NAMES -- language code -> plain display name. Keys are what a series entry's languages[].value references (plus the literal '…?' sentinel for \"Unknown additional languages\").",
+      "description": "window.LANGUAGE_NAMES -- language code -> plain display name. Keys are what a group entry's languages[].value references (plus the literal '…?' sentinel for \"Unknown additional languages\").",
       "additionalProperties": { "type": "string" }
     },
     "RatingKinds": {

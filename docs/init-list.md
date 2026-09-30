@@ -26,7 +26,7 @@ real `sync.toml`). `sync.list.toml` is consumed in the process; `sync.toml`
 now holds its content.
 
 It also deletes `site/data/*.js` — kit's own fixture data (a made-up
-"Wyrmwatch" franchise: 3 series, a handful of entries across games, a book,
+"Wyrmwatch" franchise: 3 groups, a handful of entries across games, a book,
 and a video, exercising every row type, platform, language, and rating shape)
 that exists only so kit's own `page.dc.html` has something to render in
 preview. A real list has its own franchise, so this gets removed rather than
@@ -87,7 +87,7 @@ are the two existing list repos to copy the *shape* of — not kit.
 - Same file, three more custom properties: `--font-display`,
   `--font-display-weight`, `--font-display-tracking`. Vendored components
   that render the site's wordmark (`page.dc.html`'s nav brand, floating-nav
-  brand, hamburger-menu title, `SeriesSection.dc.html`'s `<h2>`) and
+  brand, hamburger-menu title, `GroupSection.dc.html`'s `<h2>`) and
   `Intro.dc.html`'s `<h1>` all read these with a `var(--font-display,
   var(--font-heading))`-shaped fallback, so a repo that never sets them
   keeps kit's `--font-heading` look unchanged everywhere. To brand the
@@ -131,7 +131,7 @@ are the two existing list repos to copy the *shape* of — not kit.
 
 `site/page.dc.html` is now a generic, data-driven entry page vendored from
 kit like everything else — don't hand-edit it. What it needs is
-`site/data/*.js`: `faq.js`, `help-wanted.js`, `index.js` (series/entries),
+`site/data/*.js`: `faq.js`, `help-wanted.js`, `index.js` (groups/entries),
 plus three that feed `page.dc.html` directly (`platform-icons.js` stays the
 vendored copy — don't touch it):
 
@@ -160,8 +160,8 @@ Write these three from scratch using `schemas/site-config.schema.json` and
 `schemas/credits.schema.json` (this repo, vendored into yours the same as
 everything else) as the field-by-field reference, cross-checked against
 final-fantasy's or kingdom-hearts' `site/data/` for real examples. The same
-goes for `index.js` and `series-*.js` (the actual entries) —
-`schemas/index.schema.json` and `schemas/series.schema.json` are the
+goes for `index.js` and `group-*.js` (the actual entries) —
+`schemas/index.schema.json` and `schemas/group.schema.json` are the
 machine-readable reference (the latter covers every row type, platform,
 language, and rating shape, including the `extras`/`alt`/`alts` recursion);
 final-fantasy's data is still the best in-depth worked example, and kit's

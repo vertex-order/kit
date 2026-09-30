@@ -44,9 +44,9 @@ FIXTURE_DATA_FILES = [
     "credits.js",
     "faq.js",
     "help-wanted.js",
-    "series-WW.js",
-    "series-CH.js",
-    "series-TAC.js",
+    "group-WW.js",
+    "group-CH.js",
+    "group-TAC.js",
 ]
 
 

@@ -1,10 +1,10 @@
-// site/data/series-WW.js — kit's own fixture data (component gallery
+// site/data/group-WW.js — kit's own fixture data (component gallery
 // preview). Deleted by scripts/init-list.py when this repo is used as a
 // template for a new list repo — see docs/init-list.md. Schema modeled on
-// vertex-order/final-fantasy's site/data/series-*.js (the in-depth reference
+// vertex-order/final-fantasy's site/data/group-*.js (the in-depth reference
 // example); a real list repo should copy that repo's shape, not this one.
-// schema: series.schema.json
-window.__wwSeriesReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', media: [
+// schema: group.schema.json
+window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', media: [
   { mediaType: 'Game', chronoOrder: 200, recommendedOrder: 100,
     title: 'Wyrmwatch', titleUrl: 'https://example.com/wiki/Wyrmwatch', titleDate: '2014-03-11',
     mediaDesc: [

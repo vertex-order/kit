@@ -82,7 +82,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
     <select ref="{{ jumpMeasureRef }}" aria-label="Jump to section" style="font-size: 12px; height: 26px; border: 1px solid transparent; padding: 0 6px; max-width: 160px;">
       <option value="#top">Top</option>
       <option value="#order-to-display">Settings</option>
-      <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+      <sc-for list="{{ groups }}" as="s" hint-placeholder-count="16">
         <option value="{{ s.anchor }}">{{ s.navLabel }}</option>
       </sc-for>
       <option value="#faq">FAQ</option>
@@ -114,8 +114,8 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
       <select value="{{ activeAnchor }}" onChange="{{ onJumpChange }}" aria-label="Jump to section" style="font-size: 12px; height: 26px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px; max-width: 160px;">
         <option value="#top">Top</option>
         <option value="#order-to-display">Settings</option>
-        <option value="" disabled="">Jump to series…</option>
-        <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+        <option value="" disabled="">Jump to {{ groupLabelPluralLower }}…</option>
+        <sc-for list="{{ groups }}" as="s" hint-placeholder-count="16">
           <option value="{{ s.anchor }}">{{ s.navLabel }}</option>
         </sc-for>
         <option value="#faq">FAQ</option>
@@ -161,7 +161,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
       </sc-if>
       <sc-if value="{{ navProgressVisible }}" hint-placeholder-val="{{ false }}">
         <div style="display: flex; flex-direction: column; justify-content: center; gap: 1px; width: 130px; flex-shrink: 0;">
-          <span style="font-size: 9px; line-height: 1; white-space: nowrap; color: var(--color-neutral-600);">Series progress</span>
+          <span style="font-size: 9px; line-height: 1; white-space: nowrap; color: var(--color-neutral-600);">{{ groupLabel }} progress</span>
           <span style="font-size: 12px; line-height: 1; white-space: nowrap; color: var(--color-neutral-400); margin-top: 2px;">{{ navProgress }}</span>
         </div>
       </sc-if>
@@ -223,8 +223,8 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
         <select value="{{ activeAnchor }}" onChange="{{ onJumpChange }}" aria-label="Jump to section" style="font-size: 12px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); padding: 0 6px; width: 100%;">
           <option value="#top">Top</option>
           <option value="#order-to-display">Settings</option>
-          <option value="" disabled="">Jump to series…</option>
-          <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
+          <option value="" disabled="">Jump to {{ groupLabelPluralLower }}…</option>
+          <sc-for list="{{ groups }}" as="s" hint-placeholder-count="16">
             <option value="{{ s.anchor }}">{{ s.navLabel }}</option>
           </sc-for>
           <option value="#faq">FAQ</option>
@@ -256,7 +256,7 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
         </sc-if>
         <sc-if value="{{ hideProgressInMenu }}" hint-placeholder-val="{{ false }}">
         <div style="display: flex; flex-direction: column; gap: 1px;">
-          <span style="font-size: 10px; letter-spacing: 0.06em; color: var(--color-neutral-500);">SERIES PROGRESS</span>
+          <span style="font-size: 10px; letter-spacing: 0.06em; color: var(--color-neutral-500);">{{ groupLabelUpper }} PROGRESS</span>
           <span style="font-size: 12px; color: var(--color-neutral-400);">{{ navProgress }}</span>
         </div>
         </sc-if>
@@ -286,10 +286,10 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 
     <dc-import name="Intro" title="{{ introTitle }}" last-updated="{{ introLastUpdated }}" tagline="{{ introTagline }}" stats-text="{{ introStatsText }}" hint-size="auto,600px" style="display: block;"></dc-import>
 
-    <dc-import name="InPageControls" our-order-anchor="{{ ourOrderAnchor }}" path-options="{{ pathOptions }}" show-release-order="{{ showReleaseOrder }}" series="{{ series }}" jump-ref="{{ jumpRef }}" display-toggles="{{ displayToggles }}" language-options="{{ languageOptions }}" backup-progress="{{ backupProgress }}" trigger-restore="{{ triggerRestore }}" restore-progress="{{ restoreProgress }}" restore-input-ref="{{ restoreInputRef }}" hint-size="auto,900px" style="display: block;"></dc-import>
+    <dc-import name="InPageControls" our-order-anchor="{{ ourOrderAnchor }}" path-options="{{ pathOptions }}" show-release-order="{{ showReleaseOrder }}" groups="{{ groups }}" group-label-lower="{{ groupLabelLower }}" group-label-plural-lower="{{ groupLabelPluralLower }}" jump-ref="{{ jumpRef }}" display-toggles="{{ displayToggles }}" language-options="{{ languageOptions }}" backup-progress="{{ backupProgress }}" trigger-restore="{{ triggerRestore }}" restore-progress="{{ restoreProgress }}" restore-input-ref="{{ restoreInputRef }}" hint-size="auto,900px" style="display: block;"></dc-import>
 
-    <sc-for list="{{ series }}" as="s" hint-placeholder-count="16">
-      <dc-import name="SeriesSection" s="{{ s }}" show-rating="{{ showRating }}" show-length="{{ showLength }}" show-platforms="{{ showPlatforms }}" show-languages="{{ showLanguages }}" side-by-side="{{ sideBySide }}" stacked="{{ stacked }}" show-col2="{{ showCol2 }}" show-stacked-rl="{{ showStackedRL }}" hint-size="auto,400px" style="display: block;"></dc-import>
+    <sc-for list="{{ groups }}" as="s" hint-placeholder-count="16">
+      <dc-import name="GroupSection" s="{{ s }}" show-rating="{{ showRating }}" show-length="{{ showLength }}" show-platforms="{{ showPlatforms }}" show-languages="{{ showLanguages }}" side-by-side="{{ sideBySide }}" stacked="{{ stacked }}" show-col2="{{ showCol2 }}" show-stacked-rl="{{ showStackedRL }}" hint-size="auto,400px" style="display: block;"></dc-import>
     </sc-for>
 
     <div style="height: 1px; background: linear-gradient(to right, transparent, var(--color-neutral-700), transparent); margin-bottom: var(--space-4);"></div>
@@ -309,6 +309,13 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 // per-repo, but lives in the component itself, not in data/.
 const SITE = window.SITE_CONFIG || {};
 const LAST_UPDATED = SITE.lastUpdated || ''; // ISO date; empty is valid (no "Last Updated" shown)
+// Display word for the group concept -- purely cosmetic (schema/filename/
+// property naming is always `group`). A repo overrides via SITE_CONFIG.
+const GROUP_LABEL = SITE.groupLabel || 'Group';
+const GROUP_LABEL_PLURAL = SITE.groupLabelPlural || (GROUP_LABEL + 's');
+const GROUP_LABEL_LOWER = GROUP_LABEL.toLowerCase();
+const GROUP_LABEL_PLURAL_LOWER = GROUP_LABEL_PLURAL.toLowerCase();
+const GROUP_LABEL_UPPER = GROUP_LABEL.toUpperCase();
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function lastUpdatedShortText() {
   if (!LAST_UPDATED) return '';
@@ -358,7 +365,7 @@ function titleDateYear(d) {
 // Slug for a media[] slot: its own title + release year (the slot's title
 // is the stable identity now -- unaffected by which edition is currently
 // `primary`), or an explicit `id:` override for the rare collision/retitle
-// case. This is also what a list repo's sources/<SERIES>/<slug>.md is named
+// case. This is also what a list repo's sources/<GROUP>/<slug>.md is named
 // after (see docs/sources.md there) -- one derivation serves both.
 function entrySlug(slot) {
   if (slot.id) return slot.id;
@@ -425,12 +432,12 @@ function sortVersions(versions, titleSrc) {
     return ka < kb ? 1 : ka > kb ? -1 : 0;
   });
 }
-// Map from the positional key ("<seriesNum>-<index>") to the content-derived
-// one, for every media[] slot in rawSeries -- derived from each slot's own
+// Map from the positional key ("<groupNum>-<index>") to the content-derived
+// one, for every media[] slot in rawGroups -- derived from each slot's own
 // title (the stable identity; unaffected by which edition is `primary`).
-function buildEntryKeyMap(rawSeries) {
+function buildEntryKeyMap(rawGroups) {
   const map = new Map();
-  (rawSeries || []).forEach(s => {
+  (rawGroups || []).forEach(s => {
     const slugs = withDedupeSuffix((s.media || []).map(entrySlug));
     (s.media || []).forEach((m, i) => map.set(s.num + '-' + i, s.num + '-' + slugs[i]));
   });
@@ -494,13 +501,13 @@ class Component extends DCLogic {
     reader.readAsText(file);
   }
   state = { expandedVersions: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
-  seriesEls = {};
+  groupEls = {};
   langOrderDefault = ['JA', 'EN'];
   componentDidMount() {
-    Promise.resolve(window.loadAllSeries ? window.loadAllSeries() : import('./data/index.js').then(m => m.loadAllSeries()))
-      .then(rawSeries => {
-        this.setState({ rawSeries });
-        // Jump-select options just changed (series list arrived) -- re-read the
+    Promise.resolve(window.loadAllGroups ? window.loadAllGroups() : import('./data/index.js').then(m => m.loadAllGroups()))
+      .then(rawGroups => {
+        this.setState({ rawGroups });
+        // Jump-select options just changed (group list arrived) -- re-read the
         // measurer rig's new widths once that's committed.
         requestAnimationFrame(() => requestAnimationFrame(() => this.forceUpdate()));
       });
@@ -520,8 +527,8 @@ class Component extends DCLogic {
     this._onScroll = () => {
       const scrolled = this._jumpEl ? this._jumpEl.getBoundingClientRect().bottom <= 0 : window.scrollY > 260;
       let activeAnchor = '';
-      Object.entries(this.seriesEls).forEach(([num, el]) => {
-        if (el && el.getBoundingClientRect().top <= 60) activeAnchor = '#series-' + num;
+      Object.entries(this.groupEls).forEach(([num, el]) => {
+        if (el && el.getBoundingClientRect().top <= 60) activeAnchor = '#group-' + num;
       });
       const faqEl = document.getElementById('faq');
       const helpEl = document.getElementById('help-wanted');
@@ -835,13 +842,13 @@ class Component extends DCLogic {
       { key: 'B', label: 'Chronological order', shortLabel: 'Chronological' },
       { key: 'C', label: 'Release order', shortLabel: 'Release order' },
       { key: 'D', label: 'Overall release order', shortLabel: 'Overall release order' },
-    ].filter(o => o.key !== 'C' || (this.state.rawSeries || []).length > 1).map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
+    ].filter(o => o.key !== 'C' || (this.state.rawGroups || []).length > 1).map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
     const onOrderChange = e => this.setPathMode(e.target.value);
     const onJumpChange = e => { if (e.target.value) location.hash = e.target.value; };
     const notScrolled = !this.state.scrolled;
     const jumpRef = el => { this._jumpEl = el; };
-    // Game length from HowLongToBeat, only for entries mapping 1:1 to a single HLTB page representing the row's headline version (skip omnibus releases like X/X-2, and skip if the row's headline differs from the only HLTB data available, e.g. a remaster-only page for a row headlined by the original). `length` (schema: series.schema.json#/$defs/Length): a bare string, or an array of { value, tip, join, br, label } segments rendered as tooltipped abbreviations joined by ' / ' by default (override per-segment with `join`; `br`/a following `label` insert a line break instead). Default categories: Main Story, Main + Extra, Completionist. Differently-categorized games (e.g. MMOs) use their own tips, e.g. Solo, Co-op, Vs.
-    const chronoSeriesOverrides = { AN: 1515 };
+    // Game length from HowLongToBeat, only for entries mapping 1:1 to a single HLTB page representing the row's headline version (skip omnibus releases like X/X-2, and skip if the row's headline differs from the only HLTB data available, e.g. a remaster-only page for a row headlined by the original). `length` (schema: group.schema.json#/$defs/Length): a bare string, or an array of { value, tip, join, br, label } segments rendered as tooltipped abbreviations joined by ' / ' by default (override per-segment with `join`; `br`/a following `label` insert a line break instead). Default categories: Main Story, Main + Extra, Completionist. Differently-categorized games (e.g. MMOs) use their own tips, e.g. Solo, Co-op, Vs.
+    const chronoGroupOverrides = { AN: 1515 };
     const selectedLanguages = this.state.selectedLanguages;
     const isLangSelected = v => selectedLanguages === null ? (v === 'EN' || v.startsWith('EN-')) : selectedLanguages.includes(v);
     const langSet = new Map();
@@ -882,7 +889,7 @@ class Component extends DCLogic {
       const voiceSep = i > 0 && !!arr[i - 1].voice && !lg.voice;
       return { ...lg, tip, voiceSep, active, style: 'font-size: 10.8px; letter-spacing: 0.03em; text-transform: uppercase; cursor: default; text-decoration: none; ' + (active ? 'font-weight: 700; color: var(--color-text);' : 'color: var(--color-neutral-300);') };
     });
-    const raw = this.state.rawSeries || [];
+    const raw = this.state.rawGroups || [];
     const numWord = n => ({1:'one',2:'two',3:'three',4:'four',5:'five',6:'six',7:'seven',8:'eight'})[n] || String(n);
     const mapParts = (parts, strikeMode) => parts.map(p => ({
       ...p,
@@ -964,7 +971,7 @@ class Component extends DCLogic {
     // the slot -- one hop is all resolveTitleSource ever needs, chained
     // by the caller for a two-hop version->release->slot lookup). An
     // alts[] item is schema-required to carry a title or subtitle of its
-    // own (series.schema.json) -- there's no titleless-alt case to special
+    // own (group.schema.json) -- there's no titleless-alt case to special
     // case here; `primary` always resolves a title via the slot, and a
     // versions[] item is free to inherit both.
     const buildTitleParts = (node, titleSrc) => {
@@ -977,8 +984,8 @@ class Component extends DCLogic {
       const parts = buildTitleParts(node, titleSrc);
       return parts && mapParts(parts, strikeMode);
     };
-    // Shared by `description` (release/version) and the series-level `note`
-    // -- both are Prose (schema: series.schema.json#/$defs/Prose): a bare
+    // Shared by `description` (release/version) and the group-level `note`
+    // -- both are Prose (schema: group.schema.json#/$defs/Prose): a bare
     // string, or an array of per-paragraph strings/TextSpan[] runs.
     const toProseParas = (prose) => {
       if (!prose) return null;
@@ -996,9 +1003,9 @@ class Component extends DCLogic {
       return [...(Array.isArray(prose) ? prose : [prose]), para];
     };
     const mediaLabels = { Game: ['game', 'games'], Expansion: ['expansion & DLC', 'expansions & DLC'], Book: ['book', 'books'], Comic: ['comic', 'comics'], Movie: ['movie & video', 'movies & videos'], Audio: ['audio drama', 'audio dramas'] };
-    const buildSummary = (games, seriesNum, checkedFn, skippedFn) => {
-      const isChecked = checkedFn || ((g, i) => this.state.status[entryKeyMap.get(seriesNum + '-' + i)] === 'checked');
-      const isSkipped = skippedFn || ((g, i) => this.state.status[entryKeyMap.get(seriesNum + '-' + i)] === 'skipped');
+    const buildSummary = (games, groupNum, checkedFn, skippedFn) => {
+      const isChecked = checkedFn || ((g, i) => this.state.status[entryKeyMap.get(groupNum + '-' + i)] === 'checked');
+      const isSkipped = skippedFn || ((g, i) => this.state.status[entryKeyMap.get(groupNum + '-' + i)] === 'skipped');
       const counts = {};
       const checkedCounts = {};
       let skippedTotal = 0;
@@ -1152,7 +1159,7 @@ class Component extends DCLogic {
       })),
       descParas: toProseParas(node.versionDesc),
     });
-    const series = raw.map(s => {
+    const groups = raw.map(s => {
       const summary = buildSummary(s.media, s.num);
       const note = appendProsePara(s.note, summary);
       return {
@@ -1160,11 +1167,12 @@ class Component extends DCLogic {
       note,
       navLabel: s.num === s.title ? s.num : (s.num + ' — ' + s.title),
       tagTooltip: s.num === s.title ? null : s.title,
-      eyebrow: 'SERIES ' + s.num,
-      id: 'series-' + s.num,
-      anchor: '#series-' + s.num,
-      ...this.buildPilcrow('series-' + s.num),
-      sectionRef: el => { if (el) this.seriesEls[s.num] = el; else delete this.seriesEls[s.num]; },
+      eyebrow: GROUP_LABEL_UPPER + ' ' + s.num,
+      id: 'group-' + s.num,
+      anchor: '#group-' + s.num,
+      linkTitle: 'Link to this ' + GROUP_LABEL_LOWER,
+      ...this.buildPilcrow('group-' + s.num),
+      sectionRef: el => { if (el) this.groupEls[s.num] = el; else delete this.groupEls[s.num]; },
       noteParas: toProseParas(note),
       media: s.media.map((m, i) => {
         const k = entryKeyMap.get(s.num + '-' + i);
@@ -1253,8 +1261,8 @@ class Component extends DCLogic {
       if (mode === 'C') return g.releaseSortKey;
       return g.recommendedOrder ?? 0;
     };
-    const seriesSortKey = s => {
-      if (mode === 'B') return chronoSeriesOverrides[s.num] ?? s.chronoOrder ?? 0;
+    const groupSortKey = s => {
+      if (mode === 'B') return chronoGroupOverrides[s.num] ?? s.chronoOrder ?? 0;
       if (mode === 'C') {
         if (s.num === 'Other' || s.num === 'PB') return '9999';
         const core = s.media.filter(g => !(g.primary.tags || []).includes('Optional'));
@@ -1264,7 +1272,7 @@ class Component extends DCLogic {
       }
       return s.recommendedOrder ?? 0;
     };
-    const orderedSeries = series
+    const orderedGroups = groups
       .map(s => {
         const media = s.media.slice().sort((a, b) => {
           const ka = gameSortKey(a), kb = gameSortKey(b);
@@ -1273,14 +1281,14 @@ class Component extends DCLogic {
         return { ...s, media };
       })
       .sort((a, b) => {
-        const ka = seriesSortKey(a), kb = seriesSortKey(b);
+        const ka = groupSortKey(a), kb = groupSortKey(b);
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
-    let displaySeries = orderedSeries;
+    let displayGroups = orderedGroups;
     if (mode === 'D') {
       const keptAnchorByKey = new Map();
       const flat = [];
-      orderedSeries.forEach(s => s.media.forEach(g => {
+      orderedGroups.forEach(s => s.media.forEach(g => {
         const subtitleKey = g.primary.byline || (g.primary.bylineParts ? g.primary.bylineParts.map(p => p.text || '').join('') : '');
         const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.titleDate);
         if (keptAnchorByKey.has(dedupeKey)) {
@@ -1296,19 +1304,20 @@ class Component extends DCLogic {
       });
       const media = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
       const allSummary = buildSummary(media, null, g => g.checked, g => g.skipped);
-      displaySeries = [{
-        num: 'ALL', title: SITE.name, navLabel: SITE.name, eyebrow: '', id: 'series-ALL', anchor: '#series-ALL',
-        ...this.buildPilcrow('series-ALL'),
+      displayGroups = [{
+        num: 'ALL', title: SITE.name, navLabel: SITE.name, eyebrow: '', id: 'group-ALL', anchor: '#group-ALL',
+        linkTitle: 'Link to this ' + GROUP_LABEL_LOWER,
+        ...this.buildPilcrow('group-ALL'),
         note: allSummary, noteParas: toProseParas(allSummary), media,
-        sectionRef: el => { if (el) this.seriesEls['ALL'] = el; else delete this.seriesEls['ALL']; },
+        sectionRef: el => { if (el) this.groupEls['ALL'] = el; else delete this.groupEls['ALL']; },
       }];
     }
-    const buildPseudoSeries = (num, title, filterFn, note, sortDesc) => {
+    const buildPseudoGroup = (num, title, filterFn, note, sortDesc) => {
       const media = [];
       const seenKeys = new Set();
-      series.forEach(s => s.media.forEach(g => {
+      groups.forEach(s => s.media.forEach(g => {
         if (!filterFn(g)) return;
-        // Same game can be hand-cross-listed in two real series (e.g. a Picture Book
+        // Same game can be hand-cross-listed in two real groups (e.g. a Picture Book
         // tie-in) - keep only the first copy here, same dedupeKey the "ALL" flat view uses.
         const subtitleKey = g.primary.byline || (g.primary.bylineParts ? g.primary.bylineParts.map(p => p.text || '').join('') : '');
         const dedupeKey = g.title + '|' + subtitleKey + '|' + titleDateKey(g.titleDate);
@@ -1328,7 +1337,7 @@ class Component extends DCLogic {
             // onAnchorClick/pilcrowOpacity all close over it) -- left as-is,
             // MediaEntry's `id="{{ g.primary.anchorId }}"` would render two
             // elements sharing one id (this shortcut card and the real
-            // entry further down the page, since pseudoSeries are
+            // entry further down the page, since pseudoGroups are
             // prepended), and the first one wins every #hash/getElementById
             // lookup: title click and the real entry's own pilcrow both
             // silently land here instead. Rebuild against this card's own
@@ -1351,25 +1360,26 @@ class Component extends DCLogic {
         });
       }));
       if (!media.length) return null;
-      // Chrono/recommended order are per-series concepts that don't mean anything once
-      // entries are pulled out of their series - always sort by real release date instead,
+      // Chrono/recommended order are per-group concepts that don't mean anything once
+      // entries are pulled out of their group - always sort by real release date instead,
       // regardless of the page's active sort mode.
       media.sort((a, b) => {
         const ka = a.releaseSortKey, kb = b.releaseSortKey;
         return sortDesc ? (ka < kb ? 1 : ka > kb ? -1 : 0) : (ka < kb ? -1 : ka > kb ? 1 : 0);
       });
       return {
-        num, title, navLabel: title, eyebrow: '', id: 'series-' + num, anchor: '#series-' + num,
-        ...this.buildPilcrow('series-' + num),
+        num, title, navLabel: title, eyebrow: '', id: 'group-' + num, anchor: '#group-' + num,
+        linkTitle: 'Link to this ' + GROUP_LABEL_LOWER,
+        ...this.buildPilcrow('group-' + num),
         note: note || null, noteParas: toProseParas(note), media,
-        sectionRef: el => { if (el) this.seriesEls[num] = el; else delete this.seriesEls[num]; },
+        sectionRef: el => { if (el) this.groupEls[num] = el; else delete this.groupEls[num]; },
       };
     };
-    const pseudoSeries = [
-      buildPseudoSeries('Upcoming', 'Upcoming Releases', g => g.upcoming, 'May already have a demo — check platform storefronts.', false),
-      buildPseudoSeries('Recent', 'Recently Released', g => g.recentlyReleased, null, true),
+    const pseudoGroups = [
+      buildPseudoGroup('Upcoming', 'Upcoming Releases', g => g.upcoming, 'May already have a demo — check platform storefronts.', false),
+      buildPseudoGroup('Recent', 'Recently Released', g => g.recentlyReleased, null, true),
     ].filter(Boolean);
-    displaySeries = [...pseudoSeries, ...displaySeries];
+    displayGroups = [...pseudoGroups, ...displayGroups];
     const languageOptions = Array.from(langSet.entries()).map(([value, tip]) => ({
       value, tip, checked: isLangSelected(value), toggle: () => this.toggleLanguage(value, Array.from(langSet.keys())),
     })).sort((a, b) => {
@@ -1415,12 +1425,12 @@ class Component extends DCLogic {
       const checkedN = keys.reduce((sum, k) => sum + (mediaChecked[k] || 0), 0);
       return checkedN > 0 ? `${checkedN}/${total}` : String(total);
     };
-    const activeNum = (this.state.activeAnchor || '').startsWith('#series-') ? this.state.activeAnchor.slice(8) : null;
-    const activeSeries = activeNum ? displaySeries.find(s => s.num === activeNum) : (displaySeries.length === 1 ? displaySeries[0] : null);
+    const activeNum = (this.state.activeAnchor || '').startsWith('#group-') ? this.state.activeAnchor.slice(7) : null;
+    const activeGroup = activeNum ? displayGroups.find(s => s.num === activeNum) : (displayGroups.length === 1 ? displayGroups[0] : null);
     let navProgress = null;
-    if (activeSeries) {
+    if (activeGroup) {
       let total = 0, checkedN = 0;
-      (activeSeries.media || []).forEach(g => {
+      (activeGroup.media || []).forEach(g => {
         if (!g.showCheckbox || g.skipped) return;
         total++;
         if (g.checked) checkedN++;
@@ -1558,7 +1568,7 @@ class Component extends DCLogic {
       { keys: ['Comic'], label: 'comics' },
       { keys: ['Audio'], label: 'radio dramas' },
     ].filter(seg => statTotal(...seg.keys) > 0).map(seg => `${statVal(...seg.keys)} ${seg.label}`);
-    const statParts = [`${raw.length} series`, ...statSegments];
+    const statParts = [`${raw.length} ${raw.length === 1 ? GROUP_LABEL_LOWER : GROUP_LABEL_PLURAL_LOWER}`, ...statSegments];
     const statsJoined = statParts.length > 1
       ? `${statParts.slice(0, -1).join(', ')}, and ${statParts[statParts.length - 1]}`
       : statParts[0];
@@ -1572,7 +1582,7 @@ class Component extends DCLogic {
     const footerEntities = SITE.entities || [];
     const footerDisclosures = SITE.disclosures || [];
     const metaDescription = SITE.description || taglinePlainText(SITE.tagline);
-    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, series: displaySeries, pathOptions, showReleaseOrder: (this.state.rawSeries || []).length > 1, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, navShowProgress, navProgressVisible, navShowRightGroup, navGroupMarginRight, cornerShowTitle, cornerShowCheckList, cornerShowTheme, navTitleMarginLeft, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hideProgressInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [], backupProgress: this.backupProgress, triggerRestore: this.triggerRestore, restoreProgress: this.restoreProgress, restoreInputRef: this.restoreInputRef, titleRow1MeasureRef: this.titleRow1MeasureRef, titleRow2MeasureRef: this.titleRow2MeasureRef, orderMeasureRef: this.orderMeasureRef, jumpMeasureRef: this.jumpMeasureRef, languagesMeasureRef: this.languagesMeasureRef, displayMeasureRef: this.displayMeasureRef, checklistRow1MeasureRef: this.checklistRow1MeasureRef, checklistRow2MeasureRef: this.checklistRow2MeasureRef };
+    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, groups: displayGroups, groupLabel: GROUP_LABEL, groupLabelLower: GROUP_LABEL_LOWER, groupLabelPluralLower: GROUP_LABEL_PLURAL_LOWER, groupLabelUpper: GROUP_LABEL_UPPER, pathOptions, showReleaseOrder: (this.state.rawGroups || []).length > 1, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, navShowProgress, navProgressVisible, navShowRightGroup, navGroupMarginRight, cornerShowTitle, cornerShowCheckList, cornerShowTheme, navTitleMarginLeft, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hideProgressInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [], backupProgress: this.backupProgress, triggerRestore: this.triggerRestore, restoreProgress: this.restoreProgress, restoreInputRef: this.restoreInputRef, titleRow1MeasureRef: this.titleRow1MeasureRef, titleRow2MeasureRef: this.titleRow2MeasureRef, orderMeasureRef: this.orderMeasureRef, jumpMeasureRef: this.jumpMeasureRef, languagesMeasureRef: this.languagesMeasureRef, displayMeasureRef: this.displayMeasureRef, checklistRow1MeasureRef: this.checklistRow1MeasureRef, checklistRow2MeasureRef: this.checklistRow2MeasureRef };
   }
 }
 </script>

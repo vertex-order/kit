@@ -22,8 +22,8 @@ disappears naturally once the user scrolls (it isn't fixed), so it doesn't
 compete for space the way the pill does.
 
 **Row 2 — navbar**, a fixed bar that appears once scrolled: two groups.
-- Left group: title, sort-order select, jump-to-series select, language
-  toggle, display toggle, series-progress readout — left-justified, in that
+- Left group: title, sort-order select, jump-to-group select, language
+  toggle, display toggle, group-progress readout — left-justified, in that
   order, standard margin between each.
 - Right group: "Check out our other lists ↗" + theme toggle — right-justified.
 
@@ -63,8 +63,8 @@ produces a non-1:1, "jumpy" motion instead of tracking the window.
 
 #### Collapse priority — row 2 navbar (most kept → least kept)
 
-Jump dropdown > series progress (only counts when there's progress to show —
-a series with no progress data simply doesn't occupy this slot, which can
+Jump dropdown > group progress (only counts when there's progress to show —
+a group with no progress data simply doesn't occupy this slot, which can
 free room for "check out our other lists") > check out our other lists >
 sort order > title > display toggles > theme toggle > languages.
 

@@ -9,7 +9,7 @@ file; it's also what drives each component's standalone `$preview` in
 Claude Design). Don't duplicate prop-level detail here; if this doc and a
 component's `data-props` ever disagree, the component wins — fix this doc,
 not the other way round. For the JS shapes these props expect
-(`SeriesEntry`, `rating`, language objects, …), see [data.md](data.md) and
+(`GroupEntry`, `rating`, language objects, …), see [data.md](data.md) and
 `schemas/*.schema.json`.
 
 All of these are **vendored** (see [AGENTS.md](../AGENTS.md) → "Cross-repo
@@ -31,7 +31,7 @@ page.dc.html
 ├── InPageControls        order/jump/display/language menus + backup-restore
 │   └── FloatingNav        (mirrors InPageControls once the page scrolls past it)
 │       └── ThemeToggle    (also reachable via FloatingCorner, mobile/narrow layouts)
-├── SeriesSection × N      one per series in SERIES_ORDER
+├── GroupSection × N       one per group in GROUP_ORDER
 │   ├── MediaEntry × N      one per game/book/video entry (and per extra/alt)
 │   │   ├── EntryTitleLinks   title + external links + pilcrow anchor
 │   │   ├── EntryByline       byline text + pilcrow anchor (alt shape)
@@ -41,7 +41,7 @@ page.dc.html
 │   │   ├── LanguageTag × N    one per supported language
 │   │   ├── ExtrasToggle       chevron control that reveals extras[]
 │   │   └── TextSpan × N        any styled/tooltip/abbr text run in the row
-│   └── TextSpan             series-level blurb, same component as above
+│   └── TextSpan             group-level blurb, same component as above
 ├── FAQ                   accordion over FAQ_ITEMS (+ FAQ_ITEMS_COMMON)
 ├── HelpWanted             renders HELP_WANTED_ITEMS
 └── Footer                 credits/license/disclosures
@@ -73,19 +73,19 @@ isolation.
 
 ## The `show*` toggle convention
 
-`SeriesSection` and `MediaEntry` both take `showRating` / `showLength` /
+`GroupSection` and `MediaEntry` both take `showRating` / `showLength` /
 `showPlatforms` / `showLanguages` / `showCol2` / `showStackedRl` — one
 component threads the same six booleans straight into the other, one row
 per entry. These come from `InPageControls`' display-toggle menu
 (`displayToggles`), not from `site/data/`; a list repo doesn't set them per
-entry. `sideBySide` / `stacked` (`SeriesSection` only) are the two-column
+entry. `sideBySide` / `stacked` (`GroupSection` only) are the two-column
 vs. stacked layout modes; `showStackedRl` additionally governs whether the
 stacked layout repeats the release/language row per platform group.
 
 ## Text-run components
 
 `TextSpan` is the one component every styled inline text run ultimately
-renders through — series blurbs, entry descriptions, FAQ answers, credits,
+renders through — group blurbs, entry descriptions, FAQ answers, credits,
 tooltips. Its own props (`tip`, `abbrTerm`/`abbrDef`, `emLinkText`/
 `emLinkUrl`, `jpTag`, …) are the render targets for whichever of the three
 "styled text run" JS shapes fed it — see [data.md](data.md) → "three

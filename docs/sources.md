@@ -15,9 +15,9 @@
   - `<slug>` = entry's kebab-case `key`
   - `<year>` = entry's own top-level `releaseDate` year (not an edition's)
   - e.g. `final-fantasy-1987.md`
-  - Flat, not grouped by series: slug+year is already unique catalog-wide,
-    so a series subfolder isn't needed for disambiguation — and some
-    entries are cross-listed under more than one series in `site/data/`,
+  - Flat, not grouped by group: slug+year is already unique catalog-wide,
+    so a group subfolder isn't needed for disambiguation — and some
+    entries are cross-listed under more than one group in `site/data/`,
     which would leave no clean answer for "which folder." One file, no
     ambiguity.
 - All editions/sub-parts of the entry (remasters, DLC, alt releases) go in
@@ -31,8 +31,8 @@
 ### Franchise-wide files
 
 - For a source that isn't tied to one entry — spans many entries, or
-  documents the franchise/series as a whole (a catalog/list page, a
-  series-overview article) — file as `sources/<slug>.md`, no year.
+  documents the franchise/group as a whole (a catalog/list page, a
+  group-overview article) — file as `sources/<slug>.md`, no year.
   - e.g. `final-fantasy-franchise.md` for
     [List of Final Fantasy video games](https://wikipedia.org/wiki/List_of_Final_Fantasy_video_games).
   - Same internal structure as an entry file (`## Sources`, `##
@@ -43,20 +43,20 @@
   the fact that the page *itself*, as a franchise-spanning catalog, is
   worth recording once — not a substitute for the per-entry lines.
 
-### Series-wide files
+### Group-wide files
 
-- For a source covering one subseries — file as `sources/<num>-series.md`,
-  no year. `<num>` = the site's own jump-link code (`#series-XII` →
-  `xii-series.md`), not the source's topic name — a series' article
-  title often doesn't match its series name (`Ivalice` vs. `XII`).
-  - e.g. `xii-series.md`, sourced from
+- For a source covering one subgroup — file as `sources/<num>-group.md`,
+  no year. `<num>` = the site's own jump-link code (`#group-XII` →
+  `xii-group.md`), not the source's topic name — a group's article
+  title often doesn't match its group name (`Ivalice` vs. `XII`).
+  - e.g. `xii-group.md`, sourced from
     [Ivalice](https://wikipedia.org/wiki/Ivalice).
 - Only add one when a source actually exists at that scope (a
-  series-overview article) — most series don't need one.
-- `-series` (no year) vs. entry's `-<year>`: dated = entry, `-series` =
-  series rollup, neither = franchise-wide.
+  group-overview article) — most groups don't need one.
+- `-group` (no year) vs. entry's `-<year>`: dated = entry, `-group` =
+  group rollup, neither = franchise-wide.
   - Exception: `chocobo-series-1997.md` is a real dated entry (cross-
-    listed in `site/data/` in lieu of a full series section) — "series"
+    listed in `site/data/` in lieu of a full group section) — "series"
     is just its title, not this pattern. Not a template to copy.
 
 ## Header policy for entry files: `##` only
