@@ -6,7 +6,7 @@
 ## Guidance
 
 - Don't set a manual `upcoming` flag on an entry — the `Upcoming` badge
-  and both pseudo-series are derived automatically from `releaseDate` in
+  and both pseudo-groups are derived automatically from `releaseDate` in
   kit's `site/page.dc.html`.
 - Only give an entry a future `releaseDate` once the release is **firmly
   confirmed**, roughly **6-8 months out**. Not for speculative or
@@ -14,8 +14,8 @@
 - The `Recently Released` window is a fixed **12 months**
   (`RECENT_MONTHS` in `page.dc.html`) — not a curation call. Just give a
   released entry its real release date.
-- Both pseudo-series render at the very top of the page, ahead of the
-  numbered series list, in every sort mode.
+- Both pseudo-groups render at the very top of the page, ahead of the
+  numbered group list, in every sort mode.
 - No per-row "Recent" badge exists or is planned — only `Upcoming` gets
   one.
 - The `Upcoming` section carries a fixed note that some entries may
@@ -25,7 +25,7 @@
 - This is guidance, not a hard rule — use judgment where a repo's own
   list shape or content makes a different call reasonable.
 - Don't confuse this with a `titleDate`/`subtitleDate`'s own `ongoing`
-  flag (`DateValue`, `schemas/series.schema.json`) — that's a series-level
+  flag (`DateValue`, `schemas/group.schema.json`) — that's a group-level
   "expect more entries" marker (e.g. a cross-referenced franchise that's
   still active), rendered as a trailing `+` on the date itself, not a
   per-entry `Upcoming` badge.
@@ -40,9 +40,9 @@ checked?" — not first-time visitors, who don't need either section.
 A new visitor is routed by the intro's own "where to start" jump link,
 which points at a specific entry regardless of page layout. Someone
 who's already been through the list once doesn't need that routing —
-they need "what's new," which is exactly what these two pseudo-series
+they need "what's new," which is exactly what these two pseudo-groups
 answer. The two audiences don't compete for the same real estate: the
-intro handles one, the pseudo-series handle the other.
+intro handles one, the pseudo-groups handle the other.
 
 ### Why the top, not the bottom
 
@@ -51,7 +51,7 @@ theory that unplayable/anticipation-only content shouldn't lead the page
 — doesn't hold up once a list gets long. `final-fantasy` runs pages and
 pages, with `Other` alone running past a full page at the very end.
 "Bottom of the page" on a list that size doesn't mean "the end" to a
-reader, it means "past every series *and* past a full page of `Other`" —
+reader, it means "past every group *and* past a full page of `Other`" —
 which nobody actually scrolls to. A visibility feature that dies past
 the fold on the site's biggest list isn't doing its job. Top is the only
 placement that survives list growth, and per [Who this is

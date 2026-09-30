@@ -48,6 +48,14 @@
       "type": "string",
       "description": "This repo's GitHub Discussions URL. Read directly by kit's common-faq.js (\"help-improve\"/\"fan-art\" answers), not just by page.dc.html."
     },
+    "groupLabel": {
+      "type": "string",
+      "description": "Display word for a group heading/nav text (e.g. the 'GROUP I' eyebrow, 'Jump to group…'). Purely cosmetic -- doesn't affect schema/filename/property naming, which is always `group`. Defaults to \"Group\" when omitted."
+    },
+    "groupLabelPlural": {
+      "type": "string",
+      "description": "Plural form of `groupLabel`, for text like \"N groups\". Defaults to `groupLabel + \"s\"` when omitted -- set explicitly when that doesn't work (e.g. a repo using \"Series\", whose plural is also \"Series\")."
+    },
     "disclosures": {
       "type": "array",
       "items": { "$ref": "common.schema.json#/$defs/Paragraph" },

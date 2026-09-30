@@ -17,8 +17,8 @@ A data file declares its own schema with a comment anywhere before the
 assignment it covers:
 
 ```js
-// schema: series.schema.json
-window.__ffSeriesReg['III'] = { ... };
+// schema: group.schema.json
+window.__ffGroupReg['III'] = { ... };
 ```
 
 `scripts/validate-data.py` scans every `site/data/*.js` for `// schema:
@@ -41,8 +41,8 @@ schema in this directory.
 
 | Schema | Typical data file(s) |
 | --- | --- |
-| `series.schema.json` | `site/data/series-<code>.js` |
-| `index.schema.json` | `site/data/index.js` (`SERIES_ORDER`; the rest of the file is fixed loader boilerplate, no directive there) |
+| `group.schema.json` | `site/data/group-<code>.js` |
+| `index.schema.json` | `site/data/index.js` (`GROUP_ORDER`; the rest of the file is fixed loader boilerplate, no directive there) |
 | `site-config.schema.json` | `site/data/site.js` |
 | `credits.schema.json` | `site/data/credits.js` |
 | `faq.schema.json` | `site/data/faq.js` and kit's `site/data/common-faq.js` (identical shape) |
@@ -51,8 +51,8 @@ schema in this directory.
 | `platform-icons.schema.json` | `vertex-order/platforms`' `site/data/platform-icons.js` |
 | `common.schema.json` | -- no data file declares this one directly; shared `$defs` (`ConfigPart`, `Paragraph`) the schemas above `$ref` into |
 
-`series.schema.json` is the one most worth reading end to end -- it holds
-the `SeriesEntry` `$def`, which is recursive (`extras[]`, `alt`, `alts[]`
+`group.schema.json` is the one most worth reading end to end -- it holds
+the `GroupEntry` `$def`, which is recursive (`extras[]`, `alt`, `alts[]`
 are all the same shape as a top-level `games[]` entry) and covers the
 `rating`/`platformGroups`/`languages`/`description` sub-shapes as nested
 `$defs` in the same file.

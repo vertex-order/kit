@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "series.schema.json",
-  "description": "The value one site/data/series-<code>.js file assigns to window.__<prefix>SeriesReg['<num>'] (prefix is per-repo, e.g. __ffSeriesReg -- out of scope for a schema, which only covers the assigned object literal). `num` should match an entry in this repo's own index.js SERIES_ORDER (schema: index.schema.json) -- a cross-file constraint this single-file schema can't enforce itself.",
+  "$id": "group.schema.json",
+  "description": "The value one site/data/group-<code>.js file assigns to window.__<prefix>GroupReg['<num>'] (prefix is per-repo, e.g. __ffGroupReg -- out of scope for a schema, which only covers the assigned object literal). `num` should match an entry in this repo's own index.js GROUP_ORDER (schema: index.schema.json) -- a cross-file constraint this single-file schema can't enforce itself.",
   "type": "object",
   "properties": {
     "num": {
@@ -12,7 +12,7 @@
     "title": { "type": "string" },
     "url": {
       "type": ["string", "null"],
-      "description": "Series-level wiki link. Omit or null for an unlinked heading."
+      "description": "Group-level wiki link. Omit or null for an unlinked heading."
     },
     "note": {
       "allOf": [{ "$ref": "#/$defs/Prose" }],
@@ -20,17 +20,17 @@
     },
     "chronoOrder": {
       "type": "number",
-      "description": "Series sort key for Chronological mode. Defaults to 0 when omitted."
+      "description": "Group sort key for Chronological mode. Defaults to 0 when omitted."
     },
     "recommendedOrder": {
       "type": "number",
-      "description": "Series sort key for Narrative mode (the default). Defaults to 0 when omitted."
+      "description": "Group sort key for Narrative mode (the default). Defaults to 0 when omitted."
     },
     "media": {
       "type": "array",
       "items": { "$ref": "#/$defs/MediaSlot" },
       "minItems": 1,
-      "description": "One entry per checkbox-row slot. Renamed from `games` -- this series' items are routinely Books/Comics/Movies/etc, not just Games (see MediaType)."
+      "description": "One entry per checkbox-row slot. Renamed from `games` -- this group's items are routinely Books/Comics/Movies/etc, not just Games (see MediaType)."
     }
   },
   "required": ["num", "title", "media"],
@@ -118,7 +118,7 @@
       ]
     },
     "Prose": {
-      "description": "Shared shape for a release/version's `description` and the series-level `note`: a bare string (one plain paragraph), or an array where each item is a plain string (one paragraph) or a nested TextSpan[] run (one paragraph built from styled parts).",
+      "description": "Shared shape for a release/version's `description` and the group-level `note`: a bare string (one plain paragraph), or an array where each item is a plain string (one paragraph) or a nested TextSpan[] run (one paragraph built from styled parts).",
       "oneOf": [
         { "type": "string" },
         {
@@ -320,11 +320,11 @@
         "mediaType": { "$ref": "#/$defs/MediaType" },
         "chronoOrder": {
           "type": "number",
-          "description": "Sort key for Chronological mode (mode B), read as `slot.chronoOrder ?? 0`. Distinct from the series-level chronoOrder on the enclosing series file."
+          "description": "Sort key for Chronological mode (mode B), read as `slot.chronoOrder ?? 0`. Distinct from the group-level chronoOrder on the enclosing group file."
         },
         "recommendedOrder": {
           "type": "number",
-          "description": "Sort key for Narrative mode (the default), read as `slot.recommendedOrder ?? 0`. Distinct from the series-level recommendedOrder on the enclosing series file."
+          "description": "Sort key for Narrative mode (the default), read as `slot.recommendedOrder ?? 0`. Distinct from the group-level recommendedOrder on the enclosing group file."
         },
         "title": { "type": "string" },
         "titleUrl": { "type": ["string", "null"] },
@@ -394,7 +394,7 @@
         "tags": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Free-text byline words (joined with ' · ' unless bylineParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-series' earliest-date computation. Everything else is display text only -- do not enum-restrict."
+          "description": "Free-text byline words (joined with ' · ' unless bylineParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
         },
         "bylineParts": {
           "type": "array",
@@ -479,7 +479,7 @@
         "tags": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Free-text byline words (joined with ' · ' unless bylineParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-series' earliest-date computation. Everything else is display text only -- do not enum-restrict."
+          "description": "Free-text byline words (joined with ' · ' unless bylineParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
         },
         "bylineParts": {
           "type": "array",

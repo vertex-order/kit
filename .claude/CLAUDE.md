@@ -55,7 +55,7 @@ the build substrate back from here and owns `ZoomedPlatformIcon.dc.html`
 kit's fixture data (`site/data/`) for the component-gallery preview. It's
 also the generic, data-driven entry-page template every list repo pulls
 verbatim (it's in `sync.toml`'s `[publish].paths`); a list repo supplies its
-own `site/data/index.js` + `series-*.js` and gets rendering for free.
+own `site/data/index.js` + `group-*.js` and gets rendering for free.
 `bundle-components.py` detects the entry page (any `*.dc.html` referencing
 `components.js`), so it needs no per-repo config.
 
