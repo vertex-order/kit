@@ -25,8 +25,25 @@
 - Path mirrors the entry's own anchor id: `entry-<SERIES>-<slug>-<year>` →
   drop the `entry-` prefix and the `<SERIES>-` segment, what's left is the
   filename (`sources/<slug>-<year>.md`).
+- That mirroring happens once, at the entry's first citation — it is not
+  re-derived every time `site/data/`'s own anchor changes. A later edition
+  whose name gets promoted to the slot's own `title` (a rename, not a
+  collision — e.g. a terminated original later superseded by a remake that
+  took over as the common name, where the remake's name becomes the slot's
+  `title` and the original demotes to a dated `versions[]` entry) does
+  **not** get the sources file renamed to follow it. A franchise with any
+  history of edition renames (a "Final Mix"-style edit, a "Re:"-prefixed
+  remake, ...) will keep hitting this: the site's own in-page anchor is
+  free to churn — nothing external points at it — but a sources/ filename
+  is meant to be citable from outside the repo (a GitHub discussion, a
+  forum post), and renaming it to chase a later rebrand breaks exactly the
+  citations this scheme exists to protect. The file keeps citing every
+  edition either way (see "All editions/sub-parts" above) — only its own
+  name is pinned.
 - Id is overridable in `site/data/`. Override wins — rename the sources
-  file to match it, don't re-derive from key/year.
+  file to match it, don't re-derive from key/year. This is the *only*
+  thing that moves the file post-creation: a deliberate, explicit
+  collision fix, never a rebrand (the bullet above).
 
 ### Franchise-wide files
 
