@@ -158,15 +158,15 @@
       <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: 0 var(--space-3) var(--space-3) calc(25px + var(--space-3) * 2); margin-top: 4px; border-radius: 0 var(--radius-md) var(--radius-md) 0; position: relative;" style-hover="background: var(--color-neutral-800);">
         <span style="position: absolute; left: 24.5px; top: 6px; color: color-mix(in oklch, var(--color-neutral-500), color-mix(in oklch, var(--color-accent-900) 61%, transparent)); font-size: 9.75px; line-height: 1;">➤</span>
         <div style="flex: 1;" id="{{ ver.anchorId }}">
-          <div style="display: flex; align-items: center; gap: var(--space-2);">
+          <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2);">
             <sc-if value="{{ ver.url }}" hint-placeholder-val="{{ false }}">
-              <a href="{{ ver.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}">{{ ver.label }}</a>
+              <a href="{{ ver.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ ver.label }}</a>
             </sc-if>
-            <dc-import name="EntryTitleLinks" parts="{{ ver.parts }}" on-mouse-enter="{{ ver.onAnchorHoverEnter }}" on-mouse-leave="{{ ver.onAnchorHoverLeave }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" show-pilcrow="{{ ver.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+            <dc-import name="EntryTitleLinks" parts="{{ ver.parts }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" show-pilcrow="{{ ver.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
           </div>
           <sc-if value="{{ ver.byline }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
-              <dc-import name="EntryByline" byline="{{ ver.byline }}" on-mouse-enter="{{ ver.onAnchorHoverEnter }}" on-mouse-leave="{{ ver.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+            <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
+              <dc-import name="EntryByline" byline="{{ ver.byline }}" hint-size="auto,16px" style="display: block;"></dc-import>
             </div>
           </sc-if>
           <sc-if value="{{ ver.helpWanted }}" hint-placeholder-val="{{ false }}">
@@ -230,16 +230,22 @@
   <sc-for list="{{ g.alts }}" as="rel" hint-placeholder-count="0">
   <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) calc(20px + var(--space-3) * 2); margin-top: var(--space-2); border-radius: 0 var(--radius-md) var(--radius-md) 0;" style-hover="background: var(--color-neutral-800);">
     <div style="flex: 1;" id="{{ rel.anchorId }}">
-      <span style="font-size: 12px;">or </span>
-      <sc-if value="{{ rel.url }}" hint-placeholder-val="{{ false }}">
-        <a href="{{ rel.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">{{ rel.label }}</a>
-      </sc-if>
-      <dc-import name="EntryTitleLinks" parts="{{ rel.parts }}" on-mouse-enter="{{ rel.onAnchorHoverEnter }}" on-mouse-leave="{{ rel.onAnchorHoverLeave }}" pilcrow-href="{{ rel.anchorHref }}" on-pilcrow-click="{{ rel.onAnchorClick }}" pilcrow-opacity="{{ rel.pilcrowOpacity }}" show-pilcrow="{{ rel.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+      <div onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">
+        <span style="font-size: 12px;">or </span>
+        <sc-if value="{{ rel.url }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ rel.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ rel.label }}</a>
+        </sc-if>
+        <dc-import name="EntryTitleLinks" parts="{{ rel.parts }}" pilcrow-href="{{ rel.anchorHref }}" on-pilcrow-click="{{ rel.onAnchorClick }}" pilcrow-opacity="{{ rel.pilcrowOpacity }}" show-pilcrow="{{ rel.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+      </div>
       <sc-if value="{{ rel.byline }}" hint-placeholder-val="{{ false }}">
-        <dc-import name="EntryByline" byline="{{ rel.byline }}" on-mouse-enter="{{ rel.onAnchorHoverEnter }}" on-mouse-leave="{{ rel.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+        <div onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">
+          <dc-import name="EntryByline" byline="{{ rel.byline }}" hint-size="auto,16px" style="display: block;"></dc-import>
+        </div>
       </sc-if>
       <sc-if value="{{ rel.bylineParts }}" hint-placeholder-val="{{ false }}">
-        <dc-import name="EntryByline" byline-parts="{{ rel.bylineParts }}" on-mouse-enter="{{ rel.onAnchorHoverEnter }}" on-mouse-leave="{{ rel.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+        <div onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">
+          <dc-import name="EntryByline" byline-parts="{{ rel.bylineParts }}" hint-size="auto,16px" style="display: block;"></dc-import>
+        </div>
       </sc-if>
       <sc-if value="{{ rel.helpWanted }}" hint-placeholder-val="{{ false }}">
         <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
@@ -327,15 +333,15 @@
       <div style="display: flex; align-items: flex-start; gap: var(--space-3); padding: 0 var(--space-3) var(--space-3) calc(25px + var(--space-3) * 2); margin-top: 4px; border-radius: 0 var(--radius-md) var(--radius-md) 0; position: relative;" style-hover="background: var(--color-neutral-800);">
         <span style="position: absolute; left: 24.5px; top: 6px; color: color-mix(in oklch, var(--color-neutral-500), color-mix(in oklch, var(--color-accent-900) 61%, transparent)); font-size: 9.75px; line-height: 1;">➤</span>
         <div style="flex: 1;" id="{{ ver.anchorId }}">
-          <div style="display: flex; align-items: center; gap: var(--space-2);">
+          <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2);">
             <sc-if value="{{ ver.url }}" hint-placeholder-val="{{ false }}">
-              <a href="{{ ver.url }}" target="_blank" rel="noopener" style="font-size: 13px;" onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}">{{ ver.label }}</a>
+              <a href="{{ ver.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ ver.label }}</a>
             </sc-if>
-            <dc-import name="EntryTitleLinks" parts="{{ ver.parts }}" on-mouse-enter="{{ ver.onAnchorHoverEnter }}" on-mouse-leave="{{ ver.onAnchorHoverLeave }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" show-pilcrow="{{ ver.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
+            <dc-import name="EntryTitleLinks" parts="{{ ver.parts }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" show-pilcrow="{{ ver.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
           </div>
           <sc-if value="{{ ver.byline }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
-              <dc-import name="EntryByline" byline="{{ ver.byline }}" on-mouse-enter="{{ ver.onAnchorHoverEnter }}" on-mouse-leave="{{ ver.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+            <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
+              <dc-import name="EntryByline" byline="{{ ver.byline }}" hint-size="auto,16px" style="display: block;"></dc-import>
             </div>
           </sc-if>
           <sc-if value="{{ ver.helpWanted }}" hint-placeholder-val="{{ false }}">
