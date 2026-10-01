@@ -659,10 +659,8 @@ class Component extends DCLogic {
     const base = master.get(src.key);
     if (!base) return src;
     const merged = { ...base, ...src };
-    if (src.name === undefined) {
-      const baseName = base.name.replace(/\s*\([^()]*\)\s*$/, '');
-      merged.name = src.paren ? `${baseName} (${src.paren})` : baseName;
-    }
+    const baseName = src.name !== undefined ? src.name : base.name.replace(/\s*\([^()]*\)\s*$/, '');
+    merged.name = src.paren ? `${baseName} (${src.paren})` : baseName;
     if (src.jpTag) merged.name += ' (Japan Only)';
     else if (src.nonJpTag) merged.name += ' (Non-Japan Only)';
     if (src.terminated) merged.name += '; terminated';
