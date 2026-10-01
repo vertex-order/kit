@@ -984,12 +984,19 @@ class Component extends DCLogic {
     };
     // Shared by `description` (release/version) and the group-level `note`
     // -- both are Prose (schema: group.schema.json#/$defs/Prose): a bare
-    // string, or an array of per-paragraph strings/TextSpan[] runs.
+    // string, or an array of per-paragraph strings/TextSpan[] runs. Only
+    // the top-level array creates a new (double-line-break) paragraph --
+    // `p.flat()` lets a paragraph's own TextSpan[] optionally be grouped
+    // into TextSpan[][] "sentences" for editing clarity (e.g. one array
+    // per sentence) without that grouping itself inserting a paragraph
+    // break; it collapses back to one continuous run of parts either way.
+    // A plain TextSpan[] (no nested arrays) is unaffected -- flat() is a
+    // no-op on it.
     const toProseParas = (prose) => {
       if (!prose) return null;
       const arr = Array.isArray(prose) ? prose : [prose];
       return arr.map(p => Array.isArray(p)
-        ? { parts: p.map(seg => typeof seg === 'string' ? { text: seg } : seg) }
+        ? { parts: p.flat().map(seg => typeof seg === 'string' ? { text: seg } : seg) }
         : { text: p });
     };
     // Appends a plain-string paragraph (e.g. the auto-computed completion

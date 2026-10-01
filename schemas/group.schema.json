@@ -118,7 +118,7 @@
       ]
     },
     "Prose": {
-      "description": "Shared shape for a release/version's `description` and the group-level `note`: a bare string (one plain paragraph), or an array where each item is a plain string (one paragraph) or a nested TextSpan[] run (one paragraph built from styled parts).",
+      "description": "Shared shape for a release/version's `description` and the group-level `note`: a bare string (one plain paragraph), or an array where each item is a plain string (one paragraph), a TextSpan[] run (one paragraph built from styled parts), or a TextSpan[][] -- that same one paragraph's parts grouped into 'sentences' for editing clarity (e.g. one inner array per sentence). Only the outer array creates a new, visually distinct (double-line-break) paragraph; the TextSpan[][] grouping is purely organizational and renders as one continuous paragraph, same as a flat TextSpan[] -- promote a group to its own outer-array item instead if it's meant to actually read as a separate paragraph.",
       "oneOf": [
         { "type": "string" },
         {
@@ -128,7 +128,16 @@
               { "type": "string" },
               {
                 "type": "array",
-                "items": { "$ref": "#/$defs/TextSpan" }
+                "items": { "$ref": "#/$defs/TextSpan" },
+                "minItems": 1
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": { "$ref": "#/$defs/TextSpan" }
+                },
+                "minItems": 1
               }
             ]
           }
