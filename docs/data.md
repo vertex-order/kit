@@ -53,6 +53,13 @@ and pull via `just sync`.
   richer, supports `<abbr>`/tooltips), and `BylinePart` (`bylineParts[]` —
   narrower still). Using the wrong one for a given field is a schema
   validation error, not a silent no-op.
+- **A `Prose` paragraph's own `DescPart[]` can be grouped into
+  `DescPart[][]`** ("sentences", one inner array per sentence) purely for
+  editing clarity — it still renders as one continuous paragraph, same as
+  a flat `DescPart[]`. Only the *outer* array (`versionDesc`/`mediaDesc`/
+  group `note` itself) creates an actual new, visually distinct paragraph
+  — promote a group to its own outer-array item instead if it's meant to
+  read as a separate paragraph, don't rely on the inner grouping for that.
 - **Ratings have two unrelated modes**: a `scores[]` array (one or more
   independently-linked scores) or a single text/`<abbr>` badge
   (`textOnly`/`kind`). A `rating` object that's neither renders nothing.
