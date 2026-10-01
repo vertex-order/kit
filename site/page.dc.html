@@ -1201,7 +1201,7 @@ class Component extends DCLogic {
               const verAnchor = anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };
               return {
-                ...mapVersionCommon(ver, titleSrc),
+                ...mapVersionCommon(ver, resolveTitleSource(ver, titleSrc)),
                 ...this.buildPilcrow(verAnchor),
               };
             }),
