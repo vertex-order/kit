@@ -1,0 +1,23 @@
+# Owned by vertex-order/kit — edit here. Vendored elsewhere via sync.toml;
+# don't edit the copy there.
+#
+# Fail a PR (or a push to main that bypassed the pre-commit guard) whose
+# site/data/*.js contains a '#entry-...' link that doesn't resolve to an
+# anchor site/page.dc.html actually renders.
+name: Check anchors
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  anchors:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check for dangling '#entry-...' anchor references
+        run: python3 scripts/check-anchors.py
