@@ -53,13 +53,21 @@ and pull via `just sync`.
   richer, supports `<abbr>`/tooltips), and `BylinePart` (`bylineParts[]` —
   narrower still). Using the wrong one for a given field is a schema
   validation error, not a silent no-op.
-- **A `Prose` paragraph's own `DescPart[]` can be grouped into
-  `DescPart[][]`** ("sentences", one inner array per sentence) purely for
-  editing clarity — it still renders as one continuous paragraph, same as
-  a flat `DescPart[]`. Only the *outer* array (`versionDesc`/`mediaDesc`/
-  group `note` itself) creates an actual new, visually distinct paragraph
-  — promote a group to its own outer-array item instead if it's meant to
-  read as a separate paragraph, don't rely on the inner grouping for that.
+- **A `Prose` paragraph's own array can mix two kinds of item**: a bare
+  `DescPart` object (`{ text: '...' }`/`{ emLinkText: '...', ... }`,
+  today's flat run — concatenated exactly as written, never auto-spaced)
+  and a "sentence" (a bare string, or a nested `DescPart[]`) — splitting a
+  paragraph into sentences purely for editing clarity. Consecutive
+  sentences get a convenience space auto-inserted at their seam when
+  neither side already has one there (`'Hi.'` next to `'Ho.'` joins as
+  `'Hi. Ho.'`, same as `'Hi. '` next to `'Ho.'` or `'Hi.'` next to
+  `' Ho.'` — never a double space); plain `DescPart` objects are never
+  touched by this, so e.g. a link immediately followed by its own trailing
+  period stays glued with no inserted space, exactly as authored. Only the
+  *outer* array (`versionDesc`/`mediaDesc`/group `note` itself) creates an
+  actual new, visually distinct paragraph — promote a sentence to its own
+  outer-array item instead if it's meant to read as a separate paragraph,
+  don't rely on the inner grouping for that.
 - **Ratings have two unrelated modes**: a `scores[]` array (one or more
   independently-linked scores) or a single text/`<abbr>` badge
   (`textOnly`/`kind`). A `rating` object that's neither renders nothing.

@@ -76,49 +76,48 @@
         }
       ]
     },
+    "TextSpanObject": {
+      "description": "The object form of TextSpan (see that $def) -- split out as its own $def so Prose's per-paragraph-item oneOf can require specifically an *object* in one branch (vs TextSpan's own string-or-object oneOf, which would collide with that same branch set's own bare-string option and make a plain-string item ambiguous between branches).",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "emText": { "type": "string" },
+        "emLinkText": { "type": "string" },
+        "emLinkUrl": { "type": "string" },
+        "abbrTerm": { "type": "string" },
+        "abbrDef": { "type": "string" },
+        "tipText": { "type": "string" },
+        "hintText": { "type": "string" },
+        "tip": {
+          "type": "string",
+          "description": "Tooltip text. Required alongside tipText/hintText; optional alongside text/emText (e.g. { emText: ' (EU)', tip: 'Europe', helpStyle: 'cursor: help;' })."
+        },
+        "jpTag": {
+          "const": true,
+          "description": "Appends ' (JP)'. Unrelated to a PlatformItem's own jpTag field."
+        },
+        "helpStyle": {
+          "type": "string",
+          "description": "Extra inline CSS on the wrapping span, e.g. 'cursor: help;'."
+        }
+      },
+      "dependentRequired": {
+        "emLinkText": ["emLinkUrl"],
+        "emLinkUrl": ["emLinkText"],
+        "abbrTerm": ["abbrDef"],
+        "abbrDef": ["abbrTerm"],
+        "tipText": ["tip"],
+        "hintText": ["tip"]
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
     "TextSpan": {
       "description": "One inline styled run of text (rendered by TextSpan.dc.html as a single <span>: plain/em/abbr/tooltip/linked-em/JP-tag). Used inside a Prose paragraph (description/note). A bare string auto-wraps to {text}.",
-      "oneOf": [
-        { "type": "string" },
-        {
-          "type": "object",
-          "properties": {
-            "text": { "type": "string" },
-            "emText": { "type": "string" },
-            "emLinkText": { "type": "string" },
-            "emLinkUrl": { "type": "string" },
-            "abbrTerm": { "type": "string" },
-            "abbrDef": { "type": "string" },
-            "tipText": { "type": "string" },
-            "hintText": { "type": "string" },
-            "tip": {
-              "type": "string",
-              "description": "Tooltip text. Required alongside tipText/hintText; optional alongside text/emText (e.g. { emText: ' (EU)', tip: 'Europe', helpStyle: 'cursor: help;' })."
-            },
-            "jpTag": {
-              "const": true,
-              "description": "Appends ' (JP)'. Unrelated to a PlatformItem's own jpTag field."
-            },
-            "helpStyle": {
-              "type": "string",
-              "description": "Extra inline CSS on the wrapping span, e.g. 'cursor: help;'."
-            }
-          },
-          "dependentRequired": {
-            "emLinkText": ["emLinkUrl"],
-            "emLinkUrl": ["emLinkText"],
-            "abbrTerm": ["abbrDef"],
-            "abbrDef": ["abbrTerm"],
-            "tipText": ["tip"],
-            "hintText": ["tip"]
-          },
-          "minProperties": 1,
-          "additionalProperties": false
-        }
-      ]
+      "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/TextSpanObject" }]
     },
     "Prose": {
-      "description": "Shared shape for a release/version's `description` and the group-level `note`: a bare string (one plain paragraph), or an array where each item is a plain string (one paragraph), a TextSpan[] run (one paragraph built from styled parts), or a TextSpan[][] -- that same one paragraph's parts grouped into 'sentences' for editing clarity (e.g. one inner array per sentence). Only the outer array creates a new, visually distinct (double-line-break) paragraph; the TextSpan[][] grouping is purely organizational and renders as one continuous paragraph, same as a flat TextSpan[] -- promote a group to its own outer-array item instead if it's meant to actually read as a separate paragraph.",
+      "description": "Shared shape for a release/version's `description` and the group-level `note`: a bare string (one plain paragraph), or an array of paragraphs. Only that outer array creates a new, visually distinct (double-line-break) paragraph. Each paragraph is itself a plain string, or an array whose items mix freely: a bare TextSpanObject (today's flat run, e.g. { text: '...' }/{ emLinkText: '...' }, concatenated inline exactly as written, no spacing inserted), or a nested TextSpan[] 'sentence' -- a paragraph's own content grouped into sentences purely for editing clarity (e.g. one inner array per sentence, each itself a bare string or TextSpan[]). Consecutive *sentences* (not consecutive TextSpanObjects -- those are never touched) get a convenience space auto-inserted at their seam when neither side already has one there, so 'Hi.' next to 'Ho.' joins as 'Hi. Ho.', same as 'Hi. ' next to 'Ho.' or 'Hi.' next to ' Ho.' -- never a double space. The sentence grouping never creates a paragraph break on its own; promote a sentence to its own top-level item in the outer array instead if it's meant to actually read as a separate paragraph.",
       "oneOf": [
         { "type": "string" },
         {
@@ -126,17 +125,10 @@
           "items": {
             "oneOf": [
               { "type": "string" },
+              { "$ref": "#/$defs/TextSpanObject" },
               {
                 "type": "array",
                 "items": { "$ref": "#/$defs/TextSpan" },
-                "minItems": 1
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "array",
-                  "items": { "$ref": "#/$defs/TextSpan" }
-                },
                 "minItems": 1
               }
             ]
