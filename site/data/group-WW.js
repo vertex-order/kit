@@ -38,6 +38,8 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
         { key: 'xbox-one', paren: 'Physical; Digital', url: 'https://example.com/store/wyrmwatch/xbox' },
         { key: 'nintendo-switch', paren: 'Digital', url: 'https://example.com/store/wyrmwatch/switch' },
         { key: 'nintendo-switch-2', paren: 'Digital', url: 'https://example.com/store/wyrmwatch/switch2' },
+        // search: no searchTitle/searchQualifier/searchSuffix override at all -- defaults to this row's own title ('Wyrmwatch') + the fan-movie catalog suffix ('game movie').
+        { key: 'fan-movie', search: 'youtube' },
       ],
       platformsUrl: 'https://example.com/store/wyrmwatch',
       versions: [
@@ -50,6 +52,8 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
           languages: [{ value: 'EN', textOnly: true }],
           platforms: [
             { key: 'mobile-phone', paren: 'iOS; Android; Digital', terminated: true, jpTag: true },
+            // search: no searchTitle given either -- defaults to the inherited 'Wyrmwatch' title (same chain as the title display above), narrowed with searchQualifier rather than retyping 'Wyrmwatch mobile' by hand.
+            { key: 'fan-playthrough', search: 'youtube', searchQualifier: 'mobile' },
           ],
         },
         {
