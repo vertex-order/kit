@@ -672,14 +672,19 @@ class Component extends DCLogic {
     }
     return merged;
   }
-  // Row-level default search title for a `search`-computed platform url: a release/version's own `title`, or
-  // (for an extra/alt with no own `title`, inherited or not) the first
-  // non-`small` `parts` label.
-  rowSearchTitle(row) {
+  // Row-level default search title for a `search`-computed platform url: a
+  // release/version's own `title`; else, when it was hand-given `parts`
+  // directly instead of a title (no bare title, only parts), the first
+  // non-`small` label from those; else `titleSrc` -- the already-resolved
+  // title source (see resolveTitleSource) for this same node, which is the
+  // inherited title a version/alt with neither falls back to for *display*
+  // too, so the search default tracks what's actually shown.
+  rowSearchTitle(row, titleSrc) {
     if (!row) return '';
     if (row.title) return row.title;
     const p = (row.parts || []).find(p => !p.small);
-    return (p && p.label) || '';
+    if (p && p.label) return p.label;
+    return (titleSrc && titleSrc.title) || '';
   }
   // Resolves a `ratings[]` array's each item's `key` against fixed label
   // catalogs, so entries state which kind of score this is instead of
@@ -1157,12 +1162,12 @@ class Component extends DCLogic {
     // deduped, catalog-ordered "in other versions" strip (skips the fan-*
     // video-search icons, which are never worth repeating in the muted
     // strip; a version can still show its own copy in its own row).
-    const extraPlatformsFor = (release) => {
+    const extraPlatformsFor = (release, titleSrc) => {
       if (!release.versions) return null;
       const out = [];
       const seen = new Set();
       release.versions.forEach(ver => (ver.platforms || []).forEach(pl => {
-        const rpl = this.resolvePl(pl, this.rowSearchTitle(ver));
+        const rpl = this.resolvePl(pl, this.rowSearchTitle(ver, resolveTitleSource(ver, titleSrc)));
         if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
         const kk = pl.key || rpl.name || rpl.text || rpl.iconImg;
         if (seen.has(kk)) return;
@@ -1182,7 +1187,7 @@ class Component extends DCLogic {
       byline: node.bylineParts ? undefined : (node.tags && node.tags.length ? node.tags.join(' · ') : undefined),
       ratings: this.resolveRatings(node.ratings),
       platforms: node.platforms && this.sortPls(node.platforms.map(pl => {
-        const r = this.resolvePl(pl, this.rowSearchTitle(node));
+        const r = this.resolvePl(pl, this.rowSearchTitle(node, titleSrc));
         return { ...r, href: r.url || node.platformsUrl, noPlUrl: !pl.url && !pl.search };
       })),
       descParas: toProseParas(node.versionDesc),
@@ -1221,7 +1226,7 @@ class Component extends DCLogic {
             titleJumpClick: null,
             ...this.buildPilcrow(anchorId),
             langsTopStyle: release.versions ? 'border-top: 1px dashed var(--color-neutral-700); padding-top: 6px;' : '',
-            extraPlatforms: extraPlatformsFor(release),
+            extraPlatforms: extraPlatformsFor(release, titleSrc),
             extraExpanded: !!this.state.expandedVersions[anchorId],
             extraChevron: this.state.expandedVersions[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
             toggleExtra: () => this.toggleVersions(anchorId),
