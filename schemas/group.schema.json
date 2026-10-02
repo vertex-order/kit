@@ -270,18 +270,21 @@
         "suffixSmallCaps": { "type": "boolean" },
         "search": {
           "enum": ["youtube", "duckduckgo"],
-          "description": "Computes `url` as a search instead of stating the encoded URL by hand. Requires `term`."
+          "description": "Computes `url` as a search instead of stating the encoded URL by hand, composed as `(searchTitle ?? the resolved/inherited title) + ' ' + searchQualifier + ' ' + searchSuffix`."
         },
-        "term": {
+        "searchTitle": {
           "type": "string",
-          "description": "The search query text (near-required alongside `search` -- default results are poor with none)."
+          "description": "Full override of the title portion of the search query. Omit to default to this row's own title, or (a version/alts[] item with neither) the inherited title it already displays under -- most entries need no override at all. A full custom query string: set this to the whole text and blank `searchQualifier`/`searchSuffix` (`''`) rather than adding a 4th override field -- or skip `search` entirely and hand-type `url` if even the engine-pick/encoding isn't wanted."
+        },
+        "searchQualifier": {
+          "type": "string",
+          "description": "Short disambiguator appended after the title (own or inherited), before `searchSuffix` -- e.g. a platform/format word ('gba', '3ds') narrowing a search that would otherwise collide with another entry sharing the same title. For when the title itself is fine and only needs narrowing -- a full reword still belongs in `searchTitle`, not here."
         },
         "searchSuffix": {
           "type": "string",
-          "description": "Overrides the per-key default suffix word(s) appended after `term` (platform-icons.js's own `searchSuffix`, e.g. fan-movie -> 'game movie'). '' suppresses it entirely."
+          "description": "Overrides the per-key default suffix word(s) appended last (platform-icons.js's own `searchSuffix`, e.g. fan-movie -> 'game movie'). '' suppresses it entirely."
         }
       },
-      "dependentRequired": { "term": ["search"], "search": ["term"] },
       "additionalProperties": false
     },
     "RatingItem": {

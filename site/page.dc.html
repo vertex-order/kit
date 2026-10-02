@@ -616,8 +616,8 @@ class Component extends DCLogic {
     Audio: { fg: 'oklch(40% 0.12 110)', bg: 'oklch(40% 0.12 110 / 0.08)' },
     App: { fg: 'oklch(38% 0.12 250)', bg: 'oklch(38% 0.12 250 / 0.08)' },
   };
-  searchUrl(engine, title, suffix) {
-    const q = suffix ? title + ' ' + suffix : title;
+  searchUrl(engine, title, qualifier, suffix) {
+    const q = [title, qualifier, suffix].filter(Boolean).join(' ');
     if (engine === 'duckduckgo') return 'https://duckduckgo.com/?q=' + encodeURIComponent(q);
     return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
   }
@@ -642,15 +642,21 @@ class Component extends DCLogic {
   // composed OR a full `name` override either way.
   //
   // `search: 'youtube' | 'duckduckgo'` on an entry computes `url` as a
-  // search instead of stating the encoded URL by hand. Title defaults to
-  // `rowTitle` (the enclosing release/version's own title); override
-  // per-entry with `term` when the search deliberately deviates (a
-  // different title gets better results) or there's no natural rowTitle (a
-  // version with no bare title, only `parts`). Suffix defaults from the
-  // catalog's own `searchSuffix`; override with the entry's own
-  // `searchSuffix` (`''` for no suffix at all). `paren` defaults to the
-  // engine's display name unless the entry gives its own `paren` or a full
-  // `name` override.
+  // search instead of stating the encoded URL by hand, from 3 independent
+  // pieces: title + qualifier + suffix. Title defaults to `rowTitle` (the
+  // enclosing release/version's own title, see rowSearchTitle); override
+  // per-entry with `searchTitle` only when the search deliberately deviates
+  // (a different title gets better results) or there's no natural rowTitle
+  // (a version with no bare title, only `parts`). Qualifier is blank by
+  // default; set `searchQualifier` for a short disambiguator appended after
+  // the title ('gba', '3ds', ...) without having to retype/override the
+  // whole title. Suffix defaults from the catalog's own `searchSuffix`;
+  // override with the entry's own `searchSuffix` (`''` for no suffix at
+  // all). A fully custom query some other way doesn't need a 4th field:
+  // put the whole text in `searchTitle` and blank the other two, or skip
+  // `search` entirely and hand-type `url`. `paren` defaults to the engine's
+  // display name unless the entry gives its own `paren` or a full `name`
+  // override.
   resolvePl(pl, rowTitle) {
     if (!pl || !pl.key) return pl;
     let src = pl;
@@ -667,8 +673,8 @@ class Component extends DCLogic {
     else if (src.noResults) merged.name += '; no results yet';
     if (src.search) {
       const suffix = src.searchSuffix !== undefined ? src.searchSuffix : (base.searchSuffix || '');
-      const title = src.term !== undefined ? src.term : (rowTitle || '');
-      merged.url = this.searchUrl(src.search, title, suffix);
+      const title = src.searchTitle !== undefined ? src.searchTitle : (rowTitle || '');
+      merged.url = this.searchUrl(src.search, title, src.searchQualifier || '', suffix);
     }
     return merged;
   }
