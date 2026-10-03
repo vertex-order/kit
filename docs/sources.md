@@ -222,7 +222,7 @@ Default to reach for, not a hard rule — override and say why in
   a store page only proves *its own* platform's existence (different job)
 - **versions** — fan wiki > Wikipedia > platform store page > publisher/dev site
 - **game ratings** — Metacritic (critic, then user)
-- **video/film ratings** — IMDB > Metacritic
+- **video/film ratings** — IMDB > Metacritic > TMDB
 - **book ratings** — Goodreads
 - **game age rating** — not site-priority: use whichever page(s) show an
   actual ESRB rating (not marketing blurb); disagreement → take the lowest
@@ -276,6 +276,8 @@ defaults to `*`. Default star only where a site is *unconditionally* top
   video/film ratings order (film/TV `mediaType`, not games)
 - **Goodreads** — ratings\*, length (page count), dates, story — starred:
   only book-ratings source in the order, wins by default for books
+- **TMDB** — ratings\* — starred only when IMDB and Metacritic both lack
+  an entry, last in the video/film ratings order
 
 Add a site here when you notice a pattern — don't pre-populate for sites
 you haven't hit yet.
