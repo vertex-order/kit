@@ -1,5 +1,5 @@
-// Owned by vertex-order/kit — edit here. Vendored elsewhere via sync.toml;
-// don't edit the copy there.
+// Source of truth: vertex-order/kit's site/data/catalogs.js. Vendored into
+// downstream repos via sync.toml -- edit the kit copy, never a vendored one.
 //
 // Fixed lookup tables `page.dc.html`'s resolveRating/resolvePl/mapLangs
 // merge an entry's own fields against, so an entry states a `kind`/language
@@ -62,6 +62,7 @@ window.RATING_KINDS = {
   metacritic: { label: 'Metacritic' },
   'metacritic-user': { label: 'Metacritic User Score' },
   imdb: { label: 'IMDb' },
+  'tmdb-user': { label: 'TMDB User Score' },
   goodreads: { label: 'Goodreads' },
   nyr: { abbrTerm: 'NYR', abbrDef: 'Not Yet Rated', textOnly: true },
   tbd: { abbrTerm: 'TBD', abbrDef: 'To Be Determined', textOnly: true },
