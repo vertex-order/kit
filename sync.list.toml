@@ -89,6 +89,7 @@ paths = [
   ".vscode/extensions.json",
   ".claude/settings.json",
   "CODE_OF_CONDUCT.md",
+  "AGENTS.md",
   ".githooks/pre-commit",
   ".github/workflows/check-generated.yml",
   ".github/workflows/check-vendored.yml",
