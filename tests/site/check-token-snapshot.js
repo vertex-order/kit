@@ -3,7 +3,7 @@
 // isn't in sync.toml [publish] — see docs/testing.md).
 //
 // Regression guard for the class of bug where a design-token edit changes
-// what was meant to be a no-op default: CLAUDE.md calls out that
+// what was meant to be a no-op default: AGENTS.md calls out that
 // site/_ds/nocturne-*/styles.css's `:root { ... }` block is the one part
 // of that generated file kit hand-edits ("design token *values*"). This
 // snapshots exactly that block — nothing else in the file, which is
@@ -42,7 +42,7 @@ function findStylesCssFiles() {
 // Extracts the `--name: value;` declarations from the first top-level
 // `:root { ... }` block only — the rest of styles.css is Claude Design's
 // generated component-class output, out of scope for this snapshot (see
-// CLAUDE.md's ownership section).
+// AGENTS.md's kit notes).
 function extractRootTokens(css) {
   const noComments = css.replace(/\/\*[\s\S]*?\*\//g, '');
   const rootStart = noComments.indexOf(':root');

@@ -62,7 +62,7 @@ whenever Node is on `PATH` — so it gates `just serve` and every deploy
 
 **`tests/site/check-token-snapshot.js`** — snapshots the `:root { ... }`
 block of `site/_ds/nocturne-*/styles.css` (design token *values* — the one
-part of that generated file kit hand-edits, per `CLAUDE.md`'s ownership
+part of that generated file kit hand-edits, per `AGENTS.md`'s kit notes
 section) to `tests/site/token-snapshot.json`, and fails if any token's
 value changed, was added, or was removed without the baseline being
 updated to match. Update it with:

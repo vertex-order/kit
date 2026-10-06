@@ -100,6 +100,7 @@ paths = [
   ".editorconfig",
   ".gitattributes",
   ".claude/settings.json",
+  ".claude/CLAUDE.md",
   "CODE_OF_CONDUCT.md",
   "AGENTS.md",
   ".githooks/pre-commit",

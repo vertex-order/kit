@@ -58,5 +58,5 @@ Nocturne are vendored Claude Design output — see [NOTICE.md](NOTICE.md).
 Platform icons are pulled from `vertex-order/platforms` and credited in
 [its NOTICE](https://github.com/vertex-order/platforms/blob/main/NOTICE.md).
 
-Notes for AI coding tools: [AGENTS.md](AGENTS.md) and
-[`.claude/CLAUDE.md`](.claude/CLAUDE.md).
+Notes for AI coding tools: [AGENTS.md](AGENTS.md) (`.claude/CLAUDE.md`
+imports it).
