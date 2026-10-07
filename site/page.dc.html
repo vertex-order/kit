@@ -1447,7 +1447,7 @@ class Component extends DCLogic {
       { key: 'showPlatforms', label: 'Platforms', checked: showPlatforms },
       { key: 'showLanguages', label: 'Languages', checked: showLanguages },
     ].map(o => ({ ...o, toggle: () => this.toggleColumn(o.key) }));
-    const mainlineCount = raw.filter(s => (s.media || []).some(m => m.primary.mainline)).length;
+    const mainlineCount = raw.reduce((n, s) => n + (s.media || []).filter(m => m.primary.mainline).length, 0);
     const mediaCounts = {};
     const mediaChecked = {};
     let pageSkippedTotal = 0;
