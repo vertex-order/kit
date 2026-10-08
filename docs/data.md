@@ -39,6 +39,13 @@ for its own franchise. `common-faq.js`/`catalogs.js`/`platform-icons.js`
 are vendored — never hand-edit those copies, edit them at the owning repo
 and pull via `just sync`.
 
+## Editing an entry? Update its sources file
+
+- Entry facts (credits, links, ISBNs, "has results" checks) are backed by
+  `sources/<slug>-<year>.md`; change both together.
+- Format and what to record: docs/sources.md, "Keeping it in step with
+  entry data".
+
 ## A few things worth knowing before opening a schema
 
 - **`group-*.js` entries recurse.** A `games[]` item's shape (title,
