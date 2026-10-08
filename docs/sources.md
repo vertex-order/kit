@@ -8,6 +8,22 @@
   a claim can be checked without re-researching, and survives link rot.
   Companion record, not rendered on the site.
 
+## Keeping it in step with entry data
+
+- Change an entry's data → update its sources file in the same pass.
+- Add or change a `by` credit → add or update an `## Author` line.
+  - Cite the page the credit came from, with the role it states.
+  - Name anyone deliberately left out (illustrator on a book, game
+    writer on an adaptation).
+  - Star `credits` on the existing source line.
+- Add or change an ISBN, edition or language link → update `## Editions
+  (ISBN)`, resolving the four lookup links as you go.
+- Confirm a lookup (e.g. an audiobook search has results) → add the URL
+  with the fact it proves and an `accessed` date.
+- Can't reach or verify a source → say so in the line; don't imply it was
+  checked.
+- Proposed `## Decisions` lines still need a human's go-ahead.
+
 ## File layout
 
 - One file per **entry** (not per edition), flat under `sources/`:
