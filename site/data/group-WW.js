@@ -179,6 +179,37 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
       },
     ],
   },
+  { mediaType: 'Game', chronoOrder: 55, recommendedOrder: 205,
+    // The renamed 2025 release is the primary (it's the name readers search
+    // for), but the game first came out in 2015 -- `releaseOrderDate` makes
+    // the release-order modes sort it with the 2015 entries instead of
+    // among the 2025 ones, and those modes add ", sorted as 2015-11-03" to
+    // the year's tooltip. Heading year and anchor stay on `titleDate`.
+    title: 'Wyrmwatch: Ashfall Reforged', titleUrl: 'https://example.com/wiki/Ashfall_Reforged', titleDate: '2025-04-22', releaseOrderDate: '2015-11-03',
+    mediaDesc: [
+      'A short side story following a lone scout who rides the first wyrm through the Ashfall frontier, told between the events of the original and its sequel.',
+    ],
+    primary: { tags: ['Optional'],
+      length: [{ value: '6h', tip: 'Main Story' }, { value: '9h', tip: 'Main + Extra' }],
+      languages: [
+        { value: 'EN', native: true, textOnly: true },
+      ],
+      subtitle: 'Remaster', subtitleUrl: 'https://example.com/wiki/Ashfall_Reforged#Remaster', subtitleDate: 2025,
+      versionDesc: [
+        'Renamed for its 2025 re-release, with an HD pass and no story changes.',
+      ],
+      profileUrl: 'https://example.com/store/ashfall-reforged',
+      platforms: [
+        { key: 'steam', paren: 'PC', url: 'https://example.com/store/ashfall-reforged/steam' },
+      ],
+      versions: [
+        {
+          title: 'Wyrmwatch: Ashfall', titleUrl: 'https://example.com/wiki/Ashfall_Reforged', titleDate: '2015-11-03',
+          versionDesc: ['The original release, before the rename.'],
+        },
+      ],
+    },
+  },
   { mediaType: 'Game', chronoOrder: 260, recommendedOrder: 350,
     title: 'Wyrmwatch: Ember Reckoning', titleUrl: 'https://example.com/wiki/Ember_Reckoning', titleDate: '2026-02-14',
     mediaDesc: [
