@@ -141,6 +141,17 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
   - Judgment call, revisitable.
   - Less justified in the primary medium; prefer listing there.
 
+## Crediting books and comics (`by`)
+
+- **Books:** credit the author only, as a bare name (`by: 'Name'`).
+  - Reads "by Name"; no `written` role, it's implied.
+  - Skip illustrators; books are mainly words.
+- **Comics/manga/manhwa:** art counts, so credit it.
+  - Same person writes and draws: bare name.
+  - Different people: `written` and `illustrated` roles, both explicit.
+- **Adaptations:** use the `adapted` role for whoever adapted the game
+  (novelization, manga of a game), books and comics alike.
+
 ## Choosing a rating when more than one exists
 
 Applies to every entry with a `ratings`/`scores[]` field — games, books,
