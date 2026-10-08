@@ -333,6 +333,10 @@
         "title": { "type": "string" },
         "titleUrl": { "type": ["string", "null"] },
         "titleDate": { "$ref": "#/$defs/DateValue" },
+        "releaseOrderDate": {
+          "allOf": [{ "$ref": "#/$defs/DateValue" }],
+          "description": "Optional sort-only date for the two release-order modes (C and D), same grammar as `titleDate`. When omitted, those modes sort by `titleDate` exactly as before. Use it when the slot's primary is a renamed remake/Final Mix whose own `titleDate` would misplace it, so the entry sorts by the original release instead. It changes nothing else: not the heading year, the anchor id, the dedupe key, or Upcoming/Recently Released. Those two modes show it as a \", sorted as <date>\" suffix on the title year's tooltip."
+        },
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",

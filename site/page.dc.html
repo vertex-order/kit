@@ -983,9 +983,22 @@ class Component extends DCLogic {
     // own (group.schema.json) -- there's no titleless-alt case to special
     // case here; `primary` always resolves a title via the slot, and a
     // versions[] item is free to inherit both.
+    // A slot's optional `releaseOrderDate` (sort-only, never displayed) moves
+    // it in the release-order modes (C, D) but not its heading year. So in
+    // those two modes only, the title year's tooltip gains ", sorted as
+    // <that date>" -- otherwise an entry would sit visibly out of order with
+    // no hint why. A bare-year titleDate has no tooltip of its own; the
+    // suffix gives it one (the full date, then the suffix).
+    const withSortedAs = (segs, src) => {
+      if ((mode !== 'C' && mode !== 'D') || src.releaseOrderDate === undefined || src.releaseOrderDate === null) return segs;
+      const i = segs.findIndex(s => /\d{4}/.test(s.text || ''));
+      if (i < 0) return segs;
+      const sfx = ', sorted as ' + titleDateKey(src.releaseOrderDate);
+      return segs.map((s, j) => (j === i ? { ...s, tip: (s.tip || titleDateKey(src.titleDate)) + sfx } : s));
+    };
     const buildTitleParts = (node, titleSrc) => {
       const out = [];
-      if (titleSrc.title) out.push({ label: titleSrc.title, dateSegments: buildDateSegments(titleSrc.titleDate), url: titleSrc.titleUrl || null });
+      if (titleSrc.title) out.push({ label: titleSrc.title, dateSegments: withSortedAs(buildDateSegments(titleSrc.titleDate), titleSrc), url: titleSrc.titleUrl || null });
       if (node.subtitle) out.push({ label: node.subtitle, dateSegments: buildDateSegments(node.subtitleDate), url: node.subtitleUrl || null, small: true });
       return out;
     };
@@ -1261,6 +1274,12 @@ class Component extends DCLogic {
           mediaType: m.mediaType, chronoOrder: m.chronoOrder, recommendedOrder: m.recommendedOrder,
           gDate,
           releaseSortKey: releaseSortKey(m.titleDate, gDate),
+          // What modes C/D actually sort by: the slot's `releaseOrderDate`
+          // when set, else exactly releaseSortKey. Upcoming/Recent
+          // membership and their order keep using releaseSortKey/titleDate.
+          orderSortKey: m.releaseOrderDate !== undefined && m.releaseOrderDate !== null
+            ? releaseSortKey(m.releaseOrderDate, titleDateKey(m.releaseOrderDate))
+            : releaseSortKey(m.titleDate, gDate),
           upcoming: isUpcoming(m.titleDate, gDate),
           upcomingDateText: isUpcoming(m.titleDate, gDate) ? formatUpcomingDate(m.titleDate, gDate) : null,
           recentlyReleased: isRecentlyReleased(m.titleDate, gDate),
@@ -1297,7 +1316,7 @@ class Component extends DCLogic {
     };
     const gameSortKey = g => {
       if (mode === 'B') return g.chronoOrder ?? 0;
-      if (mode === 'C') return g.releaseSortKey;
+      if (mode === 'C') return g.orderSortKey;
       return g.recommendedOrder ?? 0;
     };
     const groupSortKey = s => {
@@ -1306,7 +1325,7 @@ class Component extends DCLogic {
         if (s.num === 'Other' || s.num === 'PB') return '9999';
         const core = s.media.filter(g => !(g.primary.tags || []).includes('Optional'));
         const pool = core.length ? core : s.media;
-        const dates = pool.map(g => g.releaseSortKey).filter(Boolean);
+        const dates = pool.map(g => g.orderSortKey).filter(Boolean);
         return dates.length ? dates.reduce((m, d) => (d < m ? d : m)) : '9999';
       }
       return s.recommendedOrder ?? 0;
@@ -1338,7 +1357,7 @@ class Component extends DCLogic {
         flat.push(g);
       }));
       flat.sort((a, b) => {
-        const ka = a.releaseSortKey, kb = b.releaseSortKey;
+        const ka = a.orderSortKey, kb = b.orderSortKey;
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
       const media = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));

@@ -84,6 +84,14 @@ and pull via `just sync`.
   split. `ongoing` (a franchise/series expected to get more entries) is
   unrelated to `releaseDate`'s future-dated / `Upcoming` machinery (see
   docs/upcoming.md), which is about one specific unreleased title.
+- **`releaseOrderDate` is a sort-only date** (on a `media[]` slot, same
+  grammar as `titleDate`). It only affects the two release-order modes, for
+  a primary that's a renamed remake/Final Mix whose own `titleDate` would
+  sort it after entries it actually predates — give it the *original*
+  release date. Omitted, nothing changes. It never touches the heading
+  year, anchor, dedupe key, or Upcoming/Recent; in those two modes the
+  title year's tooltip just gains ", sorted as <date>" so the order isn't
+  a mystery.
 
 ## Choosing a rating when more than one exists
 
