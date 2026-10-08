@@ -212,11 +212,21 @@ another entry.
 - **A remaster that becomes the primary** is still cited by the original
   year in prose.
 
+## `~...~` in titles
+
+- `~Something~` is our **format suffix**, e.g. `Final Fantasy ~Manga~`,
+  `Final Fantasy IV ~Novel~`.
+  - Mainly for an adaptation with the exact same title as its source,
+    no extra characters or subtitle.
+- Japanese and englishified Japanese titles also use `~Something~` for a
+  subtitle, so the two can be confused.
+- We still use it to disambiguate a potential conflict, or wherever a
+  clarification in the title helps.
+
 ## Naming a work with no official English title
 
 - **Title:** the best-sourced translation (usually the wiki's literal
-  one), kept stable. Follow the group's subtitle style; `~...~` is for
-  formats, volumes and sub-series, not a bare subtitle.
+  one), kept stable. Follow the group's style; see "`~...~` in titles".
 - **Description:** "Released as *<transliterated original>* (<original
   script>, literally "<gloss>")", then "sometimes referred to as"
   followed by other names in use.
