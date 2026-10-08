@@ -60,8 +60,8 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
           ],
         },
         {
-          // title and subtitle both omitted: just the inherited base title, no edition tag.
-          label: 'Wyrmwatch (2014)', url: 'https://example.com/wiki/Wyrmwatch',
+          // subtitle omitted: just its own title and link, no edition tag.
+          title: 'Wyrmwatch', titleUrl: 'https://example.com/wiki/Wyrmwatch', titleDate: 2014,
           versionDesc: ['The original release, before the free rebalance patch and the 2022 remaster.'],
           languages: [{ value: 'EN', native: true, voice: true }],
           platforms: [
@@ -132,8 +132,8 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
       platformsUrl: 'https://example.com/store/wyrmwatch-ii',
       versions: [
         {
-          // title and subtitle both omitted: just the inherited base title, no edition tag.
-          label: 'Wyrmwatch II (2019)', url: 'https://example.com/wiki/Wyrmwatch_II',
+          // subtitle omitted: just its own title and link, no edition tag.
+          title: 'Wyrmwatch II', titleUrl: 'https://example.com/wiki/Wyrmwatch_II', titleDate: 2019,
           versionDesc: ['The original release, before the Hard difficulty and New Game+ edit.'],
         },
       ],
@@ -143,7 +143,6 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
         // title omitted: inherits 'Wyrmwatch II' (2019) wholesale from the slot root.
         subtitle: 'Remake', subtitleUrl: 'https://example.com/wiki/Wyrmwatch_II_Reborn', subtitleDate: 2024,
         by: [{ role: 'directed', names: 'Naomi Reyes' }, { role: 'written', names: 'Charles Whitlock' }],
-        label: 'Wyrmwatch II: Reborn',
         versionDesc: [
           ['Replaces the original’s turn-based tactics with real-time combat, and adds a new prologue chapter and an alternate ending. Released as ', { emText: 'Wyrmwatch II: Reborn' }, '.'],
         ],
@@ -176,8 +175,8 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
         ],
         versions: [
           {
-            // title and subtitle both omitted: just the inherited base title, no edition tag.
-            label: 'Wyrmwatch II: Definitive Edition (Early Access)', url: 'https://example.com/wiki/Wyrmwatch_II_Definitive_Edition',
+            // subtitle omitted: just its own title and link, no edition tag.
+            title: 'Wyrmwatch II: Definitive Edition (Early Access)', titleUrl: 'https://example.com/wiki/Wyrmwatch_II_Definitive_Edition',
             by: null, // explicit "no credits" (this build has none to show)
             versionDesc: ['An early-access build sold briefly ahead of the full release, missing the director’s commentary track.'],
             platforms: [

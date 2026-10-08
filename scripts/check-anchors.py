@@ -127,7 +127,7 @@ def sub_slug(node, parent):
     if title:
         yr = title_date_year(title_date)
         return slugify_title(title) + (f"-{yr}" if yr else "")
-    return slugify_title(node.get("label") or "")
+    return ""
 
 
 # ---------------------------------------------------------------------------

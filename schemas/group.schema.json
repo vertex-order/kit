@@ -450,14 +450,6 @@
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
           "description": "Manual override of the derived slug/anchor id. Currently unused in real data but a valid escape hatch."
         },
-        "label": {
-          "type": "string",
-          "description": "Deprecated/legacy freeform display text, paired with `url`. Still rendered ahead of the title/subtitle output when present -- prefer title/subtitle for new entries."
-        },
-        "url": {
-          "type": "string",
-          "description": "Deprecated/legacy link paired with `label`. Distinct from platformsUrl/profileUrl."
-        },
         "mainline": {
           "type": "boolean",
           "description": "Counted for the intro's mainlineCount stat, read off the slot's `primary`."
@@ -538,14 +530,6 @@
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
           "description": "Manual override of the derived slug/anchor id. Currently unused in real data but a valid escape hatch."
-        },
-        "label": {
-          "type": "string",
-          "description": "Deprecated/legacy freeform display text, paired with `url`. Still rendered ahead of the title/subtitle output when present -- prefer title/subtitle for new entries."
-        },
-        "url": {
-          "type": "string",
-          "description": "Deprecated/legacy link paired with `label`. Distinct from platformsUrl/profileUrl."
         },
         "mainline": {
           "type": "boolean",

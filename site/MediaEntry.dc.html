@@ -162,9 +162,6 @@
         <span style="position: absolute; left: 24.5px; top: 6px; color: color-mix(in oklch, var(--color-neutral-500), color-mix(in oklch, var(--color-accent-900) 61%, transparent)); font-size: 9.75px; line-height: 1;">➤</span>
         <div style="flex: 1;" id="{{ ver.anchorId }}">
           <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2);">
-            <sc-if value="{{ ver.url }}" hint-placeholder-val="{{ false }}">
-              <a href="{{ ver.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ ver.label }}</a>
-            </sc-if>
             <dc-import name="EntryTitleLinks" parts="{{ ver.parts }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" show-pilcrow="{{ ver.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
           </div>
           <sc-if value="{{ ver.creditParts }}" hint-placeholder-val="{{ false }}">
@@ -240,9 +237,6 @@
     <div style="flex: 1;" id="{{ rel.anchorId }}">
       <div onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">
         <span style="font-size: 12px;">or </span>
-        <sc-if value="{{ rel.url }}" hint-placeholder-val="{{ false }}">
-          <a href="{{ rel.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ rel.label }}</a>
-        </sc-if>
         <dc-import name="EntryTitleLinks" parts="{{ rel.parts }}" pilcrow-href="{{ rel.anchorHref }}" on-pilcrow-click="{{ rel.onAnchorClick }}" pilcrow-opacity="{{ rel.pilcrowOpacity }}" show-pilcrow="{{ rel.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
       </div>
       <sc-if value="{{ rel.creditParts }}" hint-placeholder-val="{{ false }}">
@@ -347,9 +341,6 @@
         <span style="position: absolute; left: 24.5px; top: 6px; color: color-mix(in oklch, var(--color-neutral-500), color-mix(in oklch, var(--color-accent-900) 61%, transparent)); font-size: 9.75px; line-height: 1;">➤</span>
         <div style="flex: 1;" id="{{ ver.anchorId }}">
           <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2);">
-            <sc-if value="{{ ver.url }}" hint-placeholder-val="{{ false }}">
-              <a href="{{ ver.url }}" target="_blank" rel="noopener" style="font-size: 13px;">{{ ver.label }}</a>
-            </sc-if>
             <dc-import name="EntryTitleLinks" parts="{{ ver.parts }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" show-pilcrow="{{ ver.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
           </div>
           <sc-if value="{{ ver.creditParts }}" hint-placeholder-val="{{ false }}">

@@ -272,7 +272,7 @@ def sub_slug(node, parent):
     """Mirrors subSlug(): own subtitle + year if it has one, else own title
     + year if it has one (a cross-reference to a different entry), else the
     *parent* release's title + year (a bare inheriting sub-entry with no
-    edition tag), else the legacy bare `label` field."""
+    edition tag)."""
     if node.get("id"):
         return node["id"]
     if node.get("subtitle"):
@@ -288,7 +288,7 @@ def sub_slug(node, parent):
     if title:
         yr = title_date_year(title_date)
         return slugify_title(title) + (f"-{yr}" if yr else "")
-    return slugify_title(node.get("label") or "")
+    return ""
 
 
 def version_date_key(node, title_src):
