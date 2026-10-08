@@ -54,6 +54,15 @@ and pull via `just sync`.
   singular inline "or" row), and `alts[]` (multiple parallel "or" rows). A
   sub-entry can omit its own title/subtitle and inherit its parent's
   wholesale. See `group.schema.json`'s `GroupEntry` `$def`.
+- **`id` on an `alts[]` or `versions[]` item is its whole anchor**
+  (`entry-<group>-<id>`), not a suffix.
+  - Keeps a release's original anchor when a later edition takes over the
+    slot title and the original is demoted (e.g. Final Mix promoted → the
+    original keeps `#entry-II-kingdom-hearts-ii-2005`).
+  - Without it, alts use `-or`/`-or-N` and versions use `-x-<slug>`.
+  - Match the pinned sources filename (`sources/<id>.md`) so anchor and
+    sources file line up.
+  - Must be unique page-wide; `check-anchors.py` fails a collision.
 - **`by` is an optional credit line** shown between the title and the tags
   line, in the tags line's look. It is a name (`'Charles'`,
   `{ name, url }`) or an array mixing bare names (the default "by" group)

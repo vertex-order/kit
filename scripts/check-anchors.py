@@ -135,10 +135,23 @@ def sub_slug(node, parent):
 # ---------------------------------------------------------------------------
 
 
-def _add_versions(ids, release, release_anchor, slot):
+def _add_versions(ids, release, release_anchor, slot, num):
     title_src = resolve_title_source(release, slot)
     for ver in release.get("versions") or []:
-        ids.add(f"{release_anchor}-x-{sub_slug(ver, title_src)}")
+        if ver.get("id"):
+            # Explicit id: the item's whole anchor, same shape as a slot's.
+            _add_unique(ids, f"entry-{num}-{ver['id']}")
+        else:
+            ids.add(f"{release_anchor}-x-{sub_slug(ver, title_src)}")
+
+
+EXPLICIT_DUPES = []
+
+
+def _add_unique(ids, anchor):
+    if anchor in ids:
+        EXPLICIT_DUPES.append(anchor)
+    ids.add(anchor)
 
 
 def collect_valid_ids(order):
@@ -149,11 +162,16 @@ def collect_valid_ids(order):
         for slot in group.get("media", []):
             anchor_id = f"entry-{num}-{entry_slug(slot)}"
             ids.add(anchor_id)
-            _add_versions(ids, slot["primary"], anchor_id, slot)
+            _add_versions(ids, slot["primary"], anchor_id, slot, num)
             for idx, alt in enumerate(slot.get("alts") or []):
-                alt_anchor = anchor_id + "-or" + (f"-{idx + 1}" if idx > 0 else "")
-                ids.add(alt_anchor)
-                _add_versions(ids, alt, alt_anchor, slot)
+                if alt.get("id"):
+                    # Explicit id: the alt's whole anchor, same shape as a slot's.
+                    alt_anchor = f"entry-{num}-{alt['id']}"
+                    _add_unique(ids, alt_anchor)
+                else:
+                    alt_anchor = anchor_id + "-or" + (f"-{idx + 1}" if idx > 0 else "")
+                    ids.add(alt_anchor)
+                _add_versions(ids, alt, alt_anchor, slot, num)
     return ids
 
 
@@ -193,7 +211,9 @@ def main():
         print(f"check-anchors: {e}", file=sys.stderr)
         return 1
 
-    findings = []
+    findings = [
+        f"explicit id collides with another anchor: '#{a}'" for a in EXPLICIT_DUPES
+    ]
     total_refs = 0
     for slug in order:
         for href, line in find_hrefs(slug):

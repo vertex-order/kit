@@ -1323,7 +1323,7 @@ class Component extends DCLogic {
             extraChevron: this.state.expandedVersions[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
             toggleExtra: () => this.toggleVersions(anchorId),
             versions: sortedVersions && sortedVersions.map((ver, j) => {
-              const verAnchor = anchorId + '-x-' + verSlugs[j];
+              const verAnchor = ver.id ? 'entry-' + s.num + '-' + ver.id : anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };
               return {
                 ...mapVersionCommon(ver, resolveTitleSource(ver, titleSrc), mapCreditParts(creditsToShow(normalizeBy(resolveBy(ver, relBy)), relCredits))),
@@ -1342,7 +1342,7 @@ class Component extends DCLogic {
           primary.descParas = merged.length ? merged : null;
         }
         const primaryCredits = normalizeBy(resolveBy(m.primary, m.by));
-        const alts = (m.alts || []).map((alt, idx) => mapRelease(alt, primaryAnchor + '-or' + (idx > 0 ? '-' + (idx + 1) : ''), false, primaryCredits));
+        const alts = (m.alts || []).map((alt, idx) => mapRelease(alt, alt.id ? 'entry-' + s.num + '-' + alt.id : primaryAnchor + '-or' + (idx > 0 ? '-' + (idx + 1) : ''), false, primaryCredits));
         return {
           title: m.title, titleUrl: m.titleUrl, titleDate: m.titleDate,
           mediaType: m.mediaType, chronoOrder: m.chronoOrder, recommendedOrder: m.recommendedOrder,

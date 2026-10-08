@@ -448,7 +448,7 @@
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-          "description": "Manual override of the derived slug/anchor id. Currently unused in real data but a valid escape hatch."
+          "description": "Explicit anchor id for this alts[] or versions[] item: its whole anchor becomes `entry-<group num>-<id>`, the same shape as a slot's, replacing the positional `-or`/`-or-N` or derived `-x-<slug>` anchor (and, on an alt, the base its own versions[] anchors hang off). Use it to keep the anchor a release had before a later edition was promoted to the slot title and this one was demoted. Must be unique across the page; check-anchors.py fails a collision."
         },
         "mainline": {
           "type": "boolean",
@@ -529,7 +529,7 @@
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-          "description": "Manual override of the derived slug/anchor id. Currently unused in real data but a valid escape hatch."
+          "description": "Explicit anchor id for this alts[] or versions[] item: its whole anchor becomes `entry-<group num>-<id>`, the same shape as a slot's, replacing the positional `-or`/`-or-N` or derived `-x-<slug>` anchor (and, on an alt, the base its own versions[] anchors hang off). Use it to keep the anchor a release had before a later edition was promoted to the slot title and this one was demoted. Must be unique across the page; check-anchors.py fails a collision."
         },
         "mainline": {
           "type": "boolean",
