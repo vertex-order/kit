@@ -212,6 +212,21 @@ another entry.
 - **A remaster that becomes the primary** is still cited by the original
   year in prose.
 
+## Search links: `searchTitle`
+
+- **Default is the entry's own title.** Be lazy: if a search on the
+  straight title gives the results we want, don't override it.
+- **Override `searchTitle` only when it gets us something:**
+  - results where there were none;
+  - higher-quality results;
+  - more results.
+  - What it takes: removing punctuation (e.g. `~...~`), or changing or
+    shrinking the title.
+- **Why not by default:** every override can drift from the real title.
+  Fewer overrides, less to keep in step.
+- Use `searchQualifier` to narrow a search that is otherwise fine
+  (e.g. an author or format word) instead of rewriting the title.
+
 ## `~...~` in titles
 
 - `~Something~` is our **format suffix**, e.g. `Final Fantasy ~Manga~`,
