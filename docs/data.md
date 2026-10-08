@@ -156,8 +156,9 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
     them.
   - Books: `adapted` replaces the bare name.
   - Comics, same writer and artist: `adapted` replaces the bare name.
-  - Comics, different writer and artist: usually keep `written` and
-    `illustrated`; no `adapted`.
+  - Comics, different writer and artist: `adapted` and `illustrated`
+    (the adapter takes the place of `written`).
+  - `written` and `illustrated` are for original, non-adapted comics.
 
 ## Choosing a rating when more than one exists
 
