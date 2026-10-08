@@ -113,6 +113,34 @@ and pull via `just sync`.
   title year's tooltip just gains ", sorted as <date>" so the order isn't
   a mystery.
 
+## Deciding what counts as one entry
+
+How many entries a body of work gets (labelling is docs/subtitle.md).
+
+- **Primary medium sets the grain.** Games franchise: games listed
+  finely. Book franchise: books. Film franchise: films.
+  - Lean verbose in the primary medium: list individual releases even
+    when minor (standalone minigames, small spin-offs); don't collapse.
+  - Lean compact in secondary media: completeness and discovery only.
+- **Roll parts into one entry (secondary media) when they:**
+  - are numbered/marketed as volumes of one work (`Vol. 1`, `Vol. 2`);
+  - tell one finite story, "complete" when it ends;
+  - are read together, in order, and skipped or marked read as a unit;
+  - are sometimes re-released as one omnibus.
+- **Rolled-up entry format:**
+  - `length`: `N volumes`.
+  - Volume subtitles in the description, for lookup.
+  - Link the omnibus, else the first volume.
+  - Usual cases: manga, multi-volume game novelizations.
+  - Chapters never listed; nobody looks them up once volumes exist.
+- **Keep separate** when each part has its own title identity and stands
+  alone, or the run is open-ended with no single story to complete.
+- **Pointer entry:** one entry pointing at a huge family of minor
+  releases (dozens of titles) instead of listing each.
+  - Use when listing would add pages of text for little return.
+  - Judgment call, revisitable.
+  - Less justified in the primary medium; prefer listing there.
+
 ## Choosing a rating when more than one exists
 
 Applies to every entry with a `ratings`/`scores[]` field — games, books,

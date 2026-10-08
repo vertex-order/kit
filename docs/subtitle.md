@@ -161,6 +161,11 @@ Doesn't use the [games scale](#the-scale) — different axis entirely.
 - **Manga:** almost always rolls into one entry with a single `length`
   value (`4 volumes`) — individual volumes aren't given their own
   entry/subtitle.
+- **Numbered novelization volumes** (`Vol. 1`, `Vol. 2` of one game or
+  film adaptation): same treatment — one entry, volume subtitles in the
+  description. When to roll up vs. split, and how the franchise's primary
+  medium shifts that, is in docs/data.md's "Deciding what counts as one
+  entry".
 - **YA novel series:** often the same treatment, but not a fixed rule —
   editorial judgment call per series. Some read better split into a
   separate entry per volume.
