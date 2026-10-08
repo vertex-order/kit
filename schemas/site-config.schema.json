@@ -56,6 +56,10 @@
       "type": "string",
       "description": "Plural form of `groupLabel`, for text like \"N groups\". Defaults to `groupLabel + \"s\"` when omitted -- set explicitly when that doesn't work (e.g. a repo using \"Series\", whose plural is also \"Series\")."
     },
+    "groupReleaseOrder": {
+      "type": "boolean",
+      "description": "Whether to offer the per-group \"Release order\" (sort within each group). Defaults to true; it is already hidden when there is only one group. Set false for a repo whose groups are navigation clusters over a single timeline rather than separate timelines -- only \"Overall release order\" is offered, and a viewer's saved per-group choice falls back to it."
+    },
     "disclosures": {
       "type": "array",
       "items": { "$ref": "common.schema.json#/$defs/Paragraph" },

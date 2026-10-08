@@ -154,6 +154,10 @@ vendored copy — don't touch it):
   visitors yet. A repo migrating from a hand-authored `page.dc.html` that
   already had visitors (as final-fantasy and kingdom-hearts did) must set
   `storagePrefix` explicitly to its existing literal value instead.
+  Optional `groupReleaseOrder: false` hides the per-group "Release order"
+  (already hidden with a single group) for a repo whose groups are
+  navigation clusters over one timeline; "Overall release order" stays, and a
+  visitor's saved per-group choice falls back to it.
 - `site/data/credits.js` → `window.CREDITS`, the same parts schema, for the
   CREDITS paragraph `Footer.dc.html` renders.
 

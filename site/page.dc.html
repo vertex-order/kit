@@ -316,6 +316,10 @@ const GROUP_LABEL_PLURAL = SITE.groupLabelPlural || (GROUP_LABEL + 's');
 const GROUP_LABEL_LOWER = GROUP_LABEL.toLowerCase();
 const GROUP_LABEL_PLURAL_LOWER = GROUP_LABEL_PLURAL.toLowerCase();
 const GROUP_LABEL_UPPER = GROUP_LABEL.toUpperCase();
+// Per-group "Release order" (mode C) only makes sense when groups are separate
+// timelines. A repo whose groups are just navigation clusters over one timeline
+// opts out with SITE_CONFIG.groupReleaseOrder = false; mode D (overall) remains.
+const GROUP_RELEASE_ORDER = SITE.groupReleaseOrder !== false;
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function lastUpdatedShortText() {
   if (!LAST_UPDATED) return '';
@@ -845,13 +849,14 @@ class Component extends DCLogic {
     const toggleHamburgerMenu = () => this.toggleHamburgerMenu();
     const closeHamburgerMenu = () => this.closeHamburgerMenu();
     const lastUpdatedShort = lastUpdatedShortText();
-    const mode = this.state.pathMode || 'A';
+    const storedMode = this.state.pathMode || 'A';
+    const mode = storedMode === 'C' && !GROUP_RELEASE_ORDER ? 'D' : storedMode;
     const pathOptions = [
       { key: 'A', label: 'Narrative order', shortLabel: 'Narrative order' },
       { key: 'B', label: 'Chronological order', shortLabel: 'Chronological' },
       { key: 'C', label: 'Release order', shortLabel: 'Release order' },
       { key: 'D', label: 'Overall release order', shortLabel: 'Overall release order' },
-    ].filter(o => o.key !== 'C' || (this.state.rawGroups || []).length > 1).map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
+    ].filter(o => o.key !== 'C' || (GROUP_RELEASE_ORDER && (this.state.rawGroups || []).length > 1)).map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
     const onOrderChange = e => this.setPathMode(e.target.value);
     const onJumpChange = e => { if (e.target.value) location.hash = e.target.value; };
     const notScrolled = !this.state.scrolled;
@@ -1640,7 +1645,7 @@ class Component extends DCLogic {
     const footerEntities = SITE.entities || [];
     const footerDisclosures = SITE.disclosures || [];
     const metaDescription = SITE.description || taglinePlainText(SITE.tagline);
-    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, groups: displayGroups, groupLabel: GROUP_LABEL, groupLabelLower: GROUP_LABEL_LOWER, groupLabelPluralLower: GROUP_LABEL_PLURAL_LOWER, groupLabelUpper: GROUP_LABEL_UPPER, pathOptions, showReleaseOrder: (this.state.rawGroups || []).length > 1, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, navShowProgress, navProgressVisible, navShowRightGroup, navGroupMarginRight, cornerShowTitle, cornerShowCheckList, cornerShowTheme, navTitleMarginLeft, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hideProgressInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [], backupProgress: this.backupProgress, triggerRestore: this.triggerRestore, restoreProgress: this.restoreProgress, restoreInputRef: this.restoreInputRef, titleRow1MeasureRef: this.titleRow1MeasureRef, titleRow2MeasureRef: this.titleRow2MeasureRef, orderMeasureRef: this.orderMeasureRef, jumpMeasureRef: this.jumpMeasureRef, languagesMeasureRef: this.languagesMeasureRef, displayMeasureRef: this.displayMeasureRef, checklistRow1MeasureRef: this.checklistRow1MeasureRef, checklistRow2MeasureRef: this.checklistRow2MeasureRef };
+    return { lastUpdatedShort, metaTitle: introTitle, metaDescription, groups: displayGroups, groupLabel: GROUP_LABEL, groupLabelLower: GROUP_LABEL_LOWER, groupLabelPluralLower: GROUP_LABEL_PLURAL_LOWER, groupLabelUpper: GROUP_LABEL_UPPER, pathOptions, showReleaseOrder: GROUP_RELEASE_ORDER && (this.state.rawGroups || []).length > 1, effectiveTheme, themeIcon, toggleTheme, navShowLanguages, navShowTheme, navShowDisplay, navShowTitle, navShowCheckList, navShowOrder, navShowJump, navShowProgress, navProgressVisible, navShowRightGroup, navGroupMarginRight, cornerShowTitle, cornerShowCheckList, cornerShowTheme, navTitleMarginLeft, navAnyHidden, navReservedRightPx, navFloatingWidgetMarginRight, navHamburgerTopPx, sideBySide, stacked, showCol2, showStackedRL, hideTitleInMenu, hideOrderInMenu, hideJumpInMenu, hideLanguagesInMenu, hideDisplayInMenu, hideCheckListInMenu, hideThemeInMenu, hideProgressInMenu, hamburgerOpen, toggleHamburgerMenu, closeHamburgerMenu, mode, onOrderChange, onJumpChange, scrolled: this.state.scrolled, notScrolled, jumpRef, activeAnchor: this.state.activeAnchor, languageOptions, langMenuOpen, toggleLangMenu, closeLangMenu, displayMenuOpen, toggleDisplayMenu, closeDisplayMenu, navProgress, displayToggles, showRating, showLength, showPlatforms, showLanguages, siteName: SITE.name || '', ourOrderAnchor, introTitle, introLastUpdated: LAST_UPDATED, introTagline, introStatsText, footerCredits, footerFoundingYear, footerLicense, footerNoticeUrl, footerEntities, footerDisclosures, faqItems: window.FAQ_ITEMS || [], helpWantedItems: window.HELP_WANTED_ITEMS || [], backupProgress: this.backupProgress, triggerRestore: this.triggerRestore, restoreProgress: this.restoreProgress, restoreInputRef: this.restoreInputRef, titleRow1MeasureRef: this.titleRow1MeasureRef, titleRow2MeasureRef: this.titleRow2MeasureRef, orderMeasureRef: this.orderMeasureRef, jumpMeasureRef: this.jumpMeasureRef, languagesMeasureRef: this.languagesMeasureRef, displayMeasureRef: this.displayMeasureRef, checklistRow1MeasureRef: this.checklistRow1MeasureRef, checklistRow2MeasureRef: this.checklistRow2MeasureRef };
   }
 }
 </script>
