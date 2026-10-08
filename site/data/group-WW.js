@@ -7,6 +7,7 @@
 window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', media: [
   { mediaType: 'Game', chronoOrder: 200, recommendedOrder: 100,
     title: 'Wyrmwatch', titleUrl: 'https://example.com/wiki/Wyrmwatch', titleDate: '2014-03-11',
+    by: ['Aldous Venn', 'Marit Okonkwo'],
     mediaDesc: [
       'Recruit-and-bond tactics RPG. Warden Rook Ashvane arrives at the Ashfall frontier and must bond with wild wyrms to hold the watchtowers against the Blightswarm.',
       'Includes a free rebalance patch and an optional hard difficulty added post-launch.',
@@ -49,6 +50,8 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
           versionDesc: [
             ['A feature-phone port with simplified bonding menus and two bonding chapters cut for hardware limits. Released as ', { emText: 'Wyrmwatch Go' }, '.'],
           ],
+          // Own `by` replaces the slot's wholesale; shown because it differs.
+          by: [{ role: 'ported', names: { name: 'Pocket Forge', url: 'https://example.com/studios/pocket-forge' } }],
           languages: [{ value: 'EN', textOnly: true }],
           platforms: [
             { key: 'mobile-phone', paren: 'iOS; Android; Digital', terminated: true, jpTag: true },
@@ -93,6 +96,10 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
   },
   { mediaType: 'Game', chronoOrder: 50, recommendedOrder: 200,
     title: 'Wyrmwatch II', titleUrl: 'https://example.com/wiki/Wyrmwatch_II', titleDate: '2019-05-14',
+    // Slot-level credits are inherited by the primary, every alt and every
+    // versions[] item; a row only displays them when they differ from its
+    // parent's (here: the primary, and the Remake alt that overrides them).
+    by: [{ role: 'directed', names: { name: 'Katie Sorrel', url: 'https://example.com/people/katie-sorrel' } }, { role: 'written', names: 'Charles Whitlock' }],
     mediaDesc: [
       'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.',
       'Adds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.',
@@ -135,6 +142,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
       {
         // title omitted: inherits 'Wyrmwatch II' (2019) wholesale from the slot root.
         subtitle: 'Remake', subtitleUrl: 'https://example.com/wiki/Wyrmwatch_II_Reborn', subtitleDate: 2024,
+        by: [{ role: 'directed', names: 'Naomi Reyes' }, { role: 'written', names: 'Charles Whitlock' }],
         label: 'Wyrmwatch II: Reborn',
         versionDesc: [
           ['Replaces the original’s turn-based tactics with real-time combat, and adds a new prologue chapter and an alternate ending. Released as ', { emText: 'Wyrmwatch II: Reborn' }, '.'],
@@ -170,6 +178,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
           {
             // title and subtitle both omitted: just the inherited base title, no edition tag.
             label: 'Wyrmwatch II: Definitive Edition (Early Access)', url: 'https://example.com/wiki/Wyrmwatch_II_Definitive_Edition',
+            by: null, // explicit "no credits" (this build has none to show)
             versionDesc: ['An early-access build sold briefly ahead of the full release, missing the director’s commentary track.'],
             platforms: [
               { key: 'steam', paren: 'PC; Early Access', terminated: true },

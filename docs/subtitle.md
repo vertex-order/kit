@@ -3,7 +3,7 @@
 
 # Subtitle guidelines
 
-A **subtitle** is the small label on an entry's byline — `Remake (2018)`,
+A **subtitle** is the small label on an entry's tags line — `Remake (2018)`,
 `Remaster (2016)`, `Director's Cut`. At-a-glance only; summary detail goes in
 the description/tags.
 
@@ -104,7 +104,7 @@ Least to most changed, from the player's seat:
 
 ### Mobile
 
-Three cases — only two touch the byline:
+Three cases — only two touch the tags line:
 
 1. **Plain smartphone port**, nothing mobile-specific about the design →
    no tag, no subtitle. Just another platform.

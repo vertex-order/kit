@@ -5,6 +5,8 @@
 window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, recommendedOrder: 700, title: 'Wyrmwatch Tactics', note: 'A turn-based tactics spin-off — entirely optional, no bearing on the main story.', media: [
   { chronoOrder: 800, recommendedOrder: 710, mediaType: 'Game',
     title: 'Wyrmwatch Tactics', titleUrl: 'https://example.com/wiki/Wyrmwatch_Tactics', titleDate: '2021-08-17',
+    // A single bare object; an in-page '#...' url opens in the same tab.
+    by: { name: 'Emberfall Studio', url: '#group-WW' },
     mediaDesc: ['A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.'],
     primary: { tags: ['Turn-Based', 'Optional'],
       length: [{ value: '12h', tip: 'Main Story' }, { value: '16h', tip: 'Main + Extra' }, { value: '24h', tip: 'Completionist' }],

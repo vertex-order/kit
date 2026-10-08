@@ -34,7 +34,8 @@ page.dc.html
 ├── GroupSection × N       one per group in GROUP_ORDER
 │   ├── MediaEntry × N      one per game/book/video entry (and per extra/alt)
 │   │   ├── EntryTitleLinks   title + external links + pilcrow anchor
-│   │   ├── EntryByline       byline text + pilcrow anchor (alt shape)
+│   │   ├── EntryCredits      "by" credit line (optional, links), same look as tags
+│   │   ├── EntryTags         tags text + pilcrow anchor (alt shape)
 │   │   ├── RatingDisplay     score badges / text-only rating
 │   │   ├── LengthDisplay     playtime/runtime string
 │   │   ├── PlatformIcon × N   one per platform in a platformGroup
@@ -63,7 +64,7 @@ Claude Design doesn't error, not because the isolated component is useful
 on its own. If a list needs different in-page-controls behavior, that's a
 `page.dc.html`-level change, not a props change from the outside.
 
-Everything under `MediaEntry` (`EntryTitleLinks`, `EntryByline`,
+Everything under `MediaEntry` (`EntryTitleLinks`, `EntryCredits`, `EntryTags`,
 `RatingDisplay`, `LengthDisplay`, `LanguageTag`, `TextSpan`, `ExtrasToggle`,
 `PlatformIcon`) is a true leaf: props are plain data (strings, the row's
 own `rating`/`length`/`platformGroups` shape), no callbacks back into page

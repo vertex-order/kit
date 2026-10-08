@@ -47,10 +47,30 @@ and pull via `just sync`.
   singular inline "or" row), and `alts[]` (multiple parallel "or" rows). A
   sub-entry can omit its own title/subtitle and inherit its parent's
   wholesale. See `group.schema.json`'s `GroupEntry` `$def`.
+- **`by` is an optional credit line** shown between the title and the tags
+  line, in the tags line's look. It is a name (`'Charles'`,
+  `{ name, url }`) or an array mixing bare names (the default "by" group)
+  and groups `{ role?, label?, names }`, displayed `<role> <label> <names>`
+  with `label` defaulting to "by" (`role: 'written'` reads "written by";
+  `label: 'featuring'` with no role reads "featuring ..."). Groups appear in
+  order of first appearance, and items sharing a role+label
+  (case-insensitive; a bare name is the default group) collapse into the
+  first one: `['Julie', {role:'written', names:'Charles'}, 'Katie']` shows
+  "by Julie, Katie; written by Charles". Only after a group is complete are
+  repeats (same name text and url) dropped, within that group only. The
+  same name under two roles stays twice. `url` is optional; `#...` opens in
+  the same tab, anything else in a new one.
+  `by` also works on the slot (inherited by `primary`, `alts[]` and
+  `versions[]`, so it survives promoting a new primary), and any node's own
+  `by` replaces the inherited one wholesale (`by: null` clears it). A row
+  only displays credits when they differ from its parent's: the primary
+  always, an alt only if different from the primary, a version only if
+  different from its release. ("Tags line" is `tags`/`tagParts` and
+  `EntryTags`; "credits" is `by` and `EntryCredits`.)
 - **There are three different "styled text run" shapes**, not
   interchangeable: `ConfigPart`/`Paragraph` (site config, credits, FAQ
   answers — `common.schema.json`), `DescPart` (entry `description[]` —
-  richer, supports `<abbr>`/tooltips), and `BylinePart` (`bylineParts[]` —
+  richer, supports `<abbr>`/tooltips), and `TagPart` (`tagParts[]` —
   narrower still). Using the wrong one for a given field is a schema
   validation error, not a silent no-op.
 - **A `Prose` paragraph's own array can mix two kinds of item**: a bare

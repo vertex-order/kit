@@ -136,8 +136,8 @@
         }
       ]
     },
-    "BylinePart": {
-      "description": "bylineParts[] item -- EntryByline.dc.html's own narrower shape, not the same object as TextSpan.",
+    "TagPart": {
+      "description": "tagParts[] item -- EntryTags.dc.html's own narrower shape, not the same object as TextSpan.",
       "oneOf": [
         {
           "type": "object",
@@ -153,6 +153,65 @@
           },
           "required": ["abbrTerm", "abbrDef"],
           "additionalProperties": false
+        }
+      ]
+    },
+    "ByName": {
+      "description": "One credited name: a bare string, or { name, url } to linkify it. An external url opens in a new tab; a '#...' in-page anchor opens in this tab. Names are never merged or deduped across roles (the same text under two roles may be two different people).",
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "url": { "type": "string", "minLength": 1 }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ByGroup": {
+      "description": "A group of credited names sharing a lead-in. Displays as '<role> <label> <names>' with `label` defaulting to 'by' (so { role: 'written', names: ... } reads 'written by ...'); `role` is a prefix to the label, never a replacement for it. { label: 'featuring', names: ... } (no role) reads 'featuring ...'.",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Word(s) shown before the label, e.g. 'written', 'directed', 'illustrated'."
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Connector word(s) replacing the default 'by', e.g. 'featuring', 'with'. Rare -- prefer role."
+        },
+        "names": {
+          "oneOf": [
+            { "$ref": "#/$defs/ByName" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/ByName" },
+              "minItems": 1
+            }
+          ]
+        }
+      },
+      "required": ["names"],
+      "additionalProperties": false
+    },
+    "By": {
+      "description": "Optional credit line shown between the title and the tags line. A bare ByName ('Charles' / { name, url }), or an array mixing bare ByNames (the default 'by' group) and ByGroups. Groups render in order of first appearance; all items sharing a role+label (case-insensitive, a bare name counting as the default 'by') collapse into the first one's position, and only then are repeated names (same text and url) dropped within that one group. 'by Julie, written by Charles, by Katie' shows as 'by Julie, Katie; written by Charles'.",
+      "oneOf": [
+        { "$ref": "#/$defs/ByName" },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/$defs/ByName" },
+              { "$ref": "#/$defs/ByGroup" }
+            ]
+          },
+          "minItems": 1
         }
       ]
     },
@@ -346,6 +405,10 @@
           "allOf": [{ "$ref": "#/$defs/Prose" }],
           "description": "Plot/franchise-level prose describing the thing itself, independent of edition -- lives here exactly once for the same reason mediaType/title do, so it never needs copying when `primary` changes. Renders once, alongside primary's own `versionDesc` (never repeated on alts/versions[] rows)."
         },
+        "by": {
+          "allOf": [{ "$ref": "#/$defs/By" }],
+          "description": "Default credits for the whole slot, inherited by `primary`, each `alts[]` item and their `versions[]` items (chained: version -> its release -> this slot) unless one sets its own `by`, which replaces the inherited list wholesale. Lives here so it survives promoting a different edition to primary. A row displays credits only when they differ from its parent's: the primary always (if any), an alt only if different from the primary's, a version only if different from its release's."
+        },
         "primary": { "$ref": "#/$defs/ReleaseDetails" },
         "alts": {
           "type": "array",
@@ -402,12 +465,16 @@
         "tags": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Free-text byline words (joined with ' · ' unless bylineParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
+          "description": "Free-text tag words (joined with ' · ' unless tagParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
         },
-        "bylineParts": {
+        "by": {
+          "oneOf": [{ "$ref": "#/$defs/By" }, { "type": "null" }],
+          "description": "Credits for this node: replaces (never merges with) the credits it would inherit from its release / the slot. `null` clears them -- shows none even though a parent has some. See MediaSlot.by."
+        },
+        "tagParts": {
           "type": "array",
-          "items": { "$ref": "#/$defs/BylinePart" },
-          "description": "Alternative to a tags-derived byline, for an inline <abbr> in the byline. Wins over tags for display; tags are still read for their 'Expansion'/'DLC'/'Optional' semantics even when this is set."
+          "items": { "$ref": "#/$defs/TagPart" },
+          "description": "Alternative to a tags-derived tags line, for an inline <abbr> in it. Wins over tags for display; tags are still read for their 'Expansion'/'DLC'/'Optional' semantics even when this is set."
         },
         "ratings": {
           "type": "array",
@@ -487,12 +554,16 @@
         "tags": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Free-text byline words (joined with ' · ' unless bylineParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
+          "description": "Free-text tag words (joined with ' · ' unless tagParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
         },
-        "bylineParts": {
+        "by": {
+          "oneOf": [{ "$ref": "#/$defs/By" }, { "type": "null" }],
+          "description": "Credits for this node: replaces (never merges with) the credits it would inherit from its release / the slot. `null` clears them -- shows none even though a parent has some. See MediaSlot.by."
+        },
+        "tagParts": {
           "type": "array",
-          "items": { "$ref": "#/$defs/BylinePart" },
-          "description": "Alternative to a tags-derived byline, for an inline <abbr> in the byline. Wins over tags for display; tags are still read for their 'Expansion'/'DLC'/'Optional' semantics even when this is set."
+          "items": { "$ref": "#/$defs/TagPart" },
+          "description": "Alternative to a tags-derived tags line, for an inline <abbr> in it. Wins over tags for display; tags are still read for their 'Expansion'/'DLC'/'Optional' semantics even when this is set."
         },
         "ratings": {
           "type": "array",

@@ -19,7 +19,7 @@
 <!-- One MediaSlot (`g`): `g.primary` is the checkbox row, `g.alts` are
      inline "or <title>" rows on the same slot -- primary and every alt are
      the identical ReleaseDetails shape and get the identical markup below
-     (title/byline/description/ratings/length/platforms/languages), plus
+     (title/tags/credits/description/ratings/length/platforms/languages), plus
      each independently renders its own collapsible `versions` toggle.
      Checked/skipped state and the media-type strip are slot-level (`g.*`),
      not per-release, since only the primary is ever tracked in the
@@ -50,11 +50,14 @@
       <span onMouseEnter="{{ g.primary.onAnchorHoverEnter }}" onMouseLeave="{{ g.primary.onAnchorHoverLeave }}" style="font-size: 15px; text-wrap: pretty;">
         <dc-import name="EntryTitleLinks" parts="{{ g.primary.parts }}" part-click="{{ g.primary.titleJumpClick }}" pilcrow-href="{{ g.primary.anchorHref }}" on-pilcrow-click="{{ g.primary.onAnchorClick }}" pilcrow-opacity="{{ g.primary.pilcrowOpacity }}" show-pilcrow="{{ g.primary.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
       </span>
-      <sc-if value="{{ g.primary.byline }}" hint-placeholder-val="{{ false }}">
-        <dc-import name="EntryByline" byline="{{ g.primary.byline }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+      <sc-if value="{{ g.primary.creditParts }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="EntryCredits" credit-parts="{{ g.primary.creditParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
       </sc-if>
-      <sc-if value="{{ g.primary.bylineParts }}" hint-placeholder-val="{{ false }}">
-        <dc-import name="EntryByline" byline-parts="{{ g.primary.bylineParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+      <sc-if value="{{ g.primary.tagsText }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="EntryTags" tags="{{ g.primary.tagsText }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
+      </sc-if>
+      <sc-if value="{{ g.primary.tagParts }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="EntryTags" tag-parts="{{ g.primary.tagParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
       </sc-if>
       <sc-if value="{{ g.primary.helpWanted }}" hint-placeholder-val="{{ false }}">
         <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
@@ -164,9 +167,14 @@
             </sc-if>
             <dc-import name="EntryTitleLinks" parts="{{ ver.parts }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" show-pilcrow="{{ ver.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
           </div>
-          <sc-if value="{{ ver.byline }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ ver.creditParts }}" hint-placeholder-val="{{ false }}">
             <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
-              <dc-import name="EntryByline" byline="{{ ver.byline }}" hint-size="auto,16px" style="display: block;"></dc-import>
+              <dc-import name="EntryCredits" credit-parts="{{ ver.creditParts }}" hint-size="auto,16px" style="display: block;"></dc-import>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ver.tagsText }}" hint-placeholder-val="{{ false }}">
+            <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
+              <dc-import name="EntryTags" tags="{{ ver.tagsText }}" hint-size="auto,16px" style="display: block;"></dc-import>
             </div>
           </sc-if>
           <sc-if value="{{ ver.helpWanted }}" hint-placeholder-val="{{ false }}">
@@ -237,14 +245,19 @@
         </sc-if>
         <dc-import name="EntryTitleLinks" parts="{{ rel.parts }}" pilcrow-href="{{ rel.anchorHref }}" on-pilcrow-click="{{ rel.onAnchorClick }}" pilcrow-opacity="{{ rel.pilcrowOpacity }}" show-pilcrow="{{ rel.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
       </div>
-      <sc-if value="{{ rel.byline }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ rel.creditParts }}" hint-placeholder-val="{{ false }}">
         <div onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">
-          <dc-import name="EntryByline" byline="{{ rel.byline }}" hint-size="auto,16px" style="display: block;"></dc-import>
+          <dc-import name="EntryCredits" credit-parts="{{ rel.creditParts }}" hint-size="auto,16px" style="display: block;"></dc-import>
         </div>
       </sc-if>
-      <sc-if value="{{ rel.bylineParts }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ rel.tagsText }}" hint-placeholder-val="{{ false }}">
         <div onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">
-          <dc-import name="EntryByline" byline-parts="{{ rel.bylineParts }}" hint-size="auto,16px" style="display: block;"></dc-import>
+          <dc-import name="EntryTags" tags="{{ rel.tagsText }}" hint-size="auto,16px" style="display: block;"></dc-import>
+        </div>
+      </sc-if>
+      <sc-if value="{{ rel.tagParts }}" hint-placeholder-val="{{ false }}">
+        <div onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">
+          <dc-import name="EntryTags" tag-parts="{{ rel.tagParts }}" hint-size="auto,16px" style="display: block;"></dc-import>
         </div>
       </sc-if>
       <sc-if value="{{ rel.helpWanted }}" hint-placeholder-val="{{ false }}">
@@ -339,9 +352,14 @@
             </sc-if>
             <dc-import name="EntryTitleLinks" parts="{{ ver.parts }}" pilcrow-href="{{ ver.anchorHref }}" on-pilcrow-click="{{ ver.onAnchorClick }}" pilcrow-opacity="{{ ver.pilcrowOpacity }}" show-pilcrow="{{ ver.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
           </div>
-          <sc-if value="{{ ver.byline }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ ver.creditParts }}" hint-placeholder-val="{{ false }}">
             <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
-              <dc-import name="EntryByline" byline="{{ ver.byline }}" hint-size="auto,16px" style="display: block;"></dc-import>
+              <dc-import name="EntryCredits" credit-parts="{{ ver.creditParts }}" hint-size="auto,16px" style="display: block;"></dc-import>
+            </div>
+          </sc-if>
+          <sc-if value="{{ ver.tagsText }}" hint-placeholder-val="{{ false }}">
+            <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
+              <dc-import name="EntryTags" tags="{{ ver.tagsText }}" hint-size="auto,16px" style="display: block;"></dc-import>
             </div>
           </sc-if>
           <sc-if value="{{ ver.helpWanted }}" hint-placeholder-val="{{ false }}">

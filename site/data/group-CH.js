@@ -5,6 +5,8 @@
 window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 400, title: 'Wyrmwatch Chronicles', url: 'https://example.com/wiki/Wyrmwatch_Chronicles', note: 'A novel and a short film expanding the Ashfall frontier beyond the games — entirely optional.', media: [
   { chronoOrder: 300, recommendedOrder: 410, mediaType: 'Book',
     title: 'Wyrmwatch Chronicles: The Ashfall Codex', titleUrl: 'https://example.com/wiki/The_Ashfall_Codex', titleDate: '2017-10-03',
+    // Default group, several names, one linked (external -> new tab).
+    by: ['Aldous Venn', { name: 'Marit Okonkwo', url: 'https://example.com/people/marit-okonkwo' }, 'Tobias Lindqvist'],
     mediaDesc: [
       ['Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ', { emText: 'Wyrmwatch II (2019)' }, '. Also known as ', { emText: 'The Codex of Ashfall' }, ' in some markets.'],
     ],
@@ -24,6 +26,8 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 400
   },
   { chronoOrder: 900, recommendedOrder: 420, mediaType: 'Video',
     title: 'Wyrmwatch: Rise of the Wyrm', titleUrl: 'https://example.com/wiki/Rise_of_the_Wyrm', titleDate: '2020-11-20',
+    // Two roles, no default group: "directed by ..., written by ...".
+    by: [{ role: 'directed', names: 'Katie Sorrel' }, { role: 'written', names: 'Charles Whitlock' }],
     mediaDesc: [
       ['A 52-minute animated short following the founding of the first watchtower, made as a tie-in for ', { emText: 'Wyrmwatch II (2019)' }, '.'],
     ],
@@ -43,6 +47,17 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, recommendedOrder: 400
   },
   { chronoOrder: 320, recommendedOrder: 415, mediaType: 'Book',
     title: 'Wyrmwatch Chronicles: Cinderwake', titleUrl: 'https://example.com/wiki/Cinderwake', titleDate: '2025-11-12',
+    // Collapse: bare names join the default "by" group; 'Research' merges into
+    // 'research' (case-insensitive) at its first position; the same name under
+    // two roles is kept in both; a role-less `label` replaces "by".
+    by: [
+      'Julie Ferren',
+      { role: 'research', names: 'Charles Whitlock' },
+      'Katie Sorrel',
+      { role: 'Research', names: ['Charles Whitlock', 'Dana Pruitt'] },
+      { role: 'illustrated', names: 'Julie Ferren' },
+      { label: 'featuring', names: 'Isolde Marrow' },
+    ],
     mediaDesc: [
       ['Set shortly after ', { emText: 'Ashfall Uprising (2015)' }, ', a retired warden is called back to the frontier when the ember basin towers go dark.'],
     ],
