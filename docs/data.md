@@ -149,8 +149,15 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
 - **Comics/manga/manhwa:** art counts, so credit it.
   - Same person writes and draws: bare name.
   - Different people: `written` and `illustrated` roles, both explicit.
-- **Adaptations:** use the `adapted` role for whoever adapted the game
-  (novelization, manga of a game), books and comics alike.
+- **Adaptations:** when it's clearly an adaptation of source material
+  (a game's novelization or manga), the credit becomes `adapted` ("adapted
+  by").
+  - Flags that the original story came from someone else, without listing
+    them.
+  - Books: `adapted` replaces the bare name.
+  - Comics, same writer and artist: `adapted` replaces the bare name.
+  - Comics, different writer and artist: usually keep `written` and
+    `illustrated`; no `adapted`.
 
 ## Choosing a rating when more than one exists
 
