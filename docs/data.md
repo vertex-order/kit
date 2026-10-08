@@ -211,3 +211,18 @@ another entry.
   keeps the real name and year of the release it represents.
 - **A remaster that becomes the primary** is still cited by the original
   year in prose.
+
+## Naming a work with no official English title
+
+- **Title:** the best-sourced translation (usually the wiki's literal
+  one), kept stable. Follow the group's subtitle style; `~...~` is for
+  formats, volumes and sub-series, not a bare subtitle.
+- **Description:** "Released as *<transliterated original>* (<original
+  script>, literally "<gloss>")", then "sometimes referred to as"
+  followed by other names in use.
+- **Alternate names:** list any name people actually use (forum posts,
+  marketplace listings), including machine translations; they're what a
+  searcher types.
+  - Leave out names nobody uses.
+- **Sources:** record each alternate name in the entry's sources file
+  with where it was seen and a `*`.
