@@ -104,3 +104,19 @@ that once several candidate numbers are on the table.
   title, not necessarily the one for this specific one — e.g. a book's
   displayed rating can come from an omnibus edition's page even though
   the entry itself represents the individual volumes.
+
+## Naming a work in prose links
+
+Applies to any `emLinkText`/`emLinkUrl` in a description that points at
+another entry.
+
+- **Link text = short name + the year that named release first came
+  out** (`Birth by Sleep (2010)`), even when the target is a Final Mix or
+  remaster primary whose own heading says otherwise.
+- **Link the primary entry** when citing the story in general.
+- **Link the specific version/alt anchor** when the sentence depends on
+  that release's contents or timing (adaptations, borrowings, remakes).
+- **Never change a heading's name or date to match a link.** The heading
+  keeps the real name and year of the release it represents.
+- **A remaster that becomes the primary** is still cited by the original
+  year in prose.
