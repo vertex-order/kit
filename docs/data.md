@@ -134,8 +134,10 @@ and pull via `just sync`.
 - Name the **format** of the book, in the form of its country of origin:
   `Manga`, `Manhwa`, `Light Novel`, `Novel`, `Novella`, `Gamebook`,
   `Picture Book`, `Short Stories` (a true collection).
-- `Light Novel`: a Japanese light novel (bunko-sized, illustrated), also
-  when sold translated (e.g. Yen On).
+- `Light Novel`: only when the book is officially called one, in its
+  Japanese edition (a light-novel imprint such as a bunko line) or its
+  English edition (e.g. Yen On titles). Otherwise `Novel`. Genre tags on
+  Goodreads don't count.
 - `YA Novel`: only a book sold as young-adult in the West.
 - Content goes elsewhere (description, tags like `Short Stories`), not in
   place of the format.
