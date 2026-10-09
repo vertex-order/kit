@@ -262,6 +262,16 @@ another entry.
   - The `(series)` titles already put a lowercase parenthetical before the
     date.
 
+## Dates for serialized comics
+
+- **Start:** the first release or serialization date we can find; a reprint
+  or collected volume never replaces it.
+- **Use what we have:** most sources only date books and volumes, not
+  magazine serializations.
+  - Serialization start and end when documented.
+  - Else the volume dates.
+  - Start known but not the end: end at the last volume's date.
+
 ## Naming a work with no official English title
 
 - **Title:** the best-sourced translation (usually the wiki's literal
