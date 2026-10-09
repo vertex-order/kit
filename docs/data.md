@@ -129,6 +129,17 @@ and pull via `just sync`.
   title year's tooltip just gains ", sorted as <date>" so the order isn't
   a mystery.
 
+## Book format labels (tags and platform names)
+
+- Name the **format** of the book, in the form of its country of origin:
+  `Manga`, `Manhwa`, `Light Novel`, `Novel`, `Novella`, `Gamebook`,
+  `Picture Book`, `Short Stories` (a true collection).
+- `Light Novel`: a Japanese light novel (bunko-sized, illustrated), also
+  when sold translated (e.g. Yen On).
+- `YA Novel`: only a book sold as young-adult in the West.
+- Content goes elsewhere (description, tags like `Short Stories`), not in
+  place of the format.
+
 ## What belongs on a list
 
 - **Stories only:** adapted stories or original stories (novels, manga,
