@@ -142,6 +142,14 @@ and pull via `just sync`.
 - Content goes elsewhere (description, tags like `Short Stories`), not in
   place of the format.
 
+## Descriptions
+
+- Help a reader find the work and know what it is: what it adapts or
+  tells, and the names it goes by.
+- Leave out publishers, paperback vs hardcover, imprints and other
+  edition minutiae. That belongs in the sources file; the format already
+  shows in the tags and platform.
+
 ## What belongs on a list
 
 - **Stories only:** adapted stories or original stories (novels, manga,
