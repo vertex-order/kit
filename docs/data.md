@@ -237,6 +237,12 @@ another entry.
   subtitle, so the two can be confused.
 - We still use it to disambiguate a potential conflict, or wherever a
   clarification in the title helps.
+- **Exception:** when the title already carries a `~Subtitle~` (e.g. the
+  XI books), put the format in parentheses instead: `Final Fantasy XI
+  ~Winds of Prayer~ (Manga)`.
+  - A second tilde group would read as another subtitle.
+  - The `(series)` titles already put a lowercase parenthetical before the
+    date.
 
 ## Naming a work with no official English title
 
