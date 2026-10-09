@@ -163,6 +163,12 @@ and pull via `just sync`.
   - books that just list what is in the game (encyclopedias, ultimanias);
   - behind-the-scenes and developer content (interviews, making-of,
     commemorative books).
+- **Gag strips and 4-koma:** a book of them about one game qualifies once
+  there are enough to form a body of content, with or without a continuing
+  story; a lone strip inside an unrelated book (a game guide, say) doesn't.
+  Anthologies by many artists follow the same test.
+  - A general Final Fantasy gag book (not tied to one game) can go in
+    "other"; being limited to one game makes it a stronger yes.
 - **Mixed books:** judge by the story content; a guide or encyclopedia that
   carries original comics or stories is borderline, so decide per book.
 
