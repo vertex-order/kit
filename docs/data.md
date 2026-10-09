@@ -148,8 +148,9 @@ and pull via `just sync`.
 - Content goes elsewhere (description, tags like `Short Stories`), not in
   place of the format.
 
-## Book platform link (book entries only)
+## Book platform link (`Book` and `Comic` entries only)
 
+- Applies to `mediaType: 'Book'` and `'Comic'`; no other media type.
 - The `book` platform row helps a reader find a copy in their language
   from a store. We don't list stores: too regional, too many.
 - Pick, in order:
