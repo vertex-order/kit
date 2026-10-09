@@ -266,11 +266,13 @@ another entry.
 
 - **Start:** the first release or serialization date we can find; a reprint
   or collected volume never replaces it.
-- **Use what we have:** most sources only date books and volumes, not
-  magazine serializations.
-  - Serialization start and end when documented.
-  - Else the volume dates.
-  - Start known but not the end: end at the last volume's date.
+- **Use the best information available:** what we can find and record in
+  sources, not just what the entry already shows. Look for serialization
+  dates first.
+  - Most sources only date books and volumes, not magazine
+    serializations; when that's all there is, use the volume dates.
+  - Start known but not the end: end at the last volume's date, and say
+    in the sources file that it's a fallback.
 
 ## Naming a work with no official English title
 
