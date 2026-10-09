@@ -1,313 +1,234 @@
 # Sources
 
-- Every entry links out to a title article, edition/subtitle articles, a
-  rating page, store/platform pages, a publisher page. Descriptions
-  (esp. the plot intro) are usually synthesized across several of these
-  plus store marketing copy — not copied from one.
-- `sources/` records, per entry, what was actually read to write it — so
-  a claim can be checked without re-researching, and survives link rot.
-  Companion record, not rendered on the site.
+- Entries link out to title/edition articles, rating pages, store pages,
+  publisher pages. Descriptions are synthesized across these, not copied
+  from one.
+- `sources/` records, per entry, what was read to write it.
+  - Claims checkable without re-researching; survives link rot.
+  - Companion record, not rendered on the site.
+
+## Style
+
+- Succinct, point form. Everywhere: this doc and every `sources/` file.
+- Fragments over sentences. One fact per bullet.
+- No prose paragraphs, no narration, no restating what the entry data
+  already says.
+- Cut rationale to the shortest form that still justifies the line.
 
 ## Keeping it in step with entry data
 
-- Change an entry's data → update its sources file in the same pass.
-- Add or change a `by` credit → add or update an `## Author` line.
-  - Cite the page the credit came from, with the role it states.
-  - Name anyone deliberately left out (illustrator on a book, game
-    writer on an adaptation).
+- Change entry data → update its sources file in the same pass.
+- Add/change a `by` credit → add/update an `## Author` line.
+  - Cite the page, with the role it states.
+  - Name anyone deliberately left out (book illustrator, adaptation's
+    game writer).
   - Star `credits` on the existing source line.
-- Add or change an ISBN, edition or language link → update `## Editions
-  (ISBN)`, resolving the four lookup links as you go.
-- Confirm a lookup (e.g. an audiobook search has results) → add the URL
-  with the fact it proves and an `accessed` date.
-- Can't reach or verify a source → say so in the line; don't imply it was
-  checked.
-- Proposed `## Decisions` lines still need a human's go-ahead.
+- Add/change ISBN, edition, or language link → update `## Editions
+  (ISBN)`, resolve the four lookup links.
+- Confirmed a lookup → add URL, fact proved, `accessed` date.
+- Can't reach/verify a source → say so in the line. Never imply checked.
 
 ## File layout
 
-- One file per **entry** (not per edition), flat under `sources/`:
-  `sources/<slug>-<year>.md`
+- One file per **entry** (not per edition), flat: `sources/<slug>-<year>.md`
   - `<slug>` = entry's kebab-case `key`
   - `<year>` = entry's own top-level `releaseDate` year (not an edition's)
   - e.g. `final-fantasy-1987.md`
-  - Flat, not grouped by group: slug+year is already unique catalog-wide,
-    so a group subfolder isn't needed for disambiguation — and some
-    entries are cross-listed under more than one group in `site/data/`,
-    which would leave no clean answer for "which folder." One file, no
-    ambiguity.
-- All editions/sub-parts of the entry (remasters, DLC, alt releases) go in
-  the same one file, combined — no per-edition subsections.
-- Path mirrors the entry's own anchor id: `entry-<SERIES>-<slug>-<year>` →
-  drop the `entry-` prefix and the `<SERIES>-` segment, what's left is the
-  filename (`sources/<slug>-<year>.md`).
-- That mirroring happens once, at the entry's first citation; the
-  filename is then pinned. It is a citable name (GitHub discussions,
-  forum posts), so a later rebrand never renames it.
-- **Rename** = a later edition is promoted to the slot's `title` (a
-  "Final Mix", a "Re:"-prefixed remake) and the original demotes to an
-  `alts[]` or `versions[]` item.
-  - The slot's anchor changes to follow the new title.
-  - Pin the old anchor on the demoted original: set its `id` to the
-    pinned filename's slug (`sources/<id>.md`). Its anchor becomes
-    `entry-<group>-<id>`, so old links still land on the release they
-    meant, and anchor and filename match again.
-  - Update in-page links that pointed at the old derived anchor
-    (`check-anchors.py` lists them).
-  - The file keeps citing every edition either way (see "All
-    editions/sub-parts" above).
-- The slot's own `id` is also overridable in `site/data/`. Override wins:
-  rename the sources file to match it, don't re-derive from key/year.
-  Use it only for a deliberate collision fix, never a rebrand.
+  - Flat: slug+year already unique; entries can be cross-listed across
+    groups, so no clean folder answer.
+- All editions/sub-parts (remasters, DLC, alt releases) share the one
+  file. No per-edition subsections.
+- Filename mirrors anchor id: `entry-<SERIES>-<slug>-<year>` → drop
+  `entry-` and `<SERIES>-`.
+- Mirrored once, at first citation. Then pinned: citable name, never
+  renamed by a rebrand.
+- **Rename** = later edition promoted to slot `title`, original demoted
+  to an `alts[]`/`versions[]` item.
+  - Slot anchor follows new title.
+  - Pin old anchor on demoted original: set its `id` to pinned filename's
+    slug. Anchor becomes `entry-<group>-<id>`.
+  - Fix in-page links to old derived anchor (`check-anchors.py` lists them).
+  - File keeps citing every edition.
+- Slot `id` overridable in `site/data/`. Override wins: rename sources
+  file to match.
+  - Only for deliberate collision fix, never rebrand.
 
 ### Franchise-wide files
 
-- For a source that isn't tied to one entry — spans many entries, or
-  documents the franchise/group as a whole (a catalog/list page, a
-  group-overview article) — file as `sources/<slug>.md`, no year.
-  - e.g. `final-fantasy-franchise.md` for
-    [List of Final Fantasy video games](https://wikipedia.org/wiki/List_of_Final_Fantasy_video_games).
-  - Same internal structure as an entry file (`## Sources`, `##
-    Decisions`, etc. — see below).
-- Doesn't replace per-entry citing: a page like the list article above
-  still gets cited from each entry's own file too (it's genuinely a
-  source for that entry's dates/platforms). The franchise file is for
-  the fact that the page *itself*, as a franchise-spanning catalog, is
-  worth recording once — not a substitute for the per-entry lines.
+- Source spans many entries or documents the franchise: `sources/<slug>.md`,
+  no year.
+  - e.g. `final-fantasy-franchise.md`
+  - Same internal structure as an entry file.
+- Still cite the page from each entry's own file too.
+  - Franchise file records the page itself, once.
 
 ### Group-wide files
 
-- For a source covering one subgroup — file as `sources/<num>-group.md`,
-  no year. `<num>` = the site's own jump-link code (`#group-XII` →
-  `xii-group.md`), not the source's topic name — a group's article
-  title often doesn't match its group name (`Ivalice` vs. `XII`).
-  - e.g. `xii-group.md`, sourced from
-    [Ivalice](https://wikipedia.org/wiki/Ivalice).
-- Only add one when a source actually exists at that scope (a
-  group-overview article) — most groups don't need one.
-- `-group` (no year) vs. entry's `-<year>`: dated = entry, `-group` =
-  group rollup, neither = franchise-wide.
-  - Exception: `chocobo-series-1997.md` is a real dated entry (cross-
-    listed in `site/data/` in lieu of a full group section) — "series"
-    is just its title, not this pattern. Not a template to copy.
+- Source covers one subgroup: `sources/<num>-group.md`, no year.
+  - `<num>` = site's jump-link code (`#group-XII` → `xii-group.md`),
+    not the article's title (`Ivalice` ≠ `XII`).
+- Only when a source exists at that scope. Most groups need none.
+- Dated = entry, `-group` = group, neither = franchise.
+  - Exception: `chocobo-series-1997.md` is a dated entry. "series" is
+    its title. Not a template.
 
 ## Header policy for entry files: `##` only
 
-- Applies to files under `sources/`, not this doc.
-- `##` only, for the named top-level sections (`Sources`, `Decisions`,
-  `Surveyed`, `Not yet surveyed`). No `###`, no `####`.
-- Grouping *within* a section (by site) is a plain-text label line, not a
-  heading — these files are hand-edited plaintext far more than rendered.
-  - Exception: a **ratings site** section (Metacritic, Goodreads, IMDB,
-    etc.) may split its URLs under a bare `### Omnibus` subheading when
-    some of them score a multi-game collection page rather than this
-    entry alone — a real distinction worth seeing at a glance, since an
-    omnibus score isn't this entry's own. Not for other site sections
-    (Wikipedia, platform stores, etc.) — a plain-text label still covers
-    those.
-  - Exception: an `## Editions (ISBN)` section (see below) may use
-    `### Edition <label>` subheadings to split content-differentiated
-    editions.
+- Applies to `sources/` files, not this doc.
+- `##` only for top-level sections (`Sources`, `Decisions`, `Surveyed`,
+  `Not yet surveyed`). No `###`/`####`.
+- Grouping within a section (by site) = plain-text label line.
+  - Exception: ratings-site section may split URLs under bare
+    `### Omnibus` when some score a multi-game collection page.
+  - Exception: `## Editions (ISBN)` may use `### Edition <label>` for
+    content-differentiated editions.
 
 ## What goes in a file
 
-Not every field needs an entry — only what this doc calls out. Languages/
-tags/release dates usually don't need sourcing unless from something
-worth recording (e.g. a wiki that's since gone stale).
+- Only what this doc calls out.
+- Languages/tags/release dates need sourcing only if the source is worth
+  recording (e.g. a since-stale wiki).
 
-### Editions (ISBN) — books/comics with multiple print editions
+### Editions (ISBN) — books/comics with many printings
 
-For a book/comic/manga entry with many ISBN'd printings (translations,
-imprints, formats) — a `## Editions (ISBN)` section, structured
-differently from the site-grouped pattern below:
-
-- One label per **book** (print edition), not per site: `ISBN <isbn>`
-  when it has one, else `ASIN <asin>`, plus enough detail to identify it
-  (language, publisher, date, page count, format). Sub-bullets under the
-  label are that book's sources across sites (goodreads, Wikipedia's
-  `Special:BookSources?isbn=`, Google Books, Open Library, ...) — one
-  book can have several source lines under the same label.
-- Multiple **content-differentiated editions** (different bonus content/
-  story — not just a translation or reprint of the same content) →
-  `### Edition <label>` subheadings splitting the book labels
-  underneath, matching `site/data/`'s own edition split verbatim (e.g.
-  each edition's own `subtitleDate`) so it stays greppable against the
-  entry. This is the one place multi-level headers are normal in this
-  section — doesn't change the `##`-only policy below for the rest of
-  the file.
-- **Goal is language discovery, not a full print catalog.** The point is
-  finding which languages/locales a title is available in, to feed
-  `site/data/`'s `languages[]` — not cataloguing every printing that
-  ever existed.
-  - Stop hunting once a language's covered for an edition — a
-    multi-volume edition's languages don't vary by volume in practice;
-    don't re-sweep every volume separately looking for more.
-  - Don't chase a 3rd/4th/5th printing of an already-confirmed language.
-  - Still record whatever turns up anyway (a language you weren't
-    hunting for, a printing you stumble into) — "we looked at this" has
-    standing value even past the point of actively searching.
-- Prefer a **collection/omnibus edition**'s own source page as the
-  representative `languages[]`/rating link over an individual volume,
-  when one exists — closer match to how the entry displays (e.g. one
-  "4 volumes" unit) than an arbitrary single volume.
-- **Every ISBN'd book label gets 4 lookup links** (ASIN-only books skip
-  these — no ISBN to search):
-  - `wikipedia: https://wikipedia.org/wiki/Special:BookSources?isbn=<isbn>` — permanent, a real portal on its own.
+- One label per **book**: `ISBN <isbn>`, else `ASIN <asin>`.
+  - Plus identifying detail: language, publisher, date, pages, format.
+  - Sub-bullets = that book's sources across sites.
+- Content-differentiated editions (different bonus/story, not just
+  translation/reprint) → `### Edition <label>` subheadings.
+  - Match `site/data/` edition split verbatim (e.g. `subtitleDate`).
+- **Goal: language discovery**, not full print catalog. Feeds `languages[]`.
+  - Stop once a language is covered for an edition.
+  - Don't re-sweep volumes of a multi-volume edition.
+  - Don't chase 3rd/4th printings of a confirmed language.
+  - Record anything stumbled into anyway.
+- Prefer collection/omnibus edition's page over a single volume for the
+  `languages[]`/rating link.
+- **Every ISBN'd book gets 4 lookup links** (ASIN-only skip):
+  - `wikipedia: https://wikipedia.org/wiki/Special:BookSources?isbn=<isbn>` — permanent.
   - `goodreads: https://www.goodreads.com/search?q=<isbn>` — placeholder.
   - `google books: https://www.google.com/search?tbm=bks&q=isbn:<isbn>` — placeholder.
   - `open library: https://openlibrary.org/search?isbn=<isbn>` — placeholder.
-  - Once a placeholder is checked: found something → replace the search
-    URL with the specific edition page (+ `accessed <date>`). Found
-    nothing → keep the line, append `-- no results as of <date>`. Either
-    way, the bare unresolved search URL doesn't linger once acted on.
-- **Priority is coverage, not triple-confirmation** — some source per
-  ISBN, `goodreads > google books > open library`. One hit is enough;
-  checking the other two for that ISBN is optional cleanup.
-  - Goodreads already covers most/all of a title's languages → Google
-    Books/Open Library become a "nice to have later," not a full sweep.
-  - Leave those two placeholder lines unresolved when skipped this way —
-    still a todo, just deprioritized.
-- **Same order for the `languages[]` link itself, not just for citing** —
-  when a language has both a goodreads hit and a google books/open
-  library hit, `site/data/`'s own link uses the goodreads one.
-  - A google-books/open-library link on a language that already has a
-    goodreads page recorded for it is a bug — swap it.
-  - A google-books/open-library link is only correct when no goodreads
-    page has been found for that language yet (a real gap, not a choice).
+  - Placeholder checked:
+    - Hit → replace with edition page + `accessed <date>`.
+    - Miss → keep line, append `-- no results as of <date>`.
+    - Bare search URL never lingers once acted on.
+- **Coverage, not triple-confirmation.** Priority: `goodreads > google
+  books > open library`.
+  - One hit per ISBN is enough.
+  - Goodreads covers the languages → leave other two unresolved
+    (deprioritized todo).
+- Same order for the `languages[]` link in `site/data/`.
+  - Goodreads exists for language → google books/open library link is a
+    bug, swap it.
+  - Google books/open library correct only when no goodreads page found.
 
 ### Sources — one flat, deduped list
 
-- Group by **site** (plain-text label), not by entry field.
-  - A URL is a stable identity; entry fields move around as the entry
-    gets edited. Group by what holds still.
-  - Field-based grouping would also require hand-tracking the real data
-    schema as a second, separately-drifting copy — don't.
-  - Field info instead lives as a **per-URL tag**, so it's still
-    greppable by field.
-- One line per **use**, not per URL string — a bare URL and an anchored
-  URL are the same line unless they genuinely fed different facts.
-- `[Title]` label only when the URL itself doesn't say what it is (opaque
-  numeric app-store ID). A slug or named `#anchor` doesn't need one.
-  - Anchors rot faster than pages (silent rename) — if the anchor name
-    might drift, say the section name in words too.
-- Same page, multiple anchors: one line for the bare page URL, each
-  `#anchor` as its own indented sub-bullet below it — full
-  `<url>#anchor`, not just `#anchor`, so the sub-bullet stays clickable
-  on its own — not separate flat lines.
-- **`*` on a tag** = "this fact is actually reflected in the entry right
-  now." Unstarred = "this page covers it too," not a claim of origin.
-  - Coarse, not a footnote — no per-word/per-sentence tracing.
-  - Does **not** mean "linked from `site/data/`" — that would require
-    re-verifying against the live data file on every edit (the exact
-    sync burden this file exists to avoid). Star it because you know the
-    fact is real, not because you matched it to a literal href.
+- Group by **site** (plain-text label), not entry field.
+  - URL is stable; fields move.
+  - Field grouping = second drifting copy of the schema.
+  - Field info = per-URL tag instead.
+- One line per **use**, not per URL string.
+  - Bare + anchored URL = same line unless they fed different facts.
+- `[Title]` only when URL is opaque (numeric app-store ID).
+  - Anchor might drift → also name the section in words.
+- Same page, multiple anchors: one bare-URL line, each anchor an
+  indented sub-bullet with full `<url>#anchor`.
+- **`*` on a tag** = fact is reflected in the entry now.
+  - Unstarred = page covers it too, no claim of origin.
+  - Coarse, no per-sentence tracing.
+  - Not "linked from `site/data/`". Star because the fact is real.
 - Line shape:
-  `<url> — <field(s) fed> — accessed YYYY-MM-DD — archived: <wayback-or-archive.today-url>`
-  - Drop `archived:` only when truly unarchivable (paywalled app-store
-    deep links). `archived: TODO` is fine — batch-fill later; access
-    date alone is enough to find/create a snapshot afterward.
+  `<url> — <field(s) fed> — accessed YYYY-MM-DD — archived: <url>`
+  - Drop `archived:` only if unarchivable (paywalled app-store links).
+  - `archived: TODO` fine; batch-fill later.
   - Archive via [web.archive.org/save](https://web.archive.org/save),
     fallback [archive.today](https://archive.ph/).
-  - Only skimmed, not read closely? Append `— shallow: <what wasn't
-    checked>` (same tag as Surveyed, below).
-- Platform-store/rating links that are already the site's own outbound
-  link still get a line — they're the most likely to be taken down.
-- Duplicate/mirror site (breezewiki mirroring Fandom): don't bolt a
-  second URL onto the canonical page's line. If the mirror was actually
-  consulted, it's its own line in `## Surveyed`, marked `dup`, nested
-  under the page it duplicates.
-- Strip locale-specific parts when recording a URL: `en.wikipedia.org` →
-  `wikipedia.org`, a Google Books link's country TLD (`.ca`, `.co.uk`,
-  ...) → `.com`, drop a `?hl=<lang>` query param. Keeps the recorded URL
-  from silently implying "this is the English/regional version" when
-  the content is locale-agnostic.
+  - Skimmed only → append `— shallow: <what wasn't checked>`.
+- Site's own outbound platform-store/rating links still get a line
+  (likeliest to be taken down).
+- Mirror site (breezewiki for Fandom): own line in `## Surveyed`, tagged
+  `dup`, nested under the canonical page. Don't add to canonical line.
+- Strip locale when recording URLs:
+  - `en.wikipedia.org` → `wikipedia.org`
+  - Google Books country TLD → `.com`
+  - Drop `?hl=<lang>`
 
 ### Which source wins for a given fact
 
-Default pecking order when multiple sources could back the same fact.
-Default to reach for, not a hard rule — override and say why in
-`## Decisions` when needed.
+Default pecking order. Override only with a `## Decisions` line (see
+Decisions rules).
 
-- **dates** — Wikipedia ≈ a specialized/fan wiki (khwiki, etc.) > other
-  sources (goodreads, amazon, google books, storefronts, ...) — a
-  retailer listing's date commonly drifts a few days from the announced
-  date; treat that drift as noise, not a competing fact
-- **story** — publisher/dev site > platform store page > fan wiki > Wikipedia
-- **platforms** — fan wiki ≈ Wikipedia for describing which platforms;
-  a store page only proves *its own* platform's existence (different job)
-- **versions** — fan wiki > Wikipedia > platform store page > publisher/dev site
+- **dates** — Wikipedia ≈ specialized/fan wiki > others (goodreads,
+  amazon, google books, storefronts)
+  - Retailer drift of a few days = noise, not a competing fact.
+- **story** — publisher/dev site > platform store > fan wiki > Wikipedia
+- **platforms** — fan wiki ≈ Wikipedia
+  - Store page proves only its own platform.
+- **versions** — fan wiki > Wikipedia > platform store > publisher/dev site
 - **game ratings** — Metacritic (critic, then user)
 - **video/film ratings** — IMDB > Metacritic > TMDB
 - **book ratings** — Goodreads
-- **game age rating** — not site-priority: use whichever page(s) show an
-  actual ESRB rating (not marketing blurb); disagreement → take the lowest
-- **languages** — platform store page > fan wiki
-- **game length** — not site-priority: HowLongToBeat always wins (see
-  below); multiple HLTB entries for the same game → take the longest
+- **game age rating** — any page showing an actual ESRB rating
+  - Disagreement → lowest.
+- **languages** — platform store > fan wiki
+- **game length** — HowLongToBeat always
+  - Multiple HLTB entries → longest.
 
-### Typical tags by site (reference, not a taxonomy)
+### Typical tags by site (reference, not taxonomy)
 
-Free text, not a controlled vocabulary — write what's true for the page
-in front of you. Memory aid for what a site usually offers and which tag
-defaults to `*`. Default star only where a site is *unconditionally* top
-(a store always proves its own platform exists); context-dependent picks
-(story, versions, which rating site) aren't pre-starred — decide per entry.
+- Free text. Memory aid for what a site offers and which tag defaults
+  to `*`.
+- Default star only where a site is *unconditionally* top.
+- Context-dependent picks (story, versions, ratings site): decide per entry.
+
+Sites:
 
 - **Wikipedia** — dates\*, story, platforms, tags, versions
 - **Fandom wikis (+ mirrors)** — dates\*, platforms\*, tags, versions\*, age
-  — starred: tied-top of the dates pecking order, top/tied-top of the
-  platforms/versions pecking order
 - **MobyGames** — credits, platforms, regional release info
-- **Metacritic** — ratings\*, story, platforms, age — starred: top of the
-  game-ratings order
+- **Metacritic** — ratings\*, story, platforms, age
 - **Digital storefronts** (Steam, Xbox, PlayStation, Nintendo, Google
   Play, Apple App Store, Apple Arcade, Amazon) — age\*, dates, platforms,
   story, ratings, tags, versions
-  - `age*`: store page is the direct source for its own real ESRB rating
-  - `platforms` unstarred: proves *its own* platform exists, but that's
-    narrower than being the primary source for the platforms *list*
-    (a wiki table beats one store visit per platform) — note existence
-    as plain text ("proves existence of platform"), not a star
-  - Visiting the page is routine (confirm the release is real); its
-    marketing copy/story/version claims stay unstarred and unused unless
-    something else about the entry looks off and it's being used to
-    sanity-check
-  - `languages*` confirmed reliable on: Steam, Xbox, Apple App Store,
-    Apple Arcade, Nintendo, Amazon. Known exceptions (expected, not a
-    flag): PlayStation generally lacks it, Google Play unreliable.
-    Missing on any of the other six → worth a second look.
-  - Only PlayStation and Xbox listings give per-platform variant detail
-    (e.g. "Xbox Series X|S Optimized", "PS4 Pro Enhanced")
-- **Publisher site (store/marketing page)** — story\*, platforms, versions,
-  dates, languages — starred: top of the story order
-- **Publisher press kit / blog post** — story, platforms, versions, dates
-  — promotional boilerplate, rarely worth a star even from the publisher
+  - `age*`: direct source of its own ESRB rating.
+  - `platforms` unstarred: proves own platform only. Note as plain text
+    ("proves existence of platform").
+  - Visiting = routine existence check. Marketing copy/story/versions
+    unstarred, unused unless entry looks off.
+  - `languages*` reliable on: Steam, Xbox, Apple App Store, Apple
+    Arcade, Nintendo, Amazon.
+    - Exceptions: PlayStation generally lacks it, Google Play unreliable.
+    - Missing on the other six → second look.
+  - Only PlayStation and Xbox give per-platform variant detail
+    ("Xbox Series X|S Optimized", "PS4 Pro Enhanced").
+- **Publisher site (store/marketing)** — story\*, platforms, versions,
+  dates, languages
+- **Publisher press kit / blog** — story, platforms, versions, dates
+  - Promotional; rarely starred.
 - **HowLongToBeat** — length\*, dates, platforms
-  - Games only, unconditionally the length source (not context-dependent)
-  - Platform list may reflect emulation, not official releases; release
-    dates often unverified — both informational only
-  - Books/film use Goodreads/IMDB for length instead
-- **IMDB** — ratings\*, story, dates, credits — starred: top of the
-  video/film ratings order (film/TV `mediaType`, not games)
-- **Goodreads** — ratings\*, length (page count), dates, story — starred:
-  only book-ratings source in the order, wins by default for books
-- **TMDB** — ratings\* — starred only when IMDB and Metacritic both lack
-  an entry, last in the video/film ratings order
+  - Games only; unconditional length source.
+  - Platforms may reflect emulation; dates often unverified. Informational.
+  - Books use Goodreads, film IMDB, for length.
+- **IMDB** — ratings\*, story, dates, credits
+  - Film/TV `mediaType` only.
+- **Goodreads** — ratings\*, length (pages), dates, story
+  - Only book-ratings source.
+- **TMDB** — ratings\*
+  - Starred only when IMDB and Metacritic both lack an entry.
 
-Add a site here when you notice a pattern — don't pre-populate for sites
-you haven't hit yet.
+Add a site when a pattern shows up. Don't pre-populate.
 
-**Old titles:** publisher/platform pages disappear fast. Pre-2010 pages
-are unlikely to still be online; pre-2000 usually never existed online.
-Missing storefront/publisher rows on an old entry isn't a gap to chase —
-it's expected, and wikis are doing real work there a store page couldn't.
-Wayback Machine doesn't rescue this either — it's a lookup by known URL,
-not a search engine. No recorded URL means nothing to look up.
+**Old titles:**
+
+- Pre-2010 publisher/platform pages mostly gone; pre-2000 rarely existed.
+- Missing storefront/publisher rows on old entries = expected, not a gap.
+- Wayback is lookup-by-URL, not search. No recorded URL, nothing to look up.
 
 ### Plot intro sourcing
 
-Synthesized across sources — don't quote it, map each claim to its
-origin as a plain-text label + bullets:
+- Synthesized. Don't quote; map each claim to origin: label + bullets.
 
 ```md
 Final Fantasy (1987) — plot intro
@@ -316,44 +237,49 @@ Final Fantasy (1987) — plot intro
 - "Chaos" as antagonist: [Final Fantasy Wiki](https://finalfantasy.fandom.com/wiki/Chaos) — accessed 2026-09-18
 ```
 
-Unsourced claim = signal something was invented — fix it or find the
-source, don't backfill a citation to match it.
+- Unsourced claim = something invented. Fix it or find the source. Don't
+  backfill a citation to match.
 
 ### Decisions
 
-Record a choice only when there *was* one (among rating sites, or wikis
-disagreeing). One line each, latest reasoning is enough:
-
-- **Not an editing-history log.** A line states the standing choice and
-  why — it never narrates the edit that produced it ("switched from X to
-  Y", "old link had a bug, fixed it", "re-pasted with fuller data, now
-  confirmed"). If a later edit changes the choice again, overwrite the
-  line in place — don't stack a second entry describing the change on
-  top of the first. Same rule for the rest of the file, not just this
-  section: no session-by-session/edit-history narration anywhere in a
-  `sources/` file — it records what's true and why, not what an editing
-  session did.
-- **AI-authored entries need a human's explicit go-ahead before they're
-  added.** An assistant proposes the line and its reasoning; a human
-  confirms it belongs; only then does it go in `## Decisions`. A
-  proposed-but-unconfirmed line isn't added and left standing on the
-  assumption it'll be caught on review — it doesn't belong in the file
-  until confirmed.
+- Rare. Only for what the sources can't carry on their own:
+  - Serious, large conflicts between sources.
+  - Disambiguations.
+  - Calls not backed by the information itself.
+  - Opinion, especially human.
+- NOT for: ordinary edits, credits, links, ISBNs, dates, descriptions,
+  anything already in the pecking order, anything communicated elsewhere
+  (commits, chat, entry data, other sections).
+- One line each: standing choice + why.
+- **Assistant never adds a line on its own prompting.** Not "proposed
+  and left in".
+  - Add only when the user clearly says to, in so many words.
+  - Absent that, `## Decisions` stays untouched.
+- **Assistant should suggest** when it hits any of:
+  - Very large decision.
+  - Large conflict resolution.
+  - Opinion (esp. human) shaping the entry.
+  - Suggest = ask in chat: "Add to Decisions?" + the proposed line.
+  - Then wait. No answer, or no clear yes = not added.
+  - Don't suggest for minor choices. Don't nag.
+- **Not an editing-history log.** Line states the standing choice, never
+  the edit ("switched from X to Y", "old link had a bug").
+  - Choice changes → overwrite in place. Don't stack.
+  - Whole file: no session-by-session narration.
 
 ```md
 ## Decisions
 
-- Rating: Metacritic critic (80) over Metacritic user (7.0, same page) and Steam (no numeric score, "Overwhelmingly Positive" tag only) — critic score used as the headline number per site convention.
-- Villain name: used "Garland" (Wikipedia, Final Fantasy Wiki) over "Garuda" (an early fan-translation-era spelling still on one stale wiki mirror).
+- Rating: Metacritic critic (80) over Metacritic user (7.0) and Steam (no numeric score) — critic score is the headline number per site convention.
+- Villain name: "Garland" (Wikipedia, Final Fantasy Wiki) over "Garuda" (early fan-translation spelling on one stale mirror).
 ```
 
 ### Surveyed — the research catalog, rough
 
-`## Sources` only holds what got cited. Research usually covers far more
-— wiki mirrors, marketing copy that says nothing new, true-but-unused
-facts. Keep that too (link rot doesn't spare it) at a lower bar: flat
-list, **no headers ever** — a header invites pasting an article into it;
-a bullet can't hold 200 lines without looking obviously wrong.
+- `## Sources` = cited only. `## Surveyed` = everything else researched:
+  mirrors, empty marketing copy, true-but-unused facts.
+- Lower bar. Flat list, **no headers ever**.
+  - A header invites pasting an article.
 
 ```md
 ## Surveyed
@@ -371,54 +297,39 @@ Rough. No polish obligation. Tags: `used` · `dup` · `mine` · `empty` · `shal
 - ja.wikipedia.org · Famitsu archive · Nintendo Power scans
 ```
 
-Line shape: `- [Title](url) — what's uniquely here — verdict[, verdict…]`.
-Tags are **non-exclusive** — combine (`used, shallow` is normal):
-
-- `used` — reflected in `## Sources`; this is the fuller note
-- `dup` — same content as another entry; nest under it, don't re-list
-- `mine` — has something not yet in the entry, worth a look later (the
-  one that makes this a todo list, not just an archive of dead ends)
-- `empty` — checked, nothing usable
-- `shallow` — skimmed, not read closely; combine with `used`/`mine`.
-  This is how "deserves a deeper pass" gets recorded — a tag, not a
-  second list. `## Not yet surveyed` stays literal: *never opened*.
-
-Never paste article text — write one line while reading, move on.
-Pasting defers the real work and reproduces licensed text at volume far
-beyond what Quotes (below) covers. Out of time? Stop and list what's
-left under `## Not yet surveyed` — an honest partial catalog beats one
-that implies completeness.
-
-Two independent sources agreeing is enough — don't keep surveying past
-that. Mirror turns out to be a dead end? Mark `dup`, move on — no need
-to pre-check anything, just don't linger once it's obviously a repeat.
+- Line shape: `- [Title](url) — what's uniquely here — verdict[, verdict…]`
+- Tags non-exclusive (`used, shallow` normal):
+  - `used` — reflected in `## Sources`; fuller note there
+  - `dup` — same content as another entry; nest under it
+  - `mine` — has something not yet in the entry; the todo marker
+  - `empty` — checked, nothing usable
+  - `shallow` — skimmed; combine with `used`/`mine`. Records "deserves
+    deeper pass". `## Not yet surveyed` = never opened.
+- Never paste article text. One line while reading, move on.
+- Out of time → list the rest under `## Not yet surveyed`. Honest partial
+  beats implied complete.
+- Two agreeing sources = enough. Obvious repeat/dead-end → `dup`, move on.
 
 ### Quotes
 
-Sparingly — only a contested/load-bearing fact where exact wording
-matters, never the default citation method. Short (well under a
-paragraph), plainest sentence that states the fact, license tagged:
+- Sparingly: contested/load-bearing fact where exact wording matters.
+- Short (well under a paragraph), plainest sentence, license tagged.
 
 ```md
 > "The game was originally planned to be Square's swan song before an unexpected commercial success."
 — [Wikipedia: Final Fantasy (video game)](https://wikipedia.org/wiki/Final_Fantasy_(video_game)), CC BY-SA 4.0, accessed 2026-09-18
 ```
 
-A quote keeps the *source's* license, not this repo's ([LICENSE](../LICENSE))
-— true for BY-SA or BY-NC-SA: unmodified reproduction of a fragment
-stands alone under its own terms if clearly quoted/attributed. Paraphrase
-+ keep the license tag = wrong — a paraphrase is an adaptation, inherits
-the source's terms for real.
+- Quote keeps the *source's* license, not this repo's ([LICENSE](../LICENSE)).
+- Paraphrase + license tag = wrong. Paraphrase is an adaptation, inherits
+  source terms.
 
 ## What this doc is not
 
-- Not a citation footnote system for the live site — the page stays
-  clean prose, `sources/` holds the receipts.
-- Not a mechanism to justify every word choice — only sourced facts and
-  cross-source conflicts need a line.
-- Not retroactive — new/edited entries get a sources file going forward,
-  no obligation to backfill.
-- Not an editing-history/changelog of AI or human sessions — a
-  `sources/` file states current facts and standing decisions, not a
-  log of what got added, fixed, or re-checked and when. That belongs in
-  commit messages, not the file.
+- Not a footnote system for the live site. Page stays clean; `sources/`
+  holds receipts.
+- Not a justification for every word choice. Only sourced facts and
+  cross-source conflicts.
+- Not retroactive. New/edited entries only.
+- Not an editing-history/changelog. Current facts and standing decisions
+  only. History belongs in commit messages.
