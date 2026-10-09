@@ -149,6 +149,9 @@ and pull via `just sync`.
 - Leave out publishers, paperback vs hardcover, imprints and other
   edition minutiae. That belongs in the sources file; the format already
   shows in the tags and platform.
+- Rare exception: versions with different bonus content may need a
+  publisher to tell them apart (e.g. the KH1 novel or manga). Don't add
+  one where there wasn't one; don't remove an existing one.
 
 ## What belongs on a list
 
