@@ -129,6 +129,19 @@ and pull via `just sync`.
   title year's tooltip just gains ", sorted as <date>" so the order isn't
   a mystery.
 
+## What belongs on a list
+
+- **Stories only:** adapted stories or original stories (novels, manga,
+  comics, audio dramas, scripts of them).
+- **Not listed:**
+  - pure artbooks;
+  - walkthroughs and game guides;
+  - books that just list what is in the game (encyclopedias, ultimanias);
+  - behind-the-scenes and developer content (interviews, making-of,
+    commemorative books).
+- **Mixed books:** judge by the story content; a guide or encyclopedia that
+  carries original comics or stories is borderline, so decide per book.
+
 ## Deciding what counts as one entry
 
 How many entries a body of work gets (labelling is docs/subtitle.md).
