@@ -175,14 +175,11 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
   - Comics, different writer and artist: `adapted` and `illustrated`
     (the adapter takes the place of `written`).
   - `written` and `illustrated` are for original, non-adapted comics.
-- **Naming the source's creator in a description:**
-  - Source is a book: name its author ("Manga adaptation of <book> by
-    <author>"); a book's author is its sole, tied credit.
-    - Skip it when the description links the source's own entry; that
-      entry already credits them.
-  - Source is a game or film: don't name the writer or director.
-  - Either way, the source's creator is not added to the adaptation's
-    `by`.
+- **Source's creator in a description:**
+  - Book source: name its author, unless the description links the
+    source's own entry (it already credits them).
+  - Game or film source: don't name the writer or director.
+  - Never add them to the adaptation's `by`.
 
 ## Choosing a rating when more than one exists
 
