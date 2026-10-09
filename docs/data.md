@@ -148,6 +148,24 @@ and pull via `just sync`.
 - Content goes elsewhere (description, tags like `Short Stories`), not in
   place of the format.
 
+## Book platform link (book entries only)
+
+- The `book` platform row helps a reader find a copy in their language
+  from a store. We don't list stores: too regional, too many.
+- Pick, in order:
+  - Goodreads **series** page, when the series exists: it links every
+    volume and its language editions.
+  - Else a Goodreads book page that lists the other languages as alternate
+    editions.
+  - Otherwise the DuckDuckGo search row
+    (`paren: 'DuckDuckGo', search: 'duckduckgo'`).
+- Never repeat `profileUrl` in the `book` row (e.g. the publisher's English
+  store page). Same page twice, and no route to a store.
+- Search row:
+  - Omit `searchTitle` unless punctuation breaks the results.
+  - No language word in the query; the reader adds their own.
+  - `noResults` only if the search really comes back empty.
+
 ## Descriptions
 
 - Help a reader find the work and know what it is: what it adapts or
