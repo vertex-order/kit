@@ -120,6 +120,12 @@ and pull via `just sync`.
   split. `ongoing` (a franchise/series expected to get more entries) is
   unrelated to `releaseDate`'s future-dated / `Upcoming` machinery (see
   docs/upcoming.md), which is about one specific unreleased title.
+- **Native release is the authoritative date** for `titleDate`
+  start/end.
+  - Use the original-language release, even when a translation lands later.
+  - Range `end`: latest native release (e.g. last native volume), not
+    the translation's.
+  - Translation dates stay in `sources/`, unstarred.
 - **`releaseOrderDate` is a sort-only date** (on a `media[]` slot, same
   grammar as `titleDate`). It only affects the two release-order modes, for
   a primary that's a renamed remake/Final Mix whose own `titleDate` would
