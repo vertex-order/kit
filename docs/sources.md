@@ -150,6 +150,15 @@
   (likeliest to be taken down).
 - Mirror site (breezewiki for Fandom): own line in `## Surveyed`, tagged
   `dup`, nested under the canonical page. Don't add to canonical line.
+- **Fan translations:** the entry's EN link is usually a DuckDuckGo
+  translation search.
+  - A search can't be relied on to find the translation later.
+  - So record the actual translation pages found, one line each with
+    `accessed` and `archived:`. Host examples: Reddit, imgur, MangaDex, AO3.
+  - If the entry already links a stable page directly (e.g. a wiki article),
+    no extra line: wikis are assumed archived (own history plus Wayback).
+    Cite that page and the access date.
+  - Sources only; the translation pages stay out of `site/data/`.
 - Strip locale when recording URLs:
   - `en.wikipedia.org` → `wikipedia.org`
   - Google Books country TLD → `.com`
