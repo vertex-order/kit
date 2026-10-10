@@ -328,6 +328,13 @@ another entry.
     serializations; when that's all there is, use the volume dates.
   - Start known but not the end: end at the last volume's date, and say
     in the sources file that it's a fallback.
+- **Magazine serialization: use the on-sale date**, when a reader could
+  actually buy the issue, not the issue's cover month.
+  - Fallback order when no on-sale date can be found: the issue month
+    ("May 2012 issue"), then the volume's publish date. Say so in the
+    sources file.
+  - Don't derive an on-sale date from the magazine's usual sale day; it
+    shifts around weekends and holidays. Record only a sourced date.
 
 ## Naming a work with no official English title
 
