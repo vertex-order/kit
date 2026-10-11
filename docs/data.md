@@ -319,20 +319,24 @@ another entry.
 
 ## Dates for serialized comics
 
-- **Start:** the first release or serialization date we can find; a reprint
-  or collected volume never replaces it.
+- **Source preference, for both start and end:** syndication (the magazine
+  serialization) > volume publish > omnibus publish.
+  - Start: the first date we can find in the best tier available; a
+    reprint or collected volume never replaces it.
+  - End: the last date in the best tier available.
 - **Use the best information available:** what we can find and record in
   sources, not just what the entry already shows. Look for serialization
   dates first.
   - Most sources only date books and volumes, not magazine
-    serializations; when that's all there is, use the volume dates.
+    serializations; when that's all there is, use the volume dates, and
+    an omnibus only when no single volume has a date.
   - Start known but not the end: end at the last volume's date, and say
     in the sources file that it's a fallback.
 - **Magazine serialization: use the on-sale date**, when a reader could
   actually buy the issue, not the issue's cover month.
   - Fallback order when no on-sale date can be found: the issue month
-    ("May 2012 issue"), then the volume's publish date. Say so in the
-    sources file.
+    ("May 2012 issue"), then the volume's publish date, then the
+    omnibus's. Say so in the sources file.
   - Don't derive an on-sale date from the magazine's usual sale day; it
     shifts around weekends and holidays. Record only a sourced date.
 
