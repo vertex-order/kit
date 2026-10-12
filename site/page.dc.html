@@ -1698,7 +1698,7 @@ class Component extends DCLogic {
       { keys: ['Movie', 'TV', 'Video'], label: 'movies & videos' },
       { keys: ['Book'], label: 'books' },
       { keys: ['Comic'], label: 'comics' },
-      { keys: ['Audio'], label: 'radio dramas' },
+      { keys: ['Audio'], label: 'audio dramas' },
     ].filter(seg => statTotal(...seg.keys) > 0).map(seg => `${statVal(...seg.keys)} ${seg.label}`);
     const statParts = [`${raw.length} ${raw.length === 1 ? GROUP_LABEL_LOWER : GROUP_LABEL_PLURAL_LOWER}`, ...statSegments];
     const statsJoined = statParts.length > 1

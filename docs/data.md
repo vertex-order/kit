@@ -145,6 +145,8 @@ and pull via `just sync`.
   English edition (e.g. Yen On titles). Otherwise `Novel`. Genre tags on
   Goodreads don't count.
 - `YA Novel`: only a book sold as young-adult in the West.
+- `Audio drama`: any audio-only drama (CD, download, broadcast). Not
+  "Radio drama" or "Drama CD"; keep those only in a quoted source title.
 - Content goes elsewhere (description, tags like `Short Stories`), not in
   place of the format.
 
