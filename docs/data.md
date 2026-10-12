@@ -126,6 +126,8 @@ and pull via `just sync`.
   - Range `end`: latest native release (e.g. last native volume), not
     the translation's.
   - Translation dates stay in `sources/`, unstarred.
+- **Same-day ties:** add a trailing order number (`2011-12-15 10`) only when
+  entries in the same series share a date. Otherwise leave it off.
 - **`releaseOrderDate` is a sort-only date** (on a `media[]` slot, same
   grammar as `titleDate`). It only affects the two release-order modes, for
   a primary that's a renamed remake/Final Mix whose own `titleDate` would
