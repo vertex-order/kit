@@ -1345,6 +1345,7 @@ class Component extends DCLogic {
         return {
           title: m.title, titleUrl: m.titleUrl, titleDate: m.titleDate,
           mediaType: m.mediaType, chronoOrder: m.chronoOrder, narrativeOrder: m.narrativeOrder,
+          narrativeSection: m.narrativeSection, chronoSection: m.chronoSection, releaseSection: m.releaseSection,
           gDate,
           releaseSortKey: releaseSortKey(m.titleDate, gDate),
           // What modes C/D actually sort by: the slot's `releaseOrderDate`
@@ -1403,9 +1404,27 @@ class Component extends DCLogic {
       }
       return s.narrativeOrder ?? 0;
     };
+    // Sections (group.sections[]): per order, all-or-nothing -- validate-data.py
+    // guarantees that when any section lists this mode, every slot names one of
+    // them. Overall mode has no sections (it flattens every group away).
+    const sectionFieldByMode = { narrative: 'narrativeSection', chrono: 'chronoSection', release: 'releaseSection' };
+    const sectionOrderByMode = { narrative: 'narrativeOrder', chrono: 'chronoOrder', release: 'releaseOrder' };
+    const sectionField = sectionFieldByMode[mode];
+    const sectionSortKey = sec => mode === 'release'
+      ? releaseSortKey(sec.releaseOrder, titleDateKey(sec.releaseOrder))
+      : (sec[sectionOrderByMode[mode]] ?? 0);
+    const activeSections = s => sectionField
+      ? (s.sections || []).filter(sec => (sec.orders || []).includes(mode))
+        .sort((a, b) => { const ka = sectionSortKey(a), kb = sectionSortKey(b); return ka < kb ? -1 : ka > kb ? 1 : 0; })
+      : [];
     const orderedGroups = groups
       .map(s => {
+        const secPos = new Map(activeSections(s).map((sec, i) => [sec.id, i]));
         const media = s.media.slice().sort((a, b) => {
+          if (secPos.size) {
+            const pa = secPos.get(a[sectionField]), pb = secPos.get(b[sectionField]);
+            if (pa !== pb) return pa - pb;
+          }
           const ka = gameSortKey(a), kb = gameSortKey(b);
           return ka < kb ? -1 : ka > kb ? 1 : 0;
         }).map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
@@ -1415,7 +1434,32 @@ class Component extends DCLogic {
         const ka = groupSortKey(a), kb = groupSortKey(b);
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
-    let displayGroups = orderedGroups;
+    // A sectioned group renders as its own heading (title, note, total count,
+    // no entries) followed by one group-style block per section, each titled
+    // with a "Part of" line back to the group. Entry anchors are untouched.
+    const withSections = list => list.flatMap(s => {
+      const secs = activeSections(s);
+      if (!secs.length) return [s];
+      return [{ ...s, media: [] }, ...secs.map(sec => {
+        const media = s.media.filter(g => g[sectionField] === sec.id);
+        const summary = buildSummary(media, null, g => g.checked, g => g.skipped);
+        const note = appendProsePara(sec.note, summary);
+        const code = s.num + ' · ' + sec.id;
+        const num = s.num + '-' + sec.id;
+        return {
+          num, title: sec.title, url: null, note, noteParas: toProseParas(note), media,
+          navLabel: code + ' — ' + sec.title,
+          tagTooltip: sec.title,
+          eyebrow: GROUP_LABEL_UPPER + ' ' + code,
+          parentTitle: s.title, parentAnchor: '#group-' + s.num,
+          id: 'group-' + num, anchor: '#group-' + num,
+          linkTitle: 'Link to this section',
+          ...this.buildPilcrow('group-' + num),
+          sectionRef: el => { if (el) this.groupEls[num] = el; else delete this.groupEls[num]; },
+        };
+      })];
+    });
+    let displayGroups = withSections(orderedGroups);
     if (mode === 'overall') {
       const keptAnchorByKey = new Map();
       const flat = [];

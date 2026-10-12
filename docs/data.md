@@ -128,6 +128,28 @@ and pull via `just sync`.
   - Translation dates stay in `sources/`, unstarred.
 - **Same-day ties:** add a trailing order number (`2011-12-15 10`) only when
   entries in the same series share a date. Otherwise leave it off.
+- **`sections[]` splits a big group into labelled sections, per order.**
+  - Use one only for an official series or one ordered story arc inside a
+    big group (e.g. a continuity within a franchise universe) that people
+    would read together. Never a media type ("all the books"), a status
+    ("optional") or "misc".
+  - A section is `{ id, title, note?, orders, narrativeOrder?, chronoOrder?,
+    releaseOrder? }`. `orders` lists the orders it exists in (`narrative`,
+    `chrono`, `release`) and must match the `<order>Order` values it
+    carries exactly. `releaseOrder` is a date (same grammar as
+    `titleDate`); the other two are plain sort keys like an entry's.
+  - A slot names its section per order: `narrativeSection`,
+    `chronoSection`, `releaseSection` (the section's `id`).
+  - Each order is all-or-nothing. If any section lists an order, every
+    slot in the group sets that order's field, to a section that lists the
+    order; if none does, that order is flat and no slot sets the field. A
+    section that lists an order but has no slot in it fails too.
+    `scripts/validate-data.py` enforces all of this.
+  - Overall order ignores sections. Entry anchors never change.
+  - Rendered as the group's own heading (note, total counts, no entries)
+    followed by one block per section: eyebrow `<group> · <id>`, a "Part
+    of <group>" link, the section note and its own counts. Each section is
+    also its own jump-menu item (`VII · C — title`).
 - **`releaseOrderDate` is a sort-only date** (on a `media[]` slot, same
   grammar as `titleDate`). It only affects the two release-order modes, for
   a primary that's a renamed remake/Final Mix whose own `titleDate` would

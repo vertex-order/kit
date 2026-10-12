@@ -26,6 +26,12 @@
       "type": "number",
       "description": "Group sort key for Narrative mode (the default). Defaults to 0 when omitted."
     },
+    "sections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Section" },
+      "minItems": 1,
+      "description": "Optional. Splits this group into labelled sections, per order -- see Section. Each order is all-or-nothing: if any section lists an order in its `orders`, every `media[]` slot must set that order's `<order>Section` field (narrativeSection / chronoSection / releaseSection) to the id of a section that lists the order; if none does, that order renders the group flat and no slot may set that field. Checked by scripts/validate-data.py (not expressible as JSON Schema)."
+    },
     "media": {
       "type": "array",
       "items": { "$ref": "#/$defs/MediaSlot" },
@@ -36,6 +42,43 @@
   "required": ["num", "title", "media"],
   "additionalProperties": false,
   "$defs": {
+    "Section": {
+      "description": "One section of a group (`sections[]`). Rendered like a small group of its own -- eyebrow `<group num> · <id>`, title, note, entry count -- with a 'Part of <group title>' line back to the group, in each order the section lists in `orders`. A section is created for one order's reading of the group (e.g. a continuity in Narrative, an era in Chronological), so it only exists in the orders it declares; give it a `<order>Order` value for exactly those orders (validate-data.py fails on a mismatch either way).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]+$",
+          "description": "Short code, unique within the group (e.g. 'C', 'R'). Shown in the jump menu and eyebrow as `<group num> · <id>`, and what an entry's `<order>Section` refers to."
+        },
+        "title": { "type": "string" },
+        "note": {
+          "allOf": [{ "$ref": "#/$defs/Prose" }],
+          "description": "Prose blurb under the section heading. Same shape as the group-level `note`."
+        },
+        "orders": {
+          "type": "array",
+          "items": { "enum": ["narrative", "chrono", "release"] },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "The orders this section exists in. Must match exactly the `narrativeOrder`/`chronoOrder`/`releaseOrder` values the section carries."
+        },
+        "narrativeOrder": {
+          "type": "number",
+          "description": "Sort key for this section among the group's sections in Narrative mode. Required when `orders` includes 'narrative', forbidden otherwise."
+        },
+        "chronoOrder": {
+          "type": "number",
+          "description": "Sort key for this section among the group's sections in Chronological mode. Required when `orders` includes 'chrono', forbidden otherwise."
+        },
+        "releaseOrder": {
+          "allOf": [{ "$ref": "#/$defs/DateValue" }],
+          "description": "Sort key for this section among the group's sections in Release mode: a date, same grammar as an entry's `titleDate` / `releaseOrderDate` (including the same-day ord suffix). Required when `orders` includes 'release', forbidden otherwise."
+        }
+      },
+      "required": ["id", "title", "orders"],
+      "additionalProperties": false
+    },
     "MediaType": {
       "enum": ["Game", "Book", "Comic", "Movie", "Video", "TV", "Audio", "App"]
     },
@@ -383,18 +426,30 @@
         "mediaType": { "$ref": "#/$defs/MediaType" },
         "chronoOrder": {
           "type": "number",
-          "description": "Sort key for Chronological mode (mode B), read as `slot.chronoOrder ?? 0`. Distinct from the group-level chronoOrder on the enclosing group file."
+          "description": "Sort key for Chronological mode, read as `slot.chronoOrder ?? 0`. Distinct from the group-level chronoOrder on the enclosing group file."
         },
         "narrativeOrder": {
           "type": "number",
           "description": "Sort key for Narrative mode (the default), read as `slot.narrativeOrder ?? 0`. Distinct from the group-level narrativeOrder on the enclosing group file."
+        },
+        "narrativeSection": {
+          "type": "string",
+          "description": "Id of the group `sections[]` entry this slot belongs to in Narrative mode. Required on every slot when any section lists 'narrative' in `orders`; forbidden otherwise."
+        },
+        "chronoSection": {
+          "type": "string",
+          "description": "Id of the group `sections[]` entry this slot belongs to in Chronological mode. Required on every slot when any section lists 'chrono' in `orders`; forbidden otherwise."
+        },
+        "releaseSection": {
+          "type": "string",
+          "description": "Id of the group `sections[]` entry this slot belongs to in Release mode. Required on every slot when any section lists 'release' in `orders`; forbidden otherwise."
         },
         "title": { "type": "string" },
         "titleUrl": { "type": ["string", "null"] },
         "titleDate": { "$ref": "#/$defs/DateValue" },
         "releaseOrderDate": {
           "allOf": [{ "$ref": "#/$defs/DateValue" }],
-          "description": "Optional sort-only date for the two release-order modes (C and D), same grammar as `titleDate`. When omitted, those modes sort by `titleDate` exactly as before. Use it when the slot's primary is a renamed remake/Final Mix whose own `titleDate` would misplace it, so the entry sorts by the original release instead. It changes nothing else: not the heading year, the anchor id, the dedupe key, or Upcoming/Recently Released. Those two modes show it as a \", sorted as <date>\" suffix on the title year's tooltip."
+          "description": "Optional sort-only date for the two release-order modes (release and overall), same grammar as `titleDate`. When omitted, those modes sort by `titleDate` exactly as before. Use it when the slot's primary is a renamed remake/Final Mix whose own `titleDate` would misplace it, so the entry sorts by the original release instead. It changes nothing else: not the heading year, the anchor id, the dedupe key, or Upcoming/Recently Released. Those two modes show it as a \", sorted as <date>\" suffix on the title year's tooltip."
         },
         "id": {
           "type": "string",

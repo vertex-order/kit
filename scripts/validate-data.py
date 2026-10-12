@@ -338,6 +338,111 @@ def check_name_overrides(label, instance, allowed_keys, findings):
         findings.append((label, errors))
 
 
+# Section orders: the three sort orders a group's `sections[]` can exist in,
+# with the section field a slot sets and the sort-key field a section carries.
+SECTION_ORDERS = {
+    "narrative": ("narrativeSection", "narrativeOrder"),
+    "chrono": ("chronoSection", "chronoOrder"),
+    "release": ("releaseSection", "releaseOrder"),
+}
+
+
+def check_sections(label, instance, findings):
+    """A group's `sections[]` and its slots' `<order>Section` fields are
+    cross-field rules JSON Schema can't express:
+
+    - section ids are unique within the group;
+    - a section's `orders` is exactly the set of orders it carries a
+      `<order>Order` value for (no missing value, no stray one);
+    - per order, all-or-nothing: if any section lists the order, every
+      media[] slot sets that order's section field, to the id of a section
+      that lists the order, and every such section is used by at least one
+      slot; if no section lists the order, no slot sets the field.
+    Structural problems (wrong types, unknown keys) are the schema pass's
+    job -- this skips anything malformed rather than double-reporting."""
+    errors = []
+    sections = instance.get("sections")
+    sections = sections if isinstance(sections, list) else []
+    slots = instance.get("media")
+    slots = slots if isinstance(slots, list) else []
+
+    seen = set()
+    for i, sec in enumerate(sections):
+        if not isinstance(sec, dict):
+            continue
+        sid = sec.get("id")
+        where = f"$.sections[{i}]" + (f" ({sid!r})" if isinstance(sid, str) else "")
+        if isinstance(sid, str):
+            if sid in seen:
+                errors.append(f"{where}: duplicate section id")
+            seen.add(sid)
+        orders = sec.get("orders")
+        orders = (
+            [o for o in orders if o in SECTION_ORDERS]
+            if isinstance(orders, list)
+            else []
+        )
+        for order, (_, key_field) in SECTION_ORDERS.items():
+            has_value = key_field in sec
+            if order in orders and not has_value:
+                errors.append(
+                    f"{where}: lists {order!r} in `orders` but has no `{key_field}`"
+                )
+            elif order not in orders and has_value:
+                errors.append(
+                    f"{where}: has `{key_field}` but does not list {order!r} in `orders`"
+                )
+
+    for order, (slot_field, _) in SECTION_ORDERS.items():
+        listing = {
+            sec["id"]
+            for sec in sections
+            if isinstance(sec, dict)
+            and isinstance(sec.get("id"), str)
+            and isinstance(sec.get("orders"), list)
+            and order in sec["orders"]
+        }
+        used = set()
+        for i, slot in enumerate(slots):
+            if not isinstance(slot, dict):
+                continue
+            where = f"$.media[{i}]" + (
+                f" ({slot['title']!r})" if isinstance(slot.get("title"), str) else ""
+            )
+            value = slot.get(slot_field)
+            if listing:
+                if value is None:
+                    errors.append(
+                        f"{where}: no `{slot_field}` -- the {order} order has sections, "
+                        f"so every entry needs one of {sorted(listing)}"
+                    )
+                elif value in listing:
+                    used.add(value)
+                elif value in seen:
+                    errors.append(
+                        f"{where}: `{slot_field}` {value!r} is a section that does not "
+                        f"list {order!r} in `orders` (listing it: {sorted(listing)})"
+                    )
+                else:
+                    errors.append(
+                        f"{where}: `{slot_field}` {value!r} is not a section id of this "
+                        f"group (listing {order!r}: {sorted(listing)})"
+                    )
+            elif value is not None:
+                errors.append(
+                    f"{where}: `{slot_field}` set, but no section lists {order!r} in "
+                    f"`orders` -- the {order} order is flat"
+                )
+        for sid in sorted(listing - used):
+            errors.append(
+                f"section {sid!r} lists {order!r} but no entry sets "
+                f"`{slot_field}: {sid!r}`"
+            )
+
+    if errors:
+        findings.append((label, errors))
+
+
 def main():
     if not DATA.is_dir():
         print("validate-data: no site/data/ -- nothing to check")
@@ -358,13 +463,12 @@ def main():
         for schema_ref, instance in decls:
             check(path.name, instance, schema_ref, store, findings)
             checked += 1
-            if (
-                schema_ref.startswith("group.schema.json")
-                and allowed_name_override_keys is not None
-            ):
-                check_name_overrides(
-                    path.name, instance, allowed_name_override_keys, findings
-                )
+            if schema_ref.startswith("group.schema.json"):
+                check_sections(path.name, instance, findings)
+                if allowed_name_override_keys is not None:
+                    check_name_overrides(
+                        path.name, instance, allowed_name_override_keys, findings
+                    )
 
     if findings:
         total = sum(len(errs) for _, errs in findings)
