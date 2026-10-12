@@ -1,9 +1,18 @@
 // site/data/group-TAC.js — kit's own fixture data (component gallery
 // preview). Deleted by scripts/init-list.py when this repo is used as a
 // template for a new list repo — see docs/init-list.md.
+// Sections fixture: one section list shared by two orders. Chronological and
+// Release use the same sections (each carries both order values) with
+// the same membership; Narrative stays flat, so no entry sets narrativeSection.
 // schema: group.schema.json
-window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700, title: 'Wyrmwatch Tactics', note: 'A turn-based tactics spin-off — entirely optional, no bearing on the main story.', media: [
-  { chronoOrder: 800, narrativeOrder: 710, mediaType: 'Game',
+window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700, title: 'Wyrmwatch Tactics', note: 'A turn-based tactics spin-off — entirely optional, no bearing on the main story.',
+  sections: [
+    { id: 'Base', title: 'Base Game', orders: ['chrono', 'release'], chronoOrder: 10, releaseOrder: 2021,
+      note: 'The original game and its content pack.' },
+    { id: 'Remaster', title: 'Remaster', orders: ['chrono', 'release'], chronoOrder: 20, releaseOrder: '2027-09' }
+  ],
+  media: [
+  { chronoOrder: 800, narrativeOrder: 710, mediaType: 'Game', chronoSection: 'Base', releaseSection: 'Base',
     title: 'Wyrmwatch Tactics', titleUrl: 'https://example.com/wiki/Wyrmwatch_Tactics', titleDate: '2021-08-17',
     // A single bare object; an in-page '#...' url opens in the same tab.
     by: { name: 'Emberfall Studio', url: '#group-WW' },
@@ -23,7 +32,7 @@ window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700
       platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
     },
   },
-  { chronoOrder: 850, narrativeOrder: 720, mediaType: 'Game',
+  { chronoOrder: 850, narrativeOrder: 720, mediaType: 'Game', chronoSection: 'Base', releaseSection: 'Base',
     title: 'Wyrmwatch Tactics: Skirmish Pack', titleUrl: 'https://example.com/wiki/Skirmish_Pack', titleDate: '2022-02-09',
     mediaDesc: [
       ['Adds a versus-only skirmish mode on top of ', { emText: 'Wyrmwatch Tactics (2021)' }, '.'],
@@ -39,7 +48,7 @@ window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700
       platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
     },
   },
-  { chronoOrder: 800, narrativeOrder: 705, mediaType: 'Game',
+  { chronoOrder: 800, narrativeOrder: 705, mediaType: 'Game', chronoSection: 'Remaster', releaseSection: 'Remaster',
     title: 'Wyrmwatch Tactics', titleUrl: 'https://example.com/wiki/Wyrmwatch_Tactics', titleDate: '2027-09-10',
     mediaDesc: [
       'A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.',

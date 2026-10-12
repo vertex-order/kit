@@ -3,9 +3,28 @@
 // template for a new list repo — see docs/init-list.md. Schema modeled on
 // vertex-order/final-fantasy's site/data/group-*.js (the in-depth reference
 // example); a real list repo should copy that repo's shape, not this one.
+// Sections fixture: all three orders are sectioned, each with its own
+// sections and its own membership (continuities in Narrative, eras in
+// Chronological, release eras in Release), so every entry carries all
+// three *Section fields. `releaseOrder` shows an integer year and
+// year-month dates; the Reforged entry keeps its releaseOrderDate.
 // schema: group.schema.json
-window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', media: [
-  { mediaType: 'Game', chronoOrder: 200, narrativeOrder: 100,
+window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.',
+  sections: [
+    { id: 'Saga', title: 'Wyrmwatch Saga', orders: ['narrative'], narrativeOrder: 10,
+      note: 'The numbered games, in the order the story is best read.' },
+    { id: 'Ashfall', title: 'Ashfall Cycle', orders: ['narrative'], narrativeOrder: 20,
+      note: 'The Ashfall spin-offs: a self-contained arc set on the frontier.' },
+    { id: 'Dawn', title: 'Age of Dawn', orders: ['chrono'], chronoOrder: 10 },
+    { id: 'Embers', title: 'Age of Embers', orders: ['chrono'], chronoOrder: 20,
+      note: 'Everything set while the watchtowers were still burning.' },
+    { id: 'Rebirth', title: 'Age of Rebirth', orders: ['chrono'], chronoOrder: 30 },
+    { id: 'Launch', title: 'First Wave', orders: ['release'], releaseOrder: 2014 },
+    { id: 'Second', title: 'Second Wave', orders: ['release'], releaseOrder: '2019-05' },
+    { id: 'Next', title: 'Next Wave', orders: ['release'], releaseOrder: '2026-02' }
+  ],
+  media: [
+  { mediaType: 'Game', chronoOrder: 200, narrativeOrder: 100, narrativeSection: 'Saga', chronoSection: 'Embers', releaseSection: 'Launch',
     title: 'Wyrmwatch', titleUrl: 'https://example.com/wiki/Wyrmwatch', titleDate: '2014-03-11',
     by: ['Aldous Venn', 'Marit Okonkwo'],
     mediaDesc: [
@@ -71,7 +90,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       ],
     },
   },
-  { mediaType: 'Game', chronoOrder: 250, narrativeOrder: 300,
+  { mediaType: 'Game', chronoOrder: 250, narrativeOrder: 300, narrativeSection: 'Ashfall', chronoSection: 'Embers', releaseSection: 'Launch',
     title: 'Wyrmwatch: Ashfall Uprising', titleUrl: 'https://example.com/wiki/Ashfall_Uprising', titleDate: '2015-06-02',
     mediaDesc: [
       ['Standalone expansion set ', { emText: 'immediately after' }, ' the base game — the Blightswarm regroups beyond the watchtowers.'],
@@ -94,7 +113,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       platformsUrl: 'https://example.com/store/ashfall-uprising',
     },
   },
-  { mediaType: 'Game', chronoOrder: 50, narrativeOrder: 200,
+  { mediaType: 'Game', chronoOrder: 50, narrativeOrder: 200, narrativeSection: 'Saga', chronoSection: 'Dawn', releaseSection: 'Second',
     title: 'Wyrmwatch II', titleUrl: 'https://example.com/wiki/Wyrmwatch_II', titleDate: '2019-05-14',
     // Slot-level credits are inherited by the primary, every alt and every
     // versions[] item; a row only displays them when they differ from its
@@ -187,7 +206,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       },
     ],
   },
-  { mediaType: 'Game', chronoOrder: 55, narrativeOrder: 205,
+  { mediaType: 'Game', chronoOrder: 55, narrativeOrder: 205, narrativeSection: 'Ashfall', chronoSection: 'Dawn', releaseSection: 'Launch',
     // The renamed 2025 release is the primary (it's the name readers search
     // for), but the game first came out in 2015 -- `releaseOrderDate` makes
     // the release-order modes sort it with the 2015 entries instead of
@@ -218,7 +237,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       ],
     },
   },
-  { mediaType: 'Game', chronoOrder: 260, narrativeOrder: 350,
+  { mediaType: 'Game', chronoOrder: 260, narrativeOrder: 350, narrativeSection: 'Ashfall', chronoSection: 'Embers', releaseSection: 'Next',
     title: 'Wyrmwatch: Ember Reckoning', titleUrl: 'https://example.com/wiki/Ember_Reckoning', titleDate: '2026-02-14',
     mediaDesc: [
       ['A standalone expansion set alongside ', { emText: 'Wyrmwatch II (2019)' }, ', following a splinter watch as they hold a collapsing tower in the frontier’s ember basin.'],
@@ -239,7 +258,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       platformsUrl: 'https://example.com/store/ember-reckoning',
     },
   },
-  { mediaType: 'Game', chronoOrder: 350, narrativeOrder: 400,
+  { mediaType: 'Game', chronoOrder: 350, narrativeOrder: 400, narrativeSection: 'Saga', chronoSection: 'Rebirth', releaseSection: 'Next',
     title: 'Wyrmwatch III', titleUrl: 'https://example.com/wiki/Wyrmwatch_III', titleDate: '2027-03-18',
     mediaDesc: [
       'Warden Rook Ashvane returns to the Ashfall frontier after a decade of peace, as a new Blightswarm strain breaches the outer watchtowers.',

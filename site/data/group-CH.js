@@ -1,9 +1,17 @@
 // site/data/group-CH.js — kit's own fixture data (component gallery
 // preview). Deleted by scripts/init-list.py when this repo is used as a
 // template for a new list repo — see docs/init-list.md.
+// Sections fixture: Narrative only. Chronological and Release stay flat, so
+// no entry sets chronoSection or releaseSection.
 // schema: group.schema.json
-window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, title: 'Wyrmwatch Chronicles', url: 'https://example.com/wiki/Wyrmwatch_Chronicles', note: 'A novel and a short film expanding the Ashfall frontier beyond the games — entirely optional.', media: [
-  { chronoOrder: 300, narrativeOrder: 410, mediaType: 'Book',
+window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, title: 'Wyrmwatch Chronicles', url: 'https://example.com/wiki/Wyrmwatch_Chronicles', note: 'A novel and a short film expanding the Ashfall frontier beyond the games — entirely optional.',
+  sections: [
+    { id: 'Frontier', title: 'The Frontier Tales', orders: ['narrative'], narrativeOrder: 10,
+      note: 'The first book and the film, read together.' },
+    { id: 'Aftermath', title: 'Aftermath', orders: ['narrative'], narrativeOrder: 20 }
+  ],
+  media: [
+  { chronoOrder: 300, narrativeOrder: 410, mediaType: 'Book', narrativeSection: 'Frontier',
     title: 'Wyrmwatch Chronicles: The Ashfall Codex', titleUrl: 'https://example.com/wiki/The_Ashfall_Codex', titleDate: '2017-10-03',
     // Default group, several names, one linked (external -> new tab).
     by: ['Aldous Venn', { name: 'Marit Okonkwo', url: 'https://example.com/people/marit-okonkwo' }, 'Tobias Lindqvist'],
@@ -24,7 +32,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
       ],
     },
   },
-  { chronoOrder: 900, narrativeOrder: 420, mediaType: 'Video',
+  { chronoOrder: 900, narrativeOrder: 420, mediaType: 'Video', narrativeSection: 'Frontier',
     title: 'Wyrmwatch: Rise of the Wyrm', titleUrl: 'https://example.com/wiki/Rise_of_the_Wyrm', titleDate: '2020-11-20',
     // Two roles, no default group: "directed by ..., written by ...".
     by: [{ role: 'directed', names: 'Katie Sorrel' }, { role: 'written', names: 'Charles Whitlock' }],
@@ -45,7 +53,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
       ],
     },
   },
-  { chronoOrder: 320, narrativeOrder: 415, mediaType: 'Book',
+  { chronoOrder: 320, narrativeOrder: 415, mediaType: 'Book', narrativeSection: 'Aftermath',
     title: 'Wyrmwatch Chronicles: Cinderwake', titleUrl: 'https://example.com/wiki/Cinderwake', titleDate: '2025-11-12',
     // Collapse: bare names join the default "by" group; 'Research' merges into
     // 'research' (case-insensitive) at its first position; the same name under
