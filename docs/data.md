@@ -249,6 +249,25 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
   - Game or film source: don't name the writer or director.
   - Never add them to the adaptation's `by`.
 
+## Length of books, comics and movies
+
+- **Which edition's number, in order:** the English medium (the English
+  edition or release) > the native one (the original-language edition) >
+  whatever source we have.
+  - Page counts, chapter/volume counts and running times all follow it.
+  - Use the English publisher's own page count over Goodreads or a
+    retailer.
+  - Games use play time and don't follow this.
+- **Books and comics:** `<pages>p; <code>`.
+  - `P` paperback, `H` hardcover, or a size such as `A5` or `B6` when the
+    binding isn't known.
+  - Binding or size comes from the same edition as the page count.
+  - Never Japanese characters in `length` (not `四六判`).
+- **Counts that disagree within one edition:** use the figure most records
+  agree on. A publisher's page can include front matter (colour plates,
+  covers), so it isn't automatically the right one.
+- Say in the sources file which edition the number is from.
+
 ## Choosing a rating when more than one exists
 
 Applies to every entry with a `ratings`/`scores[]` field — games, books,
