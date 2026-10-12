@@ -251,22 +251,18 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
 
 ## Length of books, comics and movies
 
-- **Which edition's number, in order:** the English medium (the English
-  edition or release) > the native one (the original-language edition) >
-  whatever source we have.
-  - Page counts, chapter/volume counts and running times all follow it.
-  - Use the English publisher's own page count over Goodreads or a
-    retailer.
-  - Games use play time and don't follow this.
+- **Edition order:** English > native > whatever we have.
+  - Pages, volume/chapter counts, running time.
+  - English publisher's count beats Goodreads or a retailer.
+  - Games use play time instead.
 - **Books and comics:** `<pages>p; <code>`.
-  - `P` paperback, `H` hardcover, or a size such as `A5` or `B6` when the
-    binding isn't known.
-  - Binding or size comes from the same edition as the page count.
-  - Never Japanese characters in `length` (not `四六判`).
-- **Counts that disagree within one edition:** use the figure most records
-  agree on. A publisher's page can include front matter (colour plates,
-  covers), so it isn't automatically the right one.
-- Say in the sources file which edition the number is from.
+  - Code: `P` paperback, `H` hardcover, or a size (`A5`, `B6`) if the
+    binding is unknown.
+  - Binding comes from the same edition as the pages.
+  - No Japanese characters (not `四六判`).
+- **Counts disagree within one edition:** use the figure most records
+  agree on. Publisher pages can include front matter.
+- Sources file names the edition used.
 
 ## Choosing a rating when more than one exists
 
@@ -338,34 +334,24 @@ another entry.
 
 ## Dates for serialized comics
 
-- **Source preference, for both start and end:** syndication (the magazine
-  serialization) > volume publish > omnibus publish.
-  - Syndication includes web serialization and digital-first or app
-    releases that came before print.
-  - A work published only inside a guidebook or other book takes that
-    book's release date as its volume date.
-  - Start: the first date we can find in the best tier available; a
-    reprint or collected volume never replaces it.
-  - End: the last date in the best tier available.
-  - Both ends come from the same tier whenever it covers both: with
-    serialization dates for the start and the end, use them for both.
-    Mixing tiers only happens as a fallback, when the best tier has one
-    end and not the other; say so in the sources file.
-- **Use the best information available:** what we can find and record in
-  sources, not just what the entry already shows. Look for serialization
-  dates first.
-  - Most sources only date books and volumes, not magazine
-    serializations; when that's all there is, use the volume dates, and
-    an omnibus only when no single volume has a date.
-  - Start known but not the end: end at the last volume's date, and say
-    in the sources file that it's a fallback.
-- **Magazine serialization: use the on-sale date**, when a reader could
-  actually buy the issue, not the issue's cover month.
-  - Fallback order when no on-sale date can be found: the issue month
-    ("May 2012 issue"), then the volume's publish date, then the
-    omnibus's. Say so in the sources file.
-  - Don't derive an on-sale date from the magazine's usual sale day; it
-    shifts around weekends and holidays. Record only a sourced date.
+- **Source order, for start and end:** syndication > volume > omnibus.
+  - Syndication: magazine, web serialization, digital-first or app release
+    before print.
+  - Guidebook-only work: the book's release date counts as its volume date.
+- Look for serialization dates first; record what we find in sources.
+  - Most sources date only volumes: use volume dates (an omnibus only when
+    no volume has a date).
+- **Start:** earliest date in the best tier. A reprint or collected volume
+  never replaces it.
+- **End:** latest date in the best tier.
+- **Same tier for both ends** when it covers both. Mix tiers only as a
+  fallback; say so in the sources file.
+  - Start known, end not: end at the last volume's date.
+- **Magazine issues:** use the on-sale date, not the cover month.
+  - No on-sale date: issue month ("May 2012 issue"), then volume date,
+    then omnibus date.
+  - Don't derive an on-sale date from the magazine's usual sale day
+    (weekends and holidays shift it). Record only sourced dates.
 
 ## Naming a work with no official English title
 
