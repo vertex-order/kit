@@ -2,8 +2,8 @@
 // preview). Deleted by scripts/init-list.py when this repo is used as a
 // template for a new list repo — see docs/init-list.md.
 // schema: group.schema.json
-window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, recommendedOrder: 700, title: 'Wyrmwatch Tactics', note: 'A turn-based tactics spin-off — entirely optional, no bearing on the main story.', media: [
-  { chronoOrder: 800, recommendedOrder: 710, mediaType: 'Game',
+window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700, title: 'Wyrmwatch Tactics', note: 'A turn-based tactics spin-off — entirely optional, no bearing on the main story.', media: [
+  { chronoOrder: 800, narrativeOrder: 710, mediaType: 'Game',
     title: 'Wyrmwatch Tactics', titleUrl: 'https://example.com/wiki/Wyrmwatch_Tactics', titleDate: '2021-08-17',
     // A single bare object; an in-page '#...' url opens in the same tab.
     by: { name: 'Emberfall Studio', url: '#group-WW' },
@@ -23,7 +23,7 @@ window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, recommendedOrder: 7
       platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
     },
   },
-  { chronoOrder: 850, recommendedOrder: 720, mediaType: 'Game',
+  { chronoOrder: 850, narrativeOrder: 720, mediaType: 'Game',
     title: 'Wyrmwatch Tactics: Skirmish Pack', titleUrl: 'https://example.com/wiki/Skirmish_Pack', titleDate: '2022-02-09',
     mediaDesc: [
       ['Adds a versus-only skirmish mode on top of ', { emText: 'Wyrmwatch Tactics (2021)' }, '.'],
@@ -39,7 +39,7 @@ window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, recommendedOrder: 7
       platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
     },
   },
-  { chronoOrder: 800, recommendedOrder: 705, mediaType: 'Game',
+  { chronoOrder: 800, narrativeOrder: 705, mediaType: 'Game',
     title: 'Wyrmwatch Tactics', titleUrl: 'https://example.com/wiki/Wyrmwatch_Tactics', titleDate: '2027-09-10',
     mediaDesc: [
       'A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.',

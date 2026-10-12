@@ -22,7 +22,7 @@
       "type": "number",
       "description": "Group sort key for Chronological mode. Defaults to 0 when omitted."
     },
-    "recommendedOrder": {
+    "narrativeOrder": {
       "type": "number",
       "description": "Group sort key for Narrative mode (the default). Defaults to 0 when omitted."
     },
@@ -377,7 +377,7 @@
       "additionalProperties": false
     },
     "MediaSlot": {
-      "description": "One item in `media[]` -- one checkbox-row slot. `mediaType`/`chronoOrder`/`recommendedOrder`/`title`/`titleUrl`/`titleDate` live here exactly once, since they describe the slot itself (what kind of media this is, where it sits in the timeline) independent of which specific edition is currently `primary` -- promoting an edition never requires touching them. `title`/`titleUrl`/`titleDate` are also this slot's inheritance root: `primary`, each `alts[]` item, and each of their `versions[]` items may each independently omit their own and inherit -- chained (a versions[] item inherits from its own release if that release set an override, else from this slot), not flat, so a genuinely distinct-titled alt's own versions[] still inherit the alt's title, not the slot's. `primary` is the checkbox row; `alts[]` are inline \"or <title>\" rows on the same line, in display order.",
+      "description": "One item in `media[]` -- one checkbox-row slot. `mediaType`/`chronoOrder`/`narrativeOrder`/`title`/`titleUrl`/`titleDate` live here exactly once, since they describe the slot itself (what kind of media this is, where it sits in the timeline) independent of which specific edition is currently `primary` -- promoting an edition never requires touching them. `title`/`titleUrl`/`titleDate` are also this slot's inheritance root: `primary`, each `alts[]` item, and each of their `versions[]` items may each independently omit their own and inherit -- chained (a versions[] item inherits from its own release if that release set an override, else from this slot), not flat, so a genuinely distinct-titled alt's own versions[] still inherit the alt's title, not the slot's. `primary` is the checkbox row; `alts[]` are inline \"or <title>\" rows on the same line, in display order.",
       "type": "object",
       "properties": {
         "mediaType": { "$ref": "#/$defs/MediaType" },
@@ -385,9 +385,9 @@
           "type": "number",
           "description": "Sort key for Chronological mode (mode B), read as `slot.chronoOrder ?? 0`. Distinct from the group-level chronoOrder on the enclosing group file."
         },
-        "recommendedOrder": {
+        "narrativeOrder": {
           "type": "number",
-          "description": "Sort key for Narrative mode (the default), read as `slot.recommendedOrder ?? 0`. Distinct from the group-level recommendedOrder on the enclosing group file."
+          "description": "Sort key for Narrative mode (the default), read as `slot.narrativeOrder ?? 0`. Distinct from the group-level narrativeOrder on the enclosing group file."
         },
         "title": { "type": "string" },
         "titleUrl": { "type": ["string", "null"] },

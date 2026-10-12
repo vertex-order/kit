@@ -569,7 +569,7 @@ class Component extends DCLogic {
     };
     reader.readAsText(file);
   }
-  state = { expandedVersions: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'A', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
+  state = { expandedVersions: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'narrative', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
   groupEls = {};
   langOrderDefault = ['JA', 'EN'];
   componentDidMount() {
@@ -914,20 +914,19 @@ class Component extends DCLogic {
     const toggleHamburgerMenu = () => this.toggleHamburgerMenu();
     const closeHamburgerMenu = () => this.closeHamburgerMenu();
     const lastUpdatedShort = lastUpdatedShortText();
-    const storedMode = this.state.pathMode || 'A';
-    const mode = storedMode === 'C' && !GROUP_RELEASE_ORDER ? 'D' : storedMode;
+    const storedMode = ['narrative', 'chrono', 'release', 'overall'].includes(this.state.pathMode) ? this.state.pathMode : 'narrative';
+    const mode = storedMode === 'release' && !GROUP_RELEASE_ORDER ? 'overall' : storedMode;
     const pathOptions = [
-      { key: 'A', label: 'Narrative order', shortLabel: 'Narrative order' },
-      { key: 'B', label: 'Chronological order', shortLabel: 'Chronological' },
-      { key: 'C', label: 'Release order', shortLabel: 'Release order' },
-      { key: 'D', label: 'Overall release order', shortLabel: 'Overall release order' },
-    ].filter(o => o.key !== 'C' || (GROUP_RELEASE_ORDER && (this.state.rawGroups || []).length > 1)).map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
+      { key: 'narrative', label: 'Narrative order', shortLabel: 'Narrative order' },
+      { key: 'chrono', label: 'Chronological order', shortLabel: 'Chronological' },
+      { key: 'release', label: 'Release order', shortLabel: 'Release order' },
+      { key: 'overall', label: 'Overall release order', shortLabel: 'Overall release order' },
+    ].filter(o => o.key !== 'release' || (GROUP_RELEASE_ORDER && (this.state.rawGroups || []).length > 1)).map(o => ({ ...o, checked: o.key === mode, select: () => this.setPathMode(o.key) }));
     const onOrderChange = e => this.setPathMode(e.target.value);
     const onJumpChange = e => { if (e.target.value) location.hash = e.target.value; };
     const notScrolled = !this.state.scrolled;
     const jumpRef = el => { this._jumpEl = el; };
     // Game length from HowLongToBeat, only for entries mapping 1:1 to a single HLTB page representing the row's headline version (skip omnibus releases like X/X-2, and skip if the row's headline differs from the only HLTB data available, e.g. a remaster-only page for a row headlined by the original). `length` (schema: group.schema.json#/$defs/Length): a bare string, or an array of { value, tip, join, br, label } segments rendered as tooltipped abbreviations joined by ' / ' by default (override per-segment with `join`; `br`/a following `label` insert a line break instead). Default categories: Main Story, Main + Extra, Completionist. Differently-categorized games (e.g. MMOs) use their own tips, e.g. Solo, Co-op, Vs.
-    const chronoGroupOverrides = { AN: 1515 };
     const selectedLanguages = this.state.selectedLanguages;
     const isLangSelected = v => selectedLanguages === null ? (v === 'EN' || v.startsWith('EN-')) : selectedLanguages.includes(v);
     const langSet = new Map();
@@ -1060,7 +1059,7 @@ class Component extends DCLogic {
     // no hint why. A bare-year titleDate has no tooltip of its own; the
     // suffix gives it one (the full date, then the suffix).
     const withSortedAs = (segs, src) => {
-      if ((mode !== 'C' && mode !== 'D') || src.releaseOrderDate === undefined || src.releaseOrderDate === null) return segs;
+      if ((mode !== 'release' && mode !== 'overall') || src.releaseOrderDate === undefined || src.releaseOrderDate === null) return segs;
       const i = segs.findIndex(s => /\d{4}/.test(s.text || ''));
       if (i < 0) return segs;
       const sfx = ', sorted as ' + titleDateKey(src.releaseOrderDate);
@@ -1345,7 +1344,7 @@ class Component extends DCLogic {
         const alts = (m.alts || []).map((alt, idx) => mapRelease(alt, alt.id ? 'entry-' + s.num + '-' + alt.id : primaryAnchor + '-or' + (idx > 0 ? '-' + (idx + 1) : ''), false, primaryCredits));
         return {
           title: m.title, titleUrl: m.titleUrl, titleDate: m.titleDate,
-          mediaType: m.mediaType, chronoOrder: m.chronoOrder, recommendedOrder: m.recommendedOrder,
+          mediaType: m.mediaType, chronoOrder: m.chronoOrder, narrativeOrder: m.narrativeOrder,
           gDate,
           releaseSortKey: releaseSortKey(m.titleDate, gDate),
           // What modes C/D actually sort by: the slot's `releaseOrderDate`
@@ -1389,20 +1388,20 @@ class Component extends DCLogic {
       return 'Game';
     };
     const gameSortKey = g => {
-      if (mode === 'B') return g.chronoOrder ?? 0;
-      if (mode === 'C') return g.orderSortKey;
-      return g.recommendedOrder ?? 0;
+      if (mode === 'chrono') return g.chronoOrder ?? 0;
+      if (mode === 'release') return g.orderSortKey;
+      return g.narrativeOrder ?? 0;
     };
     const groupSortKey = s => {
-      if (mode === 'B') return chronoGroupOverrides[s.num] ?? s.chronoOrder ?? 0;
-      if (mode === 'C') {
+      if (mode === 'chrono') return s.chronoOrder ?? 0;
+      if (mode === 'release') {
         if (s.num === 'Other' || s.num === 'PB') return '9999';
         const core = s.media.filter(g => !(g.primary.tags || []).includes('Optional'));
         const pool = core.length ? core : s.media;
         const dates = pool.map(g => g.orderSortKey).filter(Boolean);
         return dates.length ? dates.reduce((m, d) => (d < m ? d : m)) : '9999';
       }
-      return s.recommendedOrder ?? 0;
+      return s.narrativeOrder ?? 0;
     };
     const orderedGroups = groups
       .map(s => {
@@ -1417,7 +1416,7 @@ class Component extends DCLogic {
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
     let displayGroups = orderedGroups;
-    if (mode === 'D') {
+    if (mode === 'overall') {
       const keptAnchorByKey = new Map();
       const flat = [];
       orderedGroups.forEach(s => s.media.forEach(g => {
@@ -1492,7 +1491,7 @@ class Component extends DCLogic {
         });
       }));
       if (!media.length) return null;
-      // Chrono/recommended order are per-group concepts that don't mean anything once
+      // Chrono/narrative order are per-group concepts that don't mean anything once
       // entries are pulled out of their group - always sort by real release date instead,
       // regardless of the page's active sort mode.
       media.sort((a, b) => {

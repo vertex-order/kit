@@ -4,8 +4,8 @@
 // vertex-order/final-fantasy's site/data/group-*.js (the in-depth reference
 // example); a real list repo should copy that repo's shape, not this one.
 // schema: group.schema.json
-window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', media: [
-  { mediaType: 'Game', chronoOrder: 200, recommendedOrder: 100,
+window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, title: 'Wyrmwatch', url: 'https://example.com/wiki/Wyrmwatch_(franchise)', note: 'The flagship tactics series: bond with wild wyrms to hold the Ashfall frontier’s watchtowers.', media: [
+  { mediaType: 'Game', chronoOrder: 200, narrativeOrder: 100,
     title: 'Wyrmwatch', titleUrl: 'https://example.com/wiki/Wyrmwatch', titleDate: '2014-03-11',
     by: ['Aldous Venn', 'Marit Okonkwo'],
     mediaDesc: [
@@ -71,7 +71,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
       ],
     },
   },
-  { mediaType: 'Game', chronoOrder: 250, recommendedOrder: 300,
+  { mediaType: 'Game', chronoOrder: 250, narrativeOrder: 300,
     title: 'Wyrmwatch: Ashfall Uprising', titleUrl: 'https://example.com/wiki/Ashfall_Uprising', titleDate: '2015-06-02',
     mediaDesc: [
       ['Standalone expansion set ', { emText: 'immediately after' }, ' the base game — the Blightswarm regroups beyond the watchtowers.'],
@@ -94,7 +94,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
       platformsUrl: 'https://example.com/store/ashfall-uprising',
     },
   },
-  { mediaType: 'Game', chronoOrder: 50, recommendedOrder: 200,
+  { mediaType: 'Game', chronoOrder: 50, narrativeOrder: 200,
     title: 'Wyrmwatch II', titleUrl: 'https://example.com/wiki/Wyrmwatch_II', titleDate: '2019-05-14',
     // Slot-level credits are inherited by the primary, every alt and every
     // versions[] item; a row only displays them when they differ from its
@@ -187,7 +187,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
       },
     ],
   },
-  { mediaType: 'Game', chronoOrder: 55, recommendedOrder: 205,
+  { mediaType: 'Game', chronoOrder: 55, narrativeOrder: 205,
     // The renamed 2025 release is the primary (it's the name readers search
     // for), but the game first came out in 2015 -- `releaseOrderDate` makes
     // the release-order modes sort it with the 2015 entries instead of
@@ -218,7 +218,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
       ],
     },
   },
-  { mediaType: 'Game', chronoOrder: 260, recommendedOrder: 350,
+  { mediaType: 'Game', chronoOrder: 260, narrativeOrder: 350,
     title: 'Wyrmwatch: Ember Reckoning', titleUrl: 'https://example.com/wiki/Ember_Reckoning', titleDate: '2026-02-14',
     mediaDesc: [
       ['A standalone expansion set alongside ', { emText: 'Wyrmwatch II (2019)' }, ', following a splinter watch as they hold a collapsing tower in the frontier’s ember basin.'],
@@ -239,7 +239,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, recommendedOrder: 100
       platformsUrl: 'https://example.com/store/ember-reckoning',
     },
   },
-  { mediaType: 'Game', chronoOrder: 350, recommendedOrder: 400,
+  { mediaType: 'Game', chronoOrder: 350, narrativeOrder: 400,
     title: 'Wyrmwatch III', titleUrl: 'https://example.com/wiki/Wyrmwatch_III', titleDate: '2027-03-18',
     mediaDesc: [
       'Warden Rook Ashvane returns to the Ashfall frontier after a decade of peace, as a new Blightswarm strain breaches the outer watchtowers.',

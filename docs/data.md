@@ -107,7 +107,7 @@ and pull via `just sync`.
 - **Ratings have two unrelated modes**: a `scores[]` array (one or more
   independently-linked scores) or a single text/`<abbr>` badge
   (`textOnly`/`kind`). A `rating` object that's neither renders nothing.
-- **`chronoOrder`/`recommendedOrder` are plain sort keys, not positions** —
+- **`chronoOrder`/`narrativeOrder` are plain sort keys, not positions** —
   space new entries in whole-number gaps (tens, not 1/2/3) so a later
   insertion doesn't need a decimal. Reach for a float only once a gap's
   already exhausted, and treat that as a sign the series is due a full
