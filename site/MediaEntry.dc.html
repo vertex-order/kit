@@ -176,7 +176,7 @@
   </div>
   <sc-if value="{{ g.primary.versions }}" hint-placeholder-val="{{ false }}">
     <div style="position: relative; margin: var(--space-2) 0 var(--space-2) 0;">
-      <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent) 45%, transparent);"></span>
+      <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent) 45%, transparent); z-index: 1; pointer-events: none;"></span>
       <dc-import name="ExtrasToggle" on-toggle="{{ g.primary.toggleExtra }}" chevron-transform="{{ g.primary.extraChevron }}" hint-size="auto,24px" style="display: block;"></dc-import>
       <sc-if value="{{ g.primary.extraExpanded }}" hint-placeholder-val="{{ false }}">
         <sc-for list="{{ g.primary.versions }}" as="ver" hint-placeholder-count="1">
@@ -361,7 +361,7 @@
   </div>
   <sc-if value="{{ rel.versions }}" hint-placeholder-val="{{ false }}">
     <div style="position: relative; margin: var(--space-2) 0 var(--space-2) 0;">
-      <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent) 45%, transparent);"></span>
+      <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent) 45%, transparent); z-index: 1; pointer-events: none;"></span>
       <dc-import name="ExtrasToggle" on-toggle="{{ rel.toggleExtra }}" chevron-transform="{{ rel.extraChevron }}" hint-size="auto,24px" style="display: block;"></dc-import>
       <sc-if value="{{ rel.extraExpanded }}" hint-placeholder-val="{{ false }}">
         <sc-for list="{{ rel.versions }}" as="ver" hint-placeholder-count="1">
