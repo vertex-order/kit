@@ -845,6 +845,17 @@ class Component extends DCLogic {
     const top = el.getBoundingClientRect().top + window.scrollY - 70;
     window.scrollTo({ top, behavior: 'smooth' });
   }
+  // Group chip on a row shown without its group heading. Goes to the entry's
+  // section/group where it is on the page; from a flat view that has no group
+  // blocks (Overall order), switches to Narrative first.
+  jumpToGroup(num, target) {
+    const here = [target, 'group-' + num].find(id => document.getElementById(id));
+    if (here) { history.pushState(null, '', '#' + here); this.handleHashNav(here); return; }
+    this.setState({ pathMode: 'narrative' });
+    localStorage.setItem(STORAGE_PREFIX + 'Path', 'narrative');
+    history.pushState(null, '', '#' + target);
+    requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(() => this.handleHashNav(target))));
+  }
   handleHashNav(hash) {
     hash = (hash || location.hash || '').replace('#', '');
     if (!hash) return;
@@ -1346,6 +1357,20 @@ class Component extends DCLogic {
           title: m.title, titleUrl: m.titleUrl, titleDate: m.titleDate,
           mediaType: m.mediaType, chronoOrder: m.chronoOrder, narrativeOrder: m.narrativeOrder,
           narrativeSection: m.narrativeSection, chronoSection: m.chronoSection, releaseSection: m.releaseSection,
+          // Group chip for rows shown without their group heading (Overall order,
+          // Upcoming/Recent cards): shown only when showGroupLabel is set on the copy.
+          // Labelled and targeted in Narrative terms: the section when the group has
+          // narrative sections, else the group.
+          ...(() => {
+            const sec = (s.sections || []).find(x => x.id === m.narrativeSection && (x.orders || []).includes('narrative'));
+            const target = 'group-' + s.num + (sec ? '-' + sec.id : '');
+            return {
+              groupLabel: s.num + (sec ? ' · ' + sec.id : ''),
+              groupTitle: s.title + (sec ? ' › ' + sec.title : ''),
+              groupHref: '#' + target,
+              groupJump: e => { e.preventDefault(); this.jumpToGroup(s.num, target); },
+            };
+          })(),
           gDate,
           releaseSortKey: releaseSortKey(m.titleDate, gDate),
           // What modes C/D actually sort by: the slot's `releaseOrderDate`
@@ -1477,7 +1502,7 @@ class Component extends DCLogic {
         const ka = a.orderSortKey, kb = b.orderSortKey;
         return ka < kb ? -1 : ka > kb ? 1 : 0;
       });
-      const media = flat.map((g, i) => ({ ...g, index: String(i + 1).padStart(2, '0') }));
+      const media = flat.map((g, i) => ({ ...g, showGroupLabel: true, index: String(i + 1).padStart(2, '0') }));
       const allSummary = buildSummary(media, null, g => g.checked, g => g.skipped);
       displayGroups = [{
         num: 'ALL', title: SITE.name, navLabel: SITE.name, eyebrow: '', id: 'group-ALL', anchor: '#group-ALL',
@@ -1504,6 +1529,7 @@ class Component extends DCLogic {
           // Shortcut card: no checkbox (check it off at the real entry), no row pilcrow
           // (nothing distinct to link to here) - the title itself jumps to the real entry.
           anchorId: num + '-' + g.entryKey,
+          showGroupLabel: true,
           showCheckbox: false,
           primary: {
             ...g.primary,

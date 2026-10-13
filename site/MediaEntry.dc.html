@@ -53,6 +53,9 @@
       <sc-if value="{{ g.primary.creditParts }}" hint-placeholder-val="{{ false }}">
         <dc-import name="EntryCredits" credit-parts="{{ g.primary.creditParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
       </sc-if>
+      <sc-if value="{{ g.showGroupLabel }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ g.groupHref }}" onClick="{{ g.groupJump }}" title="{{ g.groupTitle }}" style="align-self: flex-start; font-family: var(--font-heading); font-size: 11px; letter-spacing: 0.06em; color: var(--color-accent-300); border: 1px solid var(--color-divider); border-radius: var(--radius-sm); padding: 0 6px; text-decoration: none;">{{ g.groupLabel }}</a>
+      </sc-if>
       <sc-if value="{{ g.primary.tagsText }}" hint-placeholder-val="{{ false }}">
         <dc-import name="EntryTags" tags="{{ g.primary.tagsText }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
       </sc-if>

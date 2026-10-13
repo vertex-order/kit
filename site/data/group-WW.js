@@ -42,8 +42,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       subtitle: 'Remaster', subtitleUrl: 'https://example.com/wiki/Wyrmwatch_Remaster', subtitleDate: 2022,
       profileUrl: 'https://example.com/store/wyrmwatch',
       versionDesc: [
-        'This remaster reworks lighting, remixes the soundtrack, redraws the UI, and adds a photo mode. Released as Wyrmwatch: Anniversary Remaster.',
-        ['Also sold as ', { emText: 'Wyrmwatch: Warden’s Edition' }, ' in some regions.'],
+        ['This remaster reworks lighting, remixes the soundtrack, redraws the UI, and adds a photo mode. Released as Wyrmwatch: Anniversary Remaster, also sold as ', { emText: 'Wyrmwatch: Warden’s Edition' }, ' in some regions.'],
       ],
       ratings: [
         { label: 'Wyrmreview', score: '91', url: 'https://example.com/reviews/wyrmwatch' },
@@ -120,7 +119,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
     // parent's (here: the primary, and the Remake alt that overrides them).
     by: [{ role: 'directed', names: { name: 'Katie Sorrel', url: 'https://example.com/people/katie-sorrel' } }, { role: 'written', names: 'Charles Whitlock' }],
     mediaDesc: [
-      'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm and discovers the Blightswarm’s origin at the frontier’s founding.',
+      'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm.',
       'Adds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.',
     ],
     primary: { mainline: true, tags: ['Prequel'],

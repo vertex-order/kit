@@ -159,6 +159,52 @@ and pull via `just sync`.
   title year's tooltip just gains ", sorted as <date>" so the order isn't
   a mystery.
 
+## Tags that relate an entry to something else
+
+Applies to `Spin-off`, `Tie-in`, `Sequel`, `Prequel`, `Side-story`,
+`Expansion`, `DLC` and `Optional`.
+
+- **Each tag earns its keep.** Short lists beat tag clouds.
+  - Add a tag only if it tells the reader something the group heading,
+    the section, the media type or another tag doesn't already say.
+  - When in doubt, leave it off.
+- **Relative to the entry's own group**, not to any order or position.
+  - Written once per entry, true in every order and every group it is
+    listed in. A cross-listed entry carries identical tags in each
+    (`check-dedup-drift.py` enforces it).
+  - Narrative order is where the tags are most visible. Overall order
+    and the Upcoming/Recent cards drop the group heading, so each row
+    there shows a small group chip (`XIII`, or `VII · C` for a section)
+    that jumps to the group in Narrative order.
+  - Never write a tag to explain where the entry sits in an order.
+- **Spin-off:** a separate work with its own story or gameplay, derived
+  from the franchise: a new game, novel line or manga with original
+  content.
+  - Use it to set an entry apart from the mainline inside a numbered
+    group (XII Tactics, XIII Type-0, XV Monster of the Deep).
+  - Leave it off when:
+    - the group is itself the spin-off line, or a collection of
+      standalone titles (nothing to be apart from);
+    - a more specific tag already says it (`Light Novel`, `Manga`,
+      `Minigame`);
+    - the entry retells the work's own story (a novelization or manga
+      adaptation);
+    - siblings in the same group don't carry it. Tag all or none.
+- **Tie-in:** companion material made to accompany or promote a
+  specific release, with no standalone story or gameplay: picture
+  books, 4-koma and humour comics, promotional webcomics, a
+  collaboration, a promo film.
+  - Not a spin-off even when it is a book or comic.
+- **Prequel / Sequel:** a direct story relation to the group's main
+  line, never "earlier or later in our list".
+  - A relation to one particular entry goes in the description, as a
+    link ("picks up after ...").
+- **Optional:** our judgement of the group's core experience. One value
+  per entry, not per route, and the same in every group it is listed
+  in.
+- **Expansion / DLC:** literal add-ons to a game in the same group. They
+  also drive the page's Expansion count.
+
 ## Book format labels (tags and platform names)
 
 - Name the **format** of the book, in the form of its country of origin:
@@ -203,6 +249,14 @@ and pull via `just sync`.
 - Rare exception: versions with different bonus content may need a
   publisher to tell them apart (e.g. the KH1 novel or manga). Don't add
   one where there wasn't one; don't remove an existing one.
+- No spoilers. Describe the premise, the setup of the opening, and who
+  it follows.
+  - Leave out how it ends, twists, and anything that happens after the
+    opening.
+  - Don't reveal how an earlier entry ended (for a sequel, "picks up
+    after X" is enough).
+  - Multi-volume entries: the setup of volume 1 only, not later volumes'
+    plots.
 
 ## What belongs on a list
 
@@ -384,8 +438,8 @@ another entry.
 - **Title:** the best-sourced translation (usually the wiki's literal
   one), kept stable. Follow the group's style; see "`~...~` in titles".
 - **Description:** "Released as *<transliterated original>* (<original
-  script>, literally "<gloss>")", then "sometimes referred to as"
-  followed by other names in use.
+  script>, literally "<gloss>"), also known as" followed by other names
+  in use, in one sentence.
 - **Alternate names:** list any name people actually use (forum posts,
   marketplace listings), including machine translations; they're what a
   searcher types.
