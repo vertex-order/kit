@@ -315,10 +315,30 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
   page; a publisher page that sells or hosts the book).
   - If it only passes the first test, it is `profileUrl` alone. Don't
     repeat it to fill a row.
-- A language item's `url` can be a page for that language only: a
-  Goodreads edition (by ISBN) or a store link for that locale.
+- **Language links** (`languages[].url`):
+  - A page for that language only: a Goodreads edition (by ISBN) or a
+    store link for that locale.
   - `profileUrl` can double as a language link when it is that
     language's official page.
+  - Skip them when one platform page already covers the languages, even
+    across Japanese, North American and European versions of a game. A
+    judgement call.
+  - Books and comics link each language edition: unique ISBNs, and
+    usually different storefronts and marketing pages.
+- **An entry that stands for many items** (volumes with their own ISBNs, a
+  box set or collection). Mostly books and comics; also video, movies, TV
+  and, rarely, games.
+  - `profileUrl` and the platform row link to one page that lists every
+    item, as far as possible.
+    - Best: a search page, on the usual priority site, that returns them
+      all.
+    - Else: a wiki page that lists all the items with a lookup ID for
+      each (an ISBN).
+    - Last: the first item's page.
+  - Language links go to that language's page first, then down the same
+    priority list, so a volume 1 page is fine there.
+  - So: profile and platform mean "everything, any language"; a language
+    link means "this language".
 - **Free web content** (a webcomic, a browser game): the platform row is
   the official page. Omit `profileUrl` unless a separate landing page
   exists.
