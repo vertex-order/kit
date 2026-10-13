@@ -1308,7 +1308,11 @@ class Component extends DCLogic {
       creditParts: creditParts || null,
       parts: mapTitleParts(node, titleSrc),
       languages: mapLangs(node.languages, node.langOrder),
-      ...tagLine(node.tags),
+      ...(() => {
+        const tl = tagLine(node.tags);
+        const hasTags = !!(tl.tagsText || tl.tagParts);
+        return { ...tl, creditsOnly: !!creditParts && !hasTags, creditsAfterTags: !!creditParts && hasTags };
+      })(),
       ratings: this.resolveRatings(node.ratings),
       platforms: node.platforms && this.sortPls(node.platforms.map(pl => {
         const r = this.resolvePl(pl, this.rowSearchTitle(node, titleSrc));
