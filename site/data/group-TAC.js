@@ -37,13 +37,13 @@ window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700
     mediaDesc: [
       ['Adds a versus-only skirmish mode on top of ', { emText: 'Wyrmwatch Tactics (2021)' }, '.'],
     ],
-    primary: { tags: ['DLC', 'Optional'],
+    primary: { tags: ['DLC', 'Optional'], terminated: true,
       length: [{ value: '3h', tip: 'Main Story' }, { value: '5h', tip: 'Main + Extra' }, { value: '7h', tip: 'Completionist' }],
       subtitle: 'DLC',
       ratings: [{ label: 'Fixture rating source', score: '6.9', url: 'https://example.com/reviews/skirmish-pack' }],
       platforms: [
-        { key: 'nintendo-switch', paren: 'Digital', url: 'https://example.com/store/skirmish-pack/switch' },
-        { key: 'mobile-phone', paren: 'iOS; Android; Digital', url: 'https://example.com/store/skirmish-pack/mobile' },
+        { key: 'nintendo-switch', paren: 'Digital', terminated: true, url: 'https://example.com/store/skirmish-pack/switch' },
+        { key: 'mobile-phone', paren: 'iOS; Android; Digital', terminated: true, url: 'https://example.com/store/skirmish-pack/mobile' },
       ],
       platformsUrl: 'https://example.com/store/wyrmwatch-tactics',
     },

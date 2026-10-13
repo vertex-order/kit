@@ -205,6 +205,28 @@ Applies to `Spin-off`, `Tie-in`, `Sequel`, `Prequel`, `Side-story`,
 - **Expansion / DLC:** literal add-ons to a game in the same group. They
   also drive the page's Expansion count.
 
+## Flags: status pills
+
+- A flag is a boolean property on a release (`primary`, an `alts[]` item,
+  or a `versions[]` item), drawn as a pill under the title. Not a tag.
+  - `helpWanted: true`: we want more information on this entry.
+  - `terminated: true`: no official way to play this release remains.
+  - `Upcoming` and `Recently released` come from the date, not a flag.
+- **Why properties, not a list of strings:** a misspelt property fails
+  the schema check; a misspelt string in a list would just do nothing.
+- **`terminated`:**
+  - Set it when every official platform or backend service is gone.
+    Fan recaps, fan translations and playthroughs never keep a game
+    playable.
+  - A game that is only partly terminated gets `terminated: true` on the
+    platforms that are gone (struck through) and no flag.
+  - The flag says it all. Don't repeat it in the description, including
+    "so watch a fan recap or playthrough".
+  - Regional cases (still playable in Japan only): no flag. Say which
+    regions in the description.
+  - Keep it consistent with the platforms: flag set means every official
+    platform is flagged `terminated`.
+
 ## Book format labels (tags and platform names)
 
 - Name the **format** of the book, in the form of its country of origin:

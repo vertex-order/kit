@@ -71,6 +71,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
           // Own `by` replaces the slot's wholesale; shown because it differs.
           by: [{ role: 'ported', names: { name: 'Pocket Forge', url: 'https://example.com/studios/pocket-forge' } }],
           languages: [{ value: 'EN', textOnly: true }],
+          terminated: true,
           platforms: [
             { key: 'mobile-phone', paren: 'iOS; Android; Digital', terminated: true, jpTag: true },
             // search: no searchTitle given either -- defaults to the inherited 'Wyrmwatch' title (same chain as the title display above), narrowed with searchQualifier rather than retyping 'Wyrmwatch mobile' by hand.

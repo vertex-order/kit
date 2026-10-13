@@ -531,6 +531,10 @@
         },
         "length": { "$ref": "#/$defs/Length" },
         "helpWanted": { "type": "boolean" },
+        "terminated": {
+          "type": "boolean",
+          "description": "Flag (a status pill, like helpWanted): no official way to play this release remains -- every official platform or backend service is gone. Fan recaps, fan translations and playthroughs don't count as keeping it playable. A game that is only partly terminated gets the per-platform `terminated` on its platforms instead, and no flag. Not the same property as a platform item's `terminated`."
+        },
         "noCheckbox": { "type": "boolean" },
         "platforms": {
           "type": "array",
@@ -612,6 +616,10 @@
         },
         "length": { "$ref": "#/$defs/Length" },
         "helpWanted": { "type": "boolean" },
+        "terminated": {
+          "type": "boolean",
+          "description": "Flag (a status pill, like helpWanted): no official way to play this release remains -- every official platform or backend service is gone. Fan recaps, fan translations and playthroughs don't count as keeping it playable. A game that is only partly terminated gets the per-platform `terminated` on its platforms instead, and no flag. Not the same property as a platform item's `terminated`."
+        },
         "noCheckbox": { "type": "boolean" },
         "platforms": {
           "type": "array",

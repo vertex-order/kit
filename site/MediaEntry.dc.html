@@ -62,6 +62,9 @@
       <sc-if value="{{ g.primary.tagParts }}" hint-placeholder-val="{{ false }}">
         <dc-import name="EntryTags" tag-parts="{{ g.primary.tagParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: block;"></dc-import>
       </sc-if>
+      <sc-if value="{{ g.primary.terminated }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="StatusBadge" label="Terminated" color="var(--color-neutral-200)" bg="var(--color-neutral-700)" hint-size="auto,20px" style="display: block;"></dc-import>
+      </sc-if>
       <sc-if value="{{ g.primary.helpWanted }}" hint-placeholder-val="{{ false }}">
         <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
       </sc-if>
@@ -177,6 +180,9 @@
               <dc-import name="EntryTags" tags="{{ ver.tagsText }}" hint-size="auto,16px" style="display: block;"></dc-import>
             </div>
           </sc-if>
+          <sc-if value="{{ ver.terminated }}" hint-placeholder-val="{{ false }}">
+            <dc-import name="StatusBadge" label="Terminated" color="var(--color-neutral-200)" bg="var(--color-neutral-700)" hint-size="auto,20px" style="display: block;"></dc-import>
+          </sc-if>
           <sc-if value="{{ ver.helpWanted }}" hint-placeholder-val="{{ false }}">
             <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
           </sc-if>
@@ -256,6 +262,9 @@
         <div onMouseEnter="{{ rel.onAnchorHoverEnter }}" onMouseLeave="{{ rel.onAnchorHoverLeave }}">
           <dc-import name="EntryTags" tag-parts="{{ rel.tagParts }}" hint-size="auto,16px" style="display: block;"></dc-import>
         </div>
+      </sc-if>
+      <sc-if value="{{ rel.terminated }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="StatusBadge" label="Terminated" color="var(--color-neutral-200)" bg="var(--color-neutral-700)" hint-size="auto,20px" style="display: block;"></dc-import>
       </sc-if>
       <sc-if value="{{ rel.helpWanted }}" hint-placeholder-val="{{ false }}">
         <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
@@ -355,6 +364,9 @@
             <div onMouseEnter="{{ ver.onAnchorHoverEnter }}" onMouseLeave="{{ ver.onAnchorHoverLeave }}" style="display: flex; align-items: center; gap: var(--space-2); margin-top: 2px;">
               <dc-import name="EntryTags" tags="{{ ver.tagsText }}" hint-size="auto,16px" style="display: block;"></dc-import>
             </div>
+          </sc-if>
+          <sc-if value="{{ ver.terminated }}" hint-placeholder-val="{{ false }}">
+            <dc-import name="StatusBadge" label="Terminated" color="var(--color-neutral-200)" bg="var(--color-neutral-700)" hint-size="auto,20px" style="display: block;"></dc-import>
           </sc-if>
           <sc-if value="{{ ver.helpWanted }}" hint-placeholder-val="{{ false }}">
             <dc-import name="StatusBadge" label="Help wanted" color="var(--color-neutral-400)" bg="var(--color-neutral-800)" hint-size="auto,20px" style="display: block;"></dc-import>
