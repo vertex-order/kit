@@ -319,7 +319,7 @@
         },
         "url": {
           "type": ["string", "null"],
-          "description": "This release's own link. Unset falls back to the enclosing release/version's own `platformsUrl` if it has one."
+          "description": "Where to get, read or play this format: an international storefront page (never a regional retailer), English first. Unset falls back to the enclosing release/version's own `platformsUrl` if it has one. Not the official page (that is `profileUrl`), though one page may serve as both."
         },
         "name": {
           "type": "string",
@@ -533,7 +533,7 @@
         },
         "profileUrl": {
           "type": "string",
-          "description": "\"Profile ↗\" link next to the Platforms label header. Renamed from `storeUrl` to match its own rendered label."
+          "description": "The official page for this release (publisher, developer or franchise site: a promo, catalog or store page), shown as a \"Profile ↗\" link next to the Platforms label. \"What is the official page for this\" -- not where to get it (that is a platform `url`), and never a third-party page. See docs/data.md, \"Profile link and platform links\"."
         },
         "languages": {
           "type": "array",
@@ -609,7 +609,7 @@
         },
         "profileUrl": {
           "type": "string",
-          "description": "\"Profile ↗\" link next to the Platforms label header. Renamed from `storeUrl` to match its own rendered label."
+          "description": "The official page for this release (publisher, developer or franchise site: a promo, catalog or store page), shown as a \"Profile ↗\" link next to the Platforms label. \"What is the official page for this\" -- not where to get it (that is a platform `url`), and never a third-party page. See docs/data.md, \"Profile link and platform links\"."
         },
         "languages": {
           "type": "array",

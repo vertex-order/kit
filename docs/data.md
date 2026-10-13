@@ -288,6 +288,41 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
 - Content goes elsewhere (description, tags like `Short Stories`), not in
   place of the format.
 
+## Profile link and platform links
+
+- `profileUrl` answers "what is the official page for this". A platform
+  `url` answers "where can I get this".
+- **`profileUrl`:**
+  - The official page for that release: the publisher's, developer's or
+    franchise's own site.
+    - A promo page, a catalog listing and a store listing all count.
+  - Prefer an English page, even for a Japanese-native item; else the
+    original-language page.
+  - No third-party pages (wikis, Goodreads, news sites, retailers). Omit
+    it instead.
+    - An archived copy of a dead official page is fine.
+  - Set per release (per version when a version has its own page). Shown
+    as "Profile ↗" beside the Platforms label.
+- **Platform `url`:**
+  - A page where that format can be bought, read or played.
+  - International storefronts only: Steam, Nintendo, Xbox, PlayStation,
+    app stores, GOG, the publisher's own store. Never a regional
+    retailer.
+  - English pages first, even for Japanese-native items.
+  - Books and comics: see "Book platform link" below.
+- **One page can be both.** Use it for `profileUrl` and for the platform
+  row when it passes both tests (a store page that is also the official
+  page; a publisher page that sells or hosts the book).
+  - If it only passes the first test, it is `profileUrl` alone. Don't
+    repeat it to fill a row.
+- A language item's `url` can be a page for that language only: a
+  Goodreads edition (by ISBN) or a store link for that locale.
+  - `profileUrl` can double as a language link when it is that
+    language's official page.
+- **Free web content** (a webcomic, a browser game): the platform row is
+  the official page. Omit `profileUrl` unless a separate landing page
+  exists.
+
 ## Book platform link (`Book` and `Comic` entries only)
 
 - Applies to `mediaType: 'Book'` and `'Comic'`; no other media type.
@@ -300,8 +335,9 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     editions.
   - Otherwise the DuckDuckGo search row
     (`paren: 'DuckDuckGo', search: 'duckduckgo'`).
-- Never repeat `profileUrl` in the `book` row (e.g. the publisher's English
-  store page). Same page twice, and no route to a store.
+- The `book` row can reuse `profileUrl` only when that page also passes the
+  platform test (a publisher page that sells or hosts the book). A page
+  that is only the official page stays `profileUrl` alone.
 - Search row:
   - Omit `searchTitle` unless punctuation breaks the results.
   - No language word in the query; the reader adds their own.
