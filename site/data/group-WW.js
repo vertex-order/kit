@@ -123,7 +123,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm.',
       'Adds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.',
     ],
-    primary: { mainline: true, tags: ['Prequel'],
+    primary: { mainline: true, tags: ['Prequel', { abbrTerm: 'RPG', abbrDef: 'Role-Playing Game' }, 'Single-player'],
       length: [{ value: '26h', tip: 'Main Story' }, { value: '35h', tip: 'Main + Extra' }, { value: '55h', tip: 'Completionist' }],
       languages: [
         { value: 'EN', native: true, voice: true },

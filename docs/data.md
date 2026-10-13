@@ -81,13 +81,13 @@ and pull via `just sync`.
   `by` replaces the inherited one wholesale (`by: null` clears it). A row
   only displays credits when they differ from its parent's: the primary
   always, an alt only if different from the primary, a version only if
-  different from its release. ("Tags line" is `tags`/`tagParts` and
+  different from its release. ("Tags line" is `tags` and
   `EntryTags`; "credits" is `by` and `EntryCredits`.)
 - **There are three different "styled text run" shapes**, not
   interchangeable: `ConfigPart`/`Paragraph` (site config, credits, FAQ
   answers — `common.schema.json`), `DescPart` (entry `description[]` —
-  richer, supports `<abbr>`/tooltips), and `TagPart` (`tagParts[]` —
-  narrower still). Using the wrong one for a given field is a schema
+  richer, supports `<abbr>`/tooltips), and the abbreviation object a
+  `tags[]` item can be (`{ abbrTerm, abbrDef }`). Using the wrong one for a given field is a schema
   validation error, not a silent no-op.
 - **A `Prose` paragraph's own array can mix two kinds of item**: a bare
   `DescPart` object (`{ text: '...' }`/`{ emLinkText: '...', ... }`,

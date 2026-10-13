@@ -179,20 +179,15 @@
         }
       ]
     },
-    "TagPart": {
-      "description": "tagParts[] item -- EntryTags.dc.html's own narrower shape, not the same object as TextSpan.",
+    "Tag": {
+      "description": "One item of `tags[]`: a plain string, or an abbreviation object whose abbrTerm is the tag text and abbrDef the hover definition.",
       "oneOf": [
-        {
-          "type": "object",
-          "properties": { "text": { "type": "string" } },
-          "required": ["text"],
-          "additionalProperties": false
-        },
+        { "type": "string", "minLength": 1 },
         {
           "type": "object",
           "properties": {
-            "abbrTerm": { "type": "string" },
-            "abbrDef": { "type": "string" }
+            "abbrTerm": { "type": "string", "minLength": 1 },
+            "abbrDef": { "type": "string", "minLength": 1 }
           },
           "required": ["abbrTerm", "abbrDef"],
           "additionalProperties": false
@@ -511,17 +506,12 @@
         },
         "tags": {
           "type": "array",
-          "items": { "type": "string" },
-          "description": "Free-text tag words (joined with ' · ' unless tagParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
+          "items": { "$ref": "#/$defs/Tag" },
+          "description": "Tag words, shown joined with ' · '. An item is a plain string, or an { abbrTerm, abbrDef } object for a tag that is an abbreviation with a hover definition. The tag's text (the string, or the abbrTerm) is what everything reads: 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
         },
         "by": {
           "oneOf": [{ "$ref": "#/$defs/By" }, { "type": "null" }],
           "description": "Credits for this node: replaces (never merges with) the credits it would inherit from its release / the slot. `null` clears them -- shows none even though a parent has some. See MediaSlot.by."
-        },
-        "tagParts": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/TagPart" },
-          "description": "Alternative to a tags-derived tags line, for an inline <abbr> in it. Wins over tags for display; tags are still read for their 'Expansion'/'DLC'/'Optional' semantics even when this is set."
         },
         "ratings": {
           "type": "array",
@@ -596,17 +586,12 @@
         },
         "tags": {
           "type": "array",
-          "items": { "type": "string" },
-          "description": "Free-text tag words (joined with ' · ' unless tagParts is set). 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
+          "items": { "$ref": "#/$defs/Tag" },
+          "description": "Tag words, shown joined with ' · '. An item is a plain string, or an { abbrTerm, abbrDef } object for a tag that is an abbreviation with a hover definition. The tag's text (the string, or the abbrTerm) is what everything reads: 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
         },
         "by": {
           "oneOf": [{ "$ref": "#/$defs/By" }, { "type": "null" }],
           "description": "Credits for this node: replaces (never merges with) the credits it would inherit from its release / the slot. `null` clears them -- shows none even though a parent has some. See MediaSlot.by."
-        },
-        "tagParts": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/TagPart" },
-          "description": "Alternative to a tags-derived tags line, for an inline <abbr> in it. Wins over tags for display; tags are still read for their 'Expansion'/'DLC'/'Optional' semantics even when this is set."
         },
         "ratings": {
           "type": "array",
