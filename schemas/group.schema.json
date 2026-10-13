@@ -500,14 +500,10 @@
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
           "description": "Explicit anchor id for this alts[] or versions[] item: its whole anchor becomes `entry-<group num>-<id>`, the same shape as a slot's, replacing the positional `-or`/`-or-N` or derived `-x-<slug>` anchor (and, on an alt, the base its own versions[] anchors hang off). Use it to keep the anchor a release had before a later edition was promoted to the slot title and this one was demoted. Must be unique across the page; check-anchors.py fails a collision."
         },
-        "mainline": {
-          "type": "boolean",
-          "description": "Counted for the intro's mainlineCount stat, read off the slot's `primary`."
-        },
         "tags": {
           "type": "array",
           "items": { "$ref": "#/$defs/Tag" },
-          "description": "Tag words, shown joined with ' · '. An item is a plain string, or an { abbrTerm, abbrDef } object for a tag that is an abbreviation with a hover definition. The tag's text (the string, or the abbrTerm) is what everything reads: 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
+          "description": "Tag words, shown joined with ' · '. An item is a plain string, or an { abbrTerm, abbrDef } object for a tag that is an abbreviation with a hover definition. The tag's text (the string, or the abbrTerm) is what everything reads: 'Mainline' (the group's core numbered title, counted for the intro's mainline stat), 'Essential' and 'Optional' (which of the two a list uses is checked by validate-data.py; 'Mainline' is first in the list and implies Essential) set which entries pick a group's start date in Release order. 'Expansion' and 'DLC' reclassify a Game for stats-counting. Everything else is display text only -- do not enum-restrict."
         },
         "by": {
           "oneOf": [{ "$ref": "#/$defs/By" }, { "type": "null" }],
@@ -580,14 +576,10 @@
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
           "description": "Explicit anchor id for this alts[] or versions[] item: its whole anchor becomes `entry-<group num>-<id>`, the same shape as a slot's, replacing the positional `-or`/`-or-N` or derived `-x-<slug>` anchor (and, on an alt, the base its own versions[] anchors hang off). Use it to keep the anchor a release had before a later edition was promoted to the slot title and this one was demoted. Must be unique across the page; check-anchors.py fails a collision."
         },
-        "mainline": {
-          "type": "boolean",
-          "description": "Counted for the intro's mainlineCount stat, read off the slot's `primary`."
-        },
         "tags": {
           "type": "array",
           "items": { "$ref": "#/$defs/Tag" },
-          "description": "Tag words, shown joined with ' · '. An item is a plain string, or an { abbrTerm, abbrDef } object for a tag that is an abbreviation with a hover definition. The tag's text (the string, or the abbrTerm) is what everything reads: 'Expansion' and 'DLC' reclassify a Game for stats-counting; 'Optional' excludes a release from the release-order pseudo-group's earliest-date computation. Everything else is display text only -- do not enum-restrict."
+          "description": "Tag words, shown joined with ' · '. An item is a plain string, or an { abbrTerm, abbrDef } object for a tag that is an abbreviation with a hover definition. The tag's text (the string, or the abbrTerm) is what everything reads: 'Mainline' (the group's core numbered title, counted for the intro's mainline stat), 'Essential' and 'Optional' (which of the two a list uses is checked by validate-data.py; 'Mainline' is first in the list and implies Essential) set which entries pick a group's start date in Release order. 'Expansion' and 'DLC' reclassify a Game for stats-counting. Everything else is display text only -- do not enum-restrict."
         },
         "by": {
           "oneOf": [{ "$ref": "#/$defs/By" }, { "type": "null" }],

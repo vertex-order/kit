@@ -443,6 +443,112 @@ def check_sections(label, instance, findings):
         findings.append((label, errors))
 
 
+MARKERS = ("Mainline", "Essential", "Optional")
+
+
+def _tag_text(tag):
+    return tag if isinstance(tag, str) else tag.get("abbrTerm", "")
+
+
+def check_markers(label, instance, findings, usage):
+    """Tags that rank an entry: `Mainline` (the group's core numbered
+    title), `Essential` and `Optional`. Per entry (its primary): at most
+    one of the three, and it is the first tag. Across the whole list
+    (`usage`, filled here and judged at the end): only one of Essential
+    and Optional, because the entries without the marker are read as the
+    opposite."""
+    errors = []
+    for i, slot in enumerate(instance.get("media") or []):
+        if not isinstance(slot, dict):
+            continue
+        primary = slot.get("primary")
+        if not isinstance(primary, dict):
+            continue
+        tags = [_tag_text(t) for t in (primary.get("tags") or [])]
+        found = [t for t in tags if t in MARKERS]
+        where = f"$.media[{i}]" + (
+            f" ({slot['title']!r})" if isinstance(slot.get("title"), str) else ""
+        )
+        if len(found) > 1:
+            errors.append(
+                f"{where}: more than one of Mainline / Essential / Optional ({', '.join(found)}) -- Mainline already implies Essential; use one"
+            )
+        elif found and tags[0] != found[0]:
+            errors.append(f"{where}: `{found[0]}` must be the first tag")
+        for t in found:
+            if t in ("Essential", "Optional"):
+                usage[t].append(f"{label}: {slot.get('title')}")
+    if errors:
+        findings.append((label, errors))
+
+
+def check_marker_usage(usage, findings):
+    essential, optional = usage["Essential"], usage["Optional"]
+    if not (essential and optional):
+        return
+    fewer, name = (
+        (essential, "Essential")
+        if len(essential) <= len(optional)
+        else (optional, "Optional")
+    )
+    message = (
+        f"this list uses both Essential ({len(essential)}) and Optional "
+        f"({len(optional)}); use only one -- the entries without the marker "
+        f"read as the opposite. The smaller side is {name} (e.g. {fewer[0]})"
+    )
+    findings.append(("tags", [message]))
+
+
+def _walk_tags(node, where="$"):
+    """Yield (path, tag text) for every `tags` list in a group literal --
+    primary, alts[] and versions[] alike."""
+    if isinstance(node, dict):
+        for key, value in node.items():
+            if key == "tags" and isinstance(value, list):
+                for tag in value:
+                    yield f"{where}.tags", _tag_text(tag)
+            else:
+                yield from _walk_tags(value, f"{where}.{key}")
+    elif isinstance(node, list):
+        for i, item in enumerate(node):
+            yield from _walk_tags(item, f"{where}[{i}]")
+
+
+def check_tag_style(label, instance, findings, spellings):
+    """Tag text starts with an uppercase letter or a digit (DLC, MMORPG
+    and 2D pass; "rpg" doesn't). Spellings of each tag are also collected
+    across the whole list (`spellings`, judged at the end): two tags that
+    differ only in case must be written one way."""
+    errors = []
+    seen = set()
+    for path, text in _walk_tags(instance):
+        if not text:
+            continue
+        spellings.setdefault(text.casefold(), {}).setdefault(text, []).append(label)
+        if not (text[0].isupper() or text[0].isdigit()) and (path, text) not in seen:
+            seen.add((path, text))
+            errors.append(
+                f"{path}: tag {text!r} must start with an uppercase letter or a digit"
+            )
+    if errors:
+        findings.append((label, errors))
+
+
+def check_tag_spellings(spellings, findings):
+    errors = []
+    for variants in spellings.values():
+        if len(variants) > 1:
+            counts = ", ".join(
+                f"{text!r} x{len(files)}"
+                for text, files in sorted(variants.items(), key=lambda kv: -len(kv[1]))
+            )
+            errors.append(
+                f"tag spelled more than one way (differs only in case): {counts}"
+            )
+    if errors:
+        findings.append(("tags", errors))
+
+
 def main():
     if not DATA.is_dir():
         print("validate-data: no site/data/ -- nothing to check")
@@ -453,6 +559,8 @@ def main():
     checked = 0
     allowed_name_override_keys = load_name_override_keys()
 
+    marker_usage = {"Essential": [], "Optional": []}
+    tag_spellings = {}
     for path in sorted(DATA.glob("*.js")):
         text = path.read_text(encoding="utf-8")
         try:
@@ -465,10 +573,15 @@ def main():
             checked += 1
             if schema_ref.startswith("group.schema.json"):
                 check_sections(path.name, instance, findings)
+                check_markers(path.name, instance, findings, marker_usage)
+                check_tag_style(path.name, instance, findings, tag_spellings)
                 if allowed_name_override_keys is not None:
                     check_name_overrides(
                         path.name, instance, allowed_name_override_keys, findings
                     )
+
+    check_marker_usage(marker_usage, findings)
+    check_tag_spellings(tag_spellings, findings)
 
     if findings:
         total = sum(len(errs) for _, errs in findings)

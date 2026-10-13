@@ -17,7 +17,7 @@ window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700
     // A single bare object; an in-page '#...' url opens in the same tab.
     by: { name: 'Emberfall Studio', url: '#group-WW' },
     mediaDesc: ['A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.'],
-    primary: { tags: ['Turn-Based', 'Optional'],
+    primary: { tags: ['Turn-Based'],
       length: [{ value: '12h', tip: 'Main Story' }, { value: '16h', tip: 'Main + Extra' }, { value: '24h', tip: 'Completionist' }],
       languages: [
         { value: 'EN', native: true, textOnly: true },
@@ -37,7 +37,7 @@ window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700
     mediaDesc: [
       ['Adds a versus-only skirmish mode on top of ', { emText: 'Wyrmwatch Tactics (2021)' }, '.'],
     ],
-    primary: { tags: ['DLC', 'Optional'], terminated: true,
+    primary: { tags: ['DLC'], terminated: true,
       length: [{ value: '3h', tip: 'Main Story' }, { value: '5h', tip: 'Main + Extra' }, { value: '7h', tip: 'Completionist' }],
       subtitle: 'DLC',
       ratings: [{ label: 'Fixture rating source', score: '6.9', url: 'https://example.com/reviews/skirmish-pack' }],
@@ -53,7 +53,7 @@ window.__wwGroupReg['TAC'] = { num: 'TAC', chronoOrder: 700, narrativeOrder: 700
     mediaDesc: [
       'A grid-based spin-off starring the Ashfall watch’s rank-and-file wardens, squad by squad, unconnected to the mainline story.',
     ],
-    primary: { tags: ['Turn-Based', 'Optional'],
+    primary: { tags: ['Turn-Based'],
       languages: [
         { value: 'EN', native: true, textOnly: true },
         { value: 'DE', textOnly: true },

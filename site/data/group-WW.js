@@ -31,7 +31,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       'Recruit-and-bond tactics RPG. Warden Rook Ashvane arrives at the Ashfall frontier and must bond with wild wyrms to hold the watchtowers against the Blightswarm.',
       'Includes a free rebalance patch and an optional hard difficulty added post-launch.',
     ],
-    primary: { mainline: true, tags: [],
+    primary: { tags: ['Mainline'],
       length: [{ value: '22h', tip: 'Main Story' }, { value: '31h', tip: 'Main + Extra' }, { value: '50h', tip: 'Completionist' }],
       languages: [
         { value: 'EN', native: true, voice: true },
@@ -95,7 +95,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
     mediaDesc: [
       ['Standalone expansion set ', { emText: 'immediately after' }, ' the base game — the Blightswarm regroups beyond the watchtowers.'],
     ],
-    primary: { tags: ['Expansion', 'Optional'],
+    primary: { tags: ['Expansion'],
       length: [{ value: '8h', tip: 'Main Story' }, { value: '11h', tip: 'Main + Extra' }, { value: '14h', tip: 'Completionist' }],
       languages: [
         { value: 'EN', native: true, voice: true },
@@ -123,7 +123,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       'Set decades before the original: young warden-in-training Isolde Marrow first tames a wyrm.',
       'Adds a mounted-flight traversal layer and a wyrm-breeding metagame on top of the original’s bonding and tactics systems.',
     ],
-    primary: { mainline: true, tags: ['Prequel', { abbrTerm: 'RPG', abbrDef: 'Role-Playing Game' }, 'Single-player'],
+    primary: { tags: ['Mainline', 'Prequel', { abbrTerm: 'RPG', abbrDef: 'Role-Playing Game' }, 'Single-player'],
       length: [{ value: '26h', tip: 'Main Story' }, { value: '35h', tip: 'Main + Extra' }, { value: '55h', tip: 'Completionist' }],
       languages: [
         { value: 'EN', native: true, voice: true },
@@ -216,7 +216,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
     mediaDesc: [
       'A short side story following a lone scout who rides the first wyrm through the Ashfall frontier, told between the events of the original and its sequel.',
     ],
-    primary: { tags: ['Optional'],
+    primary: { tags: [],
       length: [{ value: '6h', tip: 'Main Story' }, { value: '9h', tip: 'Main + Extra' }],
       languages: [
         { value: 'EN', native: true, textOnly: true },
@@ -242,7 +242,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
     mediaDesc: [
       ['A standalone expansion set alongside ', { emText: 'Wyrmwatch II (2019)' }, ', following a splinter watch as they hold a collapsing tower in the frontier’s ember basin.'],
     ],
-    primary: { tags: ['Expansion', 'Optional'],
+    primary: { tags: ['Expansion'],
       length: [{ value: '9h', tip: 'Main Story' }, { value: '13h', tip: 'Main + Extra' }, { value: '17h', tip: 'Completionist' }],
       languages: [
         { value: 'EN', native: true, voice: true },
@@ -263,7 +263,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
     mediaDesc: [
       'Warden Rook Ashvane returns to the Ashfall frontier after a decade of peace, as a new Blightswarm strain breaches the outer watchtowers.',
     ],
-    primary: { mainline: true, tags: ['Sequel'],
+    primary: { tags: ['Mainline', 'Sequel'],
       languages: [
         { value: 'EN', native: true, voice: true },
         { value: 'JA', voice: true },

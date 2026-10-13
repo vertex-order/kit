@@ -161,9 +161,14 @@ and pull via `just sync`.
 
 ## Tags that relate an entry to something else
 
-Applies to `Spin-off`, `Tie-in`, `Sequel`, `Prequel`, `Side-story`,
-`Expansion`, `DLC` and `Optional`.
+Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
+`Sequel`, `Prequel`, `Prologue`, `Mashup`, `Alternate Universe`,
+`Fan-made`, `Incomplete`, `Expansion`, `DLC` and `Demo`.
 
+- **Spelling:** a tag starts with an uppercase letter or a digit (`DLC`,
+  `MMORPG` and `2D` are fine; `rpg` isn't). Shown exactly as written; the
+  page never rewrites it. Two tags that differ only in case must be
+  written one way across the whole list. `validate-data.py` checks both.
 - **Each tag earns its keep.** Short lists beat tag clouds.
   - Add a tag only if it tells the reader something the group heading,
     the section, the media type or another tag doesn't already say.
@@ -195,13 +200,54 @@ Applies to `Spin-off`, `Tie-in`, `Sequel`, `Prequel`, `Side-story`,
   books, 4-koma and humour comics, promotional webcomics, a
   collaboration, a promo film.
   - Not a spin-off even when it is a book or comic.
-- **Prequel / Sequel:** a direct story relation to the group's main
-  line, never "earlier or later in our list".
-  - A relation to one particular entry goes in the description, as a
-    link ("picks up after ...").
-- **Optional:** our judgement of the group's core experience. One value
-  per entry, not per route, and the same in every group it is listed
-  in.
+- **Sequel:** directly continues another entry in the same group and
+  assumes you have experienced it ("doesn't live on its own").
+- **Prequel:** set earlier than another entry in the same group and
+  written for people who know it; it depends on, or spoils, the original.
+- **Prologue:** made to be experienced before its work, and fine to
+  start with. Use it instead of Prequel for a primer that stands alone.
+- For all three, the description names what it follows or precedes, as
+  a link ("picks up after ..."). Never use them for "later or earlier in
+  the series" or "earlier or later in our list", and not where every
+  entry follows the one before (every Kingdom Hearts game).
+- **Mashup:** combines elements from distinct groups or franchises, so
+  expect things that don't seem to belong.
+  - Tag it on an entry only in a group that mixes mashups with
+    standalone titles.
+  - When a whole group (Dissidia, Theatrhythm, World of Final Fantasy)
+    or franchise (Kingdom Hearts) is a mashup, say so once in the group
+    note or the intro instead.
+- **Demo:** a demo that carries its own story (Platinum Demo,
+  Dissidia Duodecim Prologus). Also use `Demo` as the subtitle when it
+  has none, so it reads at a glance.
+- **Mainline / Essential / Optional:** our ranking of an entry. They are
+  tags, first in the list, and an entry carries at most one.
+  - `Mainline`: the group's core numbered title. Counted for the
+    intro's mainline stat, and implies Essential.
+  - `Essential`: on the shortest path that still gives you the whole
+    story of its group (of the franchise, for a single-story franchise).
+  - `Optional`: skippable.
+  - A list marks the smaller side and uses `Essential` or `Optional`,
+    never both (`validate-data.py` fails if both appear). An entry
+    without the marker reads as the opposite. `Mainline` works either
+    way.
+  - Release order starts a group at its earliest `Mainline` or
+    `Essential` entry (or, in an `Optional` list, its earliest entry
+    that isn't `Optional`), so a retcon like "XV's favourite game from
+    the 80s" doesn't move the group.
+  - The same on every group an entry is listed in. Fan projects are
+    never `Essential`.
+- **Alternate Universe:** an official work that retells or sets its story
+  differently from the main continuity, even contradicting it. A
+  positive label, not a negative one.
+  - Not for fan works (`Fan-made`), and not where `Mashup` or `Spin-off`
+    already says it.
+  - Stands on its own. Add a sentence only when the difference is
+    specific and useful.
+- **Fan-made:** unofficial, made by fans. Never `Essential`.
+- **Incomplete:** cancelled or ended before it was finished (manga, TV).
+  It can still be experienced, so it is a tag, not a flag; the
+  description may say how far it got.
 - **Expansion / DLC:** literal add-ons to a game in the same group. They
   also drive the page's Expansion count.
 

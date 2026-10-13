@@ -13,7 +13,8 @@
 var GROUP_ORDER = [
   "WW",
   "CH",
-  "TAC"
+  "TAC",
+  "EXT"
 ];
 
 // Each group-*.js assigns its object here as `window.__wwGroupReg['<slug>'] = {...}`.

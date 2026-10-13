@@ -18,7 +18,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
     mediaDesc: [
       ['Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ', { emText: 'Wyrmwatch II (2019)' }, '. Also known as ', { emText: 'The Codex of Ashfall' }, ' in some markets.'],
     ],
-    primary: { tags: ['Novel'],
+    primary: { tags: ['Essential', 'Prequel', 'Novel'],
       length: '384p; P',
       languages: [
         { value: 'EN', native: true, url: 'https://example.com/books/ashfall-codex/en' },
@@ -39,7 +39,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
     mediaDesc: [
       ['A 52-minute animated short following the founding of the first watchtower, made as a tie-in for ', { emText: 'Wyrmwatch II (2019)' }, '.'],
     ],
-    primary: { tags: ['Short Film', 'Optional'],
+    primary: { tags: ['Tie-in', 'Short Film'],
       length: '52m',
       languages: [
         { value: 'EN', native: true, voice: true },
@@ -69,7 +69,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
     mediaDesc: [
       ['Set shortly after ', { emText: 'Ashfall Uprising (2015)' }, ', a retired warden is called back to the frontier when the ember basin towers go dark.'],
     ],
-    primary: { tags: ['Novel', 'Optional'],
+    primary: { tags: ['Sequel', 'Novel'],
       length: '312p',
       languages: [
         { value: 'EN', native: true, url: 'https://example.com/books/cinderwake/en' },

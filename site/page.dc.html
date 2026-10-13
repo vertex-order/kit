@@ -1442,11 +1442,16 @@ class Component extends DCLogic {
       if (mode === 'release') return g.orderSortKey;
       return g.narrativeOrder ?? 0;
     };
+    // Core entries pick a group's start date in Release order: Mainline or Essential, or,
+    // in a list that marks Optional instead (validate-data.py allows only one of the two
+    // markers per list), everything not Optional.
+    const usesOptional = raw.some(r => (r.media || []).some(m => hasTag(m.primary, 'Optional')));
+    const isCore = g => hasTag(g.primary, 'Mainline') || hasTag(g.primary, 'Essential') || (usesOptional && !hasTag(g.primary, 'Optional'));
     const groupSortKey = s => {
       if (mode === 'chrono') return s.chronoOrder ?? 0;
       if (mode === 'release') {
         if (s.num === 'Other' || s.num === 'PB') return '9999';
-        const core = s.media.filter(g => !hasTag(g.primary, 'Optional'));
+        const core = s.media.filter(isCore);
         const pool = core.length ? core : s.media;
         const dates = pool.map(g => g.orderSortKey).filter(Boolean);
         return dates.length ? dates.reduce((m, d) => (d < m ? d : m)) : '9999';
@@ -1633,7 +1638,7 @@ class Component extends DCLogic {
       { key: 'showPlatforms', label: 'Platforms', checked: showPlatforms },
       { key: 'showLanguages', label: 'Languages', checked: showLanguages },
     ].map(o => ({ ...o, toggle: () => this.toggleColumn(o.key) }));
-    const mainlineCount = raw.reduce((n, s) => n + (s.media || []).filter(m => m.primary.mainline).length, 0);
+    const mainlineCount = raw.reduce((n, s) => n + (s.media || []).filter(m => hasTag(m.primary, 'Mainline')).length, 0);
     const mediaCounts = {};
     const mediaChecked = {};
     let pageSkippedTotal = 0;
