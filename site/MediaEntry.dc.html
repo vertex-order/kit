@@ -51,16 +51,16 @@
         <dc-import name="EntryTitleLinks" parts="{{ g.primary.parts }}" part-click="{{ g.primary.titleJumpClick }}" pilcrow-href="{{ g.primary.anchorHref }}" on-pilcrow-click="{{ g.primary.onAnchorClick }}" pilcrow-opacity="{{ g.primary.pilcrowOpacity }}" show-pilcrow="{{ g.primary.pilcrowAfterTitle }}" hint-size="auto,20px" style="display: contents;"></dc-import>
       </span>
       <sc-if value="{{ g.showGroupLabel }}" hint-placeholder-val="{{ false }}">
-        <div>
+        <div class="dc-firstline">
           <a href="{{ g.groupHref }}" onClick="{{ g.groupJump }}" title="{{ g.groupTitle }}" style="align-self: flex-start; font-family: var(--font-heading); font-size: 11px; letter-spacing: 0.06em; color: var(--color-accent-300); border: 1px solid var(--color-divider); border-radius: var(--radius-sm); padding: 0 6px; margin-right: var(--space-2); text-decoration: none;">{{ g.groupLabel }}</a>
           <sc-if value="{{ g.primary.tagsText }}" hint-placeholder-val="{{ false }}">
-            <dc-import name="EntryTags" tags="{{ g.primary.tagsText }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: inline;"></dc-import>
+            <dc-import name="EntryTags" tags="{{ g.primary.tagsText }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px"></dc-import>
           </sc-if>
           <sc-if value="{{ g.primary.tagParts }}" hint-placeholder-val="{{ false }}">
-            <dc-import name="EntryTags" tag-parts="{{ g.primary.tagParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: inline;"></dc-import>
+            <dc-import name="EntryTags" tag-parts="{{ g.primary.tagParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px"></dc-import>
           </sc-if>
           <sc-if value="{{ g.primary.creditsOnly }}" hint-placeholder-val="{{ false }}">
-            <dc-import name="EntryCredits" credit-parts="{{ g.primary.creditParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px" style="display: inline;"></dc-import>
+            <dc-import name="EntryCredits" credit-parts="{{ g.primary.creditParts }}" on-mouse-enter="{{ g.primary.onAnchorHoverEnter }}" on-mouse-leave="{{ g.primary.onAnchorHoverLeave }}" hint-size="auto,16px"></dc-import>
           </sc-if>
         </div>
         <sc-if value="{{ g.primary.creditsAfterTags }}" hint-placeholder-val="{{ false }}">

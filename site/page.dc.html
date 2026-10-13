@@ -51,6 +51,8 @@ a:hover { color: var(--color-accent); text-decoration: underline; }
 [data-theme="light"] a:hover { color: var(--color-accent); }
 .sc-host[data-sc-name="TextSpan"] { display: inline; }
 .sc-host[data-sc-name="EntryTitleLinks"] { display: inline; }
+/* The group chip shares its line with the tags (or attribution) after it. */
+.dc-firstline > .sc-host { display: inline; }
 [data-theme="light"] img[style*="invert(80%) sepia(15%)"] { filter: brightness(0) saturate(100%) invert(35%) sepia(10%) saturate(400%) hue-rotate(195deg) !important; }
 [data-theme="light"] img[style*="invert(100%)"] { filter: brightness(0) saturate(100%) !important; }
 [data-theme="light"] img[src*="icon-movie-allcaps"],
