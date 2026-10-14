@@ -255,7 +255,12 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
 
 - A flag is a boolean property on a release (`primary`, an `alts[]` item,
   or a `versions[]` item), drawn as a pill under the title. Not a tag.
-  - `helpWanted: true`: we want more information on this entry.
+  - `helpWanted: true`: something specific is missing (credits, dates,
+    plot, links, search terms). Not a request for translations.
+  - `{ value: '…?' }` in `languages` (an item, not a flag): only when
+    other official editions likely exist but we can't name their
+    languages. A Japanese-only entry with no such evidence gets neither
+    marker; fan translations are never a reason for either.
   - `terminated: true`: no official way to play this release remains.
   - `Upcoming` and `Recently released` come from the date, not a flag.
 - **Why properties, not a list of strings:** a misspelt property fails
