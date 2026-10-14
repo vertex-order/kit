@@ -27,6 +27,24 @@
   (ISBN)`, resolve the four lookup links.
 - Confirmed a lookup → add URL, fact proved, `accessed` date.
 - Can't reach/verify a source → say so in the line. Never imply checked.
+- A wiki or community catalog is wrong or missing a fact → record it in
+  the repo's `docs/wiki-corrections.md`, and say "the wiki is wrong" in
+  the sources line that proves it.
+
+## Wiki corrections: `docs/wiki-corrections.md`
+
+- Each repo keeps its own (repo-owned, not vendored). Purpose: a list we
+  can report upstream, so the wikis we lean on improve too.
+- Open it with the intent and a pointer to this section (how to maintain
+  it); then two sections, **Confirmed** (checked
+  against a primary or publisher record) and **Candidates** (looks wrong,
+  unsettled; don't report yet).
+- One item per wiki page and fact:
+  - the page URL;
+  - what it says; what it should say;
+  - a link to our sources file (full evidence lives there);
+  - a one-line reason (the record that backs it).
+- Move a candidate to Confirmed when its sources file settles it.
 
 ## File layout
 

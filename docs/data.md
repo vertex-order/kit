@@ -45,6 +45,9 @@ and pull via `just sync`.
   `sources/<slug>-<year>.md`; change both together.
 - Format and what to record: docs/sources.md, "Keeping it in step with
   entry data".
+- Found a wiki or catalog that disagrees with the evidence? Log it in
+  `docs/wiki-corrections.md` (docs/sources.md, "Wiki corrections") so it
+  can be reported upstream.
 
 ## A few things worth knowing before opening a schema
 
