@@ -308,6 +308,9 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     original-language page.
   - No third-party pages (wikis, Goodreads, news sites, retailers). Omit
     it instead.
+    - Last resort, no official page exists (defunct publisher, old
+      print-only title): the country-of-origin library's catalog record
+      (NDL for Japan, BnF for France, Library of Congress for the US).
     - An archived copy of a dead official page is fine.
   - Set per release (per version when a version has its own page). Shown
     as "Profile ↗" beside the Platforms label.
@@ -439,6 +442,16 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
 
 ## Crediting books and comics (`by`)
 
+- **`by` is a finding aid, not a credit roll.**
+  - Flags the primary contributor, for readers looking for a person's work.
+  - Name one person, or two at most.
+  - Usual on books and comics; other media have too many notable people.
+  - Any entry may carry one. Inclusion is a human judgement call.
+- **Leave `by` off** when no one person is primary:
+  - anthologies;
+  - stage readings, audio dramas (cast and crew);
+  - works credited to an editorial department;
+  - only a director known.
 - **Books:** credit the author only, as a bare name (`by: 'Name'`).
   - Reads "by Name"; no `written` role, it's implied.
   - Skip illustrators; books are mainly words.
