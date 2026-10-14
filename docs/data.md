@@ -467,7 +467,8 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
   - Pages, volume/chapter counts, running time.
   - English publisher's count beats Goodreads or a retailer.
   - Games use play time instead.
-- **Books and comics:** `<pages>p; <code>`.
+- **Books and comics:** `<pages>p; <code>`, with a space after the
+  semicolon (`286p; A6`, not `286p;A6`).
   - Code: `P` paperback, `H` hardcover, or a size (`A5`, `B6`) if the
     binding is unknown.
   - Binding comes from the same edition as the pages.
