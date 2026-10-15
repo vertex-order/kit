@@ -473,6 +473,8 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
       clicking it toggles the list open or closed. Use it when the places
       to get the parts are the links in the list, so the platform row
       isn't a dead icon.
+      - Its tooltip gains "see volumes" (the list's `contentsLabel`) in
+        the paren, after any paren it already has, joined with `;`.
       - A platform sets at most one of `url`, `search` and
         `opensContents`, and `opensContents` needs a `contents[]` on the
         same release; `validate-data.py` fails both mistakes.

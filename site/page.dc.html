@@ -1399,7 +1399,12 @@ class Component extends DCLogic {
       })(),
       ratings: this.resolveRatings(node.ratings),
       platforms: node.platforms && this.sortPls(node.platforms.map(pl => {
-        const r = this.resolvePl(pl, this.rowSearchTitle(node, titleSrc, inheritedSearch));
+        // An `opensContents` platform's tooltip gains "see <volumes>" in its
+        // paren, after any paren it already has (joined with '; ').
+        const plIn = pl.opensContents && node.contents
+          ? { ...pl, paren: (pl.paren ? pl.paren + '; ' : '') + 'see ' + (node.contentsLabel || 'volumes') }
+          : pl;
+        const r = this.resolvePl(plIn, this.rowSearchTitle(node, titleSrc, inheritedSearch));
         return { ...r, href: r.url || node.platformsUrl, noPlUrl: !pl.url && !pl.search, opensContents: !!pl.opensContents, wrapStyle: 'display: contents;' };
       })),
       descParas: toProseParas(node.versionDesc),
