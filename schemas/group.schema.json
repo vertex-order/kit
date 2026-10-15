@@ -517,7 +517,7 @@
         },
         "releaseOrderDate": {
           "allOf": [{ "$ref": "#/$defs/DateValue" }],
-          "description": "Optional sort-only date for the two release-order modes (release and overall), same grammar and meaning as a slot's releaseOrderDate. Those modes otherwise sort parts by titleDate; a part with no date takes the entry's. Their date tooltip gains \", sorted as <date>\"."
+          "description": "Optional sort-only date for the two release-order modes (release and overall), same grammar and meaning as a slot's releaseOrderDate. Those modes otherwise sort parts by titleDate; parts with no date come last, in array order. Their date tooltip gains \", sorted as <date>\"."
         },
         "titleDate": {
           "$ref": "#/$defs/DateValue",

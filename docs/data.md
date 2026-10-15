@@ -455,9 +455,9 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
           or none. None: array order. Set them when the order is a
           deliberate choice, so it doesn't read as random.
       - `releaseOrderDate`: sort-only date for release modes, as a slot's.
-        - Release modes sort parts by it, else by `titleDate`; an undated
-          part takes the entry's date, never a neighbour's (the array isn't
-          assumed to be in date order). Ties keep array order.
+        - Release modes sort parts by it, else by `titleDate`. Undated
+          parts come last, in array order: the entry's date range says
+          nothing about parts with no known release date.
         - The date's tooltip gains ", sorted as <date>".
       - `titleUrl`: one link on the title, to find the part, not read
         about it. Prefer a Goodreads page with editions and ISBNs.
