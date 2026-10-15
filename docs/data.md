@@ -411,6 +411,9 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     "other"; being limited to one game makes it a stronger yes.
 - **Mixed books:** judge by the story content; a guide or encyclopedia that
   carries original comics or stories is borderline, so decide per book.
+- **Mixed story and comedy:** a comic with a decent share of story goes
+  with the story entries, not buried in a comedy-only series entry.
+  Story outweighs comedy.
 
 ## Deciding what counts as one entry
 
@@ -440,7 +443,8 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
       - `num`, `count`: the number shown before the title.
         - `num` omitted continues from the last counted item.
         - An integer is counted: skip or restart (0 is allowed).
-        - A string shows as written (`alpha`, `S2`); `false` shows none.
+        - A string shows as written (`alpha`, `S2`); `false` shows a
+          bullet (•).
           Neither advances the count.
         - `count: 3` covers a run (shows `1-3`).
         - Array order is display order; nothing is sorted.

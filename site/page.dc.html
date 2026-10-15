@@ -1115,6 +1115,8 @@ class Component extends DCLogic {
           next = n + count;
         } else if (typeof it.num === 'string') {
           label = it.num;
+        } else {
+          label = '•';
         }
         const query = ((searchBase || '') + ' ' + (it.searchTitle || it.title)).trim();
         const searchHref = (!it.titleUrl && bk)
@@ -1127,7 +1129,7 @@ class Component extends DCLogic {
           noHref: !(it.titleUrl || searchHref),
           hrefTip: it.titleUrl ? '' : 'Search: ' + query,
           linkDecor: it.titleUrl ? 'solid' : 'dotted',
-          dateText: it.titleDate !== undefined && it.titleDate !== null ? buildDateSegments(it.titleDate).map(x => x.text).join('').trim() : '',
+          dateSegments: it.titleDate !== undefined && it.titleDate !== null ? buildDateSegments(it.titleDate) : [],
           platforms: (it.platforms || []).map(pl => { const r = this.resolvePl(pl, query); return { ...r, href: r.url }; }),
         };
       });

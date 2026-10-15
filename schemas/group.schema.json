@@ -517,7 +517,7 @@
             { "type": "string", "minLength": 1 },
             { "const": false }
           ],
-          "description": "The label shown before this item in the list (the list reads like a numbered list). Optional: when omitted it continues from the previous counted item (that item's num plus its count, starting at 1), so most items need none. An integer is counted: use it to skip numbers or restart (0 is allowed, for a volume 0). A string is shown as written (alpha, beta, gamma; A, B; S2) and does not advance the count. `false` shows no label (an unnumbered extra) and does not advance the count. The array order is the display order; nothing is sorted by num."
+          "description": "The label shown before this item in the list (the list reads like a numbered list). Optional: when omitted it continues from the previous counted item (that item's num plus its count, starting at 1), so most items need none. An integer is counted: use it to skip numbers or restart (0 is allowed, for a volume 0). A string is shown as written (alpha, beta, gamma; A, B; S2) and does not advance the count. `false` shows a bullet instead of a number (an unnumbered extra) and does not advance the count. The array order is the display order; nothing is sorted by num."
         },
         "count": {
           "type": "integer",
