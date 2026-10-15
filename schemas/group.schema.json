@@ -481,6 +481,32 @@
       "required": ["title", "primary"],
       "additionalProperties": false
     },
+    "ContentsItem": {
+      "type": "object",
+      "description": "One part of a rolled-up entry (a volume or a run of numbered volumes, an episode, a season, a game in a spin-off series): just enough to get a reader going. Not a version (the same work in another form) and not an alt (a parallel \"or\" row). Detail such as ISBNs and evidence stays in the sources file. The fields are expected to grow; start small.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The part's title: English, our own translation when there is no official one (the entry's own title rule)."
+        },
+        "date": {
+          "$ref": "#/$defs/DateValue",
+          "description": "When the part came out, or the span of a run (the same grammar as titleDate)."
+        },
+        "num": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The part's own number when it is numbered (volume 1, episode 5), kept out of the title. For a run, the number of the first part. Omit for an unnumbered part."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "How many consecutive numbered parts this item covers, starting at num (num 1, count 3 is parts 1 to 3). Omit for a single part. Only meaningful with num."
+        }
+      },
+      "required": ["title"],
+      "additionalProperties": false
+    },
     "VersionDetails": {
       "description": "The content shape for one `versions[]` item (a release's own collapsible \"other versions and platforms\" list) -- subtitle through listItems, plus an optional title/titleUrl/titleDate override. Recursion is bounded: a VersionDetails has no `versions`/`alts` of its own (only ReleaseDetails does, one level).",
       "type": "object",
@@ -638,6 +664,12 @@
           "type": "array",
           "items": { "$ref": "#/$defs/VersionDetails" },
           "minItems": 1
+        },
+        "contents": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContentsItem" },
+          "minItems": 1,
+          "description": "The parts of a rolled-up entry (an entry whose length is 'N volumes', 'N episodes' and so on): one item per part or per run of numbered parts, listed in order. See ContentsItem. Present on a release (primary or an alts[] item), like versions[]."
         }
       },
       "additionalProperties": false

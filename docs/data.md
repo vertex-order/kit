@@ -428,7 +428,19 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
   - are sometimes re-released as one omnibus.
 - **Rolled-up entry format:**
   - `length`: `N volumes`.
-  - Volume subtitles in the description, for lookup.
+  - `contents[]` lists the parts, in order (on the primary, or on an
+    `alts[]` item; not on `versions[]`):
+    - `title`: English, our translation if there is no official one.
+    - `date` (optional): same grammar as `titleDate`; a span for a run.
+    - `num` (optional): the part's own number (volume 1), kept out of
+      the title. For a run, the first number.
+    - `count` (optional): how many consecutive parts it covers from
+      `num` (`num: 1, count: 3` is parts 1 to 3). Only with `num`.
+    - One item per part, or per run of numbered parts with the same
+      title.
+    - Just enough to find it. ISBNs and evidence stay in sources.
+    - Not a version (same work, another form) or an alt (parallel "or").
+  - Short lists: volume subtitles in the description still work.
   - Link the omnibus, else the first volume.
   - Usual cases: manga, multi-volume game novelizations.
   - Chapters never listed; nobody looks them up once volumes exist.
