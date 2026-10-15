@@ -317,6 +317,10 @@
           "type": "string",
           "description": "Looked up in platform-icons.js's PLATFORM_ICONS to merge in iconImg/iconSize/imgStyle/jpTag/base name."
         },
+        "opensContents": {
+          "type": "boolean",
+          "description": "On a platform of a primary or alt that has `contents[]`: clicking the icon toggles that list open or closed instead of linking out, because the places to get the parts are the links in the list. Any platform can carry it; it has no effect on a release without `contents[]`. Give the item no `url` or `search`."
+        },
         "url": {
           "type": ["string", "null"],
           "description": "Where to get, read or play this format: an international storefront page (never a regional retailer), English first. Unset falls back to the enclosing release/version's own `platformsUrl` if it has one. Not the official page (that is `profileUrl`), though one page may serve as both."

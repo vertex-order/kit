@@ -1400,7 +1400,7 @@ class Component extends DCLogic {
       ratings: this.resolveRatings(node.ratings),
       platforms: node.platforms && this.sortPls(node.platforms.map(pl => {
         const r = this.resolvePl(pl, this.rowSearchTitle(node, titleSrc, inheritedSearch));
-        return { ...r, href: r.url || node.platformsUrl, noPlUrl: !pl.url && !pl.search };
+        return { ...r, href: r.url || node.platformsUrl, noPlUrl: !pl.url && !pl.search, opensContents: !!pl.opensContents, wrapStyle: 'display: contents;' };
       })),
       descParas: toProseParas(node.versionDesc),
     });
@@ -1433,8 +1433,19 @@ class Component extends DCLogic {
           const relSearch = this.rowSearchTitle(release, titleSrc);
           const sortedVersions = release.versions ? sortVersions(release.versions, titleSrc) : null;
           const verSlugs = sortedVersions ? withDedupeSuffix(sortedVersions.map(ver => subSlug(ver, titleSrc))) : null;
+          const common = mapVersionCommon(release, titleSrc, mapCreditParts(creditsToShow(relCredits, parentCredits)));
+          // A platform flagged `opensContents` toggles this release's contents[]
+          // list instead of linking out (the purchase links live on the parts).
+          const toggleParts = () => this.toggleContents(anchorId);
+          const toggleKey = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleParts(); } };
+          const platformsWithToggle = common.platforms && release.contents
+            ? common.platforms.map(pl => pl.opensContents
+              ? { ...pl, href: undefined, onToggle: toggleParts, onToggleKey: toggleKey, wrapStyle: 'display: flex; cursor: pointer;', role: 'button', tabIndex: 0 }
+              : pl)
+            : common.platforms;
           return {
-            ...mapVersionCommon(release, titleSrc, mapCreditParts(creditsToShow(relCredits, parentCredits))),
+            ...common,
+            platforms: platformsWithToggle,
             parts: mapTitleParts(release, titleSrc, strikeMode),
             otherLanguages: mapLangs(computeOtherLangs(release.languages, release.versions), release.langOrder),
             anchorId,

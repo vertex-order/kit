@@ -469,6 +469,13 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
         - Soft guidance: where it came out, the main one or two; no
           backward-compatible ones, no `book` icon, no fan rows (recap,
           movie, playthrough). Fan translation and audio case by case.
+    - `opensContents: true` on a platform of that release (any icon):
+      clicking it toggles the list open or closed. Use it when the places
+      to get the parts are the links in the list, so the platform row
+      isn't a dead icon.
+      - A platform sets at most one of `url`, `search` and
+        `opensContents`, and `opensContents` needs a `contents[]` on the
+        same release; `validate-data.py` fails both mistakes.
     - Parts carry no tags, `by`, languages, ratings, lengths,
       descriptions, subtitles, `versions[]` or `alts[]`. They aren't
       important enough for their own entry.
