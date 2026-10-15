@@ -595,7 +595,7 @@ class Component extends DCLogic {
     };
     reader.readAsText(file);
   }
-  state = { expandedVersions: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'narrative', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
+  state = { expandedVersions: {}, expandedContents: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'narrative', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
   groupEls = {};
   langOrderDefault = ['JA', 'EN'];
   componentDidMount() {
@@ -849,6 +849,9 @@ class Component extends DCLogic {
   toggleVersions(anchorId) {
     this.setState(s => ({ expandedVersions: { ...s.expandedVersions, [anchorId]: !s.expandedVersions[anchorId] } }));
   }
+  toggleContents(anchorId) {
+    this.setState(s => ({ expandedContents: { ...s.expandedContents, [anchorId]: !s.expandedContents[anchorId] } }));
+  }
   buildPilcrow(anchorId) {
     return {
       anchorId,
@@ -1076,6 +1079,35 @@ class Component extends DCLogic {
       }
       const yr = String(d).slice(0, 4);
       return yr ? [{ text: ' (' + yr + ')', tip: dateTipFor(d) }] : [];
+    };
+    // `contents[]` (schema: group.schema.json#/$defs/ContentsItem) -> display
+    // lines for the collapsible parts list under a release. A single running
+    // counter `next` starts at 1. An item with no `num` takes `next`; an
+    // integer `num` takes that number (skip or restart); a string `num` is
+    // shown as written, `false` shows no label -- neither moves the counter.
+    // A counted item with `count` covers `count` consecutive numbers (shown
+    // as 'a-b') and the counter moves past the whole run. Array order is the
+    // display order; nothing is sorted. The date (the titleDate grammar) is
+    // appended in parentheses, same look as an entry title's date.
+    const buildContentsLines = (contents) => {
+      let next = 1;
+      return contents.map((it) => {
+        const count = it.count && it.count > 1 ? it.count : 1;
+        let label = '';
+        const counted = it.num === undefined || typeof it.num === 'number';
+        if (counted) {
+          const n = typeof it.num === 'number' ? it.num : next;
+          label = count > 1 ? n + '\u2013' + (n + count - 1) : String(n);
+          next = n + count;
+        } else if (typeof it.num === 'string') {
+          label = it.num;
+        }
+        return {
+          label,
+          title: it.title,
+          dateText: it.date !== undefined && it.date !== null ? buildDateSegments(it.date).map(x => x.text).join('').trim() : '',
+        };
+      });
     };
     // Builds a parts[]-shaped [title, subtitle?] array from the
     // title/titleUrl/titleDate/subtitle/subtitleUrl/subtitleDate fields, for
@@ -1362,6 +1394,11 @@ class Component extends DCLogic {
             extraExpanded: !!this.state.expandedVersions[anchorId],
             extraChevron: this.state.expandedVersions[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
             toggleExtra: () => this.toggleVersions(anchorId),
+            contentsLines: release.contents ? buildContentsLines(release.contents) : null,
+            contentsLabel: release.contentsLabel || 'volumes',
+            contentsExpanded: !!this.state.expandedContents[anchorId],
+            contentsChevron: this.state.expandedContents[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
+            toggleContents: () => this.toggleContents(anchorId),
             versions: sortedVersions && sortedVersions.map((ver, j) => {
               const verAnchor = ver.id ? 'entry-' + s.num + '-' + ver.id : anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };

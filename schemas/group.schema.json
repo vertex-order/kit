@@ -494,14 +494,17 @@
           "description": "When the part came out, or the span of a run (the same grammar as titleDate)."
         },
         "num": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "The part's own number when it is numbered (volume 1, episode 5), kept out of the title. For a run, the number of the first part. Omit for an unnumbered part."
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "string", "minLength": 1 },
+            { "const": false }
+          ],
+          "description": "The label shown before this item in the list (the list reads like a numbered list). Optional: when omitted it continues from the previous counted item (that item's num plus its count, starting at 1), so most items need none. An integer is counted: use it to skip numbers or restart (0 is allowed, for a volume 0). A string is shown as written (alpha, beta, gamma; A, B; S2) and does not advance the count. `false` shows no label (an unnumbered extra) and does not advance the count. The array order is the display order; nothing is sorted by num."
         },
         "count": {
           "type": "integer",
           "minimum": 2,
-          "description": "How many consecutive numbered parts this item covers, starting at num (num 1, count 3 is parts 1 to 3). Omit for a single part. Only meaningful with num."
+          "description": "How many consecutive parts this item covers (count 3 at number 1 shows as 1-3, and the next item continues at 4). Omit for a single part."
         }
       },
       "required": ["title"],
@@ -670,6 +673,11 @@
           "items": { "$ref": "#/$defs/ContentsItem" },
           "minItems": 1,
           "description": "The parts of a rolled-up entry (an entry whose length is 'N volumes', 'N episodes' and so on): one item per part or per run of numbered parts, listed in order. See ContentsItem. Present on a release (primary or an alts[] item), like versions[]."
+        },
+        "contentsLabel": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The word on the toggle bar that opens contents[]. Defaults to 'volumes' (books and comics are the usual case); set it for other kinds of part ('games', 'episodes', 'seasons', 'films')."
         }
       },
       "additionalProperties": false

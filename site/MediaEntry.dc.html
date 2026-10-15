@@ -174,6 +174,18 @@
       </sc-if>
     </div>
   </div>
+  <sc-if value="{{ g.primary.contentsLines }}" hint-placeholder-val="{{ false }}">
+    <div style="margin: var(--space-2) 0 var(--space-2) 0;">
+      <dc-import name="ExtrasToggle" label="{{ g.primary.contentsLabel }}" on-toggle="{{ g.primary.toggleContents }}" chevron-transform="{{ g.primary.contentsChevron }}" hint-size="auto,24px" style="display: block;"></dc-import>
+    </div>
+  </sc-if>
+  <sc-if value="{{ g.primary.contentsExpanded }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; gap: 2px; padding: 0 var(--space-3) var(--space-3) calc(25px + var(--space-3) * 2); font-size: 12px; color: var(--color-neutral-300);">
+      <sc-for list="{{ g.primary.contentsLines }}" as="cl" hint-placeholder-count="3">
+        <span style="display: flex; gap: 8px; align-items: baseline;"><span style="min-width: 48px; text-align: right; color: var(--color-neutral-500); font-variant-numeric: tabular-nums;">{{ cl.label }}</span><span>{{ cl.title }}<sc-if value="{{ cl.dateText }}" hint-placeholder-val="{{ false }}"> <span style="color: var(--color-neutral-500);">{{ cl.dateText }}</span></sc-if></span></span>
+      </sc-for>
+    </div>
+  </sc-if>
   <sc-if value="{{ g.primary.versions }}" hint-placeholder-val="{{ false }}">
     <div style="position: relative; margin: var(--space-2) 0 var(--space-2) 0;">
       <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent) 45%, transparent); z-index: 1; pointer-events: none;"></span>
@@ -359,6 +371,18 @@
       </sc-if>
     </div>
   </div>
+  <sc-if value="{{ rel.contentsLines }}" hint-placeholder-val="{{ false }}">
+    <div style="margin: var(--space-2) 0 var(--space-2) 0;">
+      <dc-import name="ExtrasToggle" label="{{ rel.contentsLabel }}" on-toggle="{{ rel.toggleContents }}" chevron-transform="{{ rel.contentsChevron }}" hint-size="auto,24px" style="display: block;"></dc-import>
+    </div>
+  </sc-if>
+  <sc-if value="{{ rel.contentsExpanded }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; gap: 2px; padding: 0 var(--space-3) var(--space-3) calc(25px + var(--space-3) * 2); font-size: 12px; color: var(--color-neutral-300);">
+      <sc-for list="{{ rel.contentsLines }}" as="cl" hint-placeholder-count="3">
+        <span style="display: flex; gap: 8px; align-items: baseline;"><span style="min-width: 48px; text-align: right; color: var(--color-neutral-500); font-variant-numeric: tabular-nums;">{{ cl.label }}</span><span>{{ cl.title }}<sc-if value="{{ cl.dateText }}" hint-placeholder-val="{{ false }}"> <span style="color: var(--color-neutral-500);">{{ cl.dateText }}</span></sc-if></span></span>
+      </sc-for>
+    </div>
+  </sc-if>
   <sc-if value="{{ rel.versions }}" hint-placeholder-val="{{ false }}">
     <div style="position: relative; margin: var(--space-2) 0 var(--space-2) 0;">
       <span style="position: absolute; left: 14px; top: 36px; bottom: 8px; width: 0; border-left: 4px dashed color-mix(in oklch, var(--color-accent) 45%, transparent); z-index: 1; pointer-events: none;"></span>

@@ -18,11 +18,19 @@
 </helmet>
 <div style="display: flex; align-items: center; padding: 0 var(--space-3) 0 calc(25px + var(--space-3) * 2); cursor: pointer;">
   <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid var(--color-accent-700); border-radius: var(--radius-md); background: color-mix(in oklch, var(--color-accent-700) 22%, transparent); white-space: nowrap;" style-hover="background: var(--color-accent-700); border-color: var(--color-accent-600);" onClick="{{ onToggle }}">
-    <span style="color: var(--color-accent-300); font-size: 11px; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; opacity: 0.75;">other versions and platforms</span>
+    <span style="color: var(--color-accent-300); font-size: 11px; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; opacity: 0.75;">{{ label }}</span>
     <span style="color: var(--color-accent-300); font-size: 9px; transform: {{ chevronTransform }}; transition: transform 0.15s; opacity: 0.75;">▾</span>
   </span>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 220, &quot;height&quot;: 24}, &quot;onToggle&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function | null&quot;}, &quot;chevronTransform&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;rotate(0deg)&quot;, &quot;tsType&quot;: &quot;string&quot;}}"></script>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 220, &quot;height&quot;: 24}, &quot;onToggle&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;function | null&quot;}, &quot;label&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;other versions and platforms&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;chevronTransform&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;rotate(0deg)&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    // `label` falls back to the original wording; the same bar is reused for
+    // the contents[] list, labelled with the entry's length (e.g. "54 volumes").
+    return { label: this.props.label || 'other versions and platforms' };
+  }
+}
+</script>
 </body>
 </html>

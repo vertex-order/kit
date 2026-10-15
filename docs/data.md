@@ -427,17 +427,30 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
   - are read together, in order, and skipped or marked read as a unit;
   - are sometimes re-released as one omnibus.
 - **Rolled-up entry format:**
-  - `length`: `N volumes`.
+  - `length`: `N volumes` (or `N games`, `N episodes`; a game series
+    counts its games, not play time).
   - `contents[]` lists the parts, in order (on the primary, or on an
     `alts[]` item; not on `versions[]`):
     - `title`: English, our translation if there is no official one.
     - `date` (optional): same grammar as `titleDate`; a span for a run.
-    - `num` (optional): the part's own number (volume 1), kept out of
-      the title. For a run, the first number.
-    - `count` (optional): how many consecutive parts it covers from
-      `num` (`num: 1, count: 3` is parts 1 to 3). Only with `num`.
-    - One item per part, or per run of numbered parts with the same
-      title.
+    - Shown as a numbered list: the number first, then the title, then
+      the date in parentheses.
+    - `count` (optional): how many consecutive parts the item covers
+      (count 3 shows as `1-3`). Omit for a single part.
+    - `num` (optional): the label shown for the item. Omitted, it
+      continues from the previous counted item (its `num` plus `count`,
+      from 1), so most items need none.
+      - An integer is counted: use it to skip numbers or restart (0 is
+        allowed).
+      - A string is shown as written (`alpha`, `B`, `S2`) and doesn't
+        advance the count.
+      - `false` shows no label (an unnumbered extra) and doesn't advance
+        the count.
+    - The array order is the display order; nothing is sorted by `num`.
+    - `contentsLabel` (optional, beside `contents`): the word on the toggle
+      bar. Default `volumes`; set `games`, `episodes` and so on for other
+      media.
+    - One item per part, or per run of parts with the same title.
     - Just enough to find it. ISBNs and evidence stay in sources.
     - Not a version (same work, another form) or an alt (parallel "or").
   - Short lists: volume subtitles in the description still work.
