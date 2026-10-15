@@ -338,6 +338,35 @@ def check_name_overrides(label, instance, allowed_keys, findings):
         findings.append((label, errors))
 
 
+def check_contents_orders(label, instance, findings):
+    """A release's `contents[]` sort keys are all-or-nothing, like a group's
+    section orders: if any part sets `narrativeOrder` (or `chronoOrder`),
+    every part in that list must."""
+    errors = []
+
+    def walk(node, where):
+        if isinstance(node, dict):
+            parts = node.get("contents")
+            if isinstance(parts, list):
+                for field in ("narrativeOrder", "chronoOrder"):
+                    have = [i for i, p in enumerate(parts) if isinstance(p, dict) and field in p]
+                    if have and len(have) != len(parts):
+                        missing = [i for i in range(len(parts)) if i not in have]
+                        errors.append(
+                            f"{where}.contents[]: `{field}` is set on some parts but not "
+                            f"on part(s) {missing} -- set it on every part or none"
+                        )
+            for k, v in node.items():
+                walk(v, f"{where}.{k}")
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                walk(v, f"{where}[{i}]")
+
+    walk(instance, "$")
+    if errors:
+        findings.append((label, errors))
+
+
 # Section orders: the three sort orders a group's `sections[]` can exist in,
 # with the section field a slot sets and the sort-key field a section carries.
 SECTION_ORDERS = {
@@ -573,6 +602,7 @@ def main():
             checked += 1
             if schema_ref.startswith("group.schema.json"):
                 check_sections(path.name, instance, findings)
+                check_contents_orders(path.name, instance, findings)
                 check_markers(path.name, instance, findings, marker_usage)
                 check_tag_style(path.name, instance, findings, tag_spellings)
                 if allowed_name_override_keys is not None:

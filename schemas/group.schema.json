@@ -507,6 +507,18 @@
           "minItems": 1,
           "description": "Platform rows for the part, drawn as small icons before the title (name and any paren in the tooltip, url as a link). The full PlatformItem shape is allowed; by guidance keep them bare: the platforms it came out on, the main one or two, no backward-compatible ones, no `book` row (use url) and no fan rows (recap, movie, playthrough); fan translation and audio only case by case."
         },
+        "narrativeOrder": {
+          "type": "number",
+          "description": "Sort key for Narrative mode among this release's parts, a plain number like an entry's narrativeOrder. All or nothing: if any part sets it, every part in the list must. Omitted everywhere, the array order is the order. Only the display order changes; the number labels stay with their parts."
+        },
+        "chronoOrder": {
+          "type": "number",
+          "description": "Sort key for Chronological mode among this release's parts, a plain number like an entry's chronoOrder. All or nothing, same as narrativeOrder; omitted everywhere, the array order is the order."
+        },
+        "releaseOrderDate": {
+          "allOf": [{ "$ref": "#/$defs/DateValue" }],
+          "description": "Optional sort-only date for the two release-order modes (release and overall), same grammar and meaning as a slot's releaseOrderDate. Those modes otherwise sort parts by titleDate; a part with no date takes the entry's. Their date tooltip gains \", sorted as <date>\"."
+        },
         "titleDate": {
           "$ref": "#/$defs/DateValue",
           "description": "When the part came out, or the span of a run (the same field and grammar as an entry's titleDate)."

@@ -447,7 +447,18 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
           bullet (•).
           Neither advances the count.
         - `count: 3` covers a run (shows `1-3`).
-        - Array order is display order; nothing is sorted.
+        - Labels are set in array order and stay with their part when the
+          display order changes (see the order keys below).
+      - `narrativeOrder`, `chronoOrder`: sort keys for those modes, plain
+        numbers like an entry's (gaps of 10).
+        - All or nothing per list (`validate-data.py`): set on every part
+          or none. None: array order. Set them when the order is a
+          deliberate choice, so it doesn't read as random.
+      - `releaseOrderDate`: sort-only date for release modes, as a slot's.
+        - Release modes sort parts by it, else by `titleDate`; an undated
+          part takes the entry's date, never a neighbour's (the array isn't
+          assumed to be in date order). Ties keep array order.
+        - The date's tooltip gains ", sorted as <date>".
       - `titleUrl`: one link on the title, to find the part, not read
         about it. Prefer a Goodreads page with editions and ISBNs.
         - Unset: a search from the release's `book` search row plus
@@ -461,6 +472,8 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
     - Parts carry no tags, `by`, languages, ratings, lengths,
       descriptions, subtitles, `versions[]` or `alts[]`. They aren't
       important enough for their own entry.
+    - A part has the same title, date and sort keys as an entry, so
+      promoting it (or demoting an entry) is moving keys, not renaming them.
     - A part that needs one of those, or whose rating really matters
       (the one great game in a series), outgrows the list: promote it.
       - Whether it stays in `contents[]` and the `length` count is a

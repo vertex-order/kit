@@ -1097,9 +1097,9 @@ class Component extends DCLogic {
     // shown as written, `false` shows no label -- neither moves the counter.
     // A counted item with `count` covers `count` consecutive numbers (shown
     // as 'a-b') and the counter moves past the whole run. Array order is the
-    // display order; nothing is sorted. The date (the titleDate grammar) is
+    // display order in narrative and chrono modes (see below). The date (the titleDate grammar) is
     // appended in parentheses, same look as an entry title's date.
-    const buildContentsLines = (contents, release, relSearch) => {
+    const buildContentsLines = (contents, release, relSearch, titleSrc) => {
       let next = 1;
       // A part with no `titleUrl` links to a search built from the release's
       // own `book` search row: its search title (else the release's computed
@@ -1107,7 +1107,17 @@ class Component extends DCLogic {
       // The query shows in the link's tooltip; nothing extra is displayed.
       const bk = (release.platforms || []).find(pl => pl.key === 'book' && pl.search);
       const searchBase = bk ? (bk.searchTitle !== undefined ? bk.searchTitle : relSearch) : relSearch;
-      return contents.map((it) => {
+      // Display order follows the active mode. Number labels are computed in
+      // array order below and travel with their part. narrative / chrono: the
+      // part's `narrativeOrder` / `chronoOrder` when the list sets it (all or
+      // nothing, validate-data.py), else array order. release / overall: the
+      // part's `releaseOrderDate`, else its `titleDate`; an undated part takes
+      // the parent entry's key (its `releaseOrderDate`, else `titleDate`),
+      // never a neighbour's: the array is not assumed to be in date order.
+      // Ties keep array order, so an all-undated list stays as written.
+      const pd = titleSrc && titleSrc.releaseOrderDate !== undefined && titleSrc.releaseOrderDate !== null ? titleSrc.releaseOrderDate : (titleSrc ? titleSrc.titleDate : undefined);
+      const parentKey = pd !== undefined && pd !== null ? releaseSortKey(pd, titleDateKey(pd)) : '0000';
+      const lines = contents.map((it, idx) => {
         const count = it.count && it.count > 1 ? it.count : 1;
         let label = '';
         const counted = it.num === undefined || typeof it.num === 'number';
@@ -1120,6 +1130,13 @@ class Component extends DCLogic {
         } else {
           label = '•';
         }
+        let sortKey;
+        if (mode === 'chrono') sortKey = it.chronoOrder;
+        else if (mode === 'narrative') sortKey = it.narrativeOrder;
+        else {
+          const od = it.releaseOrderDate !== undefined && it.releaseOrderDate !== null ? it.releaseOrderDate : it.titleDate;
+          sortKey = od !== undefined && od !== null ? releaseSortKey(od, titleDateKey(od)) : parentKey;
+        }
         const query = ((searchBase || '') + ' ' + (it.searchTitle || it.title)).trim();
         const searchHref = (!it.titleUrl && bk)
           ? this.searchUrl(bk.search, query, bk.searchQualifier || '', bk.searchSuffix !== undefined ? bk.searchSuffix : '')
@@ -1131,10 +1148,17 @@ class Component extends DCLogic {
           noHref: !(it.titleUrl || searchHref),
           hrefTip: it.titleUrl ? '' : 'Search: ' + query,
           linkDecor: it.titleUrl ? 'solid' : 'dotted',
-          dateSegments: it.titleDate !== undefined && it.titleDate !== null ? buildDateSegments(it.titleDate) : [],
+          dateSegments: it.titleDate !== undefined && it.titleDate !== null ? withSortedAs(buildDateSegments(it.titleDate), it) : [],
           platforms: (it.platforms || []).map(pl => { const r = this.resolvePl(pl, query); return { ...r, href: r.url }; }),
+          _idx: idx,
+          _key: sortKey,
         };
       });
+      lines.sort((a, b) => {
+        if (a._key !== undefined && b._key !== undefined && a._key !== b._key) return a._key < b._key ? -1 : 1;
+        return a._idx - b._idx;
+      });
+      return lines;
     };
     // Builds a parts[]-shaped [title, subtitle?] array from the
     // title/titleUrl/titleDate/subtitle/subtitleUrl/subtitleDate fields, for
@@ -1422,7 +1446,7 @@ class Component extends DCLogic {
             extraExpanded: !!this.state.expandedVersions[anchorId],
             extraChevron: this.state.expandedVersions[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
             toggleExtra: () => this.toggleVersions(anchorId),
-            contentsLines: release.contents ? buildContentsLines(release.contents, release, relSearch) : null,
+            contentsLines: release.contents ? buildContentsLines(release.contents, release, relSearch, titleSrc) : null,
             contentsLabel: release.contentsLabel || 'volumes',
             contentsExpanded: !!this.state.expandedContents[anchorId],
             contentsChevron: this.state.expandedContents[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
