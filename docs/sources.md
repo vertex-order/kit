@@ -56,6 +56,11 @@
     groups, so no clean folder answer.
 - All editions/sub-parts (remasters, DLC, alt releases) share the one
   file. No per-edition subsections.
+- `contents[]` parts share the parent's file: a line or short list per
+  part or run (ISBNs, dates, catalog pages, evidence).
+  - A separate file for a part is a judgement call, or already exists.
+    Link it from the parent file.
+  - A promoted part is its own entry, with its own file.
 - Filename mirrors anchor id: `entry-<SERIES>-<slug>-<year>` → drop
   `entry-` and `<SERIES>-`.
 - Mirrored once, at first citation. Then pinned: citable name, never

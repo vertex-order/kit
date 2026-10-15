@@ -780,12 +780,20 @@ class Component extends DCLogic {
   // title source (see resolveTitleSource) for this same node, which is the
   // inherited title a version/alt with neither falls back to for *display*
   // too, so the search default tracks what's actually shown.
-  rowSearchTitle(row, titleSrc) {
+  rowSearchTitle(row, titleSrc, inheritedSearch) {
+    // `searchTitle` is the default search term for every search-computed
+    // platform row of a node. Order: the node's own `searchTitle`; its own
+    // `title` (a titled version/alt searches by its own name, not its
+    // parent's override); hand-given `parts`; the parent release's already
+    // computed search title (versions only); the resolved title source's
+    // `searchTitle`, then its `title`.
     if (!row) return '';
+    if (row.searchTitle) return row.searchTitle;
     if (row.title) return row.title;
     const p = (row.parts || []).find(p => !p.small);
     if (p && p.label) return p.label;
-    return (titleSrc && titleSrc.title) || '';
+    if (inheritedSearch) return inheritedSearch;
+    return (titleSrc && (titleSrc.searchTitle || titleSrc.title)) || '';
   }
   // Resolves a `ratings[]` array's each item's `key` against fixed label
   // catalogs, so entries state which kind of score this is instead of
@@ -1089,8 +1097,14 @@ class Component extends DCLogic {
     // as 'a-b') and the counter moves past the whole run. Array order is the
     // display order; nothing is sorted. The date (the titleDate grammar) is
     // appended in parentheses, same look as an entry title's date.
-    const buildContentsLines = (contents) => {
+    const buildContentsLines = (contents, release, relSearch) => {
       let next = 1;
+      // A part with no `titleUrl` links to a search built from the release's
+      // own `book` search row: its search title (else the release's computed
+      // search title) plus the part's own `searchTitle` (else its title).
+      // The query shows in the link's tooltip; nothing extra is displayed.
+      const bk = (release.platforms || []).find(pl => pl.key === 'book' && pl.search);
+      const searchBase = bk ? (bk.searchTitle !== undefined ? bk.searchTitle : relSearch) : relSearch;
       return contents.map((it) => {
         const count = it.count && it.count > 1 ? it.count : 1;
         let label = '';
@@ -1102,10 +1116,19 @@ class Component extends DCLogic {
         } else if (typeof it.num === 'string') {
           label = it.num;
         }
+        const query = ((searchBase || '') + ' ' + (it.searchTitle || it.title)).trim();
+        const searchHref = (!it.titleUrl && bk)
+          ? this.searchUrl(bk.search, query, bk.searchQualifier || '', bk.searchSuffix !== undefined ? bk.searchSuffix : '')
+          : null;
         return {
           label,
           title: it.title,
-          dateText: it.date !== undefined && it.date !== null ? buildDateSegments(it.date).map(x => x.text).join('').trim() : '',
+          href: it.titleUrl || searchHref,
+          noHref: !(it.titleUrl || searchHref),
+          hrefTip: it.titleUrl ? '' : 'Search: ' + query,
+          linkDecor: it.titleUrl ? 'solid' : 'dotted',
+          dateText: it.titleDate !== undefined && it.titleDate !== null ? buildDateSegments(it.titleDate).map(x => x.text).join('').trim() : '',
+          platforms: (it.platforms || []).map(pl => { const r = this.resolvePl(pl, query); return { ...r, href: r.url }; }),
         };
       });
     };
@@ -1324,7 +1347,7 @@ class Component extends DCLogic {
       const out = [];
       const seen = new Set();
       release.versions.forEach(ver => (ver.platforms || []).forEach(pl => {
-        const rpl = this.resolvePl(pl, this.rowSearchTitle(ver, resolveTitleSource(ver, titleSrc)));
+        const rpl = this.resolvePl(pl, this.rowSearchTitle(ver, resolveTitleSource(ver, titleSrc), this.rowSearchTitle(release, titleSrc)));
         if (/icon-(movie|recap|play)-allcaps/.test(rpl.iconImg || '')) return;
         const kk = pl.key || rpl.name || rpl.text || rpl.iconImg;
         if (seen.has(kk)) return;
@@ -1337,7 +1360,7 @@ class Component extends DCLogic {
     // `alts[]` item, and each of a release's own versions[] items -- title
     // through platforms is the identical shape and mapping regardless of
     // role. `titleSrc` must already be resolved (see resolveTitleSource).
-    const mapVersionCommon = (node, titleSrc, creditParts) => ({
+    const mapVersionCommon = (node, titleSrc, creditParts, inheritedSearch) => ({
       ...node,
       creditParts: creditParts || null,
       parts: mapTitleParts(node, titleSrc),
@@ -1349,7 +1372,7 @@ class Component extends DCLogic {
       })(),
       ratings: this.resolveRatings(node.ratings),
       platforms: node.platforms && this.sortPls(node.platforms.map(pl => {
-        const r = this.resolvePl(pl, this.rowSearchTitle(node, titleSrc));
+        const r = this.resolvePl(pl, this.rowSearchTitle(node, titleSrc, inheritedSearch));
         return { ...r, href: r.url || node.platformsUrl, noPlUrl: !pl.url && !pl.search };
       })),
       descParas: toProseParas(node.versionDesc),
@@ -1380,6 +1403,7 @@ class Component extends DCLogic {
           const titleSrc = resolveTitleSource(release, m);
           const relBy = resolveBy(release, m.by);
           const relCredits = normalizeBy(relBy);
+          const relSearch = this.rowSearchTitle(release, titleSrc);
           const sortedVersions = release.versions ? sortVersions(release.versions, titleSrc) : null;
           const verSlugs = sortedVersions ? withDedupeSuffix(sortedVersions.map(ver => subSlug(ver, titleSrc))) : null;
           return {
@@ -1394,7 +1418,7 @@ class Component extends DCLogic {
             extraExpanded: !!this.state.expandedVersions[anchorId],
             extraChevron: this.state.expandedVersions[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
             toggleExtra: () => this.toggleVersions(anchorId),
-            contentsLines: release.contents ? buildContentsLines(release.contents) : null,
+            contentsLines: release.contents ? buildContentsLines(release.contents, release, relSearch) : null,
             contentsLabel: release.contentsLabel || 'volumes',
             contentsExpanded: !!this.state.expandedContents[anchorId],
             contentsChevron: this.state.expandedContents[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
@@ -1403,7 +1427,7 @@ class Component extends DCLogic {
               const verAnchor = ver.id ? 'entry-' + s.num + '-' + ver.id : anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };
               return {
-                ...mapVersionCommon(ver, resolveTitleSource(ver, titleSrc), mapCreditParts(creditsToShow(normalizeBy(resolveBy(ver, relBy)), relCredits))),
+                ...mapVersionCommon(ver, resolveTitleSource(ver, titleSrc), mapCreditParts(creditsToShow(normalizeBy(resolveBy(ver, relBy)), relCredits)), relSearch),
                 ...this.buildPilcrow(verAnchor),
               };
             }),

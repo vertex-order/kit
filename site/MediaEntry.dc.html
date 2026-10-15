@@ -182,7 +182,14 @@
   <sc-if value="{{ g.primary.contentsExpanded }}" hint-placeholder-val="{{ false }}">
     <div style="display: flex; flex-direction: column; gap: 2px; padding: 0 var(--space-3) var(--space-3) calc(25px + var(--space-3) * 2); font-size: 12px; color: var(--color-neutral-300);">
       <sc-for list="{{ g.primary.contentsLines }}" as="cl" hint-placeholder-count="3">
-        <span style="display: flex; gap: 8px; align-items: baseline;"><span style="min-width: 48px; text-align: right; color: var(--color-neutral-500); font-variant-numeric: tabular-nums;">{{ cl.label }}</span><span>{{ cl.title }}<sc-if value="{{ cl.dateText }}" hint-placeholder-val="{{ false }}"> <span style="color: var(--color-neutral-500);">{{ cl.dateText }}</span></sc-if></span></span>
+        <span style="display: flex; gap: 8px; align-items: center;">
+          <span style="min-width: 48px; text-align: right; color: var(--color-neutral-500); font-variant-numeric: tabular-nums;">{{ cl.label }}</span>
+          <span><sc-if value="{{ cl.href }}" hint-placeholder-val="{{ false }}"><a href="{{ cl.href }}" target="_blank" rel="noopener" title="{{ cl.hrefTip }}" style="color: inherit; text-decoration: underline; text-decoration-style: {{ cl.linkDecor }}; text-underline-offset: 2px;">{{ cl.title }}</a></sc-if><sc-if value="{{ cl.noHref }}" hint-placeholder-val="{{ false }}">{{ cl.title }}</sc-if><sc-if value="{{ cl.dateText }}" hint-placeholder-val="{{ false }}"> <span style="color: var(--color-neutral-500);">{{ cl.dateText }}</span></sc-if><sc-if value="{{ cl.platforms.length }}" hint-placeholder-val="{{ false }}"> <span style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">
+              <sc-for list="{{ cl.platforms }}" as="pl" hint-placeholder-count="1">
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+              </sc-for>
+            </span></sc-if></span>
+        </span>
       </sc-for>
     </div>
   </sc-if>
@@ -379,7 +386,14 @@
   <sc-if value="{{ rel.contentsExpanded }}" hint-placeholder-val="{{ false }}">
     <div style="display: flex; flex-direction: column; gap: 2px; padding: 0 var(--space-3) var(--space-3) calc(25px + var(--space-3) * 2); font-size: 12px; color: var(--color-neutral-300);">
       <sc-for list="{{ rel.contentsLines }}" as="cl" hint-placeholder-count="3">
-        <span style="display: flex; gap: 8px; align-items: baseline;"><span style="min-width: 48px; text-align: right; color: var(--color-neutral-500); font-variant-numeric: tabular-nums;">{{ cl.label }}</span><span>{{ cl.title }}<sc-if value="{{ cl.dateText }}" hint-placeholder-val="{{ false }}"> <span style="color: var(--color-neutral-500);">{{ cl.dateText }}</span></sc-if></span></span>
+        <span style="display: flex; gap: 8px; align-items: center;">
+          <span style="min-width: 48px; text-align: right; color: var(--color-neutral-500); font-variant-numeric: tabular-nums;">{{ cl.label }}</span>
+          <span><sc-if value="{{ cl.href }}" hint-placeholder-val="{{ false }}"><a href="{{ cl.href }}" target="_blank" rel="noopener" title="{{ cl.hrefTip }}" style="color: inherit; text-decoration: underline; text-decoration-style: {{ cl.linkDecor }}; text-underline-offset: 2px;">{{ cl.title }}</a></sc-if><sc-if value="{{ cl.noHref }}" hint-placeholder-val="{{ false }}">{{ cl.title }}</sc-if><sc-if value="{{ cl.dateText }}" hint-placeholder-val="{{ false }}"> <span style="color: var(--color-neutral-500);">{{ cl.dateText }}</span></sc-if><sc-if value="{{ cl.platforms.length }}" hint-placeholder-val="{{ false }}"> <span style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">
+              <sc-for list="{{ cl.platforms }}" as="pl" hint-placeholder-count="1">
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+              </sc-for>
+            </span></sc-if></span>
+        </span>
       </sc-for>
     </div>
   </sc-if>

@@ -440,6 +440,10 @@
           "description": "Id of the group `sections[]` entry this slot belongs to in Release mode. Required on every slot when any section lists 'release' in `orders`; forbidden otherwise."
         },
         "title": { "type": "string" },
+        "searchTitle": {
+          "type": "string",
+          "description": "The default search words for every search-computed platform row of this entry (inherited by its primary, alts and their versions) (a row can still set its own searchTitle). Defaults to its own title (a version or alt with a title of its own searches by that title, not its parent's override). Not displayed."
+        },
         "titleUrl": { "type": ["string", "null"] },
         "titleDate": { "$ref": "#/$defs/DateValue" },
         "releaseOrderDate": {
@@ -489,9 +493,23 @@
           "type": "string",
           "description": "The part's title: English, our own translation when there is no official one (the entry's own title rule)."
         },
-        "date": {
+        "titleUrl": {
+          "type": "string",
+          "description": "One link for the part, on its title (the same field as an entry's titleUrl, so promoting a part is a move). It is for finding or identifying this part, not for reading about it: prefer a page that lists the editions and their ISBNs (a Goodreads book page), then another edition or official page. Unset, the title links to a search built from the release's own book search row (its search title plus this part's searchTitle, else its title), with the query in the tooltip; no book search row, no link."
+        },
+        "searchTitle": {
+          "type": "string",
+          "description": "The part-specific search words, added to the release's search title for the fallback link (and for any platform row's search on this part). Not displayed. Defaults to the part's title."
+        },
+        "platforms": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/PlatformItem" },
+          "minItems": 1,
+          "description": "Platform rows for the part, drawn as small icons before the title (name and any paren in the tooltip, url as a link). The full PlatformItem shape is allowed; by guidance keep them bare: the platforms it came out on, the main one or two, no backward-compatible ones, no `book` row (use url) and no fan rows (recap, movie, playthrough); fan translation and audio only case by case."
+        },
+        "titleDate": {
           "$ref": "#/$defs/DateValue",
-          "description": "When the part came out, or the span of a run (the same grammar as titleDate)."
+          "description": "When the part came out, or the span of a run (the same field and grammar as an entry's titleDate)."
         },
         "num": {
           "oneOf": [
@@ -515,6 +533,10 @@
       "type": "object",
       "properties": {
         "title": { "type": "string" },
+        "searchTitle": {
+          "type": "string",
+          "description": "The default search words for every search-computed platform row of this version (a row can still set its own searchTitle). Defaults to its own title (a version or alt with a title of its own searches by that title, not its parent's override). Not displayed."
+        },
         "titleUrl": { "type": ["string", "null"] },
         "titleDate": { "$ref": "#/$defs/DateValue" },
         "subtitle": { "type": "string" },
@@ -595,6 +617,10 @@
       "type": "object",
       "properties": {
         "title": { "type": "string" },
+        "searchTitle": {
+          "type": "string",
+          "description": "The default search words for every search-computed platform row of this release (a row can still set its own searchTitle). Defaults to its own title (a version or alt with a title of its own searches by that title, not its parent's override). Not displayed."
+        },
         "titleUrl": { "type": ["string", "null"] },
         "titleDate": { "$ref": "#/$defs/DateValue" },
         "subtitle": { "type": "string" },
