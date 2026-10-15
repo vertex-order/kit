@@ -550,6 +550,12 @@ that once several candidate numbers are on the table.
   regardless of which site each is on. A close gap (1.3k vs 1.5k) isn't
   a clear win either way — judgment call, fall back to the normal
   site-priority pecking order.
+- **No trusted score, no rating row.** Don't show `NYR`.
+  - The list answers "should I experience it"; "not yet rated" doesn't.
+  - Applies to unreleased entries too: the date already says so.
+  - Keep the page URL and the rating count in the sources file.
+  - A book's Goodreads page stays reachable as its language or
+    `titleUrl` link (a search URL is fine for a series).
 - **Not concerned with matching the rating to this exact print/edition.**
   Use the best-confidence rating found across any version/edition of the
   title, not necessarily the one for this specific one — e.g. a book's
