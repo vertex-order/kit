@@ -46,6 +46,8 @@
 body { margin: 0; background: var(--color-bg); }
 a { color: var(--color-accent-300); text-decoration: none; }
 a:hover { color: var(--color-accent); text-decoration: underline; }
+.contents-link, [data-theme] .contents-link { color: inherit; }
+.contents-link:hover, [data-theme] .contents-link:hover { color: var(--color-accent); text-decoration-style: var(--decor); text-underline-offset: 2px; }
 [data-theme="dark"] a { color: var(--color-accent-400); }
 [data-theme="light"] a { color: var(--color-accent-300); }
 [data-theme="light"] a:hover { color: var(--color-accent); }
