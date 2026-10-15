@@ -47,6 +47,7 @@ body { margin: 0; background: var(--color-bg); }
 a { color: var(--color-accent-300); text-decoration: none; }
 a:hover { color: var(--color-accent); text-decoration: underline; }
 .contents-link, [data-theme] .contents-link { color: inherit; }
+.contents-length:hover { text-decoration: underline dotted; text-underline-offset: 2px; }
 .contents-link:hover, [data-theme] .contents-link:hover { color: var(--color-accent); text-decoration-style: var(--decor); text-underline-offset: 2px; }
 [data-theme="dark"] a { color: var(--color-accent-400); }
 [data-theme="light"] a { color: var(--color-accent-300); }
@@ -1466,6 +1467,12 @@ class Component extends DCLogic {
             contentsExpanded: !!this.state.expandedContents[anchorId],
             contentsChevron: this.state.expandedContents[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
             toggleContents: () => this.toggleContents(anchorId),
+            // A convenience click: with a contents[] list, the length text
+            // also toggles it (the toggle bar stays the main control).
+            lengthTip: release.contents && release.length ? 'See ' + (release.contentsLabel || 'volumes') + ' below' : undefined,
+            lengthClick: release.contents && release.length ? () => this.toggleContents(anchorId) : undefined,
+            lengthClass: release.contents && release.length ? 'contents-length' : undefined,
+            lengthWrapStyle: release.contents && release.length ? 'display: block; cursor: pointer;' : 'display: contents;',
             versions: sortedVersions && sortedVersions.map((ver, j) => {
               const verAnchor = ver.id ? 'entry-' + s.num + '-' + ver.id : anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };

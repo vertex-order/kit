@@ -478,6 +478,9 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
       - A platform sets at most one of `url`, `search` and
         `opensContents`, and `opensContents` needs a `contents[]` on the
         same release; `validate-data.py` fails both mistakes.
+    - The release's `length` also toggles the list when clicked (tooltip
+      "See volumes below", using `contentsLabel`). A convenience only, plain text with a dotted underline
+      on hover; the toggle bar stays the main control.
     - Parts carry no tags, `by`, languages, ratings, lengths,
       descriptions, subtitles, `versions[]` or `alts[]`. They aren't
       important enough for their own entry.
