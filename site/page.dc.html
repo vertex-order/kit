@@ -1472,7 +1472,6 @@ class Component extends DCLogic {
             lengthTip: release.contents && release.length ? 'See ' + (release.contentsLabel || 'volumes') + ' below' : undefined,
             lengthClick: release.contents && release.length ? () => this.toggleContents(anchorId) : undefined,
             lengthClass: release.contents && release.length ? 'contents-length' : undefined,
-            lengthWrapStyle: release.contents && release.length ? 'display: block; cursor: pointer;' : 'display: contents;',
             versions: sortedVersions && sortedVersions.map((ver, j) => {
               const verAnchor = ver.id ? 'entry-' + s.num + '-' + ver.id : anchorId + '-x-' + verSlugs[j];
               this.anchorRegistry[verAnchor] = { expandStateKey: 'expandedVersions', parentKey: anchorId };

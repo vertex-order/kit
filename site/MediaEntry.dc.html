@@ -115,7 +115,7 @@
       <dc-import name="RatingDisplay" ratings="{{ g.primary.ratings }}" hint-size="auto,40px" style="display: block;"></dc-import>
       </sc-if>
       <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
-      <span class="{{ g.primary.lengthClass }}" title="{{ g.primary.lengthTip }}" onClick="{{ g.primary.lengthClick }}" style="{{ g.primary.lengthWrapStyle }}"><dc-import name="LengthDisplay" length="{{ g.primary.length }}" hint-size="auto,32px" style="display: block;"></dc-import></span>
+      <dc-import name="LengthDisplay" length="{{ g.primary.length }}" text-class="{{ g.primary.lengthClass }}" text-tip="{{ g.primary.lengthTip }}" on-text-click="{{ g.primary.lengthClick }}" hint-size="auto,32px" style="display: block;"></dc-import>
       </sc-if>
     </div>
     </sc-if>
@@ -168,7 +168,7 @@
         <dc-import name="RatingDisplay" ratings="{{ g.primary.ratings }}" hint-size="auto,40px" style="display: block;"></dc-import>
         </sc-if>
         <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
-        <span class="{{ g.primary.lengthClass }}" title="{{ g.primary.lengthTip }}" onClick="{{ g.primary.lengthClick }}" style="{{ g.primary.lengthWrapStyle }}"><dc-import name="LengthDisplay" length="{{ g.primary.length }}" hint-size="auto,32px" style="display: block;"></dc-import></span>
+        <dc-import name="LengthDisplay" length="{{ g.primary.length }}" text-class="{{ g.primary.lengthClass }}" text-tip="{{ g.primary.lengthTip }}" on-text-click="{{ g.primary.lengthClick }}" hint-size="auto,32px" style="display: block;"></dc-import>
         </sc-if>
       </div>
       </sc-if>
@@ -319,7 +319,7 @@
       <dc-import name="RatingDisplay" ratings="{{ rel.ratings }}" hint-size="auto,40px" style="display: block;"></dc-import>
       </sc-if>
       <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
-      <span class="{{ rel.lengthClass }}" title="{{ rel.lengthTip }}" onClick="{{ rel.lengthClick }}" style="{{ rel.lengthWrapStyle }}"><dc-import name="LengthDisplay" length="{{ rel.length }}" hint-size="auto,32px" style="display: block;"></dc-import></span>
+      <dc-import name="LengthDisplay" length="{{ rel.length }}" text-class="{{ rel.lengthClass }}" text-tip="{{ rel.lengthTip }}" on-text-click="{{ rel.lengthClick }}" hint-size="auto,32px" style="display: block;"></dc-import>
       </sc-if>
     </div>
     </sc-if>
@@ -372,7 +372,7 @@
         <dc-import name="RatingDisplay" ratings="{{ rel.ratings }}" hint-size="auto,40px" style="display: block;"></dc-import>
         </sc-if>
         <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
-        <span class="{{ rel.lengthClass }}" title="{{ rel.lengthTip }}" onClick="{{ rel.lengthClick }}" style="{{ rel.lengthWrapStyle }}"><dc-import name="LengthDisplay" length="{{ rel.length }}" hint-size="auto,32px" style="display: block;"></dc-import></span>
+        <dc-import name="LengthDisplay" length="{{ rel.length }}" text-class="{{ rel.lengthClass }}" text-tip="{{ rel.lengthTip }}" on-text-click="{{ rel.lengthClick }}" hint-size="auto,32px" style="display: block;"></dc-import>
         </sc-if>
       </div>
       </sc-if>
