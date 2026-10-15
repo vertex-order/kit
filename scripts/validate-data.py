@@ -349,7 +349,11 @@ def check_contents_orders(label, instance, findings):
             parts = node.get("contents")
             if isinstance(parts, list):
                 for field in ("narrativeOrder", "chronoOrder"):
-                    have = [i for i, p in enumerate(parts) if isinstance(p, dict) and field in p]
+                    have = [
+                        i
+                        for i, p in enumerate(parts)
+                        if isinstance(p, dict) and field in p
+                    ]
                     if have and len(have) != len(parts):
                         missing = [i for i in range(len(parts)) if i not in have]
                         errors.append(
