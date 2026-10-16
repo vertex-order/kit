@@ -133,6 +133,8 @@ and pull via `just sync`.
       never move it.
     - Only the serialization start known: start there; end at the last
       volume's date (an upper bound; say so in sources).
+    - Only the serialization end known (rare): start at volume 1's date
+      if it is before that end; otherwise the end alone.
     - No serialization dates: first to last volume.
     - Only an omnibus: its date.
   - Translation dates stay in `sources/`, unstarred.
