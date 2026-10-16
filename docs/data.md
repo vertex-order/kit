@@ -133,6 +133,14 @@ and pull via `just sync`.
       never move it.
     - Only the serialization start known: start there; end at the last
       volume's date (an upper bound; say so in sources).
+      - Start known only to the year: that year, `approx: true`.
+      - Dated updates run past the last volume (or past the only one), end
+        unknown: end at the last update found, `approx: true`; say in
+        sources that the real end is unconfirmed.
+    - Serialization dates may be worked out, not stated: first and last
+      episode from issue-by-issue notices, an artist's or publisher's posts,
+      or a numbered supplement. Say in sources what was computed and what
+      was seen; `approx: true` if the day or an end is inferred.
     - Only the serialization end known (rare): start at volume 1's date
       if it is before that end; otherwise the end alone.
     - No serialization dates: first to last volume.
