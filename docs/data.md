@@ -575,6 +575,7 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
   - Always the English edition when one exists, even if a native
     edition's figures are more accurate.
   - English publisher's count beats Goodreads or a retailer.
+  - No English edition: the native publisher's count, likewise.
   - Games use play time instead.
 - **Books and comics:** `<pages>p; <code>`, with a space after the
   semicolon (`286p; A6`, not `286p;A6`).
