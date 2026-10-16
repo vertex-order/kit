@@ -576,9 +576,12 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
   - Games use play time instead.
 - **Books and comics:** `<pages>p; <code>`, with a space after the
   semicolon (`286p; A6`, not `286p;A6`).
-  - Code: `P` paperback, `H` hardcover, or a size (`A5`, `B6`) if the
-    binding is unknown.
-  - Binding comes from the same edition as the pages.
+  - Code, first that applies:
+    - Metric paper size: `A6`, `A5`, `B6` (a Japanese bunko is `A6`).
+    - Another standard book-size name.
+    - `P` paperback or `H` hardcover (fallback).
+  - Never raw dimensions (cm, mm, inches).
+  - Same edition as the pages.
   - No Japanese characters (not `四六判`).
 - **Counts disagree within one edition:** use the figure most records
   agree on. Publisher pages can include front matter.
