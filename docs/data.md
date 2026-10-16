@@ -572,6 +572,8 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
 
 - **Edition order:** English > native > whatever we have.
   - Pages, volume/chapter counts, running time.
+  - Always the English edition when one exists, even if a native
+    edition's figures are more accurate.
   - English publisher's count beats Goodreads or a retailer.
   - Games use play time instead.
 - **Books and comics:** `<pages>p; <code>`, with a space after the
