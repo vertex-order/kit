@@ -126,8 +126,15 @@ and pull via `just sync`.
 - **Native release is the authoritative date** for `titleDate`
   start/end.
   - Use the original-language release, even when a translation lands later.
-  - Range `end`: latest native release (e.g. last native volume), not
-    the translation's.
+  - Range `end`: latest native release, not the translation's.
+  - Serialized works (a magazine run, then volumes), first that applies:
+    - Serialization start and end known: use them. Every chapter was out
+      by that end; volumes are later editions of the same content and
+      never move it.
+    - Only the serialization start known: start there; end at the last
+      volume's date (an upper bound; say so in sources).
+    - No serialization dates: first to last volume.
+    - Only an omnibus: its date.
   - Translation dates stay in `sources/`, unstarred.
 - **Same-day ties:** add a trailing order number (`2011-12-15 10`) only when
   entries in the same series share a date. Otherwise leave it off.
