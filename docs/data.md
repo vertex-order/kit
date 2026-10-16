@@ -373,6 +373,29 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
   - Omit `searchTitle` unless punctuation breaks the results.
   - No language word in the query; the reader adds their own.
   - `noResults` only if the search really comes back empty.
+- **One row by default; a second only when it gets the reader
+  something the first can't.** Judgement call, always.
+  - Common reasons:
+    - A different format: paper is out of print but an e-book is live.
+      Add a second `book` row labelled `suffix: 'ebook'` (or `'print'`).
+      Label only the extra row.
+    - A real regional split (a different store or product per market):
+      one row per region, with `jpTag` / `nonJpTag`, not `paren`.
+    - Separate products under one entry (two discs, say): one row each,
+      with `suffix` naming the product.
+  - A second search engine for the same copies is not a reason.
+  - Tell rows apart by what you get, not where the link goes: the host
+    goes in `paren` (tooltip). If a label can't be written in a word or
+    two, use one row.
+  - `suffix` shows after the icon, before the `(jp)` tag; `prefix` shows
+    before the icon and is for a one- or two-character modifier (`U`),
+    not a word.
+- **`jpTag` / `nonJpTag`** say the release exists only in Japan (or only
+  outside it), shown as "(jp)" / "(non-jp)" and " (Japan Only)" in the
+  tooltip. They describe the edition, not the link: a Goodreads page for
+  a Japan-only book keeps `jpTag`, and when an entry has two rows for the
+  same item, both carry it or neither. On a book row they should agree
+  with the entry's official `languages`.
 
 ## Descriptions
 

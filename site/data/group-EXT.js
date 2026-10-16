@@ -11,7 +11,7 @@ window.__wwGroupReg['EXT'] = { num: 'EXT', chronoOrder: 900, narrativeOrder: 900
     title: 'Wyrmwatch: Shattered Frontier', titleUrl: 'https://example.com/wiki/Shattered_Frontier', titleDate: '2021-05-14',
     by: [{ role: 'written', names: 'Marit Okonkwo' }, { role: 'illustrated', names: 'Tobias Lindqvist' }],
     mediaDesc: [
-      ['An official manga retelling of the first game in which the watchtowers fall early and the wyrms choose their own wardens.'],
+      ['An official manga retelling of the first game in which the watchtowers fall early and the wyrms choose their own wardens. Its platform list shows a second book row labelled `suffix: "ebook"`: a different format of the same item gets its own row, told apart by what you get.'],
     ],
     primary: { tags: ['Alternate Universe', 'Manga'],
       subtitle: 'Comic',
@@ -23,7 +23,10 @@ window.__wwGroupReg['EXT'] = { num: 'EXT', chronoOrder: 900, narrativeOrder: 900
         { title: 'The Last Ember', titleDate: '2022-02-10' },
       ],
       languages: [{ value: 'EN', native: true }, { value: 'JA', tip: 'Japanese — text only' }],
-      platforms: [{ key: 'book', name: 'Manga', url: 'https://example.com/store/shattered-frontier' }],
+      platforms: [
+        { key: 'book', name: 'Manga', url: 'https://example.com/store/shattered-frontier' },
+        { key: 'book', name: 'Manga', paren: 'Digital store', suffix: 'ebook', url: 'https://example.com/ebooks/shattered-frontier' },
+      ],
     },
   },
   { mediaType: 'Comic', chronoOrder: 920, narrativeOrder: 920,

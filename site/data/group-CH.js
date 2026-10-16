@@ -49,6 +49,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
       ratings: [{ label: 'Fixture rating source', score: '7.4', url: 'https://example.com/reviews/rise-of-the-wyrm' }],
       platforms: [
         { key: 'blu-ray', paren: 'Physical', url: 'https://example.com/store/rise-of-the-wyrm/bluray' },
+        { key: 'blu-ray', prefix: 'U', paren: 'Ultra HD; Physical', url: 'https://example.com/store/rise-of-the-wyrm/uhd' },
         { key: 'youtube', name: 'Streaming (YouTube)', url: 'https://example.com/watch/rise-of-the-wyrm' },
       ],
     },

@@ -352,7 +352,7 @@
         "strikeColor": { "type": "string" },
         "prefix": {
           "type": "string",
-          "description": "Short text prefix before the icon (unlinked-icon render path), e.g. 'U' for an UltraHD Blu-ray variant."
+          "description": "Short text before the icon, on every render path (linked or not), e.g. 'U' for an UltraHD Blu-ray variant. Use it for a one- or two-character modifier of the icon itself; a word that says what this row gets (ebook, print, a product name) goes in `suffix`."
         },
         "icon": {
           "type": "string",

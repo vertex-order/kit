@@ -134,7 +134,7 @@
           <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; opacity: 0.55;">
             <sc-for list="{{ g.primary.extraPlatforms }}" as="pl" hint-placeholder-count="0">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
 </sc-for>
           </span>
         </span>
@@ -245,7 +245,7 @@
           <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ ver.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ ver.profileUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
             <sc-for list="{{ ver.platforms }}" as="pl" hint-placeholder-count="0">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
 </sc-for>
           </span>
           </sc-if>
@@ -329,7 +329,7 @@
         <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ rel.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ rel.profileUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
         <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
           <sc-for list="{{ rel.platforms }}" as="pl" hint-placeholder-count="0">
-<span role="{{ pl.role }}" tabIndex="{{ pl.tabIndex }}" onClick="{{ pl.onToggle }}" onKeyDown="{{ pl.onToggleKey }}" style="{{ pl.wrapStyle }}"><dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import></span>
+<span role="{{ pl.role }}" tabIndex="{{ pl.tabIndex }}" onClick="{{ pl.onToggle }}" onKeyDown="{{ pl.onToggleKey }}" style="{{ pl.wrapStyle }}"><dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import></span>
 </sc-for>
         </span>
       </sc-if>
@@ -338,7 +338,7 @@
           <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; opacity: 0.55;">
             <sc-for list="{{ rel.extraPlatforms }}" as="pl" hint-placeholder-count="0">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
 </sc-for>
           </span>
         </span>
@@ -449,7 +449,7 @@
           <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ ver.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ ver.profileUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
             <sc-for list="{{ ver.platforms }}" as="pl" hint-placeholder-count="0">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
 </sc-for>
           </span>
           </sc-if>
