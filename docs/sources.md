@@ -126,6 +126,17 @@
 - Only what this doc calls out.
 - Languages/tags/release dates need sourcing only if the source is worth
   recording (e.g. a since-stale wiki).
+- **Prices:** record one only when it strongly corroborates or
+  differentiates two items, and say so in the line.
+  - Never displayed; retail, used and regional prices drift (tax,
+    currency, secondhand).
+  - ISBN (else ASIN) identifies a book; the price adds nothing.
+  - No ISBN (magazine, supplement, mook, event goods): prefer JAN/UPC,
+    publisher product code, host issue and cover date, library bib ID,
+    pages, trim size, on-sale date. Use the printed cover price at first
+    release only when none of those tells two records apart.
+  - Never a star (`*`): no entry field carries it.
+  - Games, movies, music: no prices.
 
 ### Editions (ISBN) — books/comics with many printings
 
