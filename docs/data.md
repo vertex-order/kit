@@ -292,6 +292,13 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     playable.
   - A game that is only partly terminated gets `terminated: true` on the
     platforms that are gone (struck through) and no flag.
+  - A struck-through row means this entry is no longer available on that
+    platform, not that the platform itself is gone: a struck Steam row
+    says the entry left Steam, a struck app-store row says the title left
+    that app. The row can keep its link (the platform's page) when that
+    still helps the reader.
+  - The reverse holds too: when the platform itself is gone, every entry
+    on it is struck.
   - The flag says it all. Don't repeat it in the description, including
     "so watch a fan recap or playthrough".
   - Regional cases (still playable in Japan only): no flag. Say which
