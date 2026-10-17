@@ -390,6 +390,30 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
   - Omit `searchTitle` unless punctuation breaks the results.
   - No language word in the query; the reader adds their own.
   - `noResults` only if the search really comes back empty.
+- **Japanese-language items:**
+  - Item link (a part's `titleUrl`, a language link, one edition): Goodreads
+    edition (by ISBN) > Google Books edition > publisher product page >
+    search.
+    - Rank by what the reader can use: ISBN, cover, an English or
+      romanized name, buy routes.
+    - Ratings don't decide it; the Rating heading covers them.
+  - Series link (the `book` row, a `profileUrl` standing for many items):
+    Goodreads series > Goodreads search > Google Books search > publisher
+    series > publisher search > DuckDuckGo.
+    - Take the first that lists the items we want.
+  - Fallback search: English working title + ISBN. It brings up English
+    vendors in the reader's region, narrows to the book and shows
+    neighbouring editions. Japanese words if the results are poor.
+  - Google Books groups editions loosely: adjacent volumes can show as
+    editions; other-language and format editions only sometimes. Check it is
+    the right work.
+  - We don't wrap links in Google Translate or another proxy; readers
+    translate in their own browser.
+  - A romanized Goodreads or marketplace title goes in sources, and can be
+    an alternate name where sellers use it. The entry title stays our
+    English name.
+  - Publisher pages: `profileUrl`, in Japanese if there is no English page;
+    the `book` row only if they sell it.
 - **One row by default; a second only when it gets the reader
   something the first can't.** Judgement call, always.
   - Common reasons:
