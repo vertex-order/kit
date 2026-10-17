@@ -491,6 +491,14 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     "other"; being limited to one game makes it a stronger yes.
 - **Mixed books:** judge the book together with its series, not alone;
   record the call in sources.
+- **Art collections lean out.** Reconsider one only when it republishes a
+  whole comic series, not disjointed frames, covers or scattered pages.
+  - Even then it is an alternative source for that comic: a mention in
+    the comic entry's description, or an alternate link there, not an
+    entry of its own.
+  - Showing covers is not enough.
+- **A talk about a reading drama doesn't count;** a reading-drama
+  performance or script might, depending on the drama's own content.
 - **Label and keep an entry for what a reader gets from it.** A guide or
   mook kept for its comics is typed `Comic`; the comics are what we offer,
   and the rest of the book is the wrapper.
