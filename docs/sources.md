@@ -137,6 +137,15 @@
     release only when none of those tells two records apart.
   - Never a star (`*`): no entry field carries it.
   - Games, movies, music: no prices.
+- **Availability:** don't record stock (sold out, in stock, out of
+  print, sales ended, used only).
+  - It is volatile (restocks, reprints, e-books) and never decides a
+    data link: `profileUrl` is the official record whether or not the
+    item is on sale.
+  - Not stock: a game or app delisted or shut down is recorded under
+    `terminated` and strikethrough (docs/data.md).
+  - Say why a source was not used by its kind (a retailer, a
+    marketplace), not by its stock.
 
 ### Editions (ISBN) — books/comics with many printings
 

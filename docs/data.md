@@ -343,6 +343,8 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     as "Profile ↗" beside the Platforms label.
 - **Platform `url`:**
   - A page where that format can be bought, read or played.
+    - The test is what the page is (a store, reader or download page),
+      not whether it is in stock today.
   - International storefronts only: Steam, Nintendo, Xbox, PlayStation,
     app stores, GOG, the publisher's own store. Never a regional
     retailer.
@@ -427,7 +429,7 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
 - **One row by default; a second only when it gets the reader
   something the first can't.** Judgement call, always.
   - Common reasons:
-    - A different format: paper is out of print but an e-book is live.
+    - A different format: an e-book beside the paper edition.
       Add a second `book` row labelled `suffix: 'ebook'` (or `'print'`).
       Label only the extra row.
     - A real regional split (a different store or product per market):
