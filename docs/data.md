@@ -459,22 +459,35 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
 
 ## What belongs on a list
 
-- **Stories only:** adapted stories or original stories (novels, manga,
-  comics, audio dramas, scripts of them).
-- **Not listed:**
+- **These are guidelines, not hard rules.** If there is a strong case to
+  break one, ask the user first.
+- **The test:** enough story or entertainment value, taken together as a
+  whole.
+  - Earlier versions were stricter ("a story tied to the mainline", then
+    "a serious story in the world"). The bar has loosened; revisit an old
+    removal when the item fits a series.
+  - Stories qualify: novels, manga, comics, audio dramas, scripts.
+- **Not entertaining on their own:**
   - pure artbooks;
   - walkthroughs and game guides;
   - books that just list what is in the game (encyclopedias, ultimanias);
   - behind-the-scenes and developer content (interviews, making-of,
     commemorative books).
+- **A guide or encyclopedia counts only as part of an entertaining whole:**
+  a running storyline with established characters, plus a large body of
+  comics, enough to carry a few many-volume entries.
+  - A lone strip, or a few, in an unrelated guide doesn't count.
+- **Parts clear a lower bar than entries:** a `contents[]` part only has to
+  belong to its entry. Bundling lets many smaller notable items stand as
+  one entry.
 - **Gag strips and 4-koma:** a book of them about one game qualifies once
   there are enough to form a body of content, with or without a continuing
   story; a lone strip inside an unrelated book (a game guide, say) doesn't.
   Anthologies by many artists follow the same test.
   - A general Final Fantasy gag book (not tied to one game) can go in
     "other"; being limited to one game makes it a stronger yes.
-- **Mixed books:** judge by the story content; a guide or encyclopedia that
-  carries original comics or stories is borderline, so decide per book.
+- **Mixed books:** judge the book together with its series, not alone;
+  record the call in sources.
 - **Mixed story and comedy:** a comic with a decent share of story goes
   with the story entries, not buried in a comedy-only series entry.
   Story outweighs comedy.
