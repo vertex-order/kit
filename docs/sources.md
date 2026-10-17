@@ -45,6 +45,12 @@
   - a link to our sources file (full evidence lives there);
   - a one-line reason (the record that backs it).
 - Move a candidate to Confirmed when its sources file settles it.
+- **Out-of-date information counts**, not only plain errors: a wiki page
+  that gives a superseded date, count or credit, or lacks something we
+  found, belongs here too. Add the item whenever research turns one up,
+  while the entry is still open, not in a later sweep.
+- A difference of convention (a cover date against an on-sale date, say) is
+  a Candidate until the wiki's own convention is known.
 
 ## File layout
 
@@ -91,6 +97,15 @@
   - `<num>` = site's jump-link code (`#group-XII` → `xii-group.md`),
     not the article's title (`Ivalice` ≠ `XII`).
 - Only when a source exists at that scope. Most groups need none.
+- **Left-out items** (checked and not listed) are recorded in the group
+  file, where an entry for them would have gone.
+  - Name the item with its date and a lookup ID (ISBN, catalogue number),
+    the reason, the evidence, and whose call it was (the user's, or the
+    assistant's pending review).
+  - A list checked item by item (a wiki, fan database or publisher
+    catalogue) is cited once, with its URL, and every item on it ends up
+    as an entry or a named exclusion; say so in the note.
+  - Items with similar reasons can share one note, with each item named.
 - Dated = entry, `-group` = group, neither = franchise.
   - Exception: `chocobo-series-1997.md` is a dated entry. "series" is
     its title. Not a template.

@@ -45,9 +45,10 @@ and pull via `just sync`.
   `sources/<slug>-<year>.md`; change both together.
 - Format and what to record: docs/sources.md, "Keeping it in step with
   entry data".
-- Found a wiki or catalog that disagrees with the evidence? Log it in
-  `docs/wiki-corrections.md` (docs/sources.md, "Wiki corrections") so it
-  can be reported upstream.
+- Found a wiki, fan database or catalog that disagrees with the evidence,
+  or whose information is out of date? Log it in `docs/wiki-corrections.md`
+  (docs/sources.md, "Wiki corrections") so it can be reported upstream.
+  Do it in the same pass as the entry and its sources file.
 
 ## A few things worth knowing before opening a schema
 
@@ -328,7 +329,9 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     - Last resort, no official page exists (defunct publisher, old
       print-only title): the country-of-origin library's catalog record
       (NDL for Japan, BnF for France, Library of Congress for the US).
-    - An archived copy of a dead official page is fine.
+    - An archived copy of a dead official page is fine, but only when
+      nothing better exists: a live official page, or a search that lists
+      all the items we want, comes first.
   - Set per release (per version when a version has its own page). Shown
     as "Profile ↗" beside the Platforms label.
 - **Platform `url`:**
@@ -488,6 +491,30 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     "other"; being limited to one game makes it a stronger yes.
 - **Mixed books:** judge the book together with its series, not alone;
   record the call in sources.
+- **Label and keep an entry for what a reader gets from it.** A guide or
+  mook kept for its comics is typed `Comic`; the comics are what we offer,
+  and the rest of the book is the wrapper.
+- **Comics that don't count:** public-service and instructional comics
+  (a safety notice, account-security tips, a "how online games work"
+  explainer) are not story or humour content, like a leaflet in drawings.
+  They don't make a book qualify; the book may still qualify for other
+  comics in it.
+- **Judging a book or volume with unclear contents:**
+  - Inferring from siblings (a similar volume has comics, so this one
+    probably does, or the reverse) is a guess that weighs likelihoods. It
+    never overrides concrete evidence about the item itself: a volume
+    confirmed to have none is out whatever its siblings have.
+  - With no details, lean slightly cautious and weigh pros and cons.
+  - Evidence, best first: the publisher's own catalogue or product text
+    (live or archived; it often states counts, "N all-new strips"), the
+    cover's feature boxes, then readers' reviews and fan databases.
+    - Text and a cover can disagree (a small cover can miss an item the
+      text names, and the other way round); concrete text beats a cover
+      reading.
+  - For an unsure item, pull the cover and the publisher text before
+    deciding; ask the user to paste the cover when you can't fetch it.
+  - Record the evidence and the call in sources, for the items left out as
+    well as for those kept.
 - **Mixed story and comedy:** a comic with a decent share of story goes
   with the story entries, not buried in a comedy-only series entry.
   Story outweighs comedy.
