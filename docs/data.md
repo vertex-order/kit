@@ -350,6 +350,18 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     retailer.
   - English pages first, even for Japanese-native items.
   - Books and comics: see "Book platform link" below.
+- **Which store page a game row links** (games only):
+  - **Base game:** the edition with all the story content, story DLC
+    included. Not an edition that only adds costumes, items or minor
+    bonuses.
+  - **DLC:** assume the reader owns the base game and link the best
+    option for adding it.
+    - Its own store page, even when an edition also bundles it.
+    - Several DLC sold together as a pass (season pass, expansion pass,
+      DLC pack): every DLC entry in the pass links the pass page. It
+      lists each part and its own page, so a reader buying one part
+      sees the others.
+    - No separate page, only inside an edition: link the edition.
 - **One page can be both.** Use it for `profileUrl` and for the platform
   row when it passes both tests (a store page that is also the official
   page; a publisher page that sells or hosts the book).
