@@ -128,6 +128,10 @@ and pull via `just sync`.
   start/end.
   - Use the original-language release, even when a translation lands later.
   - Range `end`: latest native release, not the translation's.
+  - Films: the first theatrical release, not a premiere, festival or
+    other screening.
+    - Premieres are one-off events, not releases; counting them leads
+      to pre-screenings, screener copies and studio previews.
   - Serialized works (a magazine run, then volumes), first that applies:
     - Serialization start and end known: use them. Every chapter was out
       by that end; volumes are later editions of the same content and
