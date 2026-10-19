@@ -380,6 +380,8 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
     judgement call.
   - Books and comics link each language edition: unique ISBNs, and
     usually different storefronts and marketing pages.
+  - Prefer a print edition's page over an online subscription reader.
+    - The reader stays a platform row.
 - **An entry that stands for many items** (volumes with their own ISBNs, a
   box set or collection). Mostly books and comics; also video, movies, TV
   and, rarely, games.
