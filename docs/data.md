@@ -451,6 +451,11 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
       Label only the extra row.
     - A real regional split (a different store or product per market):
       one row per region, with `jpTag` / `nonJpTag`, not `paren`.
+      - Only when the other region is the only way to get it (a
+        Japan-only release or platform, e.g. MSX2 (jp)).
+      - Keep the list English-region centric: when an English-region
+        store or product exists, a non-English region's page stays in
+        the sources file, not the platform list.
     - Separate products under one entry (two discs, say): one row each,
       with `suffix` naming the product.
   - A second search engine for the same copies is not a reason.
