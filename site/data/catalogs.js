@@ -63,6 +63,8 @@ window.RATING_KINDS = {
   'metacritic-user': { label: 'Metacritic User Score' },
   imdb: { label: 'IMDb' },
   'tmdb-user': { label: 'TMDB User Score' },
+  'rotten-tomatoes': { label: 'Rotten Tomatoes' },
+  'rotten-tomatoes-user': { label: 'Rotten Tomatoes Audience Score' },
   goodreads: { label: 'Goodreads' },
   nyr: { abbrTerm: 'NYR', abbrDef: 'Not Yet Rated', textOnly: true },
   tbd: { abbrTerm: 'TBD', abbrDef: 'To Be Determined', textOnly: true },
