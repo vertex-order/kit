@@ -456,6 +456,9 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
       - Keep the list English-region centric: when an English-region
         store or product exists, a non-English region's page stays in
         the sources file, not the platform list.
+      - English-region release ended, other region still live: keep
+        both rows (struck and live).
+      - Both ended: one struck row per platform.
     - Separate products under one entry (two discs, say): one row each,
       with `suffix` naming the product.
   - A second search engine for the same copies is not a reason.
