@@ -45,6 +45,7 @@ window.LANGUAGE_NAMES = {
   UK: 'Ukrainian',
   EL: 'Greek',
   FI: 'Finnish',
+  ZH: 'Chinese',
   'ZH-CN': 'Simplified Chinese',
   'ZH-TW': 'Traditional Chinese',
   '…?': 'Unknown additional languages',
