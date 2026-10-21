@@ -96,7 +96,7 @@
         <div style="display: flex; flex-direction: column; gap: var(--space-2);">
           <sc-for list="{{ g.primary.descParas }}" as="para" hint-placeholder-count="1">
             <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
-            <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+            <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" lang="{{ sg.lang }}" em-link-hreflang="{{ sg.emLinkHreflang }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
           </sc-for>
         </div>
       </sc-if>
@@ -122,10 +122,10 @@
     <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
       <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
       <sc-if value="{{ g.primary.platforms }}" hint-placeholder-val="{{ false }}">
-        <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ g.primary.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ g.primary.profileUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+        <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ g.primary.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ g.primary.profileUrl }}" hrefLang="{{ g.primary.profileHreflang }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
         <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
           <sc-for list="{{ g.primary.platforms }}" as="pl" hint-placeholder-count="0">
-<span role="{{ pl.role }}" tabIndex="{{ pl.tabIndex }}" onClick="{{ pl.onToggle }}" onKeyDown="{{ pl.onToggleKey }}" style="{{ pl.wrapStyle }}"><dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import></span>
+<span role="{{ pl.role }}" tabIndex="{{ pl.tabIndex }}" onClick="{{ pl.onToggle }}" onKeyDown="{{ pl.onToggleKey }}" style="{{ pl.wrapStyle }}"><dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import></span>
 </sc-for>
         </span>
       </sc-if>
@@ -134,7 +134,7 @@
           <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; opacity: 0.55;">
             <sc-for list="{{ g.primary.extraPlatforms }}" as="pl" hint-placeholder-count="0">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
 </sc-for>
           </span>
         </span>
@@ -146,7 +146,7 @@
           <span style="color: var(--color-neutral-500);">Languages</span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
             <sc-for list="{{ g.primary.languages }}" as="lg" hint-placeholder-count="0">
-              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" hreflang="{{ lg.hreflang }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
             </sc-for>
           </span>
         </span>
@@ -156,7 +156,7 @@
           <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; opacity: 0.55;">
             <sc-for list="{{ g.primary.otherLanguages }}" as="lg" hint-placeholder-count="0">
-              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" muted="{{ true }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" hreflang="{{ lg.hreflang }}" voice-sep="{{ lg.voiceSep }}" muted="{{ true }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
             </sc-for>
           </span>
         </span>
@@ -184,9 +184,9 @@
       <sc-for list="{{ g.primary.contentsLines }}" as="cl" hint-placeholder-count="3">
         <span style="display: flex; gap: 8px; align-items: center;">
           <span style="min-width: 48px; text-align: right; color: var(--color-neutral-500); font-variant-numeric: tabular-nums;">{{ cl.label }}</span>
-          <span><sc-if value="{{ cl.href }}" hint-placeholder-val="{{ false }}"><a href="{{ cl.href }}" target="_blank" rel="noopener" title="{{ cl.hrefTip }}" class="contents-link" style="--decor: {{ cl.linkDecor }};"><span style="text-decoration: underline; text-decoration-style: {{ cl.linkDecor }}; text-underline-offset: 2px;">{{ cl.title }}</span><sc-if value="{{ cl.dateSegments.length }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-neutral-500);"><sc-for list="{{ cl.dateSegments }}" as="d" hint-placeholder-count="1"><span title="{{ d.tip }}">{{ d.text }}</span></sc-for></span></sc-if></a></sc-if><sc-if value="{{ cl.noHref }}" hint-placeholder-val="{{ false }}">{{ cl.title }}<sc-if value="{{ cl.dateSegments.length }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-neutral-500);"><sc-for list="{{ cl.dateSegments }}" as="d" hint-placeholder-count="1"><span title="{{ d.tip }}">{{ d.text }}</span></sc-for></span></sc-if></sc-if><sc-if value="{{ cl.platforms.length }}" hint-placeholder-val="{{ false }}"> <span style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">
+          <span><sc-if value="{{ cl.href }}" hint-placeholder-val="{{ false }}"><a href="{{ cl.href }}" hrefLang="{{ cl.hreflang }}" target="_blank" rel="noopener" title="{{ cl.hrefTip }}" class="contents-link" style="--decor: {{ cl.linkDecor }};"><span lang="{{ cl.lang }}" style="text-decoration: underline; text-decoration-style: {{ cl.linkDecor }}; text-underline-offset: 2px;">{{ cl.title }}</span><sc-if value="{{ cl.dateSegments.length }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-neutral-500);"><sc-for list="{{ cl.dateSegments }}" as="d" hint-placeholder-count="1"><span title="{{ d.tip }}">{{ d.text }}</span></sc-for></span></sc-if></a></sc-if><sc-if value="{{ cl.noHref }}" hint-placeholder-val="{{ false }}"><span lang="{{ cl.lang }}">{{ cl.title }}</span><sc-if value="{{ cl.dateSegments.length }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-neutral-500);"><sc-for list="{{ cl.dateSegments }}" as="d" hint-placeholder-count="1"><span title="{{ d.tip }}">{{ d.text }}</span></sc-for></span></sc-if></sc-if><sc-if value="{{ cl.platforms.length }}" hint-placeholder-val="{{ false }}"> <span style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">
               <sc-for list="{{ cl.platforms }}" as="pl" hint-placeholder-count="1">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
               </sc-for>
             </span></sc-if></span>
         </span>
@@ -225,7 +225,7 @@
             <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: 2px;">
               <sc-for list="{{ ver.descParas }}" as="para" hint-placeholder-count="1">
                 <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
-                <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+                <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" lang="{{ sg.lang }}" em-link-hreflang="{{ sg.emLinkHreflang }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
               </sc-for>
             </div>
           </sc-if>
@@ -242,10 +242,10 @@
         </sc-if>
         <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
           <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
-          <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ ver.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ ver.profileUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+          <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ ver.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ ver.profileUrl }}" hrefLang="{{ ver.profileHreflang }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
             <sc-for list="{{ ver.platforms }}" as="pl" hint-placeholder-count="0">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
 </sc-for>
           </span>
           </sc-if>
@@ -255,7 +255,7 @@
               <span style="color: var(--color-neutral-500);">Languages</span>
               <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
                 <sc-for list="{{ ver.languages }}" as="lg" hint-placeholder-count="0">
-                  <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+                  <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" hreflang="{{ lg.hreflang }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
                 </sc-for>
               </span>
             </span>
@@ -308,7 +308,7 @@
         <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: 2px;">
           <sc-for list="{{ rel.descParas }}" as="para" hint-placeholder-count="1">
             <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
-            <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+            <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" lang="{{ sg.lang }}" em-link-hreflang="{{ sg.emLinkHreflang }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
           </sc-for>
         </div>
       </sc-if>
@@ -326,10 +326,10 @@
     <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
       <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
       <sc-if value="{{ rel.platforms }}" hint-placeholder-val="{{ false }}">
-        <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ rel.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ rel.profileUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+        <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ rel.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ rel.profileUrl }}" hrefLang="{{ rel.profileHreflang }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
         <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
           <sc-for list="{{ rel.platforms }}" as="pl" hint-placeholder-count="0">
-<span role="{{ pl.role }}" tabIndex="{{ pl.tabIndex }}" onClick="{{ pl.onToggle }}" onKeyDown="{{ pl.onToggleKey }}" style="{{ pl.wrapStyle }}"><dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import></span>
+<span role="{{ pl.role }}" tabIndex="{{ pl.tabIndex }}" onClick="{{ pl.onToggle }}" onKeyDown="{{ pl.onToggleKey }}" style="{{ pl.wrapStyle }}"><dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import></span>
 </sc-for>
         </span>
       </sc-if>
@@ -338,7 +338,7 @@
           <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; opacity: 0.55;">
             <sc-for list="{{ rel.extraPlatforms }}" as="pl" hint-placeholder-count="0">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" muted="{{ true }}" hint-size="auto,20px" style="display: flex;"></dc-import>
 </sc-for>
           </span>
         </span>
@@ -350,7 +350,7 @@
           <span style="color: var(--color-neutral-500);">Languages</span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
             <sc-for list="{{ rel.languages }}" as="lg" hint-placeholder-count="0">
-              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" hreflang="{{ lg.hreflang }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
             </sc-for>
           </span>
         </span>
@@ -360,7 +360,7 @@
           <span style="color: var(--color-neutral-600); font-size: 10.8px; font-style: italic; display: inline-flex; align-items: center; gap: 3px;">in other versions <span style="font-size: 8px; font-style: normal;">▾</span></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; opacity: 0.55;">
             <sc-for list="{{ rel.otherLanguages }}" as="lg" hint-placeholder-count="0">
-              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" muted="{{ true }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+              <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" hreflang="{{ lg.hreflang }}" voice-sep="{{ lg.voiceSep }}" muted="{{ true }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
             </sc-for>
           </span>
         </span>
@@ -388,9 +388,9 @@
       <sc-for list="{{ rel.contentsLines }}" as="cl" hint-placeholder-count="3">
         <span style="display: flex; gap: 8px; align-items: center;">
           <span style="min-width: 48px; text-align: right; color: var(--color-neutral-500); font-variant-numeric: tabular-nums;">{{ cl.label }}</span>
-          <span><sc-if value="{{ cl.href }}" hint-placeholder-val="{{ false }}"><a href="{{ cl.href }}" target="_blank" rel="noopener" title="{{ cl.hrefTip }}" class="contents-link" style="--decor: {{ cl.linkDecor }};"><span style="text-decoration: underline; text-decoration-style: {{ cl.linkDecor }}; text-underline-offset: 2px;">{{ cl.title }}</span><sc-if value="{{ cl.dateSegments.length }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-neutral-500);"><sc-for list="{{ cl.dateSegments }}" as="d" hint-placeholder-count="1"><span title="{{ d.tip }}">{{ d.text }}</span></sc-for></span></sc-if></a></sc-if><sc-if value="{{ cl.noHref }}" hint-placeholder-val="{{ false }}">{{ cl.title }}<sc-if value="{{ cl.dateSegments.length }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-neutral-500);"><sc-for list="{{ cl.dateSegments }}" as="d" hint-placeholder-count="1"><span title="{{ d.tip }}">{{ d.text }}</span></sc-for></span></sc-if></sc-if><sc-if value="{{ cl.platforms.length }}" hint-placeholder-val="{{ false }}"> <span style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">
+          <span><sc-if value="{{ cl.href }}" hint-placeholder-val="{{ false }}"><a href="{{ cl.href }}" hrefLang="{{ cl.hreflang }}" target="_blank" rel="noopener" title="{{ cl.hrefTip }}" class="contents-link" style="--decor: {{ cl.linkDecor }};"><span lang="{{ cl.lang }}" style="text-decoration: underline; text-decoration-style: {{ cl.linkDecor }}; text-underline-offset: 2px;">{{ cl.title }}</span><sc-if value="{{ cl.dateSegments.length }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-neutral-500);"><sc-for list="{{ cl.dateSegments }}" as="d" hint-placeholder-count="1"><span title="{{ d.tip }}">{{ d.text }}</span></sc-for></span></sc-if></a></sc-if><sc-if value="{{ cl.noHref }}" hint-placeholder-val="{{ false }}"><span lang="{{ cl.lang }}">{{ cl.title }}</span><sc-if value="{{ cl.dateSegments.length }}" hint-placeholder-val="{{ false }}"><span style="color: var(--color-neutral-500);"><sc-for list="{{ cl.dateSegments }}" as="d" hint-placeholder-count="1"><span title="{{ d.tip }}">{{ d.text }}</span></sc-for></span></sc-if></sc-if><sc-if value="{{ cl.platforms.length }}" hint-placeholder-val="{{ false }}"> <span style="display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;">
               <sc-for list="{{ cl.platforms }}" as="pl" hint-placeholder-count="1">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
               </sc-for>
             </span></sc-if></span>
         </span>
@@ -429,7 +429,7 @@
             <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: 2px;">
               <sc-for list="{{ ver.descParas }}" as="para" hint-placeholder-count="1">
                 <sc-if value="{{ para.text }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;">{{ para.text }}</div></sc-if>
-                <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
+                <sc-if value="{{ para.parts }}" hint-placeholder-val="{{ false }}"><div style="color: var(--color-neutral-500); font-size: 12px;"><sc-for list="{{ para.parts }}" as="sg" hint-placeholder-count="0"><dc-import name="TextSpan" tip="{{ sg.tip }}" help-style="{{ sg.helpStyle }}" em-link-text="{{ sg.emLinkText }}" em-link-url="{{ sg.emLinkUrl }}" em-text="{{ sg.emText }}" abbr-term="{{ sg.abbrTerm }}" abbr-def="{{ sg.abbrDef }}" text="{{ sg.text }}" lang="{{ sg.lang }}" em-link-hreflang="{{ sg.emLinkHreflang }}" tip-text="{{ sg.tipText }}" jp-tag="{{ sg.jpTag }}" hint-size="auto,16px" style="display: inline;"></dc-import></sc-for></div></sc-if>
               </sc-for>
             </div>
           </sc-if>
@@ -446,10 +446,10 @@
         </sc-if>
         <div style="width: 160px; flex-shrink: 0; font-size: 12px; color: var(--color-neutral-400); display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--space-3);">
           <sc-if value="{{ showPlatforms }}" hint-placeholder-val="{{ true }}">
-          <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ ver.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ ver.profileUrl }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
+          <span style="color: var(--color-neutral-500);">Platforms<sc-if value="{{ ver.profileUrl }}" hint-placeholder-val="{{ false }}"> · <a href="{{ ver.profileUrl }}" hrefLang="{{ ver.profileHreflang }}" target="_blank" rel="noopener" style="color: var(--color-neutral-500); display: inline-flex; align-items: center; gap: 3px;">Profile<i class="bi bi-box-arrow-up-right" style="font-size: 10px;"></i></a></sc-if></span>
           <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px;">
             <sc-for list="{{ ver.platforms }}" as="pl" hint-placeholder-count="0">
-<dc-import name="PlatformIcon" href="{{ pl.href }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
+<dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
 </sc-for>
           </span>
           </sc-if>
@@ -459,7 +459,7 @@
               <span style="color: var(--color-neutral-500);">Languages</span>
               <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 2px;">
                 <sc-for list="{{ ver.languages }}" as="lg" hint-placeholder-count="0">
-                  <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
+                  <dc-import name="LanguageTag" value="{{ lg.value }}" tip="{{ lg.tip }}" url="{{ lg.url }}" hreflang="{{ lg.hreflang }}" voice-sep="{{ lg.voiceSep }}" active="{{ lg.active }}" hint-size="auto,16px" style="display: flex; align-items: center;"></dc-import>
                 </sc-for>
               </span>
             </span>

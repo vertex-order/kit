@@ -20,13 +20,13 @@
   <span style="width: 1px; align-self: stretch; background: var(--color-neutral-700); margin: 0 2px;"></span>
 </sc-if>
 <sc-if value="{{ linked }}" hint-placeholder-val="{{ false }}">
-  <a href="{{ url }}" target="_blank" rel="noopener" title="{{ tip }}" style="{{ computedStyle }}" style-hover="text-decoration: underline; color: var(--color-accent);">{{ value }}</a>
+  <a href="{{ url }}" hrefLang="{{ hreflang }}" target="_blank" rel="noopener" title="{{ tip }}" style="{{ computedStyle }}" style-hover="text-decoration: underline; color: var(--color-accent);">{{ value }}</a>
 </sc-if>
 <sc-if value="{{ notLinked }}" hint-placeholder-val="{{ true }}">
   <abbr title="{{ tip }}" style="{{ computedStyle }}">{{ value }}</abbr>
 </sc-if>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 40, &quot;height&quot;: 16}, &quot;value&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;tip&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;url&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;voiceSep&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;active&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;muted&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 40, &quot;height&quot;: 16}, &quot;value&quot;: {&quot;editor&quot;: null, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;tip&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;url&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;hreflang&quot;: {&quot;editor&quot;: null, &quot;default&quot;: null, &quot;tsType&quot;: &quot;string | null&quot;}, &quot;voiceSep&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;active&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;muted&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
 class Component extends DCLogic {
   renderVals() {
     const linked = !!this.props.url;

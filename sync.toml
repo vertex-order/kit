@@ -137,7 +137,7 @@ paths = [
 
 [subscribe.platforms]
 repo = "vertex-order/platforms"
-ref = "b5677063ad7d9a155260da26a66831fbefdf514d"
+ref = "bfb05e1b253aafd14d778466d1b28c83b23a93c3"
 paths = [
   "site/PlatformIcon.dc.html",
   "site/data/platform-icons.js",

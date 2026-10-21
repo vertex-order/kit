@@ -1144,6 +1144,8 @@ class Component extends DCLogic {
         return {
           label,
           title: it.title,
+          lang: it.titleLang,
+          hreflang: it.titleHreflang,
           href: it.titleUrl || searchHref,
           noHref: !(it.titleUrl || searchHref),
           hrefTip: it.titleUrl ? '' : 'Search: ' + query,
@@ -1187,8 +1189,8 @@ class Component extends DCLogic {
     };
     const buildTitleParts = (node, titleSrc) => {
       const out = [];
-      if (titleSrc.title) out.push({ label: titleSrc.title, dateSegments: withSortedAs(buildDateSegments(titleSrc.titleDate), titleSrc), url: titleSrc.titleUrl || null });
-      if (node.subtitle) out.push({ label: node.subtitle, dateSegments: buildDateSegments(node.subtitleDate), url: node.subtitleUrl || null, small: true });
+      if (titleSrc.title) out.push({ label: titleSrc.title, dateSegments: withSortedAs(buildDateSegments(titleSrc.titleDate), titleSrc), url: titleSrc.titleUrl || null, lang: titleSrc.titleLang, hreflang: titleSrc.titleHreflang });
+      if (node.subtitle) out.push({ label: node.subtitle, dateSegments: buildDateSegments(node.subtitleDate), url: node.subtitleUrl || null, small: true, lang: node.subtitleLang, hreflang: node.subtitleHreflang });
       return out;
     };
     const mapTitleParts = (node, titleSrc, strikeMode) => {

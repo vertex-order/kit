@@ -325,6 +325,35 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
 - Content goes elsewhere (description, tags like `Short Stories`), not in
   place of the format.
 
+## Language of text and links
+
+- **Why:** screen readers, fonts (Japanese, Chinese and Korean share
+  characters that draw differently) and browser translation read `lang`;
+  `hreflang` says what language a link's page is in. Neither shows on
+  the page.
+- **Codes:** BCP 47 for any language, not only Japanese: `ja`, `ko`,
+  `zh-Hant`, `fr`. Add the script for romanization (`ja-Latn`). English
+  is the default: never write `en`.
+- **Text, `lang`:**
+  - `titleLang` and `subtitleLang` on a slot, release, version or alt;
+    `titleLang` on a `contents[]` part.
+  - `lang` on a description span: `{ text: '聖剣伝説', lang: 'ja' }`.
+  - Tag every non-English string: kana and kanji first, then romaji and
+    other languages.
+  - Never tag tags, platform names or catalog words. Loan words (manga,
+    manhwa) stay English.
+- **Links, `hreflang`:** the language of the page the link opens, not of
+  its text. Omit it for an English page.
+  - `titleHreflang`, `subtitleHreflang`, `profileHreflang`,
+    `contents[].titleHreflang`.
+  - `hreflang` on a platform row (a `search` row too) and on a
+    `languages[]` item.
+  - `emLinkHreflang` on a description link span.
+- **Inheritance:** a version or alt that inherits its title inherits
+  `titleLang` and `titleHreflang` with it.
+- **Fixtures:** examples in `site/data/group-CH.js`, `group-EXT.js` and
+  `group-WW.js`.
+
 ## Profile link and platform links
 
 - `profileUrl` answers "what is the official page for this". A platform

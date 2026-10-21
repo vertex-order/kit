@@ -89,7 +89,9 @@ window.__wwGroupReg['EXT'] = { num: 'EXT', chronoOrder: 900, narrativeOrder: 900
       length: '25 volumes',
       contents: [
         { title: 'Night Shift', searchTitle: '夜番', count: 3, titleDate: { start: '2019-03', end: '2019-05' } },
-        { title: 'The Long Winter', searchTitle: '長い冬', titleDate: '2019-09', titleUrl: 'https://example.com/book/the-long-winter' },
+        { title: 'The Long Winter', searchTitle: '長い冬', titleDate: '2019-09', titleUrl: 'https://example.com/book/the-long-winter', titleHreflang: 'ja' },
+        // titleLang tags the title text itself (romaji here); titleHreflang the page its link opens.
+        { title: 'Fuyu no Tou', titleLang: 'ja-Latn', titleDate: '2019-11', titleUrl: 'https://example.com/ja/book/fuyu-no-tou', titleHreflang: 'ja' },
         { title: 'Embers', count: 4, titleDate: { start: '2020-01', end: '2020-04' } },
         { title: 'Prologue booklet', num: false },
         { title: 'Wardens of the Reach', count: 2, titleDate: { start: '2020-11', end: '2020-12' } },

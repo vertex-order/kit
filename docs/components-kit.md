@@ -88,11 +88,17 @@ stacked layout repeats the release/language row per platform group.
 `TextSpan` is the one component every styled inline text run ultimately
 renders through — group blurbs, entry descriptions, FAQ answers, credits,
 tooltips. Its own props (`tip`, `abbrTerm`/`abbrDef`, `emLinkText`/
-`emLinkUrl`, `jpTag`, …) are the render targets for whichever of the three
+`emLinkUrl`/`emLinkHreflang`, `lang`, `jpTag`, …) are the render targets for whichever of the three
 "styled text run" JS shapes fed it — see [data.md](data.md) → "three
 different 'styled text run' shapes" for which JS field maps to which of
 these. `LanguageTag` is a narrower, single-purpose sibling: one language
-badge (`value`/`tip`/`url`/`active`/`muted`), not a general text run.
+badge (`value`/`tip`/`url`/`hreflang`/`active`/`muted`), not a general text run.
+
+`lang` and `hreflang` are the React names `lang` and `hrefLang` on the rendered
+elements; the components take the `hreflang` prop and set `hrefLang`. Unset
+means the attribute is left off, never written empty (an empty `lang` would
+reset the language to unknown). See [data.md](data.md) → "Language of text
+and links".
 
 ## Standalone preview
 

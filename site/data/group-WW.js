@@ -64,16 +64,17 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       versions: [
         {
           // title omitted: inherits 'Wyrmwatch' (2014) wholesale from primary, which itself has no title override.
-          subtitle: 'Mobile', subtitleUrl: 'https://example.com/wiki/Wyrmwatch_Mobile', subtitleDate: 2015,
+          subtitle: 'Mobile', subtitleUrl: 'https://example.com/wiki/Wyrmwatch_Mobile', subtitleHreflang: 'ja', subtitleDate: 2015,
           versionDesc: [
-            ['A feature-phone port with simplified bonding menus and two bonding chapters cut for hardware limits. Released as ', { emText: 'Wyrmwatch Go' }, '.'],
+            ['A feature-phone port with simplified bonding menus and two bonding chapters cut for hardware limits. Released as ', { emText: 'Wyrmwatch Go', lang: 'ja-Latn' }, ' (', { text: 'ワームウォッチ・ゴー', lang: 'ja' }, ').'],
+            ['Its Japanese page: ', { emLinkText: 'ワームウォッチ・ゴー', emLinkUrl: 'https://example.com/ja/wyrmwatch-go', emLinkHreflang: 'ja', lang: 'ja' }, '.'],
           ],
           // Own `by` replaces the slot's wholesale; shown because it differs.
           by: [{ role: 'ported', names: { name: 'Pocket Forge', url: 'https://example.com/studios/pocket-forge' } }],
-          languages: [{ value: 'EN', textOnly: true }],
+          languages: [{ value: 'EN', textOnly: true }, { value: 'JA', textOnly: true, url: 'https://example.com/ja/wyrmwatch-go', hreflang: 'ja' }],
           terminated: true,
           platforms: [
-            { key: 'mobile-phone', paren: 'iOS; Android; Digital', terminated: true, jpTag: true },
+            { key: 'mobile-phone', paren: 'iOS; Android; Digital', terminated: true, jpTag: true, url: 'https://example.com/ja/wyrmwatch-go/store', hreflang: 'ja' },
             // search: no searchTitle given either -- defaults to the inherited 'Wyrmwatch' title (same chain as the title display above), narrowed with searchQualifier rather than retyping 'Wyrmwatch mobile' by hand.
             { key: 'fan-playthrough', search: 'youtube', searchQualifier: 'mobile' },
           ],
@@ -103,7 +104,7 @@ window.__wwGroupReg['WW'] = { num: 'WW', chronoOrder: 100, narrativeOrder: 100, 
       ],
       subtitle: 'Expansion',
       ratings: [{ label: 'Fixture rating source', score: '7.6', url: 'https://example.com/reviews/ashfall-uprising' }],
-      profileUrl: 'https://example.com/store/ashfall-uprising',
+      profileUrl: 'https://example.com/store/ashfall-uprising', profileHreflang: 'fr',
       platforms: [
         { key: 'steam', paren: 'PC', url: 'https://example.com/store/ashfall-uprising/steam' },
         { key: 'playstation4', paren: 'Digital', url: 'https://example.com/store/ashfall-uprising/ps4' },

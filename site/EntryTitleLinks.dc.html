@@ -26,12 +26,13 @@
         ><sc-for list="{{ parts }}" as="p" hint-placeholder-count="1"
           ><a
             href="{{ p.url }}"
+            hrefLang="{{ p.hreflang }}"
             target="_blank"
             rel="noopener"
             title="{{ p.tip }}"
             onClick="{{ partClick }}"
             style="margin-right: var(--space-2); {{ p.smallStyle }}"
-            >{{ p.label }}<sc-for list="{{ p.dateSegments }}" as="d"
+            ><span lang="{{ p.lang }}">{{ p.label }}</span><sc-for list="{{ p.dateSegments }}" as="d"
               ><span title="{{ d.tip }}">{{ d.text }}</span></sc-for
             ></a
           ></sc-for

@@ -16,7 +16,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
     // Default group, several names, one linked (external -> new tab).
     by: ['Aldous Venn', { name: 'Marit Okonkwo', url: 'https://example.com/people/marit-okonkwo' }, 'Tobias Lindqvist'],
     mediaDesc: [
-      ['Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ', { emText: 'Wyrmwatch II (2019)' }, '. Also known as ', { emText: 'The Codex of Ashfall' }, ' in some markets.'],
+      ['Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ', { emText: 'Wyrmwatch II (2019)' }, '. Also known as ', { emText: 'Ashfall no Sho', lang: 'ja-Latn' }, ' in Japan.'],
     ],
     primary: { tags: ['Essential', 'Prequel', 'Novel'],
       length: '384p; P',
@@ -33,7 +33,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
     },
   },
   { chronoOrder: 900, narrativeOrder: 420, mediaType: 'Video', narrativeSection: 'Frontier',
-    title: 'Wyrmwatch: Rise of the Wyrm', titleUrl: 'https://example.com/wiki/Rise_of_the_Wyrm', titleDate: '2020-11-20',
+    title: 'Wyrmwatch: Rise of the Wyrm', titleUrl: 'https://example.com/wiki/Rise_of_the_Wyrm', titleHreflang: 'de', titleDate: '2020-11-20',
     // Two roles, no default group: "directed by ..., written by ...".
     by: [{ role: 'directed', names: 'Katie Sorrel' }, { role: 'written', names: 'Charles Whitlock' }],
     mediaDesc: [
