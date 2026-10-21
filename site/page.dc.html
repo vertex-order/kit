@@ -649,7 +649,7 @@ class Component extends DCLogic {
       let id = '';
       try { id = decodeURIComponent((a.getAttribute('href') || '').slice(1)); } catch (err) { return; }
       if (!id) return;
-      const known = !!document.getElementById(id) || !!(this.anchorRegistry && this.anchorRegistry[id]) || !!(this.anchorAliases && this.anchorAliases[id]);
+      const known = !!this.liveById(id) || !!(this.anchorRegistry && this.anchorRegistry[id]) || !!(this.anchorAliases && this.anchorAliases[id]);
       if (!known) return;
       e.preventDefault();
       if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
@@ -902,8 +902,18 @@ class Component extends DCLogic {
       onAnchorClick: e => { e.preventDefault(); history.pushState(null, '', '#' + anchorId); this.handleHashNav(anchorId); },
     };
   }
-  scrollToId(id) {
+  // The element with this id in the live page. A prerendered page also carries
+  // a static snapshot (#dc-root-ssr, default order and state) with the same
+  // ids until the live root replaces it: the snapshot's copy must never be a
+  // jump target, its position is the default layout's, not the live one's.
+  liveById(id) {
+    const root = document.getElementById('dc-root');
+    if (!root) return document.getElementById(id);
     const el = document.getElementById(id);
+    return el && root.contains(el) ? el : root.querySelector('[id="' + String(id).replace(/"/g, '\\"') + '"]');
+  }
+  scrollToId(id) {
+    const el = this.liveById(id);
     if (!el) return false;
     const top = el.getBoundingClientRect().top + window.scrollY - 70;
     window.scrollTo({ top, behavior: 'smooth' });
@@ -923,7 +933,7 @@ class Component extends DCLogic {
   scrollToWhenReady(id) {
     const started = Date.now();
     this._navUserMoved = false;
-    const alreadyThere = !!document.getElementById((this.anchorAliases && this.anchorAliases[id]) || id);
+    const alreadyThere = !!this.liveById((this.anchorAliases && this.anchorAliases[id]) || id);
     const needStill = alreadyThere ? 2 : 10;
     let seenAt = 0, lastPos = null, still = 0;
     const tick = () => {
@@ -933,7 +943,7 @@ class Component extends DCLogic {
       if (reg && !(this.state[reg.expandStateKey] || {})[reg.parentKey]) {
         this.setState(s => ({ [reg.expandStateKey]: { ...s[reg.expandStateKey], [reg.parentKey]: true } }));
       }
-      const el = document.getElementById(real);
+      const el = this.liveById(real);
       if (el) {
         if (!seenAt) seenAt = Date.now();
         const pos = Math.round(el.getBoundingClientRect().top + window.scrollY) + ':' + document.documentElement.scrollHeight;
@@ -952,7 +962,7 @@ class Component extends DCLogic {
   // section/group where it is on the page; from a flat view that has no group
   // blocks (Overall order), switches to Narrative first.
   jumpToGroup(num, target) {
-    const here = [target, 'group-' + num].find(id => document.getElementById(id));
+    const here = [target, 'group-' + num].find(id => this.liveById(id));
     if (here) { history.pushState(null, '', '#' + here); this.handleHashNav(here); return; }
     this.setState({ pathMode: 'narrative' });
     localStorage.setItem(STORAGE_PREFIX + 'Path', 'narrative');

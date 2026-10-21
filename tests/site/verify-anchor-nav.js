@@ -124,6 +124,58 @@ async function main() {
     if (!(await until(() => probe(a), 4000))) fail('after back, #' + a + ' is not visible');
   }
 
+  // 5. a saved order. The prerendered snapshot is always the default
+  // (narrative) order; a reader with chrono / release / overall saved gets a
+  // re-ordered live page, and the jump must land in that, never in the
+  // snapshot's copy of the target.
+  const liveOrder = (win) => {
+    const root = win.document.getElementById('dc-root');
+    return root ? [...root.querySelectorAll('[id^="entry-"]')].map((el) => el.id) : [];
+  };
+  const baseline = liveOrder(window).filter((id) => !id.includes('-x-')).join('|');
+  let pathKey = null;
+  const modeButtons = [...doc.querySelectorAll('button, [role="button"], label, span, div')].filter(
+    (el) => /^Chronological(?: order)?$/.test(el.textContent.trim()) && el.children.length < 3
+  );
+  for (const el of modeButtons) {
+    el.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }));
+    await sleep(150);
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const k = window.localStorage.key(i);
+      if (k && /Path$/.test(k)) pathKey = k;
+    }
+    if (pathKey) break;
+  }
+  if (!pathKey) {
+    fail('could not find the saved-order storage key (no order button found, or no key written)');
+  } else {
+    let reordered = 0;
+    const visibleTarget = [...before].find((id) => !id.includes('-x-') && id !== collapsed[0]);
+    for (const mode of ['chrono', 'release', 'overall']) {
+      for (const target of [collapsed[0], visibleTarget].filter(Boolean)) {
+        const saved = bootDom(html, { url: SSR_ORIGIN + '/' + entryFile + '#' + target, buildDir: path.resolve(buildDir) });
+        saved.window.localStorage.setItem(pathKey, mode);
+        const calls = [];
+        saved.window.scrollTo = () => {
+          const root = saved.window.document.getElementById('dc-root');
+          const el = saved.window.document.getElementById(target);
+          calls.push({ inLiveRoot: !!(root && el && root.contains(el)), snapshot: !!saved.window.document.getElementById('dc-root-ssr') });
+        };
+        await waitForStableElement(saved.window, 'dc-root');
+        if (!(await until(() => calls.length > 0, 12000))) fail('[' + mode + '] #' + target + ' was never scrolled to');
+        else {
+          await sleep(1200);
+          if (calls.length !== 1) fail('[' + mode + '] #' + target + ' scrolled ' + calls.length + ' times, not once');
+          if (!calls[0].inLiveRoot) fail('[' + mode + '] #' + target + ' was scrolled to in the prerendered snapshot, not the live page');
+        }
+        const order = liveOrder(saved.window).filter((id) => !id.includes('-x-')).join('|');
+        if (target === visibleTarget && order !== baseline) reordered++;
+        saved.window.close();
+      }
+    }
+    if (!reordered) fail('no saved order (chrono, release, overall) re-ordered the page, so the re-order case was not exercised');
+  }
+
   window.close();
 
   // 4. a page load with the hash, on the page as the source file ships it
