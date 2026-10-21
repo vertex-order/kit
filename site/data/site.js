@@ -16,4 +16,5 @@ window.SITE_CONFIG = {
   entities: ["a fictional studio, Brightlance Interactive"],
   noticeUrl: "https://github.com/vertex-order/kit/blob/main/NOTICE.md",
   discussionsUrl: "https://github.com/vertex-order/kit/discussions",
+  langOrder: ["EN"],
 };

@@ -69,7 +69,8 @@ and pull via `just sync`.
   - Must be unique page-wide; `check-anchors.py` fails a collision.
 - **Language order** is fixed, first match wins:
   - Voiced languages (`voice: true`), then the native language (`native: true`),
-    then the `langOrder` list (default `['EN']`), then alphabetical by code;
+    then the `langOrder` list (site.js default `['EN']`, an entry can override
+    it), then alphabetical by code;
     the `…?` marker is always last.
   - So a Japanese-origin game reads `JA, EN, DE, …` and an English-origin one
     `EN, DE, …` without any setting; `langOrder` is only for an exception.

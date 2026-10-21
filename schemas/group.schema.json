@@ -695,7 +695,7 @@
         "langOrder": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Per-entry override of the language order after voiced and native languages (default ['EN']); languages not in it follow alphabetically, and the unknown-languages marker is last."
+          "description": "Per-entry override of the language order after voiced and native languages (default: site.js `langOrder`, else ['EN']); languages not in it follow alphabetically, and the unknown-languages marker is last."
         },
         "versionDesc": {
           "allOf": [{ "$ref": "#/$defs/Prose" }],
@@ -795,7 +795,7 @@
         "langOrder": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Per-entry override of the language order after voiced and native languages (default ['EN']); languages not in it follow alphabetically, and the unknown-languages marker is last."
+          "description": "Per-entry override of the language order after voiced and native languages (default: site.js `langOrder`, else ['EN']); languages not in it follow alphabetically, and the unknown-languages marker is last."
         },
         "versionDesc": {
           "allOf": [{ "$ref": "#/$defs/Prose" }],

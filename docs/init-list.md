@@ -154,6 +154,8 @@ vendored copy — don't touch it):
   visitors yet. A repo migrating from a hand-authored `page.dc.html` that
   already had visitors (as final-fantasy and kingdom-hearts did) must set
   `storagePrefix` explicitly to its existing literal value instead.
+  Optional `langOrder: ['EN']` (the default) sets which language codes sort
+  right after the voiced and native ones in every entry's language list.
   Optional `groupReleaseOrder: false` hides the per-group "Release order"
   (already hidden with a single group) for a repo whose groups are
   navigation clusters over one timeline; "Overall release order" stays, and a

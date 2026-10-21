@@ -44,6 +44,12 @@
       "type": "string",
       "description": "Literal localStorage key prefix for every visitor's saved checklist/theme/display preferences. Load-bearing once a repo has visitors -- get it right once and never change it, or existing saved data is silently orphaned. Omit only for a brand-new repo with no visitors yet (a deterministic default is derived from `name`)."
     },
+    "langOrder": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "description": "Language order after voiced and native languages, a list of language codes (an EN-US or EN-GB tag ranks as EN); languages not in it follow alphabetically. Default ['EN']. A group entry's own langOrder overrides it."
+    },
     "discussionsUrl": {
       "type": "string",
       "description": "This repo's GitHub Discussions URL. Read directly by kit's common-faq.js (\"help-improve\"/\"fan-art\" answers), not just by page.dc.html."
