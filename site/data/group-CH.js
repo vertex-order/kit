@@ -14,7 +14,7 @@ window.__wwGroupReg['CH'] = { num: 'CH', chronoOrder: 400, narrativeOrder: 400, 
   { chronoOrder: 300, narrativeOrder: 410, mediaType: 'Book', narrativeSection: 'Frontier',
     title: 'Wyrmwatch Chronicles: The Ashfall Codex', titleUrl: 'https://example.com/wiki/The_Ashfall_Codex', titleDate: '2017-10-03',
     // Default group, several names, one linked (external -> new tab).
-    by: ['Aldous Venn', { name: 'Marit Okonkwo', url: 'https://example.com/people/marit-okonkwo' }, 'Tobias Lindqvist'],
+    by: ['Aldous Venn', { name: 'Marit Okonkwo', url: 'https://example.com/people/marit-okonkwo' }, 'Tobias Lindqvist', { name: '田辺 真希', url: 'https://example.com/ja/people/maki-tanabe', lang: 'ja', hreflang: 'ja' }],
     mediaDesc: [
       ['Before the watchtowers, warden-in-training Isolde Marrow keeps a diary of her first wyrm bonding. A prequel companion to ', { emText: 'Wyrmwatch II (2019)' }, '. Also known as ', { emText: 'Ashfall no Sho', lang: 'ja-Latn' }, ' in Japan.'],
     ],

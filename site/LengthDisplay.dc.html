@@ -25,7 +25,7 @@
 <sc-if value="{{ parts }}" hint-placeholder-val="{{ false }}">
   <span style="display: flex; flex-direction: column; gap: 1px;">
     <span style="color: var(--color-neutral-500);">Length</span>
-    <span class="{{ textClass }}" title="{{ textTip }}" onClick="{{ onTextClick }}" style="{{ textStyle }}"><sc-for list="{{ parts }}" as="lp" hint-placeholder-count="3"><sc-if value="{{ lp.label }}" hint-placeholder-val="{{ false }}">{{ lp.label }}</sc-if><abbr title="{{ lp.tip }}" style="text-decoration: none; cursor: help;">{{ lp.value }}</abbr><sc-if value="{{ lp.printJoin }}" hint-placeholder-val="{{ false }}">{{ lp.printJoin }}</sc-if><sc-if value="{{ lp.printBr }}" hint-placeholder-val="{{ false }}"><br></sc-if></sc-for></span>
+    <span class="{{ textClass }}" title="{{ textTip }}" onClick="{{ onTextClick }}" style="{{ textStyle }}"><sc-for list="{{ parts }}" as="lp" hint-placeholder-count="3"><sc-if value="{{ lp.label }}" hint-placeholder-val="{{ false }}"><span lang="{{ lp.lang }}">{{ lp.label }}</span></sc-if><abbr lang="{{ lp.lang }}" title="{{ lp.tip }}" style="text-decoration: none; cursor: help;">{{ lp.value }}</abbr><sc-if value="{{ lp.printJoin }}" hint-placeholder-val="{{ false }}">{{ lp.printJoin }}</sc-if><sc-if value="{{ lp.printBr }}" hint-placeholder-val="{{ false }}"><br></sc-if></sc-for></span>
   </span>
 </sc-if>
 </x-dc>

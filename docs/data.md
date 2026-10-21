@@ -338,19 +338,34 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
   - `titleLang` and `subtitleLang` on a slot, release, version or alt;
     `titleLang` on a `contents[]` part.
   - `lang` on a description span: `{ text: '聖剣伝説', lang: 'ja' }`.
-  - Tag every non-English string: kana and kanji first, then romaji and
-    other languages.
-  - Never tag tags, platform names or catalog words. Loan words (manga,
+    Split mixed text into spans so only the foreign part is tagged.
+  - `lang` on a `by` name object (`{ name: '北瀬佳範', lang: 'ja' }`;
+    a bare name string can't carry one).
+  - `lang` on a rating, a `length` segment, a platform row (its `name`,
+    `prefix`, `suffix`, `text`) and a `languages[]` item (its `tip`).
+    Rarely needed.
+  - Never tag tags, platform keys or catalog words. Loan words (manga,
     manhwa) stay English.
 - **Links, `hreflang`:** the language of the page the link opens, not of
   its text. Omit it for an English page.
   - `titleHreflang`, `subtitleHreflang`, `profileHreflang`,
     `contents[].titleHreflang`.
-  - `hreflang` on a platform row (a `search` row too) and on a
-    `languages[]` item.
+  - `hreflang` on a platform row (a `search` row too), a `languages[]`
+    item, a rating and a `by` name object.
   - `emLinkHreflang` on a description link span.
 - **Inheritance:** a version or alt that inherits its title inherits
   `titleLang` and `titleHreflang` with it.
+- **The check** (`scripts/validate-data.py`): non-Latin text with no
+  `lang` is a warning.
+  - By script, not "non-ASCII": accented Latin (é, ñ, ō) is never
+    flagged. French or romaji in plain Latin can't be detected, so tag
+    those yourself.
+  - Plain strings can't carry `lang`: write a Japanese part as an
+    object span, or a `by` name as an object.
+  - It also checks the code fits the script: kana means `ja`, hangul
+    `ko`, Han alone `ja`, `zh` or `ko`; Latin-only text under `ja`
+    should be `ja-Latn`.
+  - `--lang` lists the warnings, `--strict-lang` turns them into errors.
 - **Fixtures:** examples in `site/data/group-CH.js`, `group-EXT.js` and
   `group-WW.js`.
 

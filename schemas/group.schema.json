@@ -216,7 +216,15 @@
           "type": "object",
           "properties": {
             "name": { "type": "string", "minLength": 1 },
-            "url": { "type": "string", "minLength": 1 }
+            "url": { "type": "string", "minLength": 1 },
+            "lang": {
+              "$ref": "#/$defs/LangCode",
+              "description": "Language of the name, a BCP 47 tag, set as `lang` on it, e.g. { name: '北瀬佳範', lang: 'ja' }. Only the object form can carry it. Omit for English."
+            },
+            "hreflang": {
+              "$ref": "#/$defs/LangCode",
+              "description": "Language of the page `url` opens, set as `hreflang` on the link. Omit when English."
+            }
           },
           "required": ["name"],
           "additionalProperties": false
@@ -275,6 +283,10 @@
           "description": "Prefixes this segment AND implies a line break before it -- a labeled segment always starts its own line (e.g. an FFXI expansion name, or 'Comrades ' before a spin-off mode's own length). Write it as the first key when present, as a visual cue. Redundant (harmless) to also set `br` on the previous segment; the renderer emits at most one line break for the shared boundary either way."
         },
         "value": { "type": "string" },
+        "lang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of this segment's label and value, a BCP 47 tag, set as `lang` on them. Rarely needed. Omit for English."
+        },
         "tip": {
           "type": "string",
           "description": "Tooltip, e.g. 'Main Story' / 'Main + Extra' / 'Completionist', or a custom tip like 'Solo' / 'Co-op' / 'Vs.'."
@@ -319,6 +331,10 @@
           "type": "string",
           "description": "Explicit tooltip override, used verbatim with no auto ' — full audio'/' — text only' suffix."
         },
+        "lang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the `tip` text, set as `lang` on the tag (so also on its code). Rarely needed. Omit for English."
+        },
         "url": { "type": "string" },
         "hreflang": {
           "$ref": "#/$defs/LangCode",
@@ -346,6 +362,10 @@
         "hreflang": {
           "$ref": "#/$defs/LangCode",
           "description": "Language of the page `url` opens (a search row's computed url included), set as `hreflang` on the icon link. Omit when English."
+        },
+        "lang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the row's displayed text (`name`, `prefix`, `suffix`, `text`), set as `lang` on the icon element. Rarely needed. Omit for English."
         },
         "name": {
           "type": "string",
@@ -422,6 +442,14 @@
           "description": "Required unless `key`'s catalog entry already supplies one (a textOnly badge kind)."
         },
         "url": { "type": "string" },
+        "hreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `url` opens, set as `hreflang` on the link. Omit when English."
+        },
+        "lang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of this rating's displayed text (score, badge text), set as `lang` on it. Rarely needed. Omit for English."
+        },
         "label": {
           "type": "string",
           "description": "Explicit tooltip override for score-mode, or explicit badge text for badge-mode -- the escape hatch for a rating source with no RATING_KINDS entry at all."

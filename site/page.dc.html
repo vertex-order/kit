@@ -471,7 +471,7 @@ function normalizeBy(by) {
       index.set(key, g);
       groups.push(g);
     }
-    names.forEach(n => g.names.push(typeof n === 'string' ? { name: n, url: null } : { name: n.name, url: n.url || null }));
+    names.forEach(n => g.names.push(typeof n === 'string' ? { name: n, url: null } : { name: n.name, url: n.url || null, lang: n.lang, hreflang: n.hreflang }));
   };
   (Array.isArray(by) ? by : [by]).forEach(it => {
     if (typeof it === 'string' || it.name !== undefined) add(null, null, [it]);
@@ -505,9 +505,9 @@ function mapCreditParts(groups) {
     parts.push({ text: (gi ? '; ' : '') + g.lead + ' ' });
     g.names.forEach((n, ni) => {
       if (ni) parts.push({ text: ', ' });
-      if (!n.url) { parts.push({ text: n.name }); return; }
+      if (!n.url) { parts.push({ text: n.name, lang: n.lang }); return; }
       const internal = n.url.charAt(0) === '#';
-      parts.push({ linkText: n.name, linkUrl: n.url, linkExternal: !internal, linkInternal: internal });
+      parts.push({ linkText: n.name, linkUrl: n.url, linkExternal: !internal, linkInternal: internal, lang: n.lang, hreflang: n.hreflang });
     });
   });
   return parts;
@@ -833,7 +833,7 @@ class Component extends DCLogic {
       if (label === undefined && r.key) {
         label = r.key === 'steam' ? 'Steam; ' + (steamLabels[r.score] || r.score) : (kinds[r.key] || {}).label;
       }
-      return { isBadge: false, isScore: true, value: r.score, url: r.url, label, sep: i < n - 1 };
+      return { isBadge: false, isScore: true, value: r.score, url: r.url, label, lang: r.lang, hreflang: r.hreflang, sep: i < n - 1 };
     });
   }
   // Sorts a single platform list into PLATFORM_ICONS order. Items with no

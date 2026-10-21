@@ -19,6 +19,9 @@ The literal is extracted with scripts/js_literal.py (a real JSON parser
 can't read these files -- unquoted keys, single-quoted strings, trailing
 commas, comments).
 
+Also warns about non-Latin text with no `lang` (`--lang` lists, `--strict-lang`
+fails): see check_lang_coverage.
+
 Implements exactly the JSON Schema (2020-12) keywords schemas/*.schema.json
 actually use: type, enum, const, properties, additionalProperties (bool or
 schema), required, items, minItems, uniqueItems, minLength, minProperties,
@@ -34,6 +37,7 @@ python3 scripts/validate-data.py
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -620,6 +624,181 @@ def check_tag_spellings(spellings, findings):
         findings.append(("tags", errors))
 
 
+# ---------------------------------------------------------------------------
+# Language coverage: text in a non-Latin script must carry a `lang`.
+#
+# Script, not "non-ASCII": accented Latin (é, ñ, ō -- loan words, romaji with
+# macrons) is still Latin and is never flagged. French or romaji in plain
+# Latin can't be told from English, so those rely on explicit tagging and are
+# not checked. A warning by default; `--lang` lists them, `--strict-lang`
+# makes them errors (docs/data.md, "Language of text and links").
+# ---------------------------------------------------------------------------
+
+_SCRIPT_PREFIXES = (
+    ("CJK UNIFIED", "han"),
+    ("CJK COMPATIBILITY IDEOGRAPH", "han"),
+    ("HIRAGANA", "kana"),
+    ("KATAKANA", "kana"),
+    ("HANGUL", "hangul"),
+    ("CYRILLIC", "cyrillic"),
+    ("GREEK", "greek"),
+    ("ARABIC", "arabic"),
+    ("HEBREW", "hebrew"),
+    ("THAI", "thai"),
+    ("DEVANAGARI", "devanagari"),
+)
+
+# Languages each script can be written in (the primary subtag of the `lang`).
+_SCRIPT_LANGS = {
+    "kana": {"ja"},
+    "hangul": {"ko"},
+    "han": {"ja", "zh", "yue", "ko"},
+    "cyrillic": {"ru", "uk", "bg", "sr", "mk", "be", "kk", "mn", "ky", "tg"},
+    "greek": {"el", "grc"},
+    "arabic": {"ar", "fa", "ur", "ps", "ku"},
+    "hebrew": {"he", "yi"},
+    "thai": {"th"},
+    "devanagari": {"hi", "mr", "ne", "sa"},
+}
+_NON_LATIN_LANGS = set().union(*_SCRIPT_LANGS.values())
+
+# Fields whose text is a span's displayed text (the span's `tip` and
+# `abbrDef` tooltips ride on the same `lang`).
+_SPAN_TEXT_KEYS = ("text", "emText", "emLinkText", "abbrTerm", "tipText", "hintText", "tip", "abbrDef")
+
+
+# Punctuation that English titles borrow (Final Fantasy I・II・III): not text.
+_NEUTRAL = {"・", "･"}
+
+
+def _scripts_in(text):
+    found = set()
+    for ch in text:
+        if ord(ch) < 0x250 or ch in _NEUTRAL:
+            continue
+        name = unicodedata.name(ch, "")
+        for prefix, script in _SCRIPT_PREFIXES:
+            if name.startswith(prefix):
+                found.add(script)
+                break
+    return found
+
+
+def _lang_problem(text, lang):
+    """None when `lang` fits `text`; else a short reason. `lang` None means
+    the field has no language set."""
+    scripts = _scripts_in(text)
+    if lang is None:
+        return "non-Latin text with no lang" if scripts else None
+    primary = lang.split("-")[0].lower()
+    latn = any(part.lower() == "latn" for part in lang.split("-")[1:])
+    if latn:
+        return f"lang {lang!r} says romanized but the text has {'/'.join(sorted(scripts))} characters" if scripts else None
+    if not scripts:
+        if primary in _NON_LATIN_LANGS:
+            return f"Latin-only text under lang {lang!r}: romanization is {primary}-Latn"
+        return None
+    if "kana" in scripts:
+        want = _SCRIPT_LANGS["kana"]
+    elif "hangul" in scripts:
+        want = _SCRIPT_LANGS["hangul"]
+    elif len(scripts) == 1:
+        want = _SCRIPT_LANGS[next(iter(scripts))]
+    else:
+        return None
+    if primary not in want:
+        return f"lang {lang!r} does not fit the {'/'.join(sorted(scripts))} text (expected {'/'.join(sorted(want))})"
+    return None
+
+
+def check_lang_coverage(instance):
+    """Return [(path, text, reason)] for a group literal."""
+    out = []
+
+    def pair(path, text, lang):
+        if isinstance(text, str) and text:
+            problem = _lang_problem(text, lang if isinstance(lang, str) else None)
+            if problem:
+                out.append((path, text, problem))
+
+    def untaggable(path, text):
+        # A bare string with no way to carry a `lang`.
+        if isinstance(text, str) and _scripts_in(text):
+            out.append((path, text, "non-Latin text in a plain string: use the object form with lang"))
+
+    def span(path, s):
+        if isinstance(s, str):
+            untaggable(path, s)
+        elif isinstance(s, list):
+            for i, item in enumerate(s):
+                span(f"{path}[{i}]", item)
+        elif isinstance(s, dict):
+            lang = s.get("lang")
+            for key in _SPAN_TEXT_KEYS:
+                pair(f"{path}.{key}", s.get(key), lang)
+
+    def by(path, b):
+        if isinstance(b, str):
+            untaggable(path, b)
+        elif isinstance(b, list):
+            for i, item in enumerate(b):
+                by(f"{path}[{i}]", item)
+        elif isinstance(b, dict):
+            if "name" in b:
+                pair(f"{path}.name", b.get("name"), b.get("lang"))
+            if "names" in b:
+                by(f"{path}.names", b["names"])
+
+    def length(path, v):
+        if isinstance(v, str):
+            untaggable(path, v)
+        elif isinstance(v, list):
+            for i, part in enumerate(v):
+                if isinstance(part, dict):
+                    for key in ("label", "value", "tip"):
+                        pair(f"{path}[{i}].{key}", part.get(key), part.get("lang"))
+
+    def items(path, rows, keys):
+        for i, row in enumerate(rows if isinstance(rows, list) else []):
+            if isinstance(row, dict):
+                for key in keys:
+                    pair(f"{path}[{i}].{key}", row.get(key), row.get("lang"))
+
+    def walk(path, node):
+        if isinstance(node, list):
+            for i, item in enumerate(node):
+                walk(f"{path}[{i}]", item)
+            return
+        if not isinstance(node, dict):
+            return
+        is_group_or_section = "num" in node or "orders" in node
+        if isinstance(node.get("title"), str) and not is_group_or_section:
+            pair(f"{path}.title", node["title"], node.get("titleLang"))
+        if isinstance(node.get("subtitle"), str):
+            pair(f"{path}.subtitle", node["subtitle"], node.get("subtitleLang"))
+        for key in ("mediaDesc", "versionDesc", "note"):
+            if key in node:
+                span(f"{path}.{key}", node[key])
+        if "by" in node:
+            by(f"{path}.by", node["by"])
+        if "length" in node:
+            length(f"{path}.length", node["length"])
+        if "ratings" in node:
+            items(f"{path}.ratings", node["ratings"], ("score", "label", "abbrTerm", "abbrDef"))
+        if "platforms" in node:
+            items(f"{path}.platforms", node["platforms"], ("name", "paren", "prefix", "suffix", "text"))
+        if "languages" in node:
+            items(f"{path}.languages", node["languages"], ("tip",))
+        for key, value in node.items():
+            if key in ("tags", "by", "mediaDesc", "versionDesc", "note", "length", "ratings", "platforms", "languages", "searchTitle"):
+                continue
+            if isinstance(value, (dict, list)):
+                walk(f"{path}.{key}", value)
+
+    walk("$", instance)
+    return out
+
+
 def main():
     if not DATA.is_dir():
         print("validate-data: no site/data/ -- nothing to check")
@@ -630,6 +809,7 @@ def main():
     checked = 0
     allowed_name_override_keys = load_name_override_keys()
 
+    lang_warnings = []
     marker_usage = {"Essential": [], "Optional": []}
     tag_spellings = {}
     for path in sorted(DATA.glob("*.js")):
@@ -648,6 +828,8 @@ def main():
                 check_platform_link_modes(path.name, instance, findings)
                 check_markers(path.name, instance, findings, marker_usage)
                 check_tag_style(path.name, instance, findings, tag_spellings)
+                for where, text, reason in check_lang_coverage(instance):
+                    lang_warnings.append((path.name, where, text, reason))
                 if allowed_name_override_keys is not None:
                     check_name_overrides(
                         path.name, instance, allowed_name_override_keys, findings
@@ -655,6 +837,14 @@ def main():
 
     check_marker_usage(marker_usage, findings)
     check_tag_spellings(tag_spellings, findings)
+
+    strict_lang = "--strict-lang" in sys.argv
+    if lang_warnings and strict_lang:
+        by_file = {}
+        for name, where, text, reason in lang_warnings:
+            by_file.setdefault(name, []).append(f"{where}: {reason}: {text[:60]!r}")
+        for name, errs in by_file.items():
+            findings.append((name, errs))
 
     if findings:
         total = sum(len(errs) for _, errs in findings)
@@ -668,6 +858,15 @@ def main():
     print(
         f"validate-data: checked {checked} declared schema(s) across site/data/*.js, no errors"
     )
+    if lang_warnings:
+        files = {name for name, *_ in lang_warnings}
+        print(
+            f"validate-data: lang: {len(lang_warnings)} warning(s) in {len(files)} file(s) "
+            "(non-Latin text without a matching lang; --lang lists them, --strict-lang fails)"
+        )
+        if "--lang" in sys.argv:
+            for name, where, text, reason in lang_warnings:
+                print(f"  {name} {where}: {reason}: {text[:70]!r}")
     return 0
 
 

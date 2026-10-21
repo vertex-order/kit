@@ -28,17 +28,17 @@
       <sc-for list="{{ ratings }}" as="r" hint-placeholder-count="2">
         <sc-if value="{{ r.isBadge }}" hint-placeholder-val="{{ false }}">
           <sc-if value="{{ r.score }}" hint-placeholder-val="{{ false }}">
-            <span>{{ r.score }}</span>
+            <span lang="{{ r.lang }}">{{ r.score }}</span>
           </sc-if>
           <sc-if value="{{ r.abbrTermLinked }}" hint-placeholder-val="{{ false }}">
-            <a href="{{ r.url }}" target="_blank" rel="noopener"><abbr title="{{ r.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ r.abbrTerm }}</abbr></a>
+            <a href="{{ r.url }}" hrefLang="{{ r.hreflang }}" lang="{{ r.lang }}" target="_blank" rel="noopener"><abbr title="{{ r.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ r.abbrTerm }}</abbr></a>
           </sc-if>
           <sc-if value="{{ r.abbrTermPlain }}" hint-placeholder-val="{{ false }}">
-            <abbr title="{{ r.abbrDef }}" style="text-decoration: underline dotted; cursor: help;">{{ r.abbrTerm }}</abbr>
+            <abbr title="{{ r.abbrDef }}" lang="{{ r.lang }}" style="text-decoration: underline dotted; cursor: help;">{{ r.abbrTerm }}</abbr>
           </sc-if>
         </sc-if>
         <sc-if value="{{ r.isScore }}" hint-placeholder-val="{{ true }}">
-          <a href="{{ r.url }}" target="_blank" rel="noopener" title="{{ r.label }}">{{ r.value }}</a>
+          <a href="{{ r.url }}" hrefLang="{{ r.hreflang }}" lang="{{ r.lang }}" target="_blank" rel="noopener" title="{{ r.label }}">{{ r.value }}</a>
         </sc-if>
         <sc-if value="{{ r.sep }}" hint-placeholder-val="{{ false }}"> / </sc-if>
       </sc-for>
