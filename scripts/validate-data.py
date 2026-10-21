@@ -19,8 +19,8 @@ The literal is extracted with scripts/js_literal.py (a real JSON parser
 can't read these files -- unquoted keys, single-quoted strings, trailing
 commas, comments).
 
-Also warns about non-Latin text with no `lang` (`--lang` lists, `--strict-lang`
-fails): see check_lang_coverage.
+Also fails on non-Latin text with no `lang` (`--warn-lang` downgrades it to a
+warning, for a repo adopting the check): see check_lang_coverage.
 
 Implements exactly the JSON Schema (2020-12) keywords schemas/*.schema.json
 actually use: type, enum, const, properties, additionalProperties (bool or
@@ -630,8 +630,8 @@ def check_tag_spellings(spellings, findings):
 # Script, not "non-ASCII": accented Latin (é, ñ, ō -- loan words, romaji with
 # macrons) is still Latin and is never flagged. French or romaji in plain
 # Latin can't be told from English, so those rely on explicit tagging and are
-# not checked. A warning by default; `--lang` lists them, `--strict-lang`
-# makes them errors (docs/data.md, "Language of text and links").
+# not checked. An error by default; `--warn-lang` makes them warnings, and
+# `--lang` lists the warnings (docs/data.md, "Language of text and links").
 # ---------------------------------------------------------------------------
 
 _SCRIPT_PREFIXES = (
@@ -843,8 +843,7 @@ def main():
     check_marker_usage(marker_usage, findings)
     check_tag_spellings(tag_spellings, findings)
 
-    strict_lang = "--strict-lang" in sys.argv
-    if lang_warnings and strict_lang:
+    if lang_warnings and "--warn-lang" not in sys.argv:
         by_file = {}
         for name, where, text, reason in lang_warnings:
             by_file.setdefault(name, []).append(f"{where}: {reason}: {text[:60]!r}")
@@ -867,7 +866,7 @@ def main():
         files = {name for name, *_ in lang_warnings}
         print(
             f"validate-data: lang: {len(lang_warnings)} warning(s) in {len(files)} file(s) "
-            "(non-Latin text without a matching lang; --lang lists them, --strict-lang fails)"
+            "(non-Latin text without a matching lang, --warn-lang; --lang lists them)"
         )
         if "--lang" in sys.argv:
             for name, where, text, reason in lang_warnings:

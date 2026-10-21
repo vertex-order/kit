@@ -356,7 +356,7 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
 - **Inheritance:** a version or alt that inherits its title inherits
   `titleLang` and `titleHreflang` with it.
 - **The check** (`scripts/validate-data.py`): non-Latin text with no
-  `lang` is a warning.
+  `lang` is an error.
   - By script, not "non-ASCII": accented Latin (é, ñ, ō) is never
     flagged. French or romaji in plain Latin can't be detected, so tag
     those yourself.
@@ -368,7 +368,8 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
   - It also checks the code fits the script: kana means `ja`, hangul
     `ko`, Han alone `ja`, `zh` or `ko`; Latin-only text under `ja`
     should be `ja-Latn`.
-  - `--lang` lists the warnings, `--strict-lang` turns them into errors.
+  - `--warn-lang` downgrades it to a warning (for a repo adopting the
+    check); `--lang` then lists the warnings.
 - **Fixtures:** examples in `site/data/group-CH.js`, `group-EXT.js` and
   `group-WW.js`.
 
