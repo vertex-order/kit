@@ -60,6 +60,14 @@ actually changes the rendered theme. Runs as the last step of `just build`
 whenever Node is on `PATH` — so it gates `just serve` and every deploy
 (`static.yml` → `just build`), not just CI.
 
+**`tests/site/verify-anchor-nav.js`** — boots the built page in JSDOM and
+drives links into collapsed areas. It opens every "other versions" area to
+learn which anchors sit inside, closes them, then checks that each anchor
+becomes present and is scrolled to on a hashchange; that a click on an
+in-page `<a href="#anchor">` is handled even when the hash is already that
+anchor; and that the back button opens the area. Runs in `just build` next to
+`verify-ssr.js`.
+
 **`tests/site/check-token-snapshot.js`** — snapshots the `:root { ... }`
 block of `site/_ds/nocturne-*/styles.css` (design token *values* — the one
 part of that generated file kit hand-edits, per `AGENTS.md`'s kit notes

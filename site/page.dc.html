@@ -638,6 +638,27 @@ class Component extends DCLogic {
     this._onScroll();
     this._onHashChange = () => this.handleHashNav();
     window.addEventListener('hashchange', this._onHashChange);
+    // An in-page link (#entry-...) must work even when its target sits in a
+    // collapsed area, and when the hash is already the current one (no
+    // hashchange then). Links with their own handler have already called
+    // preventDefault; a hash with no target here is left to the browser.
+    this._onDocClick = e => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target && e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      let id = '';
+      try { id = decodeURIComponent((a.getAttribute('href') || '').slice(1)); } catch (err) { return; }
+      if (!id) return;
+      const known = !!document.getElementById(id) || !!(this.anchorRegistry && this.anchorRegistry[id]) || !!(this.anchorAliases && this.anchorAliases[id]);
+      if (!known) return;
+      e.preventDefault();
+      if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
+      this.handleHashNav(id);
+    };
+    document.addEventListener('click', this._onDocClick);
+    // A reader who scrolls by hand stops the follow-up alignments of a jump.
+    this._onUserMove = () => { this._navUserMoved = true; };
+    ['wheel', 'touchstart', 'keydown'].forEach(t => window.addEventListener(t, this._onUserMove, { passive: true }));
     if (location.hash) requestAnimationFrame(() => requestAnimationFrame(() => this.handleHashNav()));
   }
   componentWillUnmount() {
@@ -645,6 +666,8 @@ class Component extends DCLogic {
     window.removeEventListener('resize', this._onResize);
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('hashchange', this._onHashChange);
+    document.removeEventListener('click', this._onDocClick);
+    ['wheel', 'touchstart', 'keydown'].forEach(t => window.removeEventListener(t, this._onUserMove));
   }
   toggleLanguage(code, allLangCodes) {
     this.setState(s => {
@@ -881,9 +904,33 @@ class Component extends DCLogic {
   }
   scrollToId(id) {
     const el = document.getElementById(id);
-    if (!el) return;
+    if (!el) return false;
     const top = el.getBoundingClientRect().top + window.scrollY - 70;
     window.scrollTo({ top, behavior: 'smooth' });
+    return true;
+  }
+  // Scrolls to `id` once it is in the DOM: an area just expanded, or a group
+  // that streams in lazily, mounts a few frames after the state change. Then
+  // re-aligns twice while the layout above it settles, unless the reader has
+  // scrolled by hand since the jump started.
+  scrollToWhenReady(id) {
+    const started = Date.now();
+    this._navUserMoved = false;
+    const realign = () => {
+      if (this._navUserMoved) return;
+      const el = document.getElementById(id);
+      if (el && Math.abs(el.getBoundingClientRect().top - 70) > 40) this.scrollToId(id);
+    };
+    const tick = () => {
+      if (this._navUserMoved) return;
+      if (this.scrollToId(id)) {
+        setTimeout(realign, 350);
+        setTimeout(realign, 1000);
+      } else if (Date.now() - started < 4000) {
+        requestAnimationFrame(tick);
+      }
+    };
+    requestAnimationFrame(() => requestAnimationFrame(tick));
   }
   // Group chip on a row shown without its group heading. Goes to the entry's
   // section/group where it is on the page; from a flat view that has no group
@@ -901,13 +948,8 @@ class Component extends DCLogic {
     if (!hash) return;
     if (this.anchorAliases && this.anchorAliases[hash]) hash = this.anchorAliases[hash];
     const reg = this.anchorRegistry && this.anchorRegistry[hash];
-    const doScroll = () => requestAnimationFrame(() => requestAnimationFrame(() => this.scrollToId(hash)));
-    if (reg) {
-      this.setState(s => ({ [reg.expandStateKey]: { ...s[reg.expandStateKey], [reg.parentKey]: true } }));
-      doScroll();
-    } else {
-      doScroll();
-    }
+    if (reg) this.setState(s => ({ [reg.expandStateKey]: { ...s[reg.expandStateKey], [reg.parentKey]: true } }));
+    this.scrollToWhenReady(hash);
   }
   setPathMode(mode) {
     const keepKey = this.findTopVisibleEntryKey();
