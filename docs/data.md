@@ -360,6 +360,9 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
   - By script, not "non-ASCII": accented Latin (é, ñ, ō) is never
     flagged. French or romaji in plain Latin can't be detected, so tag
     those yourself.
+  - A lone Greek letter in an English title (Kingdom Hearts χ) and the
+    katakana middle dot in an English title (I・II・III) are symbols,
+    not text: not flagged.
   - Plain strings can't carry `lang`: write a Japanese part as an
     object span, or a `by` name as an object.
   - It also checks the code fits the script: kana means `ja`, hangul

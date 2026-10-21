@@ -671,7 +671,12 @@ _SPAN_TEXT_KEYS = ("text", "emText", "emLinkText", "abbrTerm", "tipText", "hintT
 _NEUTRAL = {"・", "･"}
 
 
+# A lone Greek letter in an English title is a symbol (Kingdom Hearts χ), not text.
+_LONE_GREEK = re.compile("(?<![Ͱ-Ͽ])[Ͱ-Ͽ](?![Ͱ-Ͽ])")
+
+
 def _scripts_in(text):
+    text = _LONE_GREEK.sub("", text)
     found = set()
     for ch in text:
         if ord(ch) < 0x250 or ch in _NEUTRAL:
