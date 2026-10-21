@@ -67,6 +67,12 @@ and pull via `just sync`.
   - Match the pinned sources filename (`sources/<id>.md`) so anchor and
     sources file line up.
   - Must be unique page-wide; `check-anchors.py` fails a collision.
+- **Language order** is fixed, first match wins:
+  - Voiced languages (`voice: true`), then the native language (`native: true`),
+    then the `langOrder` list (default `['EN']`), then alphabetical by code;
+    the `…?` marker is always last.
+  - So a Japanese-origin game reads `JA, EN, DE, …` and an English-origin one
+    `EN, DE, …` without any setting; `langOrder` is only for an exception.
 - **`by` is an optional credit line** shown between the title and the tags
   line, in the tags line's look. It is a name (`'Charles'`,
   `{ name, url }`) or an array mixing bare names (the default "by" group)
