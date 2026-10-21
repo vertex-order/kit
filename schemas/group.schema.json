@@ -132,8 +132,14 @@
         "emText": { "type": "string" },
         "emLinkText": { "type": "string" },
         "emLinkUrl": { "type": "string" },
-        "emLinkHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `emLinkUrl` opens, set as `hreflang` on the link. Omit when English." },
-        "lang": { "$ref": "#/$defs/LangCode", "description": "Language of this span's text, set as `lang` on the wrapping span, e.g. `{ text: '聖剣伝説', lang: 'ja' }`. Omit for English." },
+        "emLinkHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `emLinkUrl` opens, set as `hreflang` on the link. Omit when English."
+        },
+        "lang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of this span's text, set as `lang` on the wrapping span, e.g. `{ text: '聖剣伝説', lang: 'ja' }`. Omit for English."
+        },
         "abbrTerm": { "type": "string" },
         "abbrDef": { "type": "string" },
         "tipText": { "type": "string" },
@@ -314,7 +320,10 @@
           "description": "Explicit tooltip override, used verbatim with no auto ' — full audio'/' — text only' suffix."
         },
         "url": { "type": "string" },
-        "hreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `url` opens, set as `hreflang` on the link. Omit when English." }
+        "hreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `url` opens, set as `hreflang` on the link. Omit when English."
+        }
       },
       "required": ["value"],
       "additionalProperties": false
@@ -334,7 +343,10 @@
           "type": ["string", "null"],
           "description": "Where to get, read or play this format: an international storefront page (never a regional retailer), English first. Unset falls back to the enclosing release/version's own `platformsUrl` if it has one. Not the official page (that is `profileUrl`), though one page may serve as both."
         },
-        "hreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `url` opens (a search row's computed url included), set as `hreflang` on the icon link. Omit when English." },
+        "hreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `url` opens (a search row's computed url included), set as `hreflang` on the icon link. Omit when English."
+        },
         "name": {
           "type": "string",
           "description": "Full override of the displayed label, bypassing the catalog base-label + paren composition -- only legitimate on a key platform-icons.js flags `nameOverride: true` for (a categorically different medium word `paren` can't produce, e.g. `book`'s 'Manga'/'Short Stories', since `paren` only ever appends). scripts/validate-data.py fails a `name` on any other key -- use `paren` instead."
@@ -459,8 +471,14 @@
           "description": "The default search words for every search-computed platform row of this entry (inherited by its primary, alts and their versions) (a row can still set its own searchTitle). Defaults to its own title (a version or alt with a title of its own searches by that title, not its parent's override). Not displayed."
         },
         "titleUrl": { "type": ["string", "null"] },
-        "titleLang": { "$ref": "#/$defs/LangCode", "description": "Language of the title text, a BCP 47 tag (`ja`, `ja-Latn` for romaji, `fr`). Set on the `lang` of the title text so screen readers, fonts and translators handle it. Omit for English." },
-        "titleHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `titleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when it is the page language (English)." },
+        "titleLang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the title text, a BCP 47 tag (`ja`, `ja-Latn` for romaji, `fr`). Set on the `lang` of the title text so screen readers, fonts and translators handle it. Omit for English."
+        },
+        "titleHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `titleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when it is the page language (English)."
+        },
         "titleDate": { "$ref": "#/$defs/DateValue" },
         "releaseOrderDate": {
           "allOf": [{ "$ref": "#/$defs/DateValue" }],
@@ -513,8 +531,14 @@
           "type": "string",
           "description": "One link for the part, on its title (the same field as an entry's titleUrl, so promoting a part is a move). It is for finding or identifying this part, not for reading about it: prefer a page that lists the editions and their ISBNs (a Goodreads book page), then another edition or official page. Unset, the title links to a search built from the release's own book search row (its search title plus this part's searchTitle, else its title), with the query in the tooltip; no book search row, no link."
         },
-        "titleLang": { "$ref": "#/$defs/LangCode", "description": "Language of the part's title text, a BCP 47 tag, set as `lang` on it. Omit for English." },
-        "titleHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `titleUrl` opens, set as `hreflang` on the link. Omit when English." },
+        "titleLang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the part's title text, a BCP 47 tag, set as `lang` on it. Omit for English."
+        },
+        "titleHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `titleUrl` opens, set as `hreflang` on the link. Omit when English."
+        },
         "searchTitle": {
           "type": "string",
           "description": "The part-specific search words, added to the release's search title for the fallback link (and for any platform row's search on this part). Not displayed. Defaults to the part's title."
@@ -568,13 +592,25 @@
           "description": "The default search words for every search-computed platform row of this version (a row can still set its own searchTitle). Defaults to its own title (a version or alt with a title of its own searches by that title, not its parent's override). Not displayed."
         },
         "titleUrl": { "type": ["string", "null"] },
-        "titleLang": { "$ref": "#/$defs/LangCode", "description": "Language of the title text, a BCP 47 tag (`ja`, `ja-Latn` for romaji, `fr`). Set on the `lang` of the title text so screen readers, fonts and translators handle it. Omit for English." },
-        "titleHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `titleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when it is the page language (English)." },
+        "titleLang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the title text, a BCP 47 tag (`ja`, `ja-Latn` for romaji, `fr`). Set on the `lang` of the title text so screen readers, fonts and translators handle it. Omit for English."
+        },
+        "titleHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `titleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when it is the page language (English)."
+        },
         "titleDate": { "$ref": "#/$defs/DateValue" },
         "subtitle": { "type": "string" },
         "subtitleUrl": { "type": ["string", "null"] },
-        "subtitleLang": { "$ref": "#/$defs/LangCode", "description": "Language of the subtitle text, a BCP 47 tag. Omit for English." },
-        "subtitleHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `subtitleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when English." },
+        "subtitleLang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the subtitle text, a BCP 47 tag. Omit for English."
+        },
+        "subtitleHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `subtitleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when English."
+        },
         "subtitleDate": { "$ref": "#/$defs/DateValue" },
         "pinned": {
           "type": "boolean",
@@ -620,7 +656,10 @@
           "type": "string",
           "description": "The official page for this release (publisher, developer or franchise site: a promo, catalog or store page), shown as a \"Profile ↗\" link next to the Platforms label. \"What is the official page for this\" -- not where to get it (that is a platform `url`), and never a third-party page. See docs/data.md, \"Profile link and platform links\"."
         },
-        "profileHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `profileUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when English." },
+        "profileHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `profileUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when English."
+        },
         "languages": {
           "type": "array",
           "items": { "$ref": "#/$defs/LanguageItem" }
@@ -657,13 +696,25 @@
           "description": "The default search words for every search-computed platform row of this release (a row can still set its own searchTitle). Defaults to its own title (a version or alt with a title of its own searches by that title, not its parent's override). Not displayed."
         },
         "titleUrl": { "type": ["string", "null"] },
-        "titleLang": { "$ref": "#/$defs/LangCode", "description": "Language of the title text, a BCP 47 tag (`ja`, `ja-Latn` for romaji, `fr`). Set on the `lang` of the title text so screen readers, fonts and translators handle it. Omit for English." },
-        "titleHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `titleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when it is the page language (English)." },
+        "titleLang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the title text, a BCP 47 tag (`ja`, `ja-Latn` for romaji, `fr`). Set on the `lang` of the title text so screen readers, fonts and translators handle it. Omit for English."
+        },
+        "titleHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `titleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when it is the page language (English)."
+        },
         "titleDate": { "$ref": "#/$defs/DateValue" },
         "subtitle": { "type": "string" },
         "subtitleUrl": { "type": ["string", "null"] },
-        "subtitleLang": { "$ref": "#/$defs/LangCode", "description": "Language of the subtitle text, a BCP 47 tag. Omit for English." },
-        "subtitleHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `subtitleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when English." },
+        "subtitleLang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the subtitle text, a BCP 47 tag. Omit for English."
+        },
+        "subtitleHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `subtitleUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when English."
+        },
         "subtitleDate": { "$ref": "#/$defs/DateValue" },
         "id": {
           "type": "string",
@@ -705,7 +756,10 @@
           "type": "string",
           "description": "The official page for this release (publisher, developer or franchise site: a promo, catalog or store page), shown as a \"Profile ↗\" link next to the Platforms label. \"What is the official page for this\" -- not where to get it (that is a platform `url`), and never a third-party page. See docs/data.md, \"Profile link and platform links\"."
         },
-        "profileHreflang": { "$ref": "#/$defs/LangCode", "description": "Language of the page `profileUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when English." },
+        "profileHreflang": {
+          "$ref": "#/$defs/LangCode",
+          "description": "Language of the page `profileUrl` opens, a BCP 47 tag, set as `hreflang` on the link. Omit when English."
+        },
         "languages": {
           "type": "array",
           "items": { "$ref": "#/$defs/LanguageItem" }
