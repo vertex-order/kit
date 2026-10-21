@@ -150,6 +150,14 @@ and pull via `just sync`.
       if it is before that end; otherwise the end alone.
     - No serialization dates: first to last volume.
     - Only an omnibus: its date.
+  - Limited releases count, like a Japan-first launch: a release in some
+    regions or on some platforms that runs for months with real players
+    (an "early access" in three countries for a year, a regional launch
+    three months ahead) is a release; use its date.
+    - A short test does not count: a soft launch of a few weeks, with
+    wipes or an unfinished build, is closer to a premiere.
+    - Say in sources which regions or platforms came first, and the
+    later wide-release date.
   - Translation dates stay in `sources/`, unstarred.
 - **Same-day ties:** add a trailing order number (`2011-12-15 10`) only when
   entries in the same series share a date. Otherwise leave it off.
