@@ -910,22 +910,22 @@ class Component extends DCLogic {
     return true;
   }
   // Jumps to `id`: opens the area it sits in (never toggles: an area that is
-  // already open stays open), then scrolls once it is in the DOM. Runs from
-  // frame to frame because on a page load the groups may not be there yet:
-  // the data files load after the first mount, so the anchor registry is
-  // still empty on the first frames, and a lazily streamed group mounts a
-  // few frames after its state changes. Waits as long as the data is still
-  // loading (up to 30 s); once it is loaded, gives an unknown anchor 4 s.
-  // After the scroll it re-aligns twice while the layout above settles,
-  // unless the reader has scrolled by hand since the jump started.
+  // already open stays open), waits for the target to mount and for the
+  // layout above it to stop moving, then scrolls once. Runs from frame to
+  // frame because on a page load the groups may not be there yet: the data
+  // files load after the first mount, so the anchor registry is still empty
+  // on the first frames, and a lazily streamed group mounts a few frames
+  // after its state changes. Waits as long as the data is still loading (up
+  // to 30 s); once it is loaded, gives an unknown anchor 4 s. A target that
+  // was already on the page (a link click) scrolls after a couple of frames;
+  // one that had to mount waits ~10 still frames, and at most 3 s, for the
+  // position to settle. A reader who scrolls by hand cancels the jump.
   scrollToWhenReady(id) {
     const started = Date.now();
     this._navUserMoved = false;
-    const realign = (real) => {
-      if (this._navUserMoved) return;
-      const el = document.getElementById(real);
-      if (el && Math.abs(el.getBoundingClientRect().top - 70) > 40) this.scrollToId(real);
-    };
+    const alreadyThere = !!document.getElementById((this.anchorAliases && this.anchorAliases[id]) || id);
+    const needStill = alreadyThere ? 2 : 10;
+    let seenAt = 0, lastPos = null, still = 0;
     const tick = () => {
       if (this._navUserMoved) return;
       const real = (this.anchorAliases && this.anchorAliases[id]) || id;
@@ -933,9 +933,14 @@ class Component extends DCLogic {
       if (reg && !(this.state[reg.expandStateKey] || {})[reg.parentKey]) {
         this.setState(s => ({ [reg.expandStateKey]: { ...s[reg.expandStateKey], [reg.parentKey]: true } }));
       }
-      if (this.scrollToId(real)) {
-        setTimeout(() => realign(real), 350);
-        setTimeout(() => realign(real), 1000);
+      const el = document.getElementById(real);
+      if (el) {
+        if (!seenAt) seenAt = Date.now();
+        const pos = Math.round(el.getBoundingClientRect().top + window.scrollY) + ':' + document.documentElement.scrollHeight;
+        still = pos === lastPos ? still + 1 : 0;
+        lastPos = pos;
+        if (still >= needStill || Date.now() - seenAt > 3000) { this.scrollToId(real); return; }
+        requestAnimationFrame(tick);
         return;
       }
       const dataReady = !!(this.state.rawGroups && this.state.rawGroups.length);

@@ -140,6 +140,7 @@ async function main() {
     const there = await until(() => !!loaded.window.document.getElementById(loadTarget), 12000);
     if (!there) fail('page.dc.html loaded with #' + loadTarget + ' never opened the area it sits in');
     else if (!(await until(() => loadScrolls > 0, 3000))) fail('page.dc.html loaded with #' + loadTarget + ' never scrolled to it');
+    else { await sleep(1800); if (loadScrolls !== 1) fail('page.dc.html loaded with #' + loadTarget + ' scrolled ' + loadScrolls + ' times, not once'); }
     loaded.window.close();
   }
 
