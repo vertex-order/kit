@@ -37,6 +37,7 @@ window.LANGUAGE_NAMES = {
   PL: 'Polish',
   AR: 'Arabic',
   ID: 'Indonesian',
+  TR: 'Turkish',
   HI: 'Hindi',
   HU: 'Hungarian',
   CS: 'Czech',
