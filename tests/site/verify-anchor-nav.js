@@ -26,6 +26,16 @@ const { SSR_ORIGIN, bootDom, waitForStableElement } = require('../../scripts/ssr
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Polls `cond` until it holds or `ms` pass (a big page takes a while to render).
+async function until(cond, ms) {
+  const end = Date.now() + ms;
+  while (Date.now() < end) {
+    if (cond()) return true;
+    await sleep(40);
+  }
+  return cond();
+}
+
 function fail(message) {
   console.error('[verify-anchor-nav] FAIL: ' + message);
   process.exitCode = 1;
@@ -77,10 +87,9 @@ async function main() {
     scrolls = [];
     window.history.pushState(null, '', '#' + id);
     window.dispatchEvent(new window.HashChangeEvent('hashchange'));
-    await sleep(150);
-    if (!probe(id)) hidden.push(id);
+    if (!(await until(() => probe(id), 4000))) hidden.push(id);
     else opened++;
-    if (!scrolls.length) fail('no scroll requested for #' + id);
+    if (!(await until(() => scrolls.length > 0, 2000))) fail('no scroll requested for #' + id);
   }
   if (hidden.length) fail(hidden.length + ' anchor(s) still hidden after a hashchange: ' + hidden.slice(0, 5).join(', '));
 
@@ -96,10 +105,9 @@ async function main() {
   scrolls = [];
   const ev = new window.MouseEvent('click', { bubbles: true, cancelable: true, button: 0 });
   link.dispatchEvent(ev);
-  await sleep(150);
   if (!ev.defaultPrevented) fail('a click on <a href="#' + target + '"> was not handled by the page');
-  if (!probe(target)) fail('#' + target + ' is not visible after clicking its link');
-  if (!scrolls.length) fail('no scroll requested after clicking the link to #' + target);
+  if (!(await until(() => probe(target), 4000))) fail('#' + target + ' is not visible after clicking its link');
+  if (!(await until(() => scrolls.length > 0, 2000))) fail('no scroll requested after clicking the link to #' + target);
 
   // 3. back button
   if (collapsed.length > 1) {
@@ -113,8 +121,7 @@ async function main() {
     await sleep(100);
     scrolls = [];
     window.history.back();
-    await sleep(300);
-    if (!probe(a)) fail('after back, #' + a + ' is not visible');
+    if (!(await until(() => probe(a), 4000))) fail('after back, #' + a + ' is not visible');
   }
 
   window.close();
