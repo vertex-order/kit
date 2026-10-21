@@ -664,7 +664,16 @@ _NON_LATIN_LANGS = set().union(*_SCRIPT_LANGS.values())
 
 # Fields whose text is a span's displayed text (the span's `tip` and
 # `abbrDef` tooltips ride on the same `lang`).
-_SPAN_TEXT_KEYS = ("text", "emText", "emLinkText", "abbrTerm", "tipText", "hintText", "tip", "abbrDef")
+_SPAN_TEXT_KEYS = (
+    "text",
+    "emText",
+    "emLinkText",
+    "abbrTerm",
+    "tipText",
+    "hintText",
+    "tip",
+    "abbrDef",
+)
 
 
 # Punctuation that English titles borrow (Final Fantasy I・II・III): not text.
@@ -698,10 +707,16 @@ def _lang_problem(text, lang):
     primary = lang.split("-")[0].lower()
     latn = any(part.lower() == "latn" for part in lang.split("-")[1:])
     if latn:
-        return f"lang {lang!r} says romanized but the text has {'/'.join(sorted(scripts))} characters" if scripts else None
+        return (
+            f"lang {lang!r} says romanized but the text has {'/'.join(sorted(scripts))} characters"
+            if scripts
+            else None
+        )
     if not scripts:
         if primary in _NON_LATIN_LANGS:
-            return f"Latin-only text under lang {lang!r}: romanization is {primary}-Latn"
+            return (
+                f"Latin-only text under lang {lang!r}: romanization is {primary}-Latn"
+            )
         return None
     if "kana" in scripts:
         want = _SCRIPT_LANGS["kana"]
@@ -729,7 +744,13 @@ def check_lang_coverage(instance):
     def untaggable(path, text):
         # A bare string with no way to carry a `lang`.
         if isinstance(text, str) and _scripts_in(text):
-            out.append((path, text, "non-Latin text in a plain string: use the object form with lang"))
+            out.append(
+                (
+                    path,
+                    text,
+                    "non-Latin text in a plain string: use the object form with lang",
+                )
+            )
 
     def span(path, s):
         if isinstance(s, str):
@@ -789,13 +810,32 @@ def check_lang_coverage(instance):
         if "length" in node:
             length(f"{path}.length", node["length"])
         if "ratings" in node:
-            items(f"{path}.ratings", node["ratings"], ("score", "label", "abbrTerm", "abbrDef"))
+            items(
+                f"{path}.ratings",
+                node["ratings"],
+                ("score", "label", "abbrTerm", "abbrDef"),
+            )
         if "platforms" in node:
-            items(f"{path}.platforms", node["platforms"], ("name", "paren", "prefix", "suffix", "text"))
+            items(
+                f"{path}.platforms",
+                node["platforms"],
+                ("name", "paren", "prefix", "suffix", "text"),
+            )
         if "languages" in node:
             items(f"{path}.languages", node["languages"], ("tip",))
         for key, value in node.items():
-            if key in ("tags", "by", "mediaDesc", "versionDesc", "note", "length", "ratings", "platforms", "languages", "searchTitle"):
+            if key in (
+                "tags",
+                "by",
+                "mediaDesc",
+                "versionDesc",
+                "note",
+                "length",
+                "ratings",
+                "platforms",
+                "languages",
+                "searchTitle",
+            ):
                 continue
             if isinstance(value, (dict, list)):
                 walk(f"{path}.{key}", value)
