@@ -125,11 +125,29 @@ async function main() {
   }
 
   window.close();
+
+  // 4. a page load with the hash, on the page as the source file ships it
+  // (no prerendered snapshot): the data files load after the first mount, so
+  // the anchor registry is empty at first and the jump has to wait for it.
+  const siteDir = path.resolve(buildDir, '..', 'site');
+  const sitePage = path.join(siteDir, 'page.dc.html');
+  if (fs.existsSync(sitePage)) {
+    const loadTarget = collapsed[0];
+    const loaded = bootDom(fs.readFileSync(sitePage, 'utf8'), { url: SSR_ORIGIN + '/page.dc.html#' + loadTarget, buildDir: siteDir });
+    let loadScrolls = 0;
+    loaded.window.scrollTo = () => { loadScrolls++; };
+    await waitForStableElement(loaded.window, 'dc-root');
+    const there = await until(() => !!loaded.window.document.getElementById(loadTarget), 12000);
+    if (!there) fail('page.dc.html loaded with #' + loadTarget + ' never opened the area it sits in');
+    else if (!(await until(() => loadScrolls > 0, 3000))) fail('page.dc.html loaded with #' + loadTarget + ' never scrolled to it');
+    loaded.window.close();
+  }
+
   if (process.exitCode) {
     console.error('[verify-anchor-nav] ' + entryFile + ' failed.');
     process.exit(1);
   }
-  console.log('[verify-anchor-nav] ' + entryFile + ': ' + opened + ' collapsed anchor(s) opened and scrolled to; link click and back button work.');
+  console.log('[verify-anchor-nav] ' + entryFile + ': ' + opened + ' collapsed anchor(s) opened and scrolled to; link click, back button and a page load with the hash work.');
 }
 
 main().catch((err) => {

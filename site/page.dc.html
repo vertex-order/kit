@@ -909,26 +909,37 @@ class Component extends DCLogic {
     window.scrollTo({ top, behavior: 'smooth' });
     return true;
   }
-  // Scrolls to `id` once it is in the DOM: an area just expanded, or a group
-  // that streams in lazily, mounts a few frames after the state change. Then
-  // re-aligns twice while the layout above it settles, unless the reader has
-  // scrolled by hand since the jump started.
+  // Jumps to `id`: opens the area it sits in (never toggles: an area that is
+  // already open stays open), then scrolls once it is in the DOM. Runs from
+  // frame to frame because on a page load the groups may not be there yet:
+  // the data files load after the first mount, so the anchor registry is
+  // still empty on the first frames, and a lazily streamed group mounts a
+  // few frames after its state changes. Waits as long as the data is still
+  // loading (up to 30 s); once it is loaded, gives an unknown anchor 4 s.
+  // After the scroll it re-aligns twice while the layout above settles,
+  // unless the reader has scrolled by hand since the jump started.
   scrollToWhenReady(id) {
     const started = Date.now();
     this._navUserMoved = false;
-    const realign = () => {
+    const realign = (real) => {
       if (this._navUserMoved) return;
-      const el = document.getElementById(id);
-      if (el && Math.abs(el.getBoundingClientRect().top - 70) > 40) this.scrollToId(id);
+      const el = document.getElementById(real);
+      if (el && Math.abs(el.getBoundingClientRect().top - 70) > 40) this.scrollToId(real);
     };
     const tick = () => {
       if (this._navUserMoved) return;
-      if (this.scrollToId(id)) {
-        setTimeout(realign, 350);
-        setTimeout(realign, 1000);
-      } else if (Date.now() - started < 4000) {
-        requestAnimationFrame(tick);
+      const real = (this.anchorAliases && this.anchorAliases[id]) || id;
+      const reg = this.anchorRegistry && this.anchorRegistry[real];
+      if (reg && !(this.state[reg.expandStateKey] || {})[reg.parentKey]) {
+        this.setState(s => ({ [reg.expandStateKey]: { ...s[reg.expandStateKey], [reg.parentKey]: true } }));
       }
+      if (this.scrollToId(real)) {
+        setTimeout(() => realign(real), 350);
+        setTimeout(() => realign(real), 1000);
+        return;
+      }
+      const dataReady = !!(this.state.rawGroups && this.state.rawGroups.length);
+      if (Date.now() - started < (dataReady ? 4000 : 30000)) requestAnimationFrame(tick);
     };
     requestAnimationFrame(() => requestAnimationFrame(tick));
   }
@@ -947,8 +958,6 @@ class Component extends DCLogic {
     hash = (hash || location.hash || '').replace('#', '');
     if (!hash) return;
     if (this.anchorAliases && this.anchorAliases[hash]) hash = this.anchorAliases[hash];
-    const reg = this.anchorRegistry && this.anchorRegistry[hash];
-    if (reg) this.setState(s => ({ [reg.expandStateKey]: { ...s[reg.expandStateKey], [reg.parentKey]: true } }));
     this.scrollToWhenReady(hash);
   }
   setPathMode(mode) {
