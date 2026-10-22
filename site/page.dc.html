@@ -747,14 +747,12 @@ class Component extends DCLogic {
   // canonical PLATFORM_ICONS record (icon path/size/style/jpTag/...) — the
   // entry states only what's entry-specific: url, whatever it overrides,
   // and its own naming of what this specific release actually supports.
-  // The master's `name` is a catalog of every variant that platform has
-  // ever meant (e.g. Xbox One's "Physical; Digital; Enhanced; ..."), never
-  // a default, so an entry never inherits it whole. What IS a safe default
-  // is the base label before that catalog's trailing "(...)" (e.g. "Xbox
-  // One") — an entry states only `paren` (the part in parens that's true
-  // for it specifically) to get "<base> (<paren>)", nothing for just the
-  // bare base label, or a full `name` override for a label that isn't
-  // "<base> (<something>)" shaped at all (e.g. a book's "Short Stories") --
+  // The master's `name` is the platform's full label (e.g. "Xbox One", or
+  // "Amazon Appstore (Fire OS + legacy Android)"), used as is, never
+  // stripped. An entry states only `paren` (the part true for it
+  // specifically), appended as a further parenthetical: "<name> (<paren>)",
+  // nothing for just the name, or a full `name` override (replacing the
+  // whole label) for a label that isn't "<name> (<something>)" shaped at all (e.g. a book's "Short Stories") --
   // only legitimate on a key platform-icons.js flags `nameOverride: true`
   // for; scripts/validate-data.py enforces that, not this renderer.
   //
@@ -787,8 +785,10 @@ class Component extends DCLogic {
     const base = master.get(src.key);
     if (!base) return src;
     const merged = { ...base, ...src };
-    const baseName = src.name !== undefined ? src.name : base.name.replace(/\s*\([^()]*\)\s*$/, '');
-    merged.name = src.paren ? `${baseName} (${src.paren})` : baseName;
+    // A row's own `suffix` adds to the catalog's (apple-ipad's "iPad" + a row's "portal"), never replaces it.
+    if (base.suffix && src.suffix) merged.suffix = base.suffix + ' ' + src.suffix;
+    const baseName = src.name !== undefined ? src.name : base.name;
+    merged.name = baseName + (src.paren ? ` (${src.paren})` : '');
     if (src.jpTag) merged.name += ' (Japan Only)';
     else if (src.nonJpTag) merged.name += ' (Non-Japan Only)';
     if (src.terminated) merged.name += '; terminated';
