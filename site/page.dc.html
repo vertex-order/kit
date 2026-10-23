@@ -598,7 +598,7 @@ class Component extends DCLogic {
     };
     reader.readAsText(file);
   }
-  state = { expandedVersions: {}, expandedContents: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'narrative', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
+  state = { expandedVersions: {}, expandedContents: {}, expandedMoreParts: {}, status: (() => { const s = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Status') || 'null'); if (s) return s; const legacyChecked = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'Checked') || '{}'); const out = {}; Object.keys(legacyChecked).forEach(k => { if (legacyChecked[k]) out[k] = 'checked'; }); return out; })(), pathMode: localStorage.getItem(STORAGE_PREFIX + 'Path') || 'narrative', theme: localStorage.getItem(STORAGE_PREFIX + 'Theme') || null, systemLight: typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: light)').matches, scrolled: false, activeAnchor: '', selectedLanguages: localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs') ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'SelectedLangs')) : null, langMenuOpen: false, showRating: localStorage.getItem(STORAGE_PREFIX + 'ShowRating') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowRating')) : null, showLength: localStorage.getItem(STORAGE_PREFIX + 'ShowLength') !== null ? JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLength')) : null, showPlatforms: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowPlatforms') || 'true'), showLanguages: JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'ShowLanguages') || 'true'), navWidth: typeof window !== 'undefined' ? window.innerWidth : 1920 };
   groupEls = {};
   // The language order after voiced and native: site.js `langOrder`, else EN first.
   langOrderDefault = (SITE.langOrder && SITE.langOrder.length) ? SITE.langOrder : ['EN'];
@@ -887,6 +887,12 @@ class Component extends DCLogic {
   toggleContents(anchorId) {
     this.setState(s => ({ expandedContents: { ...s.expandedContents, [anchorId]: !s.expandedContents[anchorId] } }));
   }
+  // A contents[] part's `more: true` platform rows stay hidden behind a "+N"
+  // chip until it is clicked. Keyed by the release's anchorId + the part's
+  // array index.
+  toggleMoreParts(key) {
+    this.setState(s => ({ expandedMoreParts: { ...s.expandedMoreParts, [key]: !s.expandedMoreParts[key] } }));
+  }
   buildPilcrow(anchorId) {
     return {
       anchorId,
@@ -1169,7 +1175,7 @@ class Component extends DCLogic {
     // as 'a-b') and the counter moves past the whole run. Array order is the
     // display order in narrative and chrono modes (see below). The date (the titleDate grammar) is
     // appended in parentheses, same look as an entry title's date.
-    const buildContentsLines = (contents, release, relSearch) => {
+    const buildContentsLines = (contents, release, relSearch, anchorId) => {
       let next = 1;
       // A part with no `titleUrl` links to a search built from the release's
       // own `book` search row: its search title (else the release's computed
@@ -1210,6 +1216,11 @@ class Component extends DCLogic {
         const searchHref = (!it.titleUrl && bk)
           ? this.searchUrl(bk.search, query, bk.searchQualifier || '', bk.searchSuffix !== undefined ? bk.searchSuffix : '')
           : null;
+        const allPlats = (it.platforms || []).map(pl => { const r = this.resolvePl(pl, query); return { ...r, href: r.url, _more: !!pl.more }; });
+        const morePlats = allPlats.filter(p => p._more);
+        const moreKey = anchorId + ':' + idx;
+        const moreOpen = !!this.state.expandedMoreParts[moreKey];
+        const toggleMore = () => this.toggleMoreParts(moreKey);
         return {
           label,
           title: it.title,
@@ -1220,7 +1231,13 @@ class Component extends DCLogic {
           hrefTip: it.titleUrl ? '' : 'Search: ' + query,
           linkDecor: it.titleUrl ? 'solid' : 'dotted',
           dateSegments: it.titleDate !== undefined && it.titleDate !== null ? withSortedAs(buildDateSegments(it.titleDate), it) : [],
-          platforms: (it.platforms || []).map(pl => { const r = this.resolvePl(pl, query); return { ...r, href: r.url }; }),
+          platforms: moreOpen ? allPlats : allPlats.filter(p => !p._more),
+          moreCount: morePlats.length,
+          moreLabel: moreOpen ? '−' : '+' + morePlats.length,
+          moreTip: moreOpen ? 'Hide the additional platforms' : 'Also on: ' + morePlats.map(p => p.name).join(', '),
+          moreExpanded: moreOpen ? 'true' : 'false',
+          toggleMore,
+          toggleMoreKey: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMore(); } },
           _idx: idx,
           _key: sortKey,
         };
@@ -1533,7 +1550,7 @@ class Component extends DCLogic {
             extraExpanded: !!this.state.expandedVersions[anchorId],
             extraChevron: this.state.expandedVersions[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',
             toggleExtra: () => this.toggleVersions(anchorId),
-            contentsLines: release.contents ? buildContentsLines(release.contents, release, relSearch) : null,
+            contentsLines: release.contents ? buildContentsLines(release.contents, release, relSearch, anchorId) : null,
             contentsLabel: release.contentsLabel || 'volumes',
             contentsExpanded: !!this.state.expandedContents[anchorId],
             contentsChevron: this.state.expandedContents[anchorId] ? 'rotate(180deg)' : 'rotate(0deg)',

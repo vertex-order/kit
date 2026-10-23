@@ -108,7 +108,7 @@ window.__wwGroupReg['EXT'] = { num: 'EXT', chronoOrder: 900, narrativeOrder: 900
   { mediaType: 'Game', chronoOrder: 970, narrativeOrder: 970,
     title: 'Wyrmwatch: Hatchling Spin-offs', titleUrl: 'https://example.com/wiki/Hatchling_Spin-offs', titleDate: { start: '2012', end: '2019' },
     mediaDesc: [
-      ['A run of small spin-off games starring the wyrm hatchlings, rolled into one entry. Demonstrates `contentsLabel` (the toggle bar says games), per-mode part order (Mines first in Narrative, Ember Cup first in Chronological, Mines by its earlier `releaseOrderDate` in Release) and `opensContents` (clicking the Steam icon opens the games list, where the store links are).'],
+      ['A run of small spin-off games starring the wyrm hatchlings, rolled into one entry. Demonstrates `more: true` platform rows on a part (a "+N" chip after the icons whose tooltip names the hidden platforms and whose click shows them in place: two extra on Dash 2, one on Mines, three on Ember Cup, mixing a tagged and a struck row), `contentsLabel` (the toggle bar says games), per-mode part order (Mines first in Narrative, Ember Cup first in Chronological, Mines by its earlier `releaseOrderDate` in Release) and `opensContents` (clicking the Steam icon opens the games list, where the store links are).'],
     ],
     primary: { tags: ['Spin-off', 'Series'],
       subtitle: 'Series',
@@ -116,9 +116,9 @@ window.__wwGroupReg['EXT'] = { num: 'EXT', chronoOrder: 900, narrativeOrder: 900
       contentsLabel: 'games',
       contents: [
         { title: 'Hatchling Dash', titleDate: '2012', narrativeOrder: 20, chronoOrder: 20, platforms: [{ key: 'steam', url: 'https://example.com/store/hatchling-dash' }] },
-        { title: 'Hatchling Dash 2', titleDate: '2014', narrativeOrder: 30, chronoOrder: 30, platforms: [{ key: 'steam' }, { key: 'nintendo-switch' }] },
-        { title: 'Hatchling Mines', titleDate: '2015', releaseOrderDate: '2011', narrativeOrder: 10, chronoOrder: 10, titleUrl: 'https://example.com/wiki/Hatchling_Mines', platforms: [{ key: 'steam' }] },
-        { title: 'Hatchling Dash: Ember Cup', titleDate: '2019', narrativeOrder: 40, chronoOrder: 5, platforms: [{ key: 'steam' }, { key: 'nintendo-switch', paren: 'Digital' }] },
+        { title: 'Hatchling Dash 2', titleDate: '2014', narrativeOrder: 30, chronoOrder: 30, platforms: [{ key: 'steam' }, { key: 'nintendo-switch', more: true }, { key: 'playstation5', more: true }] },
+        { title: 'Hatchling Mines', titleDate: '2015', releaseOrderDate: '2011', narrativeOrder: 10, chronoOrder: 10, titleUrl: 'https://example.com/wiki/Hatchling_Mines', platforms: [{ key: 'steam' }, { key: 'nintendo-switch', paren: 'Re-release', more: true }] },
+        { title: 'Hatchling Dash: Ember Cup', titleDate: '2019', narrativeOrder: 40, chronoOrder: 5, platforms: [{ key: 'steam' }, { key: 'nintendo-switch', paren: 'Digital' }, { key: 'xbox-one', more: true }, { key: 'playstation4', paren: 'Digital', jpTag: true, more: true }, { key: 'windows', terminated: true, more: true }] },
       ],
       languages: [{ value: 'EN', native: true }],
       platforms: [{ key: 'steam', paren: 'PC; Digital', opensContents: true }],

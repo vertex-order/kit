@@ -188,6 +188,7 @@
               <sc-for list="{{ cl.platforms }}" as="pl" hint-placeholder-count="1">
 <dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" lang="{{ pl.lang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
               </sc-for>
+              <sc-if value="{{ cl.moreCount }}" hint-placeholder-val="{{ false }}"><span role="button" tabIndex="0" aria-expanded="{{ cl.moreExpanded }}" title="{{ cl.moreTip }}" onClick="{{ cl.toggleMore }}" onKeyDown="{{ cl.toggleMoreKey }}" style="cursor: pointer; font-size: 10.8px; line-height: 1; padding: 2px 4px; border: 1px solid var(--color-neutral-700); border-radius: var(--radius-md); color: var(--color-neutral-400);" style-hover="color: var(--color-accent-300); border-color: var(--color-accent-700);">{{ cl.moreLabel }}</span></sc-if>
             </span></sc-if></span>
         </span>
       </sc-for>
@@ -392,6 +393,7 @@
               <sc-for list="{{ cl.platforms }}" as="pl" hint-placeholder-count="1">
 <dc-import name="PlatformIcon" href="{{ pl.href }}" hreflang="{{ pl.hreflang }}" lang="{{ pl.lang }}" item-name="{{ pl.name }}" prefix="{{ pl.prefix }}" icon-img="{{ pl.iconImg }}" icon="{{ pl.icon }}" icon-size="{{ pl.iconSize }}" img-style="{{ pl.imgStyle }}" text="{{ pl.text }}" suffix="{{ pl.suffix }}" jp-tag="{{ pl.jpTag }}" non-jp-tag="{{ pl.nonJpTag }}" terminated="{{ pl.terminated }}" no-results="{{ pl.noResults }}" strike-color="{{ pl.strikeColor }}" hint-size="auto,20px" style="display: flex;"></dc-import>
               </sc-for>
+              <sc-if value="{{ cl.moreCount }}" hint-placeholder-val="{{ false }}"><span role="button" tabIndex="0" aria-expanded="{{ cl.moreExpanded }}" title="{{ cl.moreTip }}" onClick="{{ cl.toggleMore }}" onKeyDown="{{ cl.toggleMoreKey }}" style="cursor: pointer; font-size: 10.8px; line-height: 1; padding: 2px 4px; border: 1px solid var(--color-neutral-700); border-radius: var(--radius-md); color: var(--color-neutral-400);" style-hover="color: var(--color-accent-300); border-color: var(--color-accent-700);">{{ cl.moreLabel }}</span></sc-if>
             </span></sc-if></span>
         </span>
       </sc-for>

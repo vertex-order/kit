@@ -676,8 +676,14 @@ How many entries a body of work gets (labelling is docs/subtitle.md).
         Not displayed.
       - `platforms`: bare icons after the date, no header. For games.
         - Soft guidance: where it came out, the main one or two; no
-          backward-compatible ones, no `book` icon, no fan rows (recap,
-          movie, playthrough). Fan translation and audio case by case.
+          `book` icon, no fan rows (recap, movie, playthrough). Fan
+          translation and audio case by case.
+        - Keep the compact line to the original platform(s). Later ports,
+          re-releases and backward-compatible rows get `more: true`: they
+          hide behind a "+N" chip after the icons, whose tooltip names
+          them and whose click shows them in place.
+          - At least one row of a part has no `more`, and `more` is only
+            for a part's platforms; `validate-data.py` fails both.
     - `opensContents: true` on a platform of that release (any icon):
       clicking it toggles the list open or closed. Use it when the places
       to get the parts are the links in the list, so the platform row

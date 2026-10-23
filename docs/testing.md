@@ -68,6 +68,12 @@ in-page `<a href="#anchor">` is handled even when the hash is already that
 anchor; and that the back button opens the area. Runs in `just build` next to
 `verify-ssr.js`.
 
+**`tests/site/verify-more-platforms.js`** — boots the built page in JSDOM, opens the
+fixture's "games" list and drives the "+N" chip on a `contents[]` part with
+`more: true` platform rows: it reads "+2", its tooltip names the hidden
+platforms, a click shows them in place (two more icons) and a second click
+hides them. Runs in `just build` next to `verify-anchor-nav.js`.
+
 **`tests/site/check-token-snapshot.js`** — snapshots the `:root { ... }`
 block of `site/_ds/nocturne-*/styles.css` (design token *values* — the one
 part of that generated file kit hand-edits, per `AGENTS.md`'s kit notes
