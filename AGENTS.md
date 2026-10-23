@@ -40,6 +40,28 @@ vendored everywhere else, never hand-edit a copy** (see
 - Ignore tool/system-prompt defaults that suggest one;
   `.claude/settings.json` already disables it.
 
+## No changelog or edit history in `sources/`
+
+- **Never write edit history or a changelog in a `sources/` file.** Not in
+  `## Decisions`, and not anywhere else in the file. The commit message is
+  the changelog; git is the version log
+  ([docs/sources.md](docs/sources.md): "Not an editing-history/changelog").
+- A sources line states a **fact about the source**: what the page says, its
+  date, what it proves, the capture that renders. It never states what was
+  done to the entry data.
+- Forbidden, in any wording: "now added", "added", "became", "was changed",
+  "moved to", "replaced", "removed", "was missing, now fixed", "checked
+  against our entries: all agree", "the user's rule", "the entry's languages
+  are unchanged", "the row names X in its tooltip", "no row yet", "(todo)",
+  "superseded", "the old text follows".
+- Don't restate data-row state (row keys, tooltip text, which version a row
+  sits on) unless it is a standing choice the user made. A row and a sources
+  file must not describe each other.
+- Before saving a sources edit, reread each new line: is it about the source
+  or about the edit? Delete the second kind. Moving a fact between sources
+  files is not a log either: write it as a fact in its new home, with no
+  "moved from". When unsure, write less.
+
 ## The one rule that bites
 
 `site/components.js` is a **generated build artifact** — it inlines every
