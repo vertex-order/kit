@@ -46,9 +46,12 @@
   - a one-line reason (the record that backs it).
 - Move a candidate to Confirmed when its sources file settles it.
 - **Out-of-date information counts**, not only plain errors: a wiki page
-  that gives a superseded date, count or credit, or lacks something we
-  found, belongs here too. Add the item whenever research turns one up,
-  while the entry is still open, not in a later sweep.
+  that gives a superseded date, count or credit, or leaves out a fact we
+  found on a page it already has, belongs here too. Add the item whenever
+  research turns one up, while the entry is still open, not in a later
+  sweep.
+- A page or list item the wiki doesn't have at all does not belong here:
+  wikis go stale, and parity with our list is not the goal.
 - A difference of convention (a cover date against an on-sale date, say) is
   a Candidate until the wiki's own convention is known.
 
