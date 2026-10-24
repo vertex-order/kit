@@ -340,6 +340,22 @@ Applies to `Mainline`, `Essential`, `Optional`, `Spin-off`, `Tie-in`,
 - Content goes elsewhere (description, tags like `Short Stories`), not in
   place of the format.
 
+## Tabletop (`mediaType: 'Tabletop'`)
+
+- Any physical game played at a table: board games, card games with their
+  own rules and components, collectible card games (TCGs) and tabletop
+  role-playing games (TTRPGs, rulebooks and starter sets included).
+- Not for a standard deck with art on it (playing cards), collectible art
+  cards or other merchandise; those stay off the list.
+- A video game of a tabletop game, or a card minigame inside a video game,
+  is a `Game`.
+- Secondary medium in a video-game franchise, so lean compact: one entry per
+  series (or one franchise-wide entry) with `contents[]` parts, each game a
+  part (docs "Deciding what counts as one entry"). Expansions and deluxe
+  editions go in the sources file, not parts.
+- No tabletop platform icon: the platform row is a store page, or a search
+  row for an out-of-print game.
+
 ## Language of text and links
 
 - **Why:** screen readers, fonts (Japanese, Chinese and Korean share

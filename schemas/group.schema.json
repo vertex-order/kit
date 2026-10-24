@@ -85,7 +85,7 @@
       "additionalProperties": false
     },
     "MediaType": {
-      "enum": ["Game", "Book", "Comic", "Movie", "Video", "TV", "Audio", "App"]
+      "enum": ["Game", "Book", "Comic", "Movie", "Video", "TV", "Audio", "App", "Tabletop"]
     },
     "DateString": {
       "description": "The full-date grammar shared by DateValue's bare-string form and its object form's start/end: a year, year-month, or year-month-day, optionally carrying a two-digit same-day tie-break ord suffix (' 10' / ' 20'); OR a bare year plus a coarser within-year estimate (' early'/' mid'/' late'/' q1'-' q4'); OR a year-month plus a within-month estimate (' early'/' mid'/' late' -- no quarters, a month has no quarters). The estimate suffix never combines with the ord suffix or with day-precision -- it's answering 'roughly when within the smallest unit given', which day-precision already answers exactly.",
