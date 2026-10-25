@@ -224,6 +224,12 @@
   - `en.wikipedia.org` → `wikipedia.org`
   - Google Books country TLD → `.com`
   - Drop `?hl=<lang>`
+- Looking up an Apple store page (`itunes.apple.com`, `apps.apple.com`) on
+  Wayback: captures are keyed by exact URL, so try each form before giving up.
+  - With and without `?mt=8` (many old links carry it).
+  - `/us/app/<slug>/id<id>`, `/us/app/id<id>`, bare `/app/id<id>`.
+  - Other storefronts (`/nz/`, `/gb/`) can have captures where `/us/` has
+    none; Japan can have its own id.
 
 ### Which source wins for a given fact
 
