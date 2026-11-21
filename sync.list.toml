@@ -31,6 +31,7 @@ ref = "main" # pin to a commit SHA / tag for reproducibility: `just sync`
 paths = [
   "sync.list.toml",
   "docs/cache.md",
+  "docs/capture.md",
   "docs/data.md",
   "docs/components-kit.md",
   "docs/tooling.md",
@@ -69,6 +70,8 @@ paths = [
   "scripts/bundle-components.py",
   "scripts/ssr-render.js",
   "scripts/sync.py",
+  "scripts/capture.py",
+  "scripts/capture-hook.py",
   "scripts/check-dedup-drift.py",
   "scripts/check-anchors.py",
   "scripts/js_literal.py",
