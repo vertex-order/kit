@@ -112,7 +112,7 @@ are the two existing list repos to copy the *shape* of — not kit.
   copies describe kit (component library, sync with platforms, no entry
   page). A list's day-to-day is different (edit `site/data/*.js`, preview
   `page.dc.html`, what's vendored vs. yours). Start from final-fantasy's or
-  kingdom-hearts' copy, not kit's. `AGENTS.md` and `.claude/CLAUDE.md` are
+  kingdom-hearts' copy, not kit's. `AGENTS.md` is
   vendored from kit unchanged (see `sync.list.toml`) — nothing to rewrite.
 - `NOTICE.md` — kit's records kit's own third-party credits (fonts, UI
   chrome icons). A list's needs the split-license line above, a section
